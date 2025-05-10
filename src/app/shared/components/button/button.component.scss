@@ -1,0 +1,313 @@
+// Variables
+$primary-color: #3b82f6;
+$primary-hover: #2563eb;
+$secondary-color: #64748b;
+$secondary-hover: #475569;
+$success-color: #10b981;
+$success-hover: #059669;
+$danger-color: #ef4444;
+$danger-hover: #dc2626;
+$warning-color: #f59e0b;
+$warning-hover: #d97706;
+$info-color: #06b6d4;
+$info-hover: #0891b2;
+$disabled-opacity: 0.6;
+$transition-speed: 0.2s;
+
+// Base Button Styles
+button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all $transition-speed ease-in-out;
+  overflow: hidden;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  isolation: isolate;
+
+  &:focus {
+    outline: 2px solid rgba(59, 130, 246, 0.5);
+    outline-offset: 2px;
+  }
+
+  &:active {
+    transform: translateY(1px) scale(0.98);
+  }
+}
+
+// Content and Loader
+.btn-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  position: relative;
+  z-index: 2;
+  transition: all $transition-speed ease;
+}
+
+.btn-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  transition: all $transition-speed ease;
+}
+
+.btn-text {
+  transition: all $transition-speed ease;
+}
+
+// Loader
+.loader {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-bottom-color: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Icon
+.icon-left, .icon-right {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Size Variations
+.btn-xs {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.btn-sm {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25;
+}
+
+.btn-md {
+  padding: 0.625rem 1.25rem;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.btn-lg {
+  padding: 0.75rem 1.5rem;
+  font-size: 1.125rem;
+  line-height: 1.75;
+}
+
+.btn-xl {
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  line-height: 2;
+}
+
+// Border Radius Variations
+.radius-none { border-radius: 0; }
+.radius-sm { border-radius: 0.25rem; }
+.radius-md { border-radius: 0.5rem; }
+.radius-lg { border-radius: 0.75rem; }
+.radius-full { border-radius: 9999px; }
+
+// Width
+.full-width {
+  display: flex;
+  width: 100%;
+}
+
+// States
+.disabled, button:disabled {
+  cursor: not-allowed;
+  opacity: $disabled-opacity;
+  pointer-events: none;
+}
+
+// Variants
+.primary {
+  color: white;
+  
+  .btn-background {
+    background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
+    box-shadow: 0 2px 4px rgba($primary-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+  }
+  
+  &:hover .btn-background {
+    background: linear-gradient(135deg, darken($primary-color, 5%), darken($primary-color, 15%));
+  }
+  
+  &:active .btn-background {
+    background: darken($primary-color, 15%);
+  }
+}
+
+.secondary {
+  color: white;
+  
+  .btn-background {
+    background: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
+    box-shadow: 0 2px 4px rgba($secondary-color, 0.3), inset 0 1px 0 rgba(white, 0.1);
+  }
+  
+  &:hover .btn-background {
+    background: linear-gradient(135deg, darken($secondary-color, 5%), darken($secondary-color, 15%));
+  }
+  
+  &:active .btn-background {
+    background: darken($secondary-color, 15%);
+  }
+}
+
+.success {
+  color: white;
+  
+  .btn-background {
+    background: linear-gradient(135deg, $success-color, darken($success-color, 10%));
+    box-shadow: 0 2px 4px rgba($success-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+  }
+  
+  &:hover .btn-background {
+    background: linear-gradient(135deg, darken($success-color, 5%), darken($success-color, 15%));
+  }
+  
+  &:active .btn-background {
+    background: darken($success-color, 15%);
+  }
+}
+
+.danger {
+  color: white;
+  
+  .btn-background {
+    background: linear-gradient(135deg, $danger-color, darken($danger-color, 10%));
+    box-shadow: 0 2px 4px rgba($danger-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+  }
+  
+  &:hover .btn-background {
+    background: linear-gradient(135deg, darken($danger-color, 5%), darken($danger-color, 15%));
+  }
+  
+  &:active .btn-background {
+    background: darken($danger-color, 15%);
+  }
+}
+
+.warning {
+  color: white;
+  
+  .btn-background {
+    background: linear-gradient(135deg, $warning-color, darken($warning-color, 10%));
+    box-shadow: 0 2px 4px rgba($warning-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+  }
+  
+  &:hover .btn-background {
+    background: linear-gradient(135deg, darken($warning-color, 5%), darken($warning-color, 15%));
+  }
+  
+  &:active .btn-background {
+    background: darken($warning-color, 15%);
+  }
+}
+
+.info {
+  color: white;
+  
+  .btn-background {
+    background: linear-gradient(135deg, $info-color, darken($info-color, 10%));
+    box-shadow: 0 2px 4px rgba($info-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+  }
+  
+  &:hover .btn-background {
+    background: linear-gradient(135deg, darken($info-color, 5%), darken($info-color, 15%));
+  }
+  
+  &:active .btn-background {
+    background: darken($info-color, 15%);
+  }
+}
+
+.outline {
+  color: $primary-color;
+  
+  .btn-background {
+    background: transparent;
+    box-shadow: inset 0 0 0 2px $primary-color;
+  }
+  
+  &:hover .btn-background {
+    background: rgba($primary-color, 0.1);
+  }
+  
+  &:active .btn-background {
+    background: rgba($primary-color, 0.2);
+  }
+}
+
+.ghost {
+  color: $primary-color;
+  
+  .btn-background {
+    background: transparent;
+  }
+  
+  &:hover .btn-background {
+    background: rgba($primary-color, 0.1);
+  }
+  
+  &:active .btn-background {
+    background: rgba($primary-color, 0.2);
+  }
+}
+
+// Hover Effect with Ripple
+button::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%, -50%);
+  transform-origin: 50% 50%;
+  z-index: 1;
+}
+
+button:focus:not(:active)::after {
+  animation: ripple 0.8s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  20% {
+    transform: scale(25, 25);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(50, 50);
+    opacity: 0;
+  }
+}

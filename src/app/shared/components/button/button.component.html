@@ -1,0 +1,29 @@
+<button
+  [type]="type"
+  [disabled]="disabled || loading"
+  [attr.aria-label]="ariaLabel || null"
+  [attr.aria-disabled]="disabled || loading"
+  [class]="variant"
+  [class.btn-xs]="size === 'xs'"
+  [class.btn-sm]="size === 'sm'"
+  [class.btn-md]="size === 'md'"
+  [class.btn-lg]="size === 'lg'"
+  [class.btn-xl]="size === 'xl'"
+  [class.radius-none]="radius === 'none'"
+  [class.radius-sm]="radius === 'sm'"
+  [class.radius-md]="radius === 'md'"
+  [class.radius-lg]="radius === 'lg'"
+  [class.radius-full]="radius === 'full'"
+  [class.full-width]="fullWidth"
+  [class.disabled]="disabled"
+  [class.loading]="loading"
+  (click)="handleClick($event)"
+>
+  <div class="btn-content">
+    <span *ngIf="loading" class="loader"></span>
+    <i *ngIf="iconLeft && !loading" class="icon-left" [class]="iconLeft"></i>
+    <span class="btn-text"><ng-content></ng-content></span>
+    <i *ngIf="iconRight && !loading" class="icon-right" [class]="iconRight"></i>
+  </div>
+  <div class="btn-background"></div>
+</button>

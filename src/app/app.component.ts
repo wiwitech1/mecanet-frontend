@@ -1,4 +1,3 @@
-
 import {Component} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
 import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
@@ -22,7 +21,8 @@ export class AppComponent {
  title = 'mecanet-frontend';
  options = [
    { path: '/home', title: 'Home' },
-   { path:'/about', title: 'About' }
+   { path: '/about', title: 'About' },
+   { path: '/components-demo', title: 'Componentes' }
  ]
 
  constructor(private translate: TranslateService) {
