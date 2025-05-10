@@ -28,7 +28,8 @@ export class AppComponent {
  options = [
    { path: '/home', title: 'Home' },
    { path: '/about', title: 'About' },
-   { path: '/components-demo', title: 'Componentes' }
+   { path: '/components-demo', title: 'Componentes' },
+   { path: '/work-orders', title: 'Work Orders' }
  ]
 
  constructor(private translate: TranslateService) {

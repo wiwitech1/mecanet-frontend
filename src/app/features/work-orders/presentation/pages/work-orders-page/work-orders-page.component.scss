@@ -1,0 +1,73 @@
+@use "../../../../../../styles/helpers/variables" as *;
+@use "../../../../../../styles/helpers/mixins" as *;
+
+:host {
+  display: block;
+  padding: 20px;
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  border-radius: var(--radius-md);
+}
+
+h1 {
+  color: var(--clr-primary-400);
+  margin-bottom: 24px;
+  font-weight: 600;
+}
+
+.create-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: var(--clr-surface);
+  padding: 20px;
+  margin-bottom: 32px;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 1px solid var(--clr-primary-100);
+    border-radius: var(--radius-md);
+    font-family: $font-family-base;
+    background-color: var(--clr-bg);
+    color: var(--clr-text);
+    
+    &:focus {
+      outline: none;
+      border-color: var(--clr-primary-300);
+      box-shadow: 0 0 0 2px rgba(166, 146, 193, 0.2);
+    }
+
+    &::placeholder {
+      color: $grey-200;
+    }
+  }
+
+  .shared-btn--primary {
+    min-width: 120px;
+    padding: 12px 24px;
+    background-color: var(--clr-primary-400);
+    color: $white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: var(--clr-primary-500);
+    }
+    
+    &:disabled {
+      background-color: $grey-200;
+      cursor: not-allowed;
+    }
+  }
+}

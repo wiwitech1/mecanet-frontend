@@ -1,0 +1,23 @@
+<h1>Work Orders</h1>
+
+<form class="create-form" (ngSubmit)="create()" #f="ngForm">
+  <input
+    type="text"
+    placeholder="Description"
+    [(ngModel)]="description"
+    name="desc"
+    required />
+
+  <input
+    type="text"
+    placeholder="Equipment ID"
+    [(ngModel)]="equipmentId"
+    name="equip"
+    required />
+
+  <button class="shared-btn shared-btn--primary" [disabled]="f.invalid">
+    Create
+  </button>
+</form>
+
+<app-work-order-table></app-work-order-table>
