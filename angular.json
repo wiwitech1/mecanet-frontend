@@ -29,7 +29,8 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              }
+              },
+              "src/routes.json"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/rose-red.css",
