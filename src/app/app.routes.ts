@@ -3,7 +3,7 @@ const PageNotFoundComponent = () => import('./public/pages/page-not-found/page-n
 const ComponentsDemoComponent = () => import('./shared/views/components-demo/components-demo.component').then(m => m.ComponentsDemoComponent);
 
 export const routes: Routes = [
-    { path: '',                 redirectTo:     '/home', pathMatch: 'full' },
+    { path: '',                 redirectTo:     '/components-demo', pathMatch: 'full' },
     { path: 'components-demo',  loadComponent:  ComponentsDemoComponent },
     { path: '**',               loadComponent:  PageNotFoundComponent },
 ];

@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+
+
+/* helpers & base */
+@use 'helpers/variables';
+@use 'helpers/functions';
+@use 'helpers/mixins';
+@use 'base/reset';
+@use 'base/typography';
+
+
+/* tema por defecto */
+@use 'themes/light';
+@use 'themes/dark';          // solo define vars; se activa con data-theme

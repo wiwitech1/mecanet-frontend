@@ -3,6 +3,8 @@ import {TranslateService} from '@ngx-translate/core';
 import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
 import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatAnchor} from '@angular/material/button';
+import {CommonModule} from '@angular/common';
+import {ThemeToggleComponent} from './shared/components/theme-toggle/theme-toggle.component';
 
 @Component({
  selector: 'app-root',
@@ -13,6 +15,8 @@ import {MatAnchor} from '@angular/material/button';
    RouterLink,
    RouterOutlet,
    MatAnchor,
+   CommonModule,
+   ThemeToggleComponent
  ],
  templateUrl: './app.component.html',
  styleUrl: './app.component.scss'
