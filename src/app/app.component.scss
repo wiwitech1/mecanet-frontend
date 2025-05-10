@@ -44,8 +44,31 @@
             }
         }
         
-        app-theme-toggle {
+        .toolbar-controls {
+            display: flex;
+            align-items: center;
+            gap: 16px;
             margin-left: 8px;
+            
+            // Ajustes específicos para el selector de idioma
+            app-language-switcher {
+                ::ng-deep {
+                    .mat-button-toggle-group {
+                        border-radius: var(--radius-md);
+                        background-color: var(--clr-primary-500);
+                        border: none;
+                        
+                        .mat-button-toggle {
+                            color: rgba(255, 255, 255, 0.7);
+                            
+                            &.mat-button-toggle-checked {
+                                background-color: var(--clr-primary-200);
+                                color: white;
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

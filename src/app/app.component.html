@@ -5,7 +5,10 @@
             <a [routerLink]="['/']" class="nav-item">Inicio</a>
             <a [routerLink]="['/servicios']" class="nav-item">Servicios</a>
             <a [routerLink]="['/contacto']" class="nav-item">Contacto</a>
-            <app-theme-toggle></app-theme-toggle>
+            <div class="toolbar-controls">
+                <app-language-switcher></app-language-switcher>
+                <app-theme-toggle></app-theme-toggle>
+            </div>
         </nav>
     </header>
     
