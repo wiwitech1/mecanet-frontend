@@ -1,0 +1,33 @@
+<div class="wo-table">
+    <button class="shared-btn shared-btn--secondary" (click)="fetch()">Refresh</button>
+  
+    <div *ngIf="loading" class="spinner">
+      Loading …
+    </div>
+  
+    <div *ngIf="error" class="error">
+      {{ error }}
+    </div>
+  
+    <table *ngIf="!loading && !error">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Description</th>
+          <th>Equipment</th>
+          <th>Status</th>
+          <th>Created At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let wo of workOrders">
+          <td>{{ wo.id }}</td>
+          <td>{{ wo.description }}</td>
+          <td>{{ wo.equipmentId }}</td>
+          <td>{{ wo.status }}</td>
+          <td>{{ wo.createdAt | date : 'short' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
