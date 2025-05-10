@@ -1,18 +1,8 @@
-// Variables
-$primary-color: #3b82f6;
-$primary-hover: #2563eb;
-$secondary-color: #64748b;
-$secondary-hover: #475569;
-$success-color: #10b981;
-$success-hover: #059669;
-$danger-color: #ef4444;
-$danger-hover: #dc2626;
-$warning-color: #f59e0b;
-$warning-hover: #d97706;
-$info-color: #06b6d4;
-$info-hover: #0891b2;
-$disabled-opacity: 0.6;
-$transition-speed: 0.2s;
+@use '../../../../styles/helpers/variables' as *;
+@use '../../../../styles/helpers/mixins' as *;
+@use '../../../../styles/helpers/functions' as *;
+@use 'sass:math';
+
 
 // Base Button Styles
 button {
@@ -22,9 +12,9 @@ button {
   justify-content: center;
   border: none;
   font-weight: 500;
-  font-family: inherit;
+  font-family: $font-family-base;
   cursor: pointer;
-  transition: all $transition-speed ease-in-out;
+  transition: all 0.2s ease-in-out;
   overflow: hidden;
   text-align: center;
   white-space: nowrap;
@@ -33,7 +23,7 @@ button {
   isolation: isolate;
 
   &:focus {
-    outline: 2px solid rgba(59, 130, 246, 0.5);
+    outline: 2px solid rgba(var(--clr-primary-200), 0.5);
     outline-offset: 2px;
   }
 
@@ -47,10 +37,10 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 8px;
   position: relative;
   z-index: 2;
-  transition: all $transition-speed ease;
+  transition: all 0.2s ease;
 }
 
 .btn-background {
@@ -60,11 +50,11 @@ button {
   width: 100%;
   height: 100%;
   z-index: 1;
-  transition: all $transition-speed ease;
+  transition: all 0.2s ease;
 }
 
 .btn-text {
-  transition: all $transition-speed ease;
+  transition: all 0.2s ease;
 }
 
 // Loader
@@ -92,192 +82,185 @@ button {
 
 // Size Variations
 .btn-xs {
-  padding: 0.25rem 0.5rem;
-  font-size: 0.75rem;
+  padding: 4px 8px;
+  font-size: 12px;
   line-height: 1;
 }
 
 .btn-sm {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
+  padding: 8px 12px;
+  font-size: 14px;
   line-height: 1.25;
 }
 
 .btn-md {
-  padding: 0.625rem 1.25rem;
-  font-size: 1rem;
+  padding: 10px 20px;
+  font-size: 16px;
   line-height: 1.5;
 }
 
 .btn-lg {
-  padding: 0.75rem 1.5rem;
-  font-size: 1.125rem;
+  padding: 12px 24px;
+  font-size: 18px;
   line-height: 1.75;
 }
 
 .btn-xl {
-  padding: 1rem 2rem;
-  font-size: 1.25rem;
+  padding: 16px 32px;
+  font-size: 20px;
   line-height: 2;
 }
 
-// Border Radius Variations
 .radius-none { border-radius: 0; }
-.radius-sm { border-radius: 0.25rem; }
-.radius-md { border-radius: 0.5rem; }
-.radius-lg { border-radius: 0.75rem; }
+.radius-sm { border-radius: 4px; }
+.radius-md { border-radius: var(--radius-md); }
+.radius-lg { border-radius: 12px; }
 .radius-full { border-radius: 9999px; }
 
-// Width
 .full-width {
   display: flex;
   width: 100%;
 }
 
-// States
 .disabled, button:disabled {
   cursor: not-allowed;
-  opacity: $disabled-opacity;
+  opacity: 0.6;
   pointer-events: none;
 }
 
-// Variants
 .primary {
-  color: white;
+  color: $white;
   
   .btn-background {
-    background: linear-gradient(135deg, $primary-color, darken($primary-color, 10%));
-    box-shadow: 0 2px 4px rgba($primary-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+    background: linear-gradient(135deg, var(--clr-primary-200), var(--clr-primary-500));
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
   
   &:hover .btn-background {
-    background: linear-gradient(135deg, darken($primary-color, 5%), darken($primary-color, 15%));
+    background: linear-gradient(135deg, var(--clr-primary-400), var(--clr-primary-500));
   }
   
   &:active .btn-background {
-    background: darken($primary-color, 15%);
+    background: var(--clr-primary-500);
   }
 }
 
 .secondary {
-  color: white;
+  color: $white;
   
   .btn-background {
-    background: linear-gradient(135deg, $secondary-color, darken($secondary-color, 10%));
-    box-shadow: 0 2px 4px rgba($secondary-color, 0.3), inset 0 1px 0 rgba(white, 0.1);
+    background: var(--clr-surface);
+    color: var(--clr-text);
   }
   
   &:hover .btn-background {
-    background: linear-gradient(135deg, darken($secondary-color, 5%), darken($secondary-color, 15%));
+    background: var(--clr-primary-100);
   }
   
   &:active .btn-background {
-    background: darken($secondary-color, 15%);
+    background: var(--clr-primary-200);
   }
 }
 
 .success {
-  color: white;
+  color: $white;
   
   .btn-background {
-    background: linear-gradient(135deg, $success-color, darken($success-color, 10%));
-    box-shadow: 0 2px 4px rgba($success-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+    background: #10b981;
   }
   
   &:hover .btn-background {
-    background: linear-gradient(135deg, darken($success-color, 5%), darken($success-color, 15%));
+    background: #059669;
   }
   
   &:active .btn-background {
-    background: darken($success-color, 15%);
+    background: #047857;
   }
 }
 
 .danger {
-  color: white;
+  color: $white;
   
   .btn-background {
-    background: linear-gradient(135deg, $danger-color, darken($danger-color, 10%));
-    box-shadow: 0 2px 4px rgba($danger-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+    background: var(--clr-danger);
   }
   
   &:hover .btn-background {
-    background: linear-gradient(135deg, darken($danger-color, 5%), darken($danger-color, 15%));
+    background: var(--clr-danger);
+    filter: brightness(0.9);
   }
   
   &:active .btn-background {
-    background: darken($danger-color, 15%);
+    background: var(--clr-danger);
+    filter: brightness(0.8);
   }
 }
 
 .warning {
-  color: white;
+  color: $white;
   
   .btn-background {
-    background: linear-gradient(135deg, $warning-color, darken($warning-color, 10%));
-    box-shadow: 0 2px 4px rgba($warning-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+    background: #f59e0b;
   }
   
   &:hover .btn-background {
-    background: linear-gradient(135deg, darken($warning-color, 5%), darken($warning-color, 15%));
+    background: #d97706;
   }
   
   &:active .btn-background {
-    background: darken($warning-color, 15%);
+    background: #b45309;
   }
 }
 
 .info {
-  color: white;
+  color: $white;
   
   .btn-background {
-    background: linear-gradient(135deg, $info-color, darken($info-color, 10%));
-    box-shadow: 0 2px 4px rgba($info-color, 0.3), inset 0 1px 0 rgba(white, 0.2);
+    background: #06b6d4;
   }
   
   &:hover .btn-background {
-    background: linear-gradient(135deg, darken($info-color, 5%), darken($info-color, 15%));
+    background: #0891b2;
   }
   
   &:active .btn-background {
-    background: darken($info-color, 15%);
+    background: #0e7490;
   }
 }
 
 .outline {
-  color: $primary-color;
+  color: var(--clr-primary-400);
   
   .btn-background {
     background: transparent;
-    box-shadow: inset 0 0 0 2px $primary-color;
+    box-shadow: inset 0 0 0 2px var(--clr-primary-400);
   }
   
   &:hover .btn-background {
-    background: rgba($primary-color, 0.1);
+    background: rgba(0, 0, 0, 0.05);
   }
   
   &:active .btn-background {
-    background: rgba($primary-color, 0.2);
+    background: rgba(0, 0, 0, 0.1);
   }
 }
 
 .ghost {
-  color: $primary-color;
+  color: var(--clr-primary-400);
   
   .btn-background {
     background: transparent;
   }
   
   &:hover .btn-background {
-    background: rgba($primary-color, 0.1);
+    background: rgba(0, 0, 0, 0.05);
   }
   
   &:active .btn-background {
-    background: rgba($primary-color, 0.2);
+    background: rgba(0, 0, 0, 0.1);
   }
 }
 
-// Hover Effect with Ripple
 button::after {
   content: '';
   position: absolute;

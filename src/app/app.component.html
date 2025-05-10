@@ -2,9 +2,10 @@
     <header class="toolbar">
         <div class="logo">Mecanet</div>
         <nav class="nav-menu">
-            <a href="#" class="nav-item">Inicio</a>
-            <a href="#" class="nav-item">Servicios</a>
-            <a href="#" class="nav-item">Contacto</a>
+            <a [routerLink]="['/']" class="nav-item">Inicio</a>
+            <a [routerLink]="['/servicios']" class="nav-item">Servicios</a>
+            <a [routerLink]="['/contacto']" class="nav-item">Contacto</a>
+            <app-theme-toggle></app-theme-toggle>
         </nav>
     </header>
     
@@ -13,9 +14,9 @@
             <div class="sidebar-content">
                 <h3>Menú</h3>
                 <ul class="sidebar-menu">
-                    <li><a href="#">Dashboard</a></li>
-                    <li><a href="#">Perfil</a></li>
-                    <li><a href="#">Configuración</a></li>
+                    <li *ngFor="let option of options">
+                        <a [routerLink]="option.path">{{ option.title }}</a>
+                    </li>
                 </ul>
             </div>
         </aside>

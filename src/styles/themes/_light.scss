@@ -1,0 +1,19 @@
+@use '../helpers/variables' as *;
+/* default theme (root) */
+:root{
+  /* palette */
+  --clr-primary-100:#{$primary-100};
+  --clr-primary-200:#{$primary-200};
+  --clr-primary-300:#{$primary-300};
+  --clr-primary-400:#{$primary-400};
+  --clr-primary-500:#{$primary-500};
+
+  --clr-bg:        #{$white};
+  --clr-surface:   #{$grey-050};
+  --clr-text:      #{$text-color};
+
+  --clr-danger:    #{$danger-500};
+  --clr-danger-050:#{$danger-050};
+
+  --radius-md:     #{$radius-md};
+}
