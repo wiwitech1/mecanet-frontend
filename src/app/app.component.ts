@@ -11,11 +11,8 @@ import {LanguageSwitcherComponent} from './public/components/language-switcher/l
  selector: 'app-root',
  standalone: true,
  imports: [
-   MatToolbar,
-   MatToolbarRow,
    RouterLink,
    RouterOutlet,
-   MatAnchor,
    CommonModule,
    ThemeToggleComponent,
    LanguageSwitcherComponent
