@@ -10,7 +10,7 @@ import {MatButton} from "@angular/material/button";
     MatButton
   ],
   templateUrl: './page-not-found.component.html',
-  styleUrl: './page-not-found.component.css'
+  styleUrl: './page-not-found.component.scss'
 })
 export class PageNotFoundComponent implements OnInit {
   protected invalidPath: string;

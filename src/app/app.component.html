@@ -1,1 +1,27 @@
-<h1>Hello World</h1>
+<div class="app-container">
+    <header class="toolbar">
+        <div class="logo">Mecanet</div>
+        <nav class="nav-menu">
+            <a href="#" class="nav-item">Inicio</a>
+            <a href="#" class="nav-item">Servicios</a>
+            <a href="#" class="nav-item">Contacto</a>
+        </nav>
+    </header>
+    
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="sidebar-content">
+                <h3>Menú</h3>
+                <ul class="sidebar-menu">
+                    <li><a href="#">Dashboard</a></li>
+                    <li><a href="#">Perfil</a></li>
+                    <li><a href="#">Configuración</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <main class="content">
+            <router-outlet/>
+        </main>
+    </div>
+</div>
