@@ -5,6 +5,7 @@ import {RouterLink, RouterOutlet} from '@angular/router';
 import {MatAnchor} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
 import {ThemeToggleComponent} from './shared/components/theme-toggle/theme-toggle.component';
+import {LanguageSwitcherComponent} from './public/components/language-switcher/language-switcher.component';
 
 @Component({
  selector: 'app-root',
@@ -16,7 +17,8 @@ import {ThemeToggleComponent} from './shared/components/theme-toggle/theme-toggl
    RouterOutlet,
    MatAnchor,
    CommonModule,
-   ThemeToggleComponent
+   ThemeToggleComponent,
+   LanguageSwitcherComponent
  ],
  templateUrl: './app.component.html',
  styleUrl: './app.component.scss'
