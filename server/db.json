@@ -1,15 +1,109 @@
 {
-    "profiles": [],
-    "users": [],
-    "students": [],
-    "courses": [
+  "sources": {
+    "status": "ok",
+    "sources": [
       {
-        "id": 1,
-        "title": "Sample",
-        "description": "Sample Course"
+        "id": "el-mundo",
+        "name": "El Mundo",
+        "url": "https://www.elmundo.es",
+        "urlToLogo": "https://logo.clearbit.com/elmundo.es"
+      },
+      {
+        "id": "el-pais",
+        "name": "El País",
+        "url": "https://elpais.com",
+        "urlToLogo": "https://logo.clearbit.com/elpais.com"
+      },
+      {
+        "id": "marca",
+        "name": "Marca",
+        "url": "https://www.marca.com",
+        "urlToLogo": "https://logo.clearbit.com/marca.com"
+      },
+      {
+        "id": "bbc-news",
+        "name": "BBC News",
+        "url": "https://www.bbc.com/news",
+        "urlToLogo": "https://logo.clearbit.com/bbc.com"
+      },
+      {
+        "id": "cnn",
+        "name": "CNN",
+        "url": "https://www.cnn.com",
+        "urlToLogo": "https://logo.clearbit.com/cnn.com"
       }
-    ],
-    "enrollments": [],
-    "progress-record-items": [],
-    "learning-path-items": []
-   }
+    ]
+  },
+  "top-headlines": {
+    "status": "ok",
+    "totalResults": 6,
+    "articles": [
+      {
+        "source": {
+          "id": "el-mundo",
+          "name": "El Mundo"
+        },
+        "title": "La economía española crece un 2.5% en el último trimestre",
+        "description": "El PIB español supera las expectativas de los analistas con un crecimiento sostenido",
+        "url": "https://www.elmundo.es/economia/2023/07/28/economia-espanola-crece.html",
+        "urlToImage": "https://static.elmundo.es/images/2023/07/28/economia-grafico.jpg",
+        "publishedAt": "2023-07-28T09:30:00Z"
+      },
+      {
+        "source": {
+          "id": "el-pais",
+          "name": "El País"
+        },
+        "title": "Nuevo récord de temperaturas en el sur peninsular",
+        "description": "Varias provincias andaluzas superan los 45 grados en la ola de calor más intensa del verano",
+        "url": "https://elpais.com/clima-y-medio-ambiente/2023-07-27/temperaturas-record.html",
+        "urlToImage": "https://ep01.epimg.net/clima-y-medio-ambiente/imagenes/2023/07/27/termometro.jpg",
+        "publishedAt": "2023-07-27T15:20:00Z"
+      },
+      {
+        "source": {
+          "id": "marca",
+          "name": "Marca"
+        },
+        "title": "El Real Madrid presenta su nueva equipación para la temporada",
+        "description": "El conjunto blanco luce un diseño innovador con guiños a su historia centenaria",
+        "url": "https://www.marca.com/futbol/real-madrid/2023/07/26/nueva-equipacion.html",
+        "urlToImage": "https://phantom-marca.unidadeditorial.es/equipacion-madrid-2023.jpg",
+        "publishedAt": "2023-07-26T12:00:00Z"
+      },
+      {
+        "source": {
+          "id": "cnn",
+          "name": "CNN"
+        },
+        "title": "Avances significativos en tratamientos contra el Alzheimer",
+        "description": "Un nuevo estudio muestra resultados prometedores en la reducción de placas cerebrales",
+        "url": "https://www.cnn.com/health/alzheimer-treatment-advances",
+        "urlToImage": "https://cdn.cnn.com/cnnnext/dam/assets/alzheimer-research.jpg",
+        "publishedAt": "2023-07-25T18:45:00Z"
+      },
+      {
+        "source": {
+          "id": "bbc-news",
+          "name": "BBC News"
+        },
+        "title": "Reino Unido implementa nuevo sistema de inmigración post-Brexit",
+        "description": "El gobierno británico presenta un modelo de puntos similar al australiano",
+        "url": "https://www.bbc.com/news/uk-politics/immigration-system",
+        "urlToImage": "https://ichef.bbci.co.uk/news/976/immigration-uk.jpg",
+        "publishedAt": "2023-07-24T10:15:00Z"
+      },
+      {
+        "source": {
+          "id": "el-mundo",
+          "name": "El Mundo"
+        },
+        "title": "Innovación tecnológica: España lidera proyecto europeo de energía solar",
+        "description": "La iniciativa busca aumentar la eficiencia de las células fotovoltaicas en un 40%",
+        "url": "https://www.elmundo.es/tecnologia/2023/07/23/proyecto-energia-solar.html",
+        "urlToImage": "https://static.elmundo.es/images/2023/07/23/paneles-solares.jpg",
+        "publishedAt": "2023-07-23T14:10:00Z"
+      }
+    ]
+  }
+}
