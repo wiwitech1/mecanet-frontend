@@ -2,7 +2,7 @@
   <header class="demo-header">
     <h1>Galería de Componentes</h1>
     <p>Componentes compartidos reutilizables para la aplicación Mecanet</p>
-  </header>
+  </header> 
 
 
   <main class="demo-content">
@@ -109,9 +109,9 @@
   Personalizado
 &lt;/app-button&gt;
 
-&lt;app-button 
-  variant="primary" 
-  [loading]="isLoading" 
+&lt;app-button
+  variant="primary"
+  [loading]="isLoading"
   [disabled]="isDisabled"
   (clicked)="handleClick($event)"&gt;
   Enviar
@@ -119,6 +119,7 @@
         </code></pre>
       </div>
     </section>
+
 
     <section class="demo-section" id="information-panel">
       <div class="section-header">
@@ -218,10 +219,63 @@
       
     </section>
 
-    <!-- Sección de más componentes -->
-    <div class="placeholder-section" id="more-components">
+
+    <!-- Sección de Búsqueda -->
+    <section class="demo-section" id="search">
+      <div class="section-header">
+        <h2>Búsqueda</h2>
+        <p>Componente de búsqueda con filtros y acción</p>
+      </div>
+      <app-search
+        [placeholder]="'Buscar usuarios...'"
+        [filters]="userFilters"
+        [newLabel]="'Usuario'"
+        [actionFunction]="openNewUserModal"
+        (search)="handleSearch($event)"
+        (filterChange)="handleFilterChange($event)"
+      ></app-search>
+      <div class="code-example">
+        <h3>Ejemplos de Uso</h3>
+        <pre><code>
+&lt;app-search
+  [placeholder]="'Buscar usuarios...'"
+  [filters]="userFilters"
+  [newLabel]="'Usuario'"
+  [actionFunction]="openNewUserModal"
+  (search)="handleSearch($event)"
+  (filterChange)="handleFilterChange($event)"&gt;
+&lt;/app-search&gt;
+        </code></pre>
+      </div>
+    </section>
+
+    <!-- Sección de Tabla de Registros -->
+    <section class="demo-section" id="record-table">
+      <div class="section-header">
+        <h2>Tabla de Registros</h2>
+        <p>Componente de tabla para mostrar y gestionar datos de registros</p>
+      </div>
+      <app-record-table
+        [columns]="recordTableColumns"
+        [data]="recordTableData"
+        (ctaClick)="handleCtaClick($event)"
+      ></app-record-table>
+    </section>
+
+    <!-- Sección de Sidebar -->
+    <section class="demo-section" id="sidebar">
+      <div class="section-header">
+        <h2>Sidebar</h2>
+        <p>Componente de barra lateral para navegación</p>
+      </div>
+      <app-sidebar-mecanet></app-sidebar-mecanet>
+    </section>
+
+    <!-- Aquí se añadirán más secciones para futuros componentes -->
+    <div class="placeholder-section">
       <h2>Más componentes próximamente</h2>
       <p>Esta galería se irá ampliando a medida que se desarrollen nuevos componentes compartidos.</p>
     </div>
+
   </main>
 </div>

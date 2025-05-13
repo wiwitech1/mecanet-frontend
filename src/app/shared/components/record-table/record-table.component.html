@@ -1,0 +1,37 @@
+<div class="record-table-container">
+  <table class="record-table">
+    <thead>
+      <tr>
+        <th *ngFor="let col of columns" [ngClass]="'header-' + col.type">
+          {{ col.label }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of data">
+        <td *ngFor="let col of columns">
+          <ng-container [ngSwitch]="col.type">
+            <ng-container *ngSwitchCase="'texto'">{{ row[col.key] }}</ng-container>
+            <ng-container *ngSwitchCase="'numero'">{{ row[col.key] }}</ng-container>
+            <ng-container *ngSwitchCase="'informacion'">
+              <mat-icon class="info-icon" matTooltip="{{ row[col.key] }}">info</mat-icon>
+            </ng-container>
+            <ng-container *ngSwitchCase="'cta'">
+              <app-button
+                [variant]="col.ctaVariant ? col.ctaVariant : 'primary'"
+                size="sm"
+                (clicked)="onCtaClick(row, col)"
+              >
+                {{ col.ctaLabel || 'Acción' }}
+              </app-button>
+            </ng-container>
+          </ng-container>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div *ngIf="!data?.length" class="empty-state">
+    <mat-icon>sentiment_dissatisfied</mat-icon>
+    <span>No hay datos para mostrar</span>
+  </div>
+</div>
