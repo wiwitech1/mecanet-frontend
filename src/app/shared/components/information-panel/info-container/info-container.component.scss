@@ -1,0 +1,23 @@
+.container-title {
+  margin-bottom: 0.5em;
+  
+  &.type-1 {
+    color: #6DA0E1;  // Azul como en "Historial de mantenimiento"
+    font-size: 1.07em;
+    font-weight: 700;
+  }
+  
+  &.type-2 {
+    color: black;  // Mismo color pero se puede personalizar si es necesario
+    font-size: 0.9em;
+  }
+}
+
+.content-container {
+  border: 1.3px solid #383A37;
+  border-radius: 8px;
+  padding: 0.9em 0.5em;
+  margin-bottom: 1em;
+  background-color: transparent;
+  min-height: 50px; // Para que el contenedor siempre tenga al menos un tamaño mínimo
+} 

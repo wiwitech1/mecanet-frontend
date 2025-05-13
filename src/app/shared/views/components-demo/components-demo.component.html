@@ -4,6 +4,7 @@
     <p>Componentes compartidos reutilizables para la aplicación Mecanet</p>
   </header>
 
+
   <main class="demo-content">
     <!-- Sección de Botones -->
     <section class="demo-section" id="buttons">
@@ -119,8 +120,106 @@
       </div>
     </section>
 
-    <!-- Aquí se añadirán más secciones para futuros componentes -->
-    <div class="placeholder-section">
+    <section class="demo-section" id="information-panel">
+      <div class="section-header">
+        <h2>Panel de Información</h2>
+        <p>Componente para mostrar información estructurada</p>
+      </div>
+      
+      <!-- Ejemplo de contenedores con listas -->
+      <div class="demo-card">
+        <h3>Paneles con contenedores personalizados</h3>
+        
+        <app-information-panel [headerText]="'Panel de Información Completo'">
+
+                    <!-- Sección de especificaciones técnicas (Tipo 1 con subtítulo) -->
+                    <app-info-section 
+                    [infoType]="1" 
+                    [showSubtitle]="true"
+                    [subtitleText]="'Subtítulo:'" 
+                    [data]="especificacionesData">
+                  </app-info-section>
+        
+                  <app-info-section 
+                    [infoType]="2" 
+                    [showSubtitle]="true"
+                    [subtitleText]="'Subtítulo:'" 
+                    [data]="actividadData">
+                  </app-info-section>
+        
+                  <app-info-section 
+                    [infoType]="3" 
+                    [statisticsData]="statisticsData">
+                  </app-info-section>
+                  
+
+                  
+          <!-- Historial de mantenimiento -->
+          <app-info-container 
+            [title]="'Historial de mantenimiento'" 
+            [titleType]="1">
+            <app-info-list-items 
+              [type]="'maintenance'" 
+              [items]="mantenimientoItems">
+            </app-info-list-items>
+          </app-info-container>
+          
+          <!-- Maquinarias asociadas -->
+          <app-info-container 
+            [title]="'Lista Simple de maquinarias'" 
+            [titleType]="1">
+            <app-info-list-items 
+              [type]="'simpleList'" 
+              [items]="maquinariasItems">
+            </app-info-list-items>
+
+          </app-info-container>
+
+          <!-- Historial de movimientos -->
+          <app-info-container 
+            [title]="'Historial de movimientos'" 
+            [titleType]="1">
+            <app-info-list-items 
+              [type]="'movements'" 
+              [items]="movimientosItems">
+            </app-info-list-items>
+          </app-info-container>
+          
+          <!-- Anotaciones (campo de texto) -->
+          <app-info-container 
+            [title]="'Anotaciones'" 
+            [titleType]="2">
+            <app-info-list-items 
+              [type]="'default'" 
+              [items]="[{text: 'Muestra texto de forma simple'}]">
+            </app-info-list-items>
+          </app-info-container>
+        </app-information-panel>
+      </div>
+      
+      
+      
+    </section>
+
+    <!-- Sección de Notificaciones -->
+    <section class="demo-section" id="notifications">
+      <div class="section-header">
+        <h2>Notificaciones</h2>
+        <p>Componente para mostrar notificaciones con iconos dinámicos</p>
+      </div>
+      
+      <div class="demo-card">
+        <h3>Notificaciones con diferentes iconos</h3>
+        <app-notifications-container 
+          [title]="'Notificaciones'" 
+          [notifications]="notificationItems">
+        </app-notifications-container>
+      </div>
+      
+    </section>
+
+    <!-- Sección de más componentes -->
+    <div class="placeholder-section" id="more-components">
       <h2>Más componentes próximamente</h2>
       <p>Esta galería se irá ampliando a medida que se desarrollen nuevos componentes compartidos.</p>
     </div>

@@ -1,0 +1,15 @@
+
+<div class="general-container">
+<h2 class="notifications-title">{{ title }}</h2>
+<div class="notifications-container">
+  <div class="notifications-list">
+    <app-notification 
+      *ngFor="let notification of notifications"
+      [title]="notification.title"
+      [message]="notification.message"
+      [type]="notification.type"
+      [icon]="notification.icon">
+    </app-notification>
+  </div>
+</div>
+</div>

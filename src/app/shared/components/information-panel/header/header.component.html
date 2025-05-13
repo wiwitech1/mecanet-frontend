@@ -1,0 +1,9 @@
+<div class="header-section">
+  <!-- Rectángulo azul, opcional -->
+  <div *ngIf="showRectangularBox" class="rectangular-box">
+    <span>{{ rectangularBoxText || headerText }}</span>
+  </div>
+
+  <!-- Título rosa -->
+  <h3 [ngClass]="headerTextClass">{{ headerText }}</h3>
+</div>

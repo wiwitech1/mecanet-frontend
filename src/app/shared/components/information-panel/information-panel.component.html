@@ -1,0 +1,34 @@
+<div class="information-panel">
+    <!-- HEADER -->
+    <div *ngIf="showHeader" class="header">
+      <app-header 
+        [headerText]="headerText" 
+        [showRectangularBox]="showRectangularBox"
+        [rectangularBoxText]="rectangularBoxText"
+        [headerTextClass]="headerTextClass">
+      </app-header>
+    </div>
+   
+    <!-- CONTENT -->
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+  
+    <!-- BUTTONS -->
+    <div *ngIf="showPrimaryButton || showSecondaryButton" class="panel-buttons">
+      <button 
+        *ngIf="showSecondaryButton" 
+        class="btn-secondary" 
+        (click)="onSecondaryButtonClick()">
+        {{ secondaryButtonText }}
+      </button>
+      
+      <button 
+        *ngIf="showPrimaryButton" 
+        class="btn-primary" 
+        (click)="onPrimaryButtonClick()">
+        {{ primaryButtonText }}
+      </button>
+    </div>
+  </div>
+  

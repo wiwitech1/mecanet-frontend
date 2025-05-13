@@ -1,4 +1,3 @@
-
 @use '../../../../styles/helpers/variables' as *;
 @use '../../../../styles/helpers/mixins' as *;
 
@@ -179,3 +178,18 @@
     font-size: 16px;
   }
 }
+
+.annotations-field {
+  width: 100%;
+  
+  .annotation-textarea {
+    width: 100%;
+    min-height: 80px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 8px;
+    font-family: inherit;
+    resize: vertical;
+  }
+}
+
