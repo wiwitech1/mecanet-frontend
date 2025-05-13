@@ -6,14 +6,14 @@
   height: calc(100vh - 32px);
   display: flex;
   flex-direction: column;
-  position: fixed;
+  position: relative;
   top: 16px;
   left: 16px;
   border-radius: 16px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 
   &.expanded {
-    width: 280px;
+    width: 300px;
   }
 
   .toggle-btn {
@@ -206,4 +206,38 @@
       }
     }
   }
+}
+
+/* Añade esto a tu CSS existente para soportar badges */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.15rem 0.4rem;
+  border-radius: 10px;
+  margin-left: 0.5rem;
+  min-width: 18px;
+  height: 18px;
+}
+
+.badge-primary {
+  background-color: var(--clr-primary-400);
+  color: white;
+}
+
+.badge-warning {
+  background-color: #ffc107;
+  color: #212529;
+}
+
+.badge-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.badge-success {
+  background-color: #28a745;
+  color: white;
 }

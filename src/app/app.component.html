@@ -1,31 +1,8 @@
-<div class="app-container">
-   <header class="toolbar">
-        <div class="logo">Mecanet</div>
-        <nav class="nav-menu">
-            <a [routerLink]="['/']" class="nav-item">Inicio</a>
-            <a [routerLink]="['/servicios']" class="nav-item">Servicios</a>
-            <a [routerLink]="['/contacto']" class="nav-item">Contacto</a>
-            <div class="toolbar-controls">
-                <app-language-switcher></app-language-switcher>
-                <app-theme-toggle></app-theme-toggle>
-            </div>
-        </nav>
-    </header>
-
-    <div class="main-container">
-        <aside class="sidebar">
-            <div class="sidebar-content">
-                <h3>Menú</h3>
-                <ul class="sidebar-menu">
-                    <li *ngFor="let option of options">
-                        <a [routerLink]="option.path">{{ option.title }}</a>
-                    </li>
-                </ul>
-            </div>
-        </aside>
-
-        <main class="content">
-            <router-outlet/>
-        </main>
-    </div>
+<div class="app-container" role="application">
+    <aside class="sidebar-container" aria-label="Navegación principal">
+        <app-sidebar-mecanet></app-sidebar-mecanet>
+    </aside>
+    <main class="content" role="main" aria-label="Contenido principal">
+        <router-outlet/>
+    </main>
 </div>

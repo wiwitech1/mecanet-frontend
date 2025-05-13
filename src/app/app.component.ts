@@ -6,7 +6,7 @@ import {MatAnchor} from '@angular/material/button';
 import {CommonModule} from '@angular/common';
 import {ThemeToggleComponent} from './public/components/theme-toggle/theme-toggle.component';
 import {LanguageSwitcherComponent} from './public/components/language-switcher/language-switcher.component';
-
+import { SidebarMecanetComponent } from './shared/components/sidebar-mecanet/sidebar-mecanet.component';
 @Component({
  selector: 'app-root',
  standalone: true,
@@ -15,7 +15,8 @@ import {LanguageSwitcherComponent} from './public/components/language-switcher/l
    RouterOutlet,
    CommonModule,
    ThemeToggleComponent,
-   LanguageSwitcherComponent
+   LanguageSwitcherComponent,
+   SidebarMecanetComponent
  ],
  templateUrl: './app.component.html',
  styleUrl: './app.component.scss'
