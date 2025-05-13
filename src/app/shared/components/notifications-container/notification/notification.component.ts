@@ -18,8 +18,7 @@ export class NotificationComponent {
   @Input() type: NotificationType = 'notification';  // Tipo de notificación
   @Input() icon: string = 'notification'; // Icono por defecto
   
-  // Para configurar el ripple
-  rippleColor = 'rgba(0, 0, 0, 0.1)'; // Color sutil para el efecto ripple
+  rippleColor = 'rgba(0, 0, 0, 0.1)'; 
   
   getNotificationClass(): string {
     return `notification-${this.type}`;
