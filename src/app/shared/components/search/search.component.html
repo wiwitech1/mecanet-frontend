@@ -1,0 +1,48 @@
+<div class="search-container">
+  <div class="search-row">
+    <!-- Input de búsqueda con ícono de lupa -->
+    <div class="search-input">
+      <span class="icon-search">
+        <mat-icon>search</mat-icon>
+      </span>
+      <input
+        type="text"
+        [placeholder]="placeholder"
+        [(ngModel)]="searchText"
+        (input)="onSearchChange()"
+      />
+    </div>
+
+    <button class="toggle-filters-btn" type="button" (click)="showFilters = !showFilters">
+      <mat-icon>filter_list</mat-icon> Filtros
+    </button>
+
+    <div class="search-action">
+      <app-button
+        [iconLeft]="'mat-icon:add'"
+        [variant]="'primary'"
+        (clicked)="onActionClick()"
+      >
+        Nuevo {{ newLabel }}
+      </app-button>
+    </div>
+  </div>
+
+  <!-- Filtros debajo de los tres elementos principales -->
+  <div class="search-filters" *ngIf="filters?.length && showFilters">
+    <div class="filter-group" *ngFor="let filter of filters">
+      <span class="icon-filter">
+        <mat-icon>filter_alt</mat-icon>
+      </span>
+      <label class="filter-label">{{ filter.label }}</label>
+      <select
+        [(ngModel)]="selectedFilters[filter.value]"
+        (change)="onFilterChange()"
+      >
+        <option *ngFor="let option of filter.options" [value]="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+</div>
