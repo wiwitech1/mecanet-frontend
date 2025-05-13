@@ -13,88 +13,23 @@
   </div>
   <div class="menu">
     <ul>
-      <li>
-        <a href="#">
-          <mat-icon>home</mat-icon>
-          <span *ngIf="isExpanded">Inicio</span>
+      <li *ngFor="let option of menuOptions">
+        <a [routerLink]="option.path" routerLinkActive="active">
+          <mat-icon>{{option.icon}}</mat-icon>
+          <span *ngIf="isExpanded">{{option.title}}</span>
         </a>
-      </li>
-      <li>
-        <a href="#">
-          <mat-icon>calendar_today</mat-icon>
-          <span *ngIf="isExpanded">Calendario</span>
-        </a>
-      </li>
-      <li class="has-submenu">
-        <a href="#">
-          <mat-icon>inventory_2</mat-icon>
-          <span *ngIf="isExpanded">Inventario</span>
-        </a>
-        <div class="submenu" *ngIf="isExpanded">
-          <a href="#">
-            <span>• Repuestos</span>
-          </a>
-          <a href="#">
-            <span>• Órdenes de compra</span>
+        <div class="submenu" *ngIf="isExpanded && option.submenu">
+          <a *ngFor="let subItem of option.submenu" [routerLink]="subItem.path" routerLinkActive="active">
+            <span>• {{subItem.title}}</span>
           </a>
         </div>
-      </li>
-      <li class="has-submenu">
-        <a href="#">
-          <mat-icon>settings</mat-icon>
-          <span *ngIf="isExpanded">Gestión de Activos</span>
-        </a>
-        <div class="submenu" *ngIf="isExpanded">
-          <a href="#">
-            <span>• Maquinarias</span>
-          </a>
-          <a href="#">
-            <span>• Líneas de Producción</span>
-          </a>
-        </div>
-      </li>
-      <li>
-        <a href="#">
-          <mat-icon>assignment</mat-icon>
-          <span *ngIf="isExpanded">Orden de Trabajo</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <mat-icon>build</mat-icon>
-          <span *ngIf="isExpanded">Plan de Mantenimiento</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <mat-icon>play_circle</mat-icon>
-          <span *ngIf="isExpanded">Ejecución</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <mat-icon>dashboard</mat-icon>
-          <span *ngIf="isExpanded">Dashboard</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <mat-icon>people</mat-icon>
-          <span *ngIf="isExpanded">Administración del Personal</span>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <mat-icon>settings</mat-icon>
-          <span *ngIf="isExpanded">Configuración</span>
-        </a>
       </li>
     </ul>
   </div>
   <div class="sidebar-footer">
     <a href="#">
       <mat-icon>person</mat-icon>
-      <span *ngIf="isExpanded">Juan Pérez<br><small>Administrador</small></span>
+      <span *ngIf="isExpanded">{{userName}}<br><small>{{userRole}}</small></span>
     </a>
     <a href="#" *ngIf="isExpanded">
       <mat-icon>logout</mat-icon>
