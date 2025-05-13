@@ -1,0 +1,33 @@
+<!-- Subtítulo opcional -->
+<div *ngIf="showSubtitle && subtitleText" class="info-list-subtitle" [ngClass]="subtitleClass">
+  {{ subtitleText }}
+</div>
+
+<div *ngIf="infoType === 1" class="info-list-type1">
+  <!-- Tipo 1: atributo: valor en la misma línea -->
+  <ul>
+    <li *ngFor="let item of data">
+      {{ item.subtitle }}: {{ item.info }}
+    </li>
+  </ul>
+</div>
+
+<div *ngIf="infoType === 2" class="info-list-type2">
+  <!-- Tipo 2: atributo en una línea, valor en otra -->
+  <div class="list-items">
+    <div *ngFor="let item of data">
+      <div class="subtitle">{{ item.subtitle }}:</div>
+      <div class="info">{{ item.info }}</div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="infoType === 3" class="info-statistics">
+  <div *ngFor="let item of statisticsData" class="list-stadistics">
+    <div class="statistics-items">
+      <p class="stadistic">{{ item.stadistic }}</p>
+      <p class="percentage">{{ item.percentage }}</p>
+      <p class="description">{{ item.description }}</p>
+    </div>
+  </div>
+</div> 
