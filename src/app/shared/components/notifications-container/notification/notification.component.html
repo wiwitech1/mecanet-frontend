@@ -1,4 +1,9 @@
-<div class="notification-item" [ngClass]="getNotificationClass()">
+<div class="notification-item" 
+     [ngClass]="getNotificationClass()" 
+     matRipple 
+     [matRippleColor]="rippleColor"
+     tabindex="0"
+     role="button">
   <div class="notification-icon" [ngClass]="getIconClass()">
     <!-- Icono dinámico pasado como parámetro -->
     <div class="notification-icon">

@@ -8,6 +8,20 @@
   margin-bottom: 1rem;
   padding: 1rem;
   gap: 1.3rem;
+  
+  // Nuevos estilos para hover y click
+  transition: all 0.2s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden; // Importante para que el efecto ripple no se desborde
+  
+  &:hover {
+    background-color: #f5f5f5; // Oscurecer ligeramente al hacer hover
+    transform: translateY(-2px); // Efecto sutil de elevación
+    box-shadow: 0 0.35rem 0.35rem rgba(0, 0, 0, 0.3); // Sombra más pronunciada
+  }
+  
+  
 }
 
 .notification-icon {
@@ -52,10 +66,10 @@
   color: #D7465E;
 }
 
-.notification-item.notification-info .notification-icon {
+.notification-item.notification-notification .notification-icon {
   background-color: #5B62B3;
 }
 
-.notification-item.notification-info .notification-title {
+.notification-item.notification-notification .notification-title {
   color: #5B62B3;
 }
