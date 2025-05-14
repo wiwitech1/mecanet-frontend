@@ -15,7 +15,14 @@
     flex: 1 1 30%; 
   }
 }
-
+.item-container{
+  display: flex;
+  gap: 0.5em;
+  .subtitle{
+    font-weight: 550;
+  }
+ 
+}
 .info-list-type1 {
   color: black;
   font-size: 0.95em;
@@ -53,9 +60,7 @@
   font-weight: 700;
 }
 
-/* Estilo para las estadísticas (Tipo 3) */
-.info-statistics {
-}
+
 
 .statistics-items{
   display: flex;
