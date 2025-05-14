@@ -1,4 +1,10 @@
+*{
+  font-family: var(--font-primary);
+}
+
 .information-panel {
+  padding: 2.3em 2.1em;
+  border: 2px solid #F1E9F7;
   border-radius: 8px;
   background-color:var(--clr-bg);
 }
@@ -8,7 +14,7 @@
 }
 
 .rectangular-box {
-  background-color: #498fe0;
+  background-color: var(--clr-primary-400);
   color: white;
   padding: 10px;
   border-radius: 5px;
@@ -16,13 +22,87 @@
 }
 
 h3 {
-  color: #ff6f61;
-  font-size: 18px;
-  font-weight: bold;
+  color: var(--clr-primary-300);
+  font-size: 1.125rem;
+  font-weight: 600;
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  gap:1.5em;
+  gap: 1.5em;
+  flex: 1;
+}
+
+// Nuevo contenedor para botones
+.panel-buttons {
+  display: flex;
+  gap: 1em;
+  margin-top: 2em;
+  padding-top: 1.5em;
+  border-top: 1px solid var(--clr-shadow);
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+}
+
+// Estilos botón principal (Editar)
+.btn-primary {
+  background: var(--clr-primary-400);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0.8em 1.8em;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px var(--clr-shadow);
+  
+  &:hover {
+    background: var(--clr-primary-500);
+    transform: translateY(-2px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// Estilos botón secundario (Desactivar)
+.btn-secondary {
+  background: transparent;
+  color: var(--clr-text);
+  border: 1px solid var(--clr-shadow);
+  border-radius: var(--radius-md);
+  padding: 0.75em 1.6em;
+  font-weight: 500;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: var(--clr-surface);
+    border-color: var(--clr-primary-200);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+// Efectos de focus para accesibilidad
+.btn-primary:focus, .btn-secondary:focus {
+  outline: 2px solid var(--clr-primary-300);
+  outline-offset: 2px;
+}
+
+// Variación para botón de peligro
+.btn-danger {
+  background: var(--clr-danger);
+  
+  &:hover {
+    background: var(--clr-danger);
+    filter: brightness(90%);
+  }
 }

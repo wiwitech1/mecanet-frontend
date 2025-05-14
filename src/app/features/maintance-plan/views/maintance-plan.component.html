@@ -6,7 +6,7 @@
 
     
     <main class="main-container">
-        <div class="search-container">
+        <div class="search-container" [ngClass]="{'full-width': !showDetailPanel}">
             <app-search 
                 [placeholder]="'Buscar plan de mantenimiento...'" 
                 [newLabel]="'Plan'" 
@@ -23,7 +23,15 @@
                 </app-record-table>
             </div>
         </div>
-        <div class="information-panel-container">
+        
+        <!-- Panel de información con animación -->
+        <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
+            <div class="panel-header">
+                <button class="close-button" (click)="closeDetailPanel()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            
             <app-information-panel [headerText]="'Información del Plan'" [showPrimaryButton]="selectedPlan !== null" [primaryButtonText]="'Editar'">
                 
                 <!-- Sección de información general del plan -->

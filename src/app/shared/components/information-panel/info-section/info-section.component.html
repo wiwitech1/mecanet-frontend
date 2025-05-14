@@ -16,8 +16,10 @@
   <!-- Tipo 2: atributo en una línea, valor en otra -->
   <div class="list-items">
     <div *ngFor="let item of data">
-      <div class="subtitle">{{ item.subtitle }}:</div>
-      <div class="info">{{ item.info }}</div>
+      <div class="item-container">
+        <div class="subtitle">{{ item.subtitle }}:</div>
+        <div class="info">{{ item.info }}</div>
+      </div>
     </div>
   </div>
 </div>

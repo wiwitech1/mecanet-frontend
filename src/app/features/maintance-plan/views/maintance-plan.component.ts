@@ -18,6 +18,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-maintance-plan',
@@ -42,7 +43,18 @@ import { MatSelectModule } from '@angular/material/select';
     InfoListItemsComponent
   ],
   templateUrl: './maintance-plan.component.html',
-  styleUrls: ['./maintance-plan.component.scss']
+  styleUrls: ['./maintance-plan.component.scss'],
+  animations: [
+    trigger('panelAnimation', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ transform: 'translateX(100%)', opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class MaintancePlanComponent implements OnInit {
   // Columnas para la tabla de planes
@@ -51,12 +63,15 @@ export class MaintancePlanComponent implements OnInit {
     { key: 'productionLineId', label: 'Línea de Producción', type: 'texto' },
     { key: 'startDate', label: 'Fecha Inicio', type: 'texto' },
     { key: 'durationDays', label: 'Duración (días)', type: 'texto' },
-    { key: 'actions', label: 'Acciones', type: 'cta', ctaLabel: 'Ver detalles', ctaVariant: 'primary' }
+    { key: 'actions', label: 'Acciones', type: 'cta', ctaLabel: 'Ver', ctaVariant: 'primary' }
   ];
 
   // Datos para la tabla
   plansData: any[] = [];
   filteredPlansData: any[] = [];
+  
+  // Flag para mostrar/ocultar el panel de información
+  showDetailPanel = false;
   
   // Configuración de filtros para el componente app-search
   searchFilters = [
@@ -149,6 +164,14 @@ export class MaintancePlanComponent implements OnInit {
         }
       });
     }
+    
+    // Mostrar el panel de detalles
+    this.showDetailPanel = true;
+  }
+
+  closeDetailPanel(): void {
+    this.showDetailPanel = false;
+    this.selectedPlan = null;
   }
 
   onNewPlanClick(): void {

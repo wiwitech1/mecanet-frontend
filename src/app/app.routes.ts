@@ -10,7 +10,7 @@ const MaintenancePlanDetailComponent = (): Promise<any> => import('./features/ma
 const MaintenancePlanCreateComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create/maintenance-plan-create.component').then(m => m.MaintenancePlanCreateComponent);
 const MaintenancePlanCreateSelectComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-select/maintenance-plan-create-select.component').then(m => m.MaintenancePlanCreateSelectComponent);
 const MaintenancePlanCreateDynamicComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-dynamic/maintenance-plan-create-dynamic.component').then(m => m.MaintenancePlanCreateDynamicComponent);
-
+const PropruebaComponent = (): Promise<any> => import('./features/shared/production-lines/proprueba/proprueba.component').then(m => m.PropruebaComponent);
 
 export const routes: Routes = [
     { path: 'components-demo',  loadComponent: ComponentsDemoComponent },
@@ -27,9 +27,10 @@ export const routes: Routes = [
             { path: 'crear', loadComponent: MaintenancePlanCreateSelectComponent },
             { path: 'crear-estatico', loadComponent: MaintenancePlanCreateComponent },
             { path: 'crear-dinamico', loadComponent: MaintenancePlanCreateDynamicComponent },
-            { path: 'editar/:id', loadComponent: MaintenancePlanCreateComponent }
+            { path: 'editar/:id', loadComponent: MaintenancePlanCreateComponent },
         ]
     },
-    { path: '**',              loadComponent: PageNotFoundComponent },
+    { path: 'proprueba', loadComponent: PropruebaComponent },
+    { path: '**',              loadComponent: PageNotFoundComponent }
 ];
 

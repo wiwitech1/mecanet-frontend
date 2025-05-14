@@ -26,33 +26,98 @@
     gap: 2em;
     width: 72%;
     height: 100%;
-    transition: width 0.3s;
+    transition: width 0.3s ease;
+    
+    &.full-width {
+        width: 100% !important;
+    }
 }
 
 .table-container {
-    padding: 1.2em 1em;
+    padding: 1em;
     border: 1px solid var(--clr-shadow);
     border-radius: var(--radius-md);
-    background: var(--clr-surface);
-    box-shadow: 0 2px 8px 0 var(--clr-shadow);
     height: 100%;
     min-width: 0;
+    overflow: hidden;
     transition: box-shadow 0.3s, border 0.3s;
 }
 
 .information-panel-container {
     width: 28%;
-    border: 1px solid var(--clr-shadow);
     border-radius: var(--radius-md);
-    background: var(--clr-surface);
-    box-shadow: 0 2px 8px 0 var(--clr-shadow);
     height: 100%;
-    padding: 1.2em 1em;
     transition: box-shadow 0.3s, border 0.3s, width 0.3s;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+    
+    .panel-header {
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
+        z-index: 2;
+        
+        .close-button {
+            background: transparent;
+            border: none;
+            color: var(--clr-text);
+            font-size: 1.5em;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+
+    .info-section {
+        margin-bottom: 1em;
+        padding: 1em;
+        background-color: var(--clr-bg-secondary);
+        border-radius: var(--radius-md);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        
+        .subtitle {
+            font-weight: bold;
+            color: var(--clr-primary-500);
+        }
+        
+        .info {
+            color: var(--clr-text-secondary);
+        }
+    }
 }
+
+/* Estilos para la tabla */
+/* ::ng-deep .table-container {
+    .record-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .record-table th {
+        background-color: var(--clr-primary-400);
+        color: white;
+        padding: 1em;
+        text-align: left;
+    }
+    
+    .record-table tr:hover {
+        background-color: var(--clr-primary-100);
+        cursor: pointer;
+    }
+    
+    .record-table td {
+        padding: 1em;
+        border-bottom: 1px solid var(--clr-shadow);
+    }
+} */
 
 /* Tablet: apila los paneles, ajusta paddings y gaps */
 @media (max-width: 1024px) {
@@ -88,11 +153,28 @@
     }
     .table-container,
     .information-panel-container {
-        padding: 0.7em 0.3em;
         border-radius: 12px;
         box-shadow: 0 1px 4px 0 var(--clr-shadow);
     }
     .information-panel-container {
         margin-top: 0.5em;
+    }
+}
+
+/* Estilo para el botón "Ver" en la columna de Detalles */
+::ng-deep .record-table {
+    .btn-primary {
+        background-color: var(--clr-primary-300);
+        color: white;
+        padding: 0.3em 1em;
+        border-radius: var(--radius-md);
+        border: none;
+        font-size: 0.8em;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        
+        &:hover {
+            background-color: var(--clr-primary-400);
+        }
     }
 }
