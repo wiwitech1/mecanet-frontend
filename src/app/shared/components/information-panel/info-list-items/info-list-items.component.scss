@@ -1,0 +1,63 @@
+// Estilos compartidos
+.maintenance-item, .simpleList-item, .movement-item {
+  padding: 0.8em 0.9em;
+  border-radius: 1em;
+  margin-bottom: 0.5em;
+  background-color: #F3EBFF; // Color de fondo lila claro
+}
+
+.default-item{
+  padding: 0.8em 0.9em;
+  border-radius: 1em;
+  margin-bottom: 0.5em;
+  background-color: transparent;
+}
+
+// Mantenimiento
+.maintenance-item {
+  &.preventive {
+    background-color: #F3EBFF; // Lila para preventivo
+  }
+  
+  &.corrective {
+    background-color: #FFE8E8; // Rosado para correctivo
+  }
+  
+
+  .date-type-preventive {
+    color: #6DA0E1;
+    font-weight: 450;
+  }
+  
+  .date-type-corrective {
+    color: #D7465E;
+    font-weight: 450;
+  }
+  
+  
+  .responsible {
+    color: #383A37;
+    font-size: 0.9em;
+  }
+}
+
+// Lista simple
+.simpleList-item {
+  color: #6DA0E1;
+  font-weight: 500;
+}
+
+// Movimientos
+.movement-item {
+  .date-action {
+    color: #6DA0E1;
+    font-weight: 500;
+  }
+  
+  .order {
+    display: flex;
+    justify-content: center;
+    color: #383A37;
+    font-size: 0.9em;
+  }
+} 

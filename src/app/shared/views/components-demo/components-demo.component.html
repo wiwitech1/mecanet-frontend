@@ -1,0 +1,335 @@
+<div class="components-demo">
+  <header class="demo-header">
+    <h1>Galería de Componentes</h1>
+    <p>Componentes compartidos reutilizables para la aplicación Mecanet</p>
+  </header> 
+
+
+  <main class="demo-content">
+    <!-- Sección de Botones -->
+    <section class="demo-section" id="buttons">
+      <div class="section-header">
+        <h2>Botones</h2>
+        <p>Componentes de botón flexibles y personalizables</p>
+      </div>
+
+      <div class="demo-grid">
+        <!-- Variantes de botones -->
+        <div class="demo-card">
+          <h3>Variantes</h3>
+          <div class="demo-items">
+            <div class="demo-item" *ngFor="let variant of buttonVariants">
+              <app-button [variant]="variant" (clicked)="handleButtonClick($event)">
+                {{ variant | titlecase }}
+              </app-button>
+              <code>.{{ variant }}</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tamaños de botones -->
+        <div class="demo-card">
+          <h3>Tamaños</h3>
+          <div class="demo-items">
+            <div class="demo-item" *ngFor="let size of buttonSizes">
+              <app-button [size]="size">
+                Tamaño {{ size }}
+              </app-button>
+              <code>.btn-{{ size }}</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Radios de botones -->
+        <div class="demo-card">
+          <h3>Radios de borde</h3>
+          <div class="demo-items">
+            <div class="demo-item" *ngFor="let radius of buttonRadiuses">
+              <app-button [radius]="radius">
+                Radio {{ radius }}
+              </app-button>
+              <code>.radius-{{ radius }}</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Estados de botones -->
+        <div class="demo-card">
+          <h3>Estados</h3>
+          <div class="demo-items">
+            <div class="demo-item">
+              <app-button>Normal</app-button>
+              <code>Normal</code>
+            </div>
+            <div class="demo-item">
+              <app-button [disabled]="true">Deshabilitado</app-button>
+              <code>[disabled]="true"</code>
+            </div>
+            <div class="demo-item">
+              <app-button [loading]="true">Cargando</app-button>
+              <code>[loading]="true"</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones con iconos -->
+        <div class="demo-card">
+          <h3>Con iconos</h3>
+          <div class="demo-items">
+            <div class="demo-item">
+              <app-button iconLeft="fa fa-heart">Icono izquierdo</app-button>
+              <code>[iconLeft]="fa fa-heart"</code>
+            </div>
+            <div class="demo-item">
+              <app-button iconRight="fa fa-arrow-right">Icono derecho</app-button>
+              <code>[iconRight]="fa fa-arrow-right"</code>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón de ancho completo -->
+        <div class="demo-card full-width">
+          <h3>Ancho completo</h3>
+          <div class="demo-items">
+            <div class="demo-item">
+              <app-button [fullWidth]="true">Botón de ancho completo</app-button>
+              <code>[fullWidth]="true"</code>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ejemplo de uso de código -->
+      <div class="code-example">
+        <h3>Ejemplos de Uso</h3>
+        <pre><code>
+&lt;app-button&gt;Botón básico&lt;/app-button&gt;
+
+&lt;app-button variant="success" size="lg" radius="full"&gt;
+  Personalizado
+&lt;/app-button&gt;
+
+&lt;app-button
+  variant="primary"
+  [loading]="isLoading"
+&lt;app-button
+  variant="primary"
+  [loading]="isLoading"
+  [disabled]="isDisabled"
+  (clicked)="handleClick($event)"&gt;
+  Enviar
+&lt;/app-button&gt;
+        </code></pre>
+      </div>
+    </section>
+
+    <!-- Sección de Búsqueda -->
+    <section class="demo-section" id="search">
+      <div class="section-header">
+        <h2>Búsqueda</h2>
+        <p>Componente de búsqueda con filtros y acción</p>
+      </div>
+      <app-search
+        [placeholder]="'Buscar usuarios...'"
+        [filters]="userFilters"
+        [newLabel]="'Usuario'"
+        [actionFunction]="openNewUserModal"
+        (search)="handleSearch($event)"
+        (filterChange)="handleFilterChange($event)"
+      ></app-search>
+      <div class="code-example">
+        <h3>Ejemplos de Uso</h3>
+        <pre><code>
+&lt;app-search
+  [placeholder]="'Buscar usuarios...'"
+  [filters]="userFilters"
+  [newLabel]="'Usuario'"
+  [actionFunction]="openNewUserModal"
+  (search)="handleSearch($event)"
+  (filterChange)="handleFilterChange($event)"&gt;
+&lt;/app-search&gt;
+        </code></pre>
+      </div>
+    </section>
+
+    <!-- Sección de Tabla de Registros -->
+    <section class="demo-section" id="record-table">
+      <div class="section-header">
+        <h2>Tabla de Registros</h2>
+        <p>Componente de tabla para mostrar y gestionar datos de registros</p>
+      </div>
+      <app-record-table
+        [columns]="recordTableColumns"
+        [data]="recordTableData"
+        (ctaClick)="handleCtaClick($event)"
+      ></app-record-table>
+    </section>
+
+    <!-- Sección de Sidebar -->
+    <section class="demo-section" id="sidebar">
+      <div class="section-header">
+        <h2>Sidebar</h2>
+        <p>Componente de barra lateral para navegación</p>
+      </div>
+      <app-sidebar-mecanet></app-sidebar-mecanet>
+    </section>
+
+
+    <section class="demo-section" id="information-panel">
+      <div class="section-header">
+        <h2>Panel de Información</h2>
+        <p>Componente para mostrar información estructurada</p>
+      </div>
+      
+      <!-- Ejemplo de contenedores con listas -->
+      <div class="demo-card">
+        <h3>Paneles con contenedores personalizados</h3>
+        
+        <app-information-panel [headerText]="'Panel de Información Completo'">
+
+                    <!-- Sección de especificaciones técnicas (Tipo 1 con subtítulo) -->
+                    <app-info-section 
+                    [infoType]="1" 
+                    [showSubtitle]="true"
+                    [subtitleText]="'Subtítulo:'" 
+                    [data]="especificacionesData">
+                  </app-info-section>
+        
+                  <app-info-section 
+                    [infoType]="2" 
+                    [showSubtitle]="true"
+                    [subtitleText]="'Subtítulo:'" 
+                    [data]="actividadData">
+                  </app-info-section>
+        
+                  <app-info-section 
+                    [infoType]="3" 
+                    [statisticsData]="statisticsData">
+                  </app-info-section>
+                  
+
+                  
+          <!-- Historial de mantenimiento -->
+          <app-info-container 
+            [title]="'Historial de mantenimiento'" 
+            [titleType]="1">
+            <app-info-list-items 
+              [type]="'maintenance'" 
+              [items]="mantenimientoItems">
+            </app-info-list-items>
+          </app-info-container>
+          
+          <!-- Maquinarias asociadas -->
+          <app-info-container 
+            [title]="'Lista Simple de maquinarias'" 
+            [titleType]="1">
+            <app-info-list-items 
+              [type]="'simpleList'" 
+              [items]="maquinariasItems">
+            </app-info-list-items>
+
+          </app-info-container>
+
+          <!-- Historial de movimientos -->
+          <app-info-container 
+            [title]="'Historial de movimientos'" 
+            [titleType]="1">
+            <app-info-list-items 
+              [type]="'movements'" 
+              [items]="movimientosItems">
+            </app-info-list-items>
+          </app-info-container>
+          
+          <!-- Anotaciones (campo de texto) -->
+          <app-info-container 
+            [title]="'Anotaciones'" 
+            [titleType]="2">
+            <app-info-list-items 
+              [type]="'default'" 
+              [items]="[{text: 'Muestra texto de forma simple'}]">
+            </app-info-list-items>
+          </app-info-container>
+        </app-information-panel>
+      </div>
+      
+      
+      
+    </section>
+
+    <!-- Sección de Notificaciones -->
+    <section class="demo-section" id="notifications">
+      <div class="section-header">
+        <h2>Notificaciones</h2>
+        <p>Componente para mostrar notificaciones con iconos dinámicos</p>
+      </div>
+      
+      <div class="demo-card">
+        <h3>Notificaciones con diferentes iconos</h3>
+        <app-notifications-container 
+          [title]="'Notificaciones'" 
+          [notifications]="notificationItems">
+        </app-notifications-container>
+      </div>
+      
+    </section>
+
+
+    <!-- Sección de Búsqueda -->
+    <section class="demo-section" id="search">
+      <div class="section-header">
+        <h2>Búsqueda</h2>
+        <p>Componente de búsqueda con filtros y acción</p>
+      </div>
+      <app-search
+        [placeholder]="'Buscar usuarios...'"
+        [filters]="userFilters"
+        [newLabel]="'Usuario'"
+        [actionFunction]="openNewUserModal"
+        (search)="handleSearch($event)"
+        (filterChange)="handleFilterChange($event)"
+      ></app-search>
+      <div class="code-example">
+        <h3>Ejemplos de Uso</h3>
+        <pre><code>
+&lt;app-search
+  [placeholder]="'Buscar usuarios...'"
+  [filters]="userFilters"
+  [newLabel]="'Usuario'"
+  [actionFunction]="openNewUserModal"
+  (search)="handleSearch($event)"
+  (filterChange)="handleFilterChange($event)"&gt;
+&lt;/app-search&gt;
+        </code></pre>
+      </div>
+    </section>
+
+    <!-- Sección de Tabla de Registros -->
+    <section class="demo-section" id="record-table">
+      <div class="section-header">
+        <h2>Tabla de Registros</h2>
+        <p>Componente de tabla para mostrar y gestionar datos de registros</p>
+      </div>
+      <app-record-table
+        [columns]="recordTableColumns"
+        [data]="recordTableData"
+        (ctaClick)="handleCtaClick($event)"
+      ></app-record-table>
+    </section>
+
+    <!-- Sección de Sidebar -->
+    <section class="demo-section" id="sidebar">
+      <div class="section-header">
+        <h2>Sidebar</h2>
+        <p>Componente de barra lateral para navegación</p>
+      </div>
+      <app-sidebar-mecanet></app-sidebar-mecanet>
+    </section>
+
+    <!-- Aquí se añadirán más secciones para futuros componentes -->
+    <div class="placeholder-section">
+      <h2>Más componentes próximamente</h2>
+      <p>Esta galería se irá ampliando a medida que se desarrollen nuevos componentes compartidos.</p>
+    </div>
+
+  </main>
+</div>

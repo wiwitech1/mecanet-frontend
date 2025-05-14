@@ -1,0 +1,37 @@
+<!-- Lista de mantenimiento -->
+<div *ngIf="type === 'maintenance'" class="maintenance-list">
+  <div *ngFor="let item of items" class="maintenance-item" [ngClass]="{'preventive': item.type === 'Preventivo', 'corrective': item.type === 'Correctivo'}">
+    <div class="date-type" [ngClass]="item.type === 'Preventivo' ? 'date-type-preventive' : 'date-type-corrective'">
+      {{ item.date }} – {{ item.type }}
+    </div>
+    <div class="responsible">
+      Responsable: {{ item.responsible }}
+    </div>
+  </div>
+</div>
+
+<!-- Lista de maquinarias -->
+<div *ngIf="type === 'simpleList'" class="simpleList-list">
+  <div *ngFor="let item of items" class="simpleList-item">
+    {{ item.model }}
+  </div>
+</div>
+
+<!-- Lista de movimientos -->
+<div *ngIf="type === 'movements'" class="movements-list">
+  <div *ngFor="let item of items" class="movement-item">
+    <div class="date-action">
+      {{ item.date }} – {{ item.action }}
+    </div>
+    <div class="order">
+      {{ item.order }}
+    </div>
+  </div>
+</div>
+
+<!-- Lista por defecto para otros casos -->
+<div *ngIf="type === 'default'" class="default-list">
+  <div *ngFor="let item of items" class="default-item">
+    {{ item.text }}
+  </div>
+</div> 

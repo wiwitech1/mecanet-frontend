@@ -1,0 +1,89 @@
+<div class="machinery-form-container">
+  <h2 class="form-title">{{ title }}</h2>
+
+  <form [formGroup]="machineryForm" (ngSubmit)="onSubmit()" class="machinery-form">
+    <div class="form-row">
+      <label for="name">Nombre <span class="required">*</span></label>
+      <input type="text" id="name" formControlName="name" class="form-input" [class.invalid]="machineryForm.get('name')?.invalid && machineryForm.get('name')?.touched">
+    </div>
+    <div class="form-row">
+      <label for="brand">Marca <span class="required">*</span></label>
+      <input type="text" id="brand" formControlName="brand" class="form-input" [class.invalid]="machineryForm.get('brand')?.invalid && machineryForm.get('brand')?.touched">
+    </div>
+    <div class="form-row">
+      <label for="serial_number">N° de Serie <span class="required">*</span></label>
+      <input type="text" id="serial_number" formControlName="serial_number" class="form-input" [class.invalid]="machineryForm.get('serial_number')?.invalid && machineryForm.get('serial_number')?.touched">
+    </div>
+    <div class="form-row">
+      <label for="model">Modelo <span class="required">*</span></label>
+      <input type="text" id="model" formControlName="model" class="form-input" [class.invalid]="machineryForm.get('model')?.invalid && machineryForm.get('model')?.touched">
+    </div>
+    <div class="form-row">
+      <label for="production_capacity">Capacidad de producción <span class="optional">(opcional)</span></label>
+      <input type="number" id="production_capacity" formControlName="production_capacity" class="form-input">
+    </div>
+    <div class="form-row">
+      <label for="recommendations">Recomendaciones <span class="optional">(opcional)</span></label>
+      <input type="text" id="recommendations" formControlName="recommendations" class="form-input">
+    </div>
+
+    <div class="measurements-section" [class.invalid]="machineryForm.get('measurements')?.invalid && machineryForm.get('measurements')?.touched">
+      <div class="measurements-header">
+        <div class="header-cell name-header">Nombre</div>
+        <div class="header-cell unit-header">Unidad</div>
+        <div *ngIf="!isEditMode" class="header-cell action-header"></div>
+      </div>
+
+      <div class="measurements-list" formArrayName="measurements">
+        <div class="measurement-row" *ngFor="let measurement of measurementsArray.controls; let i = index" [formGroupName]="i">
+          <div class="measurement-cell name-cell">
+            <input 
+              type="text" 
+              formControlName="name" 
+              class="form-input" 
+              placeholder="Nombre de la medida"
+              [readonly]="isEditMode"
+              [class.invalid]="measurement.get('name')?.invalid && measurement.get('name')?.touched">
+          </div>
+          <div class="measurement-cell unit-cell">
+            <input 
+              type="text" 
+              formControlName="unit" 
+              class="form-input"
+              placeholder="Unidad"
+              [readonly]="isEditMode"
+              [class.invalid]="measurement.get('unit')?.invalid && measurement.get('unit')?.touched">
+          </div>
+          <div *ngIf="!isEditMode" class="measurement-cell action-cell">
+            <button type="button" class="remove-btn" (click)="removeMeasurement(i)" *ngIf="measurementsArray.length > 1">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="measurements-error"
+           *ngIf="machineryForm.get('measurements')?.errors?.['atLeastOne'] && machineryForm.get('measurements')?.touched">
+        Debe agregar al menos una medida válida.
+      </div>
+      <button 
+        type="button" 
+        class="add-measurement-btn" 
+        (click)="addMeasurement()"
+        *ngIf="!isEditMode">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        Agregar Medida
+      </button>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
+      <button type="submit" class="btn-save">Guardar</button>
+    </div>
+  </form>
+</div>

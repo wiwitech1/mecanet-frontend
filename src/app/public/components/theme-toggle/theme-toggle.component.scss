@@ -1,0 +1,59 @@
+@use '../../../../styles/helpers/variables' as *;
+@use '../../../../styles/helpers/mixins' as *;
+
+.theme-toggle-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 56px;
+  height: 28px;
+  position: relative;
+  padding: 0;
+  
+  &:focus {
+    outline: 2px solid var(--clr-primary-300);
+    outline-offset: 2px;
+  }
+}
+
+.toggle-track {
+  background-color: var(--clr-surface);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 9999px;
+  height: 100%;
+  position: relative;
+  transition: all 0.2s ease;
+  width: 100%;
+}
+
+.toggle-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--clr-primary-200);
+  border-radius: 50%;
+  height: 24px;
+  width: 24px;
+  position: absolute;
+  top: 1px;
+  left: 2px;
+  transform: translateX(0);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  
+  &.dark {
+    transform: translateX(28px);
+    background-color: var(--clr-primary-400);
+  }
+  
+  svg {
+    color: $white;
+  }
+}
+
+// Opcional: mejorar la apariencia en hover
+.theme-toggle-btn:hover {
+  .toggle-track {
+    background-color: var(--clr-primary-100);
+    opacity: 0.8;
+  }
+}

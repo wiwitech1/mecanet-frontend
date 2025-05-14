@@ -1,0 +1,17 @@
+@use '../helpers/variables' as *;
+/* se aplica añadiendo data-theme="dark" al <html> */
+[data-theme='dark']{
+  --clr-primary-100:#{$primary-300};
+  --clr-primary-200:#{$primary-200};
+  --clr-primary-300:#{$primary-100};
+  --clr-primary-400:#{$primary-100};
+  --clr-primary-500:#{$primary-200};
+
+  --clr-bg:        #1b1b1d;
+  --clr-surface:   #2a2a2d;
+  --clr-text:      #e5e5e5;
+  --clr-shadow:    rgba(0, 0, 0, 0.3);
+
+  --clr-danger:    shade(#{$danger-500},10%);
+  --clr-danger-050:#3d2d2d;
+}

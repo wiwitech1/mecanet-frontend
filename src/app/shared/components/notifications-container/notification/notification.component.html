@@ -1,0 +1,17 @@
+<div class="notification-item" 
+     [ngClass]="getNotificationClass()" 
+     matRipple 
+     [matRippleColor]="rippleColor"
+     tabindex="0"
+     role="button">
+  <div class="notification-icon" [ngClass]="getIconClass()">
+    <!-- Icono dinámico pasado como parámetro -->
+    <div class="notification-icon">
+      <mat-icon>{{ icon }}</mat-icon>
+    </div>
+  </div>
+  <div class="notification">
+    <h3 class="notification-title">{{ title }}</h3>
+    <p class="notification-message">{{ message }}</p>
+  </div>
+</div>

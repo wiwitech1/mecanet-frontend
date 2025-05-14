@@ -1,0 +1,107 @@
+<div class="container">
+
+    <header class="breadcrumb-header">
+        <app-title-view text="Gestión de Activos > Maquinarias"/>
+    </header>
+
+    <main class="main-container">
+        <div class="search-container" [ngClass]="{'full-width': !showDetailPanel || showMachineryModal}">
+            <div class="search-actions">
+                <app-search 
+                  [placeholder]="'Buscar'"
+                  [newLabel]="'+ Nueva Máquina'"
+                  [actionFunction]="newMachineAction">
+                </app-search>
+            </div>
+            
+            <div *ngIf="loading && !showDetailPanel" class="loading-indicator">
+                Cargando datos...
+            </div>
+            
+            <div *ngIf="error && !showDetailPanel" class="error-message">
+                {{ error }}
+                <button (click)="loadMachineries()">Reintentar</button>
+            </div>
+            
+            <div *ngIf="!loading && !error" class="table-container">
+                <app-record-table
+                  [columns]="columns"
+                  [data]="machines"
+                  (ctaClick)="onCtaClick($event)">
+                </app-record-table>
+            </div>
+        </div>
+        
+        <!-- Panel de información (solo visible cuando showDetailPanel es true) -->
+        <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
+            <div class="panel-header">
+                <button class="close-button" (click)="closeDetailPanel()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            
+            <div *ngIf="loading" class="loading-indicator">
+                Cargando información de la maquinaria...
+            </div>
+            
+            <div *ngIf="!loading && selectedMachine">
+                <app-information-panel
+                  [headerText]="'ID: ' + selectedMachineId + ' | ' + selectedMachine.name"
+                  [showHeader]="true"
+                  [showPrimaryButton]="true"
+                  [primaryButtonText]="'Editar'"
+                  [showSecondaryButton]="true"
+                  [secondaryButtonText]="selectedMachine.status === 1 ? 'Desactivar' : 'Activar'"
+                  (primaryButtonClick)="editMachine()"
+                  (secondaryButtonClick)="toggleMachineryStatus()">
+                  
+                  <app-info-section 
+                    [infoType]="2" 
+                    [data]="infoData">
+                  </app-info-section>
+                  
+                  <app-info-container 
+                    [title]="'Especificaciones técnicas:'" 
+                    [titleType]="2">
+                    <app-info-section 
+                      [infoType]="2"
+                      [data]="techData">
+                    </app-info-section>
+                  </app-info-container>
+                  
+                  <app-info-container 
+                    [title]="'Historial de mantenimiento'" 
+                    [titleType]="2">
+                    <app-info-list-items 
+                      [type]="'maintenance'" 
+                      [items]="maintenanceItems">
+                    </app-info-list-items>
+                  </app-info-container>
+                  
+                  <app-info-container 
+                    [title]="'Mediciones actuales:'" 
+                    [titleType]="2">
+                    <app-info-section 
+                      [infoType]="2"
+                      [data]="measurementData">
+                    </app-info-section>
+                  </app-info-container>
+                </app-information-panel>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para crear/editar maquinaria -->
+    <div *ngIf="showMachineryModal" class="modal-overlay" [@overlayAnimation] (click)="closeModal()">
+        <div class="modal-container" [@modalAnimation] (click)="$event.stopPropagation()">
+            <app-interact-machinery 
+                [machinery]="isEditMode ? selectedMachine : null"
+                [title]="isEditMode ? 'Editar Maquinaria' : 'Nueva Maquinaria'"
+                (save)="saveMachinery($event)"
+                (cancel)="closeModal()">
+            </app-interact-machinery>
+        </div>
+    </div>
+
+</div>
+

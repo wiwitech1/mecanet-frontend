@@ -1,0 +1,53 @@
+@use '../../../../styles/helpers/variables' as *;
+@use '../../../../styles/helpers/mixins' as *;
+
+:host {
+  @include flex-center;
+  min-height: 100vh;
+  background-color: var(--clr-bg);
+}
+
+.not-found-container {
+  text-align: center;
+  padding: 32px;
+  max-width: 500px;
+  background: var(--clr-surface);
+  @include radius;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.error-code {
+  font-size: 96px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, var(--clr-primary-200), var(--clr-primary-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: var(--clr-text);
+}
+
+p {
+  margin-bottom: 24px;
+  color: var(--clr-text);
+  opacity: 0.8;
+}
+
+code {
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 4px 8px;
+  @include radius;
+  color: var(--clr-danger);
+}
+
+button {
+  margin-top: 16px;
+  font-family: $font-family-base;
+}

@@ -1,0 +1,20 @@
+<div class="information-panel">
+    <!-- HEADER -->
+    <div *ngIf="showHeader" class="header">
+      <app-header 
+        [headerText]="headerText" 
+        [showRectangularBox]="showRectangularBox"
+        [rectangularBoxText]="rectangularBoxText"
+        [headerTextClass]="headerTextClass">
+      </app-header>
+    </div>
+   
+    <!-- CONTENT -->
+    <div class="content">
+      <ng-content></ng-content>
+    </div>
+  
+    <!-- BUTTONS -->
+
+  </div>
+  

@@ -1,0 +1,9 @@
+@use '../helpers/variables' as *;
+
+body{
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height:$line-height-base;
+  color: var(--clr-text);
+  background: var(--clr-bg);
+}

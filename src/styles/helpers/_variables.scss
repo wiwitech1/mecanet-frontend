@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+/* ---------- ESCALA DE MORADOS (PRIMARY) ---------- */
+$primary-100: #846bae;
+$primary-200: #5560ab;
+$primary-300: #a692c1;
+$primary-400: #494087;
+$primary-500: #251e54;
+
+/* ---------- NEUTRALES ---------- */
+$white:       #ffffff;
+$grey-050:    #f4f4f4;
+$grey-100:    #eceaf6;
+$grey-200:    #c4c4c4;
+$text-color:  #323232;
+
+/* ---------- FEEDBACK ---------- */
+$danger-500:  #d7465e;
+$danger-050:  #fff5f4;
+
+/* ---------- TIPOGRAFÍA & RADIOS ---------- */
+$font-family-base: 'Montserrat', sans-serif;
+$font-size-base : 16px;          // 1 rem
+$line-height-base: 1.5;
+$radius-md: .5rem;
+
+/* ---------- FUNCIÓN UTIL ---------- */
+@function rem($px) { @return ($px / $font-size-base) * 1rem; }

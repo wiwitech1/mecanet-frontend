@@ -1,0 +1,14 @@
+<!-- Título tipo 1 -->
+<div *ngIf="titleType === 1 && title" class="container-title type-1" [ngClass]="titleClass">
+  {{ title }}
+</div>
+
+<!-- Título tipo 2 -->
+<div *ngIf="titleType === 2 && title" class="container-title type-2" [ngClass]="titleClass">
+  {{ title }}
+</div>
+
+<!-- Contenedor para el contenido personalizado -->
+<div class="content-container">
+  <ng-content></ng-content>
+</div> 
