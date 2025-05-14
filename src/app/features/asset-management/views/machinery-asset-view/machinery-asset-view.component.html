@@ -6,7 +6,7 @@
 
     
     <main class="main-container">
-        <div class="search-container">
+        <div class="search-container" [ngClass]="{'full-width': !showDetailPanel}">
             <div class="search-actions">
                 <app-search 
                   [placeholder]="'Buscar'"
@@ -14,7 +14,17 @@
                   [actionFunction]="newMachineAction">
                 </app-search>
             </div>
-            <div class="table-container">
+            
+            <div *ngIf="loading && !showDetailPanel" class="loading-indicator">
+                Cargando datos...
+            </div>
+            
+            <div *ngIf="error && !showDetailPanel" class="error-message">
+                {{ error }}
+                <button (click)="loadMachineries()">Reintentar</button>
+            </div>
+            
+            <div *ngIf="!loading && !error" class="table-container">
                 <app-record-table
                   [columns]="columns"
                   [data]="machines"
@@ -22,38 +32,62 @@
                 </app-record-table>
             </div>
         </div>
-        <div class="information-panel-container">
-            <app-information-panel
-              [headerText]="'ID: ' + selectedMachineId + ' | MODELO: ' + selectedMachine?.modelo"
-              [showHeader]="true"
-              [showPrimaryButton]="true"
-              [primaryButtonText]="'Editar'"
-              [showSecondaryButton]="true"
-              [secondaryButtonText]="'Desactivar'">
-              
-              <app-info-section 
-                [infoType]="2" 
-                [data]="infoData">
-              </app-info-section>
-              
-              <app-info-container 
-                [title]="'Especificaciones técnicas:'" 
-                [titleType]="2">
-                <app-info-section 
-                  [infoType]="2"
-                  [data]="techData">
-                </app-info-section>
-              </app-info-container>
-              
-              <app-info-container 
-                [title]="'Historial de mantenimiento'" 
-                [titleType]="2">
-                <app-info-list-items 
-                  [type]="'maintenance'" 
-                  [items]="maintenanceItems">
-                </app-info-list-items>
-              </app-info-container>
-            </app-information-panel>
+        
+        <!-- Panel de información (solo visible cuando se hace clic en "Detalles") -->
+        <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
+            <div class="panel-header">
+                <button class="close-button" (click)="closeDetailPanel()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            
+            <div *ngIf="loading" class="loading-indicator">
+                Cargando información de la maquinaria...
+            </div>
+            
+            <div *ngIf="!loading && selectedMachine">
+                <app-information-panel
+                  [headerText]="'ID: ' + selectedMachineId + ' | ' + selectedMachine.name"
+                  [showHeader]="true"
+                  [showPrimaryButton]="true"
+                  [primaryButtonText]="'Editar'"
+                  [showSecondaryButton]="true"
+                  [secondaryButtonText]="selectedMachine.status === 1 ? 'Desactivar' : 'Activar'"
+                  (secondaryButtonClick)="toggleMachineryStatus()">
+                  
+                  <app-info-section 
+                    [infoType]="2" 
+                    [data]="infoData">
+                  </app-info-section>
+                  
+                  <app-info-container 
+                    [title]="'Especificaciones técnicas:'" 
+                    [titleType]="2">
+                    <app-info-section 
+                      [infoType]="2"
+                      [data]="techData">
+                    </app-info-section>
+                  </app-info-container>
+                  
+                  <app-info-container 
+                    [title]="'Historial de mantenimiento'" 
+                    [titleType]="2">
+                    <app-info-list-items 
+                      [type]="'maintenance'" 
+                      [items]="maintenanceItems">
+                    </app-info-list-items>
+                  </app-info-container>
+                  
+                  <app-info-container 
+                    [title]="'Mediciones actuales:'" 
+                    [titleType]="2">
+                    <app-info-section 
+                      [infoType]="2"
+                      [data]="measurementData">
+                    </app-info-section>
+                  </app-info-container>
+                </app-information-panel>
+            </div>
         </div>
     </main>
 
