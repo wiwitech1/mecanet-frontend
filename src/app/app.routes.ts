@@ -5,6 +5,11 @@ const ComponentsDemoComponent = (): Promise<any> => import('./shared/views/compo
 const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 const ProductionLinesAssetViewComponent = (): Promise<any> => import('./features/asset-management/views/production-lines-asset-view/production-lines-asset-view.component').then(m => m.ProductionLinesAssetViewComponent);
 const MachineryAssetViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-asset-view/machinery-asset-view.component').then(m => m.MachineryAssetViewComponent);
+const MaintancePlanComponent = (): Promise<any> => import('./features/maintance-plan/views/maintance-plan.component').then(m => m.MaintancePlanComponent);
+const MaintenancePlanDetailComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-detail/maintenance-plan-detail.component').then(m => m.MaintenancePlanDetailComponent);
+const MaintenancePlanCreateComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create/maintenance-plan-create.component').then(m => m.MaintenancePlanCreateComponent);
+const MaintenancePlanCreateSelectComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-select/maintenance-plan-create-select.component').then(m => m.MaintenancePlanCreateSelectComponent);
+const MaintenancePlanCreateDynamicComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-dynamic/maintenance-plan-create-dynamic.component').then(m => m.MaintenancePlanCreateDynamicComponent);
 
 
 export const routes: Routes = [
@@ -14,7 +19,17 @@ export const routes: Routes = [
     { path: 'activos/plantas',   component: PlantsAssetViewComponent },
     { path: 'activos/lineas-produccion',   loadComponent: ProductionLinesAssetViewComponent },
     { path: 'activos/maquinarias',   loadComponent: MachineryAssetViewComponent },
+    { 
+        path: 'plan-mantenimiento',
+        children: [
+            { path: '', loadComponent: MaintancePlanComponent },
+            { path: 'detalle/:id', loadComponent: MaintenancePlanDetailComponent },
+            { path: 'crear', loadComponent: MaintenancePlanCreateSelectComponent },
+            { path: 'crear-estatico', loadComponent: MaintenancePlanCreateComponent },
+            { path: 'crear-dinamico', loadComponent: MaintenancePlanCreateDynamicComponent },
+            { path: 'editar/:id', loadComponent: MaintenancePlanCreateComponent }
+        ]
+    },
     { path: '**',              loadComponent: PageNotFoundComponent },
-
 ];
 
