@@ -237,5 +237,355 @@
       "name": "Production Cycles",
       "unit": "cycles"
     }
+  ],
+  "maintenance-plan-data": [
+    {
+      "planId": 1,
+      "productionLineId": 2,
+      "startDate": "2025-05-13T23:41:36.137Z",
+      "durationDays": 3,
+      "userCreator": 1,
+      "items": [
+        {
+          "dayNumber": 1,
+          "tasks": [
+            {
+              "taskId": 1,
+              "taskName": "Verificación de niveles",
+              "taskDescription": "Revisar niveles de aceite",
+              "machineIds": [
+                1,
+                2
+              ]
+            },
+            {
+              "taskId": 2,
+              "taskName": "Limpieza general",
+              "taskDescription": "Limpiar los filtros",
+              "machineIds": [
+                3
+              ]
+            }
+          ]
+        },
+        {
+          "dayNumber": 2,
+          "tasks": [
+            {
+              "taskId": 3,
+              "taskName": "Chequeo de seguridad",
+              "taskDescription": "Revisar los sistemas de seguridad",
+              "machineIds": [
+                2,
+                4
+              ]
+            }
+          ]
+        },
+        {
+          "dayNumber": 3,
+          "tasks": [
+            {
+              "taskId": 4,
+              "taskName": "Inspección de equipos",
+              "taskDescription": "Inspeccionar la maquinaria de la línea",
+              "machineIds": [
+                1,
+                4
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "planId": 2,
+      "productionLineId": 2,
+      "startDate": "2025-05-14T00:01:31.515Z",
+      "durationDays": 1,
+      "userCreator": 1,
+      "items": [
+        {
+          "dayNumber": 1,
+          "tasks": [
+            {
+              "taskId": 1,
+              "taskName": "232",
+              "taskDescription": "sas",
+              "machineIds": [
+                202
+              ]
+            }
+          ]
+        }
+      ],
+      "id": 2
+    },
+    {
+      "planId": 3,
+      "productionLineId": 2,
+      "startDate": "2025-05-14T00:02:22.110Z",
+      "durationDays": 3,
+      "userCreator": 1,
+      "items": [
+        {
+          "dayNumber": 1,
+          "tasks": [
+            {
+              "taskId": 1,
+              "taskName": "qew",
+              "taskDescription": "qwe",
+              "machineIds": [
+                103,
+                201
+              ]
+            }
+          ]
+        }
+      ],
+      "id": 3
+    },
+    {
+      "planId": 4,
+      "productionLineId": 2,
+      "startDate": "2025-05-14T00:15:09.280Z",
+      "durationDays": 2,
+      "userCreator": 1,
+      "items": [
+        {
+          "dayNumber": 1,
+          "tasks": [
+            {
+              "taskId": 1,
+              "taskName": "tarea 1",
+              "taskDescription": "mimi tarea",
+              "machineIds": [
+                101,
+                102
+              ]
+            }
+          ]
+        },
+        {
+          "dayNumber": 2,
+          "tasks": [
+            {
+              "taskId": 2,
+              "taskName": "tarea 2",
+              "taskDescription": "mimi tarea 2",
+              "machineIds": [
+                202
+              ]
+            }
+          ]
+        }
+      ],
+      "id": 4
+    },
+    {
+      "planId": 5,
+      "productionLineId": 2,
+      "startDate": "2025-05-14T01:32:01.244Z",
+      "durationDays": 1,
+      "userCreator": 1,
+      "items": [
+        {
+          "dayNumber": 1,
+          "tasks": [
+            {
+              "taskId": 1,
+              "taskName": "limpiar",
+              "taskDescription": "dd",
+              "machineIds": [
+                102
+              ]
+            }
+          ]
+        }
+      ],
+      "id": 5
+    },
+    {
+      "planId": 6,
+      "productionLineId": 2,
+      "startDate": "2025-05-14T03:08:27.672Z",
+      "durationDays": 2,
+      "userCreator": 1,
+      "items": [
+        {
+          "dayNumber": 1,
+          "tasks": [
+            {
+              "taskId": 1,
+              "taskName": "Tarea aparece plis",
+              "taskDescription": "aparece porfa",
+              "machineIds": [
+                102,
+                202
+              ]
+            }
+          ]
+        },
+        {
+          "dayNumber": 2,
+          "tasks": [
+            {
+              "taskId": 2,
+              "taskName": "tareita",
+              "taskDescription": "ojito",
+              "machineIds": [
+                101,
+                102
+              ]
+            }
+          ]
+        }
+      ],
+      "id": 6
+    }
+  ],
+  "maintenance-dynamic-plans": [
+    {
+      "dynamicPlanId": 1,
+      "userCreator": 1,
+      "parameter": "Parametro",
+      "startDate": "2025-05-14T03:17:49.670Z",
+      "machineIds": [
+        102,
+        103
+      ],
+      "tasks": [
+        {
+          "taskId": 1,
+          "taskName": "Trrea",
+          "taskDescription": "sdds",
+          "machineIds": [
+            202
+          ]
+        }
+      ],
+      "id": 1
+    },
+    {
+      "dynamicPlanId": 2,
+      "userCreator": 1,
+      "parameter": "nuevo",
+      "startDate": "2025-05-14T03:28:32.882Z",
+      "machineIds": [
+        102
+      ],
+      "tasks": [
+        {
+          "taskId": 1,
+          "taskName": "rr",
+          "taskDescription": "rr",
+          "machineIds": [
+            202
+          ]
+        },
+        {
+          "taskId": 2,
+          "taskName": "rr2",
+          "taskDescription": "ee",
+          "machineIds": [
+            102
+          ]
+        }
+      ],
+      "id": 2
+    },
+    {
+      "dynamicPlanId": 3,
+      "userCreator": 1,
+      "parameter": "ee",
+      "startDate": "2025-05-14T03:29:11.220Z",
+      "machineIds": [
+        103,
+        201
+      ],
+      "tasks": [
+        {
+          "taskId": 1,
+          "taskName": "ee",
+          "taskDescription": "ee",
+          "machineIds": [
+            103,
+            201
+          ]
+        }
+      ],
+      "id": 3
+    },
+    {
+      "dynamicPlanId": 4,
+      "userCreator": 1,
+      "parameter": "wwe",
+      "startDate": "2025-05-14T03:29:37.176Z",
+      "machineIds": [
+        101
+      ],
+      "tasks": [
+        {
+          "taskId": 1,
+          "taskName": "wer",
+          "taskDescription": "wre",
+          "machineIds": [
+            103,
+            202
+          ]
+        }
+      ],
+      "id": 4
+    },
+    {
+      "dynamicPlanId": 5,
+      "userCreator": 1,
+      "parameter": "asd",
+      "startDate": "2025-05-14T03:50:28.150Z",
+      "machineIds": [
+        201
+      ],
+      "tasks": [
+        {
+          "taskId": 1,
+          "taskName": " iiasd",
+          "taskDescription": "23",
+          "machineIds": [
+            201
+          ]
+        }
+      ],
+      "id": 5
+    },
+    {
+      "dynamicPlanId": 6,
+      "userCreator": 1,
+      "parameter": "Nuevo",
+      "startDate": "2025-05-14T03:51:28.647Z",
+      "machineIds": [
+        101,
+        102,
+        103,
+        201,
+        202
+      ],
+      "tasks": [
+        {
+          "taskId": 1,
+          "taskName": "gg",
+          "taskDescription": "gg",
+          "machineIds": [
+            101,
+            102,
+            103,
+            201,
+            202
+          ]
+        }
+      ],
+      "id": 6
+    }
   ]
+  
+
 }
