@@ -1,0 +1,107 @@
+<div class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>{{ isEdit ? 'Editar Repuesto' : 'Nuevo Repuesto' }}</h2>
+            <button class="close-button" (click)="handleCancel()">×</button>
+        </div>
+
+        <div class="modal-content">
+            <form (ngSubmit)="handleSubmit()" #form="ngForm" class="form-container">
+                <div class="form-group">
+                    <label for="code">Código</label>
+                    <input
+                        id="code"
+                        [(ngModel)]="formData.code"
+                        name="code"
+                        type="text"
+                        required
+                        [disabled]="isEdit"
+                        placeholder="Ingrese el código"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="name">Nombre</label>
+                    <input
+                        id="name"
+                        [(ngModel)]="formData.name"
+                        name="name"
+                        type="text"
+                        required
+                        [disabled]="isEdit"
+                        placeholder="Ingrese el nombre"
+                    />
+                </div>
+                <div class="form-group">
+                    <label for="description">Descripción</label>
+                    <textarea
+                        id="description"
+                        [(ngModel)]="formData.description"
+                        name="description"
+                        rows="3"
+                        placeholder="Ingrese la descripción"
+                    ></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="currentStock">Stock Actual</label>
+                        <input
+                            id="currentStock"
+                            [(ngModel)]="formData.current_stock"
+                            name="currentStock"
+                            type="number"
+                            required
+                            min="0"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="minStock">Stock Mínimo</label>
+                        <input
+                            id="minStock"
+                            [(ngModel)]="formData.min_stock"
+                            name="minStock"
+                            type="number"
+                            required
+                            min="0"
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="unitPrice">Precio Unitario</label>
+                    <input
+                        id="unit_price"
+                        [(ngModel)]="formData.unit_price"
+                        name="unit_price"
+                        type="number"
+                        required
+                        min="0"
+                        step="0.01"
+                    />
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <app-button
+                variant="outline"
+                (clicked)="handleCancel()"
+            >
+                Cancelar
+            </app-button>
+            <app-button
+                *ngIf="isEdit"
+                variant="danger"
+                (clicked)="handleDelete()"
+                style="background-color: var(--clr-danger);"
+            >
+                Eliminar
+            </app-button>
+            <app-button
+                variant="primary"
+                (clicked)="handleSubmit()"
+                [disabled]="!form.valid"
+            >
+                {{ isEdit ? 'Guardar Cambios' : 'Crear' }}
+            </app-button>
+        </div>
+    </div>
+</div>

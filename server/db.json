@@ -19,7 +19,7 @@
           "description": "This is the primary assembly line responsible for manufacturing large machinery.",
           "created_at": "2025-05-01T08:00:00Z",
           "updated_at": "2025-05-10T08:00:00Z",
-          "machineries": [1]  
+          "machineries": [1]
         },
         {
           "id": 2,
@@ -30,7 +30,7 @@
           "description": "This line handles the final packaging of the manufactured machinery parts.",
           "created_at": "2025-03-15T08:00:00Z",
           "updated_at": "2025-04-20T08:00:00Z",
-          "machineries": [2]  
+          "machineries": [2]
         }
       ]
     },
@@ -193,6 +193,52 @@
       "id": 3,
       "name": "Production Cycles",
       "unit": "cycles"
+    }
+  ],
+  "inventory-parts": [
+    {
+      "id": 3,
+      "code": "560239",
+      "name": "asd",
+      "description": "ABC",
+      "current_stock": 3,
+      "min_stock": 7,
+      "unit_price": 12,
+      "stock_status": "LOW",
+      "last_restock": "2025-05-14T04:55:05.092Z"
+    },
+    {
+      "code": "12312",
+      "name": "124135",
+      "description": "aedvgb",
+      "current_stock": 6,
+      "min_stock": 2,
+      "unit_price": 15,
+      "stock_status": "OK",
+      "last_restock": "2025-05-14T04:55:43.703Z",
+      "id": 4
+    }
+  ],
+  "purchase-orders": [
+    {
+      "id": 1,
+      "inventory_part_id": 1,
+      "quantity": 10,
+      "price": 10,
+      "order_date": "2021-01-01",
+      "received_date": "2021-01-02",
+      "status": "PENDING",
+      "user_id": 1
+    },
+    {
+      "id": 2,
+      "inventory_part_id": 2,
+      "quantity": 20,
+      "price": 20,
+      "order_date": "2021-01-01",
+      "received_date": "2021-01-02",
+      "status": "PENDING",
+      "user_id": 2
     }
   ]
 
