@@ -102,6 +102,15 @@
           "updated_at": "2025-04-20"
         }
       ]
+    },
+    {
+      "name": "Nueva",
+      "plant_id": 1,
+      "capacity": 10,
+      "status": 1,
+      "description": "Es esta niam",
+      "machineries": [],
+      "id": 3
     }
   ],
   "machineries": [
@@ -586,6 +595,4 @@
       "id": 6
     }
   ]
-  
-
 }

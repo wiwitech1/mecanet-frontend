@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { PlantsAssetViewComponent } from './features/asset-management/views/plants-asset-view/plants-asset-view.component';
+import { ProductionLineViewComponent } from './features/asset-management/views/production-line-view/production-line-view.component';
 const PageNotFoundComponent = () => import('./public/pages/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent);
 const ComponentsDemoComponent = (): Promise<any> => import('./shared/views/components-demo/components-demo.component').then(m => m.ComponentsDemoComponent);
 const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
@@ -17,7 +18,7 @@ export const routes: Routes = [
     { path: 'news',            loadComponent: NewsViewComponent },
     { path: '',                redirectTo: '/components-demo', pathMatch: 'full' },
     { path: 'activos/plantas',   component: PlantsAssetViewComponent },
-    { path: 'activos/lineas-produccion',   loadComponent: ProductionLinesAssetViewComponent },
+    { path: 'activos/lineas-produccion',   component: ProductionLineViewComponent },
     { path: 'activos/maquinarias',   loadComponent: MachineryAssetViewComponent },
     { 
         path: 'plan-mantenimiento',
