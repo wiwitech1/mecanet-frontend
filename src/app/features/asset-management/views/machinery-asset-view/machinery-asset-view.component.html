@@ -7,13 +7,53 @@
     
     <main class="main-container">
         <div class="search-container">
-            <app-search/>
+            <div class="search-actions">
+                <app-search 
+                  [placeholder]="'Buscar'"
+                  [newLabel]="'Nueva Máquina'"
+                  [actionFunction]="newMachineAction">
+                </app-search>
+            </div>
             <div class="table-container">
-                <app-record-table/>
+                <app-record-table
+                  [columns]="columns"
+                  [data]="machines"
+                  (ctaClick)="onCtaClick($event)">
+                </app-record-table>
             </div>
         </div>
         <div class="information-panel-container">
-            <app-information-panel/>
+            <app-information-panel
+              [headerText]="'ID: ' + selectedMachineId + ' | MODELO: ' + selectedMachine?.modelo"
+              [showHeader]="true"
+              [showPrimaryButton]="true"
+              [primaryButtonText]="'Editar'"
+              [showSecondaryButton]="true"
+              [secondaryButtonText]="'Desactivar'">
+              
+              <app-info-section 
+                [infoType]="2" 
+                [data]="infoData">
+              </app-info-section>
+              
+              <app-info-container 
+                [title]="'Especificaciones técnicas:'" 
+                [titleType]="2">
+                <app-info-section 
+                  [infoType]="2"
+                  [data]="techData">
+                </app-info-section>
+              </app-info-container>
+              
+              <app-info-container 
+                [title]="'Historial de mantenimiento'" 
+                [titleType]="2">
+                <app-info-list-items 
+                  [type]="'maintenance'" 
+                  [items]="maintenanceItems">
+                </app-info-list-items>
+              </app-info-container>
+            </app-information-panel>
         </div>
     </main>
 

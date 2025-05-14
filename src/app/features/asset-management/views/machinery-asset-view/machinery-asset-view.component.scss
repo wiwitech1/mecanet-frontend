@@ -30,29 +30,50 @@
 }
 
 .table-container {
-    padding: 1.2em 1em;
+    padding: 1em;
     border: 1px solid var(--clr-shadow);
     border-radius: var(--radius-md);
-    background: var(--clr-surface);
-    box-shadow: 0 2px 8px 0 var(--clr-shadow);
     height: 100%;
     min-width: 0;
+    overflow: hidden;
     transition: box-shadow 0.3s, border 0.3s;
 }
 
 .information-panel-container {
     width: 28%;
-    border: 1px solid var(--clr-shadow);
     border-radius: var(--radius-md);
-    background: var(--clr-surface);
-    box-shadow: 0 2px 8px 0 var(--clr-shadow);
     height: 100%;
-    padding: 1.2em 1em;
     transition: box-shadow 0.3s, border 0.3s, width 0.3s;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    overflow: hidden;
 }
+
+/* Estilos para la tabla */
+/* ::ng-deep .table-container {
+    .record-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .record-table th {
+        background-color: var(--clr-primary-400);
+        color: white;
+        padding: 1em;
+        text-align: left;
+    }
+    
+    .record-table tr:hover {
+        background-color: var(--clr-primary-100);
+        cursor: pointer;
+    }
+    
+    .record-table td {
+        padding: 1em;
+        border-bottom: 1px solid var(--clr-shadow);
+    }
+} */
 
 /* Tablet: apila los paneles, ajusta paddings y gaps */
 @media (max-width: 1024px) {
@@ -88,7 +109,6 @@
     }
     .table-container,
     .information-panel-container {
-        padding: 0.7em 0.3em;
         border-radius: 12px;
         box-shadow: 0 1px 4px 0 var(--clr-shadow);
     }
