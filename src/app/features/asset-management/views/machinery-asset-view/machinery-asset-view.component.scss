@@ -1,40 +1,98 @@
 .container {
     height: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background: var(--clr-bg);
+    transition: background 0.3s;
 }
 
 .breadcrumb-header {
-    margin-bottom: 1em;
+    margin-bottom: 2em;
 }
 
 .main-container {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    gap:2em;
-    min-height: 95%;
+    gap: 2.5em;
+    min-height: 80vh;
+    width: 100%;
+    transition: gap 0.3s;
 }
 
 .search-container {
     display: flex;
     flex-direction: column;
     gap: 2em;
-    width: 75%;
+    width: 72%;
     height: 100%;
+    transition: width 0.3s;
 }
 
 .table-container {
-    padding: .5em;
-    border: 1px solid #e0e0e086;
-    border-radius: 5px;
+    padding: 1.2em 1em;
+    border: 1px solid var(--clr-shadow);
+    border-radius: var(--radius-md);
+    background: var(--clr-surface);
+    box-shadow: 0 2px 8px 0 var(--clr-shadow);
     height: 100%;
-
+    min-width: 0;
+    transition: box-shadow 0.3s, border 0.3s;
 }
 
 .information-panel-container {
-    width: 25%;
-    border: 1px solid #e0e0e086;
-    border-radius: 5px;
+    width: 28%;
+    border: 1px solid var(--clr-shadow);
+    border-radius: var(--radius-md);
+    background: var(--clr-surface);
+    box-shadow: 0 2px 8px 0 var(--clr-shadow);
     height: 100%;
-    padding: 1em;
+    padding: 1.2em 1em;
+    transition: box-shadow 0.3s, border 0.3s, width 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
 
+/* Tablet: apila los paneles, ajusta paddings y gaps */
+@media (max-width: 1024px) {
+    .main-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5em;
+        min-height: unset;
+    }
+    .search-container,
+    .information-panel-container {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    .information-panel-container {
+        margin-top: 0.5em;
+        height: auto;
+    }
+}
+
+/* Móvil: reduce paddings, bordes y fuentes para máxima claridad */
+@media (max-width: 600px) {
+    .container {
+        padding: 1em 0.2em;
+    }
+    .breadcrumb-header {
+        margin-bottom: 1em;
+    }
+    .main-container {
+        gap: 1em;
+    }
+    .table-container,
+    .information-panel-container {
+        padding: 0.7em 0.3em;
+        border-radius: 12px;
+        box-shadow: 0 1px 4px 0 var(--clr-shadow);
+    }
+    .information-panel-container {
+        margin-top: 0.5em;
+    }
 }
