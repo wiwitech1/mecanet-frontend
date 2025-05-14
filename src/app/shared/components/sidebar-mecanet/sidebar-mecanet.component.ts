@@ -113,6 +113,11 @@ export class SidebarMecanetComponent {
       route: '/configuracion',
       roles: ['admin'],
     },
+    {
+      title: 'Demo',
+      icon: 'settings',
+      route: '/components-demo',
+    },
   ];
   
   // Usuario actual (simulado)
