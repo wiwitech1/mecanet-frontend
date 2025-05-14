@@ -1,0 +1,40 @@
+.container {
+    height: 100%;
+}
+
+.breadcrumb-header {
+    margin-bottom: 1em;
+}
+
+.main-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap:2em;
+    min-height: 95%;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    width: 75%;
+    height: 100%;
+}
+
+.table-container {
+    padding: .5em;
+    border: 1px solid #e0e0e086;
+    border-radius: 5px;
+    height: 100%;
+
+}
+
+.information-panel-container {
+    width: 25%;
+    border: 1px solid #e0e0e086;
+    border-radius: 5px;
+    height: 100%;
+    padding: 1em;
+
+}
