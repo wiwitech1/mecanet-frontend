@@ -19,7 +19,9 @@
           "description": "This is the primary assembly line responsible for manufacturing large machinery.",
           "created_at": "2025-05-01T08:00:00Z",
           "updated_at": "2025-05-10T08:00:00Z",
-          "machineries": [1]  
+          "machineries": [
+            1
+          ]
         },
         {
           "id": 2,
@@ -30,7 +32,9 @@
           "description": "This line handles the final packaging of the manufactured machinery parts.",
           "created_at": "2025-03-15T08:00:00Z",
           "updated_at": "2025-04-20T08:00:00Z",
-          "machineries": [2]  
+          "machineries": [
+            2
+          ]
         }
       ]
     },
@@ -176,6 +180,45 @@
           "last_updated": "2025-03-15T08:00:00Z"
         }
       ]
+    },
+    {
+      "name": "Maquina x",
+      "model": "XD",
+      "brand": "efe",
+      "serial_number": "32r42",
+      "production_capacity": 1,
+      "recommendations": "10",
+      "status": 0,
+      "user_creator": 1,
+      "measurements": [
+        {
+          "name": "Kilómetros",
+          "unit": "km",
+          "value": 0,
+          "last_updated": "2025-05-14T06:53:05.345Z"
+        }
+      ],
+      "id": 3,
+      "user_updater": 1
+    },
+    {
+      "name": "BUeno",
+      "model": "weoifn",
+      "brand": "si",
+      "serial_number": "no",
+      "production_capacity": 13,
+      "recommendations": "10",
+      "status": 1,
+      "user_creator": 1,
+      "measurements": [
+        {
+          "name": "hola",
+          "unit": "gm",
+          "value": 0,
+          "last_updated": "2025-05-14T06:57:32.502Z"
+        }
+      ],
+      "id": 4
     }
   ],
   "measurements": [
@@ -195,5 +238,4 @@
       "unit": "cycles"
     }
   ]
-
 }
