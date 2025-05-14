@@ -15,7 +15,9 @@ export class ProductionLineAssembler {
    * @param resource El recurso recibido de la API
    * @returns La entidad de línea de producción
    */
-  static resourceToEntity(resource: ProductionLineResource): ProductionLineEntity {
+  public static resourceToEntity(resource: any): ProductionLineEntity {
+    if (!resource) return null as any;
+    
     return {
       id: resource.id,
       plantId: resource.plant_id,
@@ -69,6 +71,16 @@ export class ProductionLineAssembler {
       status: entity.status,
       description: entity.description,
       machineries: entity.machineries?.map(m => m.id)
+    };
+  }
+
+  public static entityToResource(entity: ProductionLineEntity): any {
+    if (!entity) return null;
+    
+    return {
+      id: entity.id,
+      name: entity.name,
+      // ... resto de propiedades
     };
   }
 }

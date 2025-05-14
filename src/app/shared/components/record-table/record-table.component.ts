@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -7,9 +7,10 @@ import { ButtonComponent, ButtonVariant } from '../button/button.component';
 export interface RecordTableColumn {
   key: string;
   label: string;
-  type: 'texto' | 'numero' | 'informacion' | 'cta';
+  type: 'texto' | 'numero' | 'informacion' | 'cta' | 'template';
   ctaLabel?: string;
   ctaVariant?: ButtonVariant;
+  templateRef?: TemplateRef<any> | null;
 }
 
 @Component({

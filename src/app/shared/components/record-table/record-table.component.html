@@ -13,6 +13,9 @@
           <ng-container [ngSwitch]="col.type">
             <ng-container *ngSwitchCase="'texto'">{{ row[col.key] }}</ng-container>
             <ng-container *ngSwitchCase="'numero'">{{ row[col.key] }}</ng-container>
+            <ng-container *ngSwitchCase="'template'">
+              <ng-container *ngTemplateOutlet="col.templateRef; context: {$implicit: row}"></ng-container>
+            </ng-container>
             <ng-container *ngSwitchCase="'informacion'">
               <mat-icon class="info-icon" matTooltip="{{ row[col.key] }}">info</mat-icon>
             </ng-container>

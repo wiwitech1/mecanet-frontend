@@ -36,4 +36,13 @@ export class SearchComponent {
   onActionClick() {
     this.actionFunction();
   }
+
+  onSearch(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.search.emit(value);
+  }
+
+  onNewClick(): void {
+    this.actionFunction();
+  }
 }
