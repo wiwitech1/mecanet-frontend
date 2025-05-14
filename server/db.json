@@ -195,50 +195,72 @@
       "unit": "cycles"
     }
   ],
-  "inventory-parts": [
+ "inventory-parts": [
     {
-      "id": 3,
-      "code": "560239",
-      "name": "asd",
-      "description": "ABC",
-      "current_stock": 3,
-      "min_stock": 7,
-      "unit_price": 12,
-      "stock_status": "LOW",
-      "last_restock": "2025-05-14T04:55:05.092Z"
+      "id": 1,
+      "code": "RPT-2024-001",
+      "name": "Filtro de Aceite Industrial",
+      "description": "Filtro de aceite de alta resistencia para maquinaria pesada",
+      "current_stock": 15,
+      "min_stock": 10,
+      "unit_price": 89.99,
+      "stock_status": "OK",
+      "last_restock": "2024-03-15T10:30:00.000Z"
     },
     {
-      "code": "12312",
-      "name": "124135",
-      "description": "aedvgb",
-      "current_stock": 6,
-      "min_stock": 2,
-      "unit_price": 15,
-      "stock_status": "OK",
-      "last_restock": "2025-05-14T04:55:43.703Z",
-      "id": 4
+      "id": 2,
+      "code": "RPT-2024-002",
+      "name": "Correa de Distribución Premium",
+      "description": "Correa de distribución reforzada para motores industriales",
+      "current_stock": 8,
+      "min_stock": 12,
+      "unit_price": 145.50,
+      "stock_status": "LOW",
+      "last_restock": "2024-02-28T14:15:00.000Z"
     }
   ],
   "purchase-orders": [
     {
-      "id": 1,
+      "id": "OC-2024-001",
       "inventory_part_id": 1,
-      "quantity": 10,
-      "price": 10,
-      "order_date": "2021-01-01",
-      "received_date": "2021-01-02",
+      "quantity": 25,
+      "price": 89.99,
+      "order_date": "2024-03-18T09:00:00.000Z",
+      "received_date": null,
       "status": "PENDING",
-      "user_id": 1
+      "supplier": "Industrial Parts Co.",
+      "user_id": "USR-001",
+      "total_amount": 2249.75,
+      "notes": "Pedido urgente para reposición de stock",
+      "estimated_delivery": "2024-03-25T09:00:00.000Z"
     },
     {
-      "id": 2,
+      "id": "OC-2024-002",
       "inventory_part_id": 2,
-      "quantity": 20,
-      "price": 20,
-      "order_date": "2021-01-01",
-      "received_date": "2021-01-02",
-      "status": "PENDING",
-      "user_id": 2
+      "quantity": 30,
+      "price": 145.50,
+      "order_date": "2024-03-17T11:30:00.000Z",
+      "received_date": "2024-03-18T14:00:00.000Z",
+      "status": "RECEIVED",
+      "supplier": "MecaParts Solutions",
+      "user_id": "USR-002",
+      "total_amount": 4365.00,
+      "notes": "Reposición programada mensual",
+      "estimated_delivery": "2024-03-24T11:30:00.000Z"
+    },
+    {
+      "id": "OC-2024-003",
+      "inventory_part_id": 1,
+      "quantity": 15,
+      "price": 92.99,
+      "order_date": "2024-03-16T15:45:00.000Z",
+      "received_date": null,
+      "status": "APPROVED",
+      "supplier": "Industrial Parts Co.",
+      "user_id": "USR-001",
+      "total_amount": 1394.85,
+      "notes": "Pedido especial con precio negociado",
+      "estimated_delivery": "2024-03-23T15:45:00.000Z"
     }
   ]
 
