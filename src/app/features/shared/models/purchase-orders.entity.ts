@@ -1,5 +1,7 @@
+import { InventoryPartEntity } from './inventory-part.entity';
+
 export class PurchaseOrderEntity {
-  id!: number;
+  id!: number | string;
   orderNumber!: string;
   supplier!: string;
   status!: string;
@@ -7,7 +9,8 @@ export class PurchaseOrderEntity {
   expectedDate!: string;
   totalAmount!: number;
   notes?: string;
-  inventoryPartId?: number;
+  inventoryPartId!: number;
+  inventoryPart?: InventoryPartEntity;
   quantity?: number;
   price?: number;
   receivedDate?: string;
@@ -36,7 +39,7 @@ export class PurchaseOrderEntity {
       this.expectedDate = expected_date;
       this.totalAmount = total_amount;
       this.notes = notes;
-      this.inventoryPartId = inventory_part_id;
+      this.inventoryPartId = Number(inventory_part_id);
       this.quantity = quantity;
       this.price = price;
       this.receivedDate = received_date;

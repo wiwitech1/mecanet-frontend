@@ -1,5 +1,5 @@
-import { PurchaseOrderResponse, PurchaseOrderResource } from "./purchase-orders.response.js";
-import { PurchaseOrderEntity } from "../models/purchase-orders.entity.js";
+import { PurchaseOrderResponse, PurchaseOrderResource } from "./purchase-orders.response";
+import { PurchaseOrderEntity } from "../models/purchase-orders.entity";
 
 export class PurchaseOrderAssembler {
     static toEntitiesFromResponse(response: PurchaseOrderResponse) {

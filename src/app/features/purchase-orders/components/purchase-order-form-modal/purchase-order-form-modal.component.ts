@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { PurchaseOrderEntity } from '../../../shared/models/purchase-orders.entity';
+import { InventoryPartEntitysApiService } from '../../../inventory-parts/services/inventory-parts-api.service';
+import { InventoryPartEntity } from '../../../shared/models/inventory-part.entity';
 
 @Component({
   selector: 'app-purchase-order-form-modal',
@@ -13,23 +15,14 @@ import { PurchaseOrderEntity } from '../../../shared/models/purchase-orders.enti
 })
 export class PurchaseOrderFormModalComponent implements OnInit {
   @Input() isEdit = false;
-  @Input() set orderData(data: Partial<PurchaseOrderEntity> | null) {
-    if (data) {
-      this.formData = {
-        orderNumber: data.orderNumber || '',
-        supplier: data.supplier || '',
-        status: data.status || 'PENDING',
-        orderDate: data.orderDate || new Date().toISOString().split('T')[0],
-        expectedDate: data.expectedDate || '',
-        totalAmount: data.totalAmount || 0,
-        notes: data.notes || ''
-      };
-    }
-  }
+  @Input() orderData: Partial<PurchaseOrderEntity> | null = null;
+  private originalData: Partial<PurchaseOrderEntity> | null = null;
 
   @Output() submit = new EventEmitter<Partial<PurchaseOrderEntity>>();
-  @Output() delete = new EventEmitter<number>();
+  @Output() delete = new EventEmitter<number | string>();
   @Output() cancel = new EventEmitter<void>();
+
+  inventoryParts: InventoryPartEntity[] = [];
 
   formData: Partial<PurchaseOrderEntity> = {
     orderNumber: '',
@@ -38,26 +31,55 @@ export class PurchaseOrderFormModalComponent implements OnInit {
     orderDate: new Date().toISOString().split('T')[0],
     expectedDate: '',
     totalAmount: 0,
+    inventoryPartId: undefined,
+    quantity: 1,
+    price: 0,
     notes: ''
   };
 
   statusOptions = [
     { value: 'PENDING', label: 'Pendiente' },
-    { value: 'COMPLETED', label: 'Completada' },
+    { value: 'APPROVED', label: 'Aprobada' },
+    { value: 'RECEIVED', label: 'Recibida' },
     { value: 'CANCELLED', label: 'Cancelada' }
   ];
 
-  ngOnInit() {
-    if (this.isEdit && this.orderData) {
-      this.formData = { ...this.formData };
+  constructor(private inventoryPartsService: InventoryPartEntitysApiService) {}
+
+  async ngOnInit() {
+    // Cargar todos los repuestos disponibles
+    try {
+      this.inventoryParts = await this.inventoryPartsService.getParts();
+    } catch (error) {
+      console.error('Error al cargar repuestos:', error);
+    }
+
+    if (this.orderData) {
+      this.originalData = this.orderData;
+      this.formData = {
+        ...this.formData,
+        ...this.orderData
+      };
+    }
+  }
+
+  // Calcular automáticamente el monto total
+  updateTotalAmount() {
+    if (this.formData.quantity && this.formData.price) {
+      this.formData.totalAmount = this.formData.quantity * this.formData.price;
     }
   }
 
   handleSubmit() {
-    this.submit.emit({
+    const formDataForBackend = {
       ...this.formData,
-      id: (this.orderData as any)?.id
-    });
+      id: this.originalData?.id,
+      inventory_part_id: this.formData.inventoryPartId,
+      order_date: this.formData.orderDate,
+      expected_date: this.formData.expectedDate
+    } as any; // Usar 'as any' para evitar errores de tipo
+
+    this.submit.emit(formDataForBackend);
   }
 
   handleCancel() {
@@ -66,7 +88,9 @@ export class PurchaseOrderFormModalComponent implements OnInit {
 
   handleDelete() {
     if (confirm('¿Está seguro de eliminar esta orden de compra?')) {
-      this.delete.emit((this.orderData as any)?.id);
+      if (this.originalData?.id) {
+        this.delete.emit(this.originalData.id);
+      }
     }
   }
 }
