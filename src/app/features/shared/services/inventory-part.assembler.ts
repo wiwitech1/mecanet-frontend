@@ -1,6 +1,6 @@
-
 import { InventoryPartResponse, InventoryPartResource } from "./inventory-parts.response";
 import { InventoryPartEntity } from "../models/inventory-part.entity";
+
 export class InventoryPartAssembler {
     static toEntitiesFromResponse(response: InventoryPartResponse): InventoryPartEntity[] {
         if (!response.data) {
@@ -10,6 +10,7 @@ export class InventoryPartAssembler {
         const inventoryPartResponse = new InventoryPartResponse(response.data);
         return inventoryPartResponse.data.map(part => this.toEntityFromResource(part));
     }
+
     static toEntityFromResource(resource: InventoryPartResource): InventoryPartEntity {
         if (!resource) {
             throw new Error('Resource is undefined or null');
@@ -27,6 +28,7 @@ export class InventoryPartAssembler {
             last_restock: resource.last_restock || new Date().toISOString()
         });
     }
+
     static toResourceFromEntity(entity: InventoryPartEntity) {
         const now = new Date().toISOString();
         return {
@@ -41,11 +43,19 @@ export class InventoryPartAssembler {
             last_restock: entity.last_restock || now
         };
     }
+
     static calculateStockStatus(current: number, minimum: number) {
         if (!current || current === 0) return "OUT_OF_STOCK";
         if (current < minimum) return "LOW";
         if (current === minimum) return "MEDIUM";
         return "OK";
     }
+}
+
+export function calculateStockStatus(current: number, minimum: number): string {
+    if (!current || current === 0) return "OUT_OF_STOCK";
+    if (current < minimum) return "LOW";
+    if (current === minimum) return "MEDIUM";
+    return "OK";
 }
 

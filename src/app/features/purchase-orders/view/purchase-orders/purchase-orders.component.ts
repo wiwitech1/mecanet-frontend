@@ -10,6 +10,7 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 import { SearchComponent } from '../../../../shared/components/search/search.component';
 import { TitleViewComponent } from '../../../../shared/components/title-view/title-view.component';
 import { PurchaseOrderFormModalComponent } from '../../components/purchase-order-form-modal/purchase-order-form-modal.component';
+import { InventoryPartEntity } from '../../../shared/models/inventory-part.entity';
 
 interface TableColumn {
   key: string;
@@ -48,9 +49,9 @@ export class PurchaseOrdersComponent implements OnInit {
 
   columns: TableColumn[] = [
     { key: 'id', label: 'ID', type: 'texto' },
-    { key: 'inventoryPartId', label: 'ID Repuesto', type: 'texto' },
+    { key: 'inventory_part_id', label: 'Repuesto', type: 'texto' },
     { key: 'price', label: 'Precio', type: 'numero' },
-    { key: 'orderDate', label: 'Fecha Solicitada', type: 'texto' },
+    { key: 'order_date', label: 'Fecha Solicitada', type: 'texto' },
     { key: 'status', label: 'Estado', type: 'texto' },
     { key: 'actions', label: '', type: 'cta', ctaLabel: 'Detalles', ctaVariant: 'primary' }
   ];
@@ -74,6 +75,7 @@ export class PurchaseOrdersComponent implements OnInit {
 
   handleInfoClick(event: { row: any; column: any }) {
     const order = event.row as PurchaseOrderEntity;
+    console.log('Original order data:', order);
     this.selectedOrder = order;
     this.updateInfoPanel(order);
     this.showInfoPanel = true;
@@ -84,10 +86,10 @@ export class PurchaseOrdersComponent implements OnInit {
     this.selectedOrder = null;
   };
 
-  updateInfoPanel(order: PurchaseOrderEntity) {
+  updateInfoPanel(order: PurchaseOrderEntity & { inventoryPart?: InventoryPartEntity }) {
     this.infoData = [
       { subtitle: 'ID', info: order.id },
-      { subtitle: 'ID Repuesto', info: order.inventoryPartId },
+      { subtitle: 'Repuesto', info: order.inventoryPart?.name || 'No disponible' },
       { subtitle: 'Fecha Solicitada', info: order.orderDate }
     ];
 

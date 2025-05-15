@@ -201,13 +201,13 @@
   ],
   "inventory-parts": [
     {
-      "id": 1,
       "code": "RPT-2024-001",
       "name": "Filtro de Aceite Industrial",
       "description": "Filtro de aceite de alta resistencia para maquinaria pesada",
       "current_stock": 15,
-      "min_stock": 10,
+      "min_stock": 11,
       "unit_price": 89.99,
+      "id": 1,
       "stock_status": "OK",
       "last_restock": "2024-03-15T10:30:00.000Z"
     },
@@ -236,7 +236,7 @@
   "purchase-orders": [
     {
       "id": "OC-2024-001",
-      "inventory_part_id": 1,
+      "inventory_part_id": 15,
       "quantity": 25,
       "price": 89.99,
       "order_date": "2024-03-18T09:00:00.000Z",
@@ -250,7 +250,7 @@
     },
     {
       "id": "OC-2024-002",
-      "inventory_part_id": 2,
+      "inventory_part_id": 8,
       "quantity": 30,
       "price": 145.5,
       "order_date": "2024-03-17T11:30:00.000Z",
@@ -264,7 +264,7 @@
     },
     {
       "id": "OC-2024-003",
-      "inventory_part_id": 1,
+      "inventory_part_id": 10,
       "quantity": 15,
       "price": 92.99,
       "order_date": "2024-03-16T15:45:00.000Z",
@@ -275,6 +275,22 @@
       "total_amount": 1394.85,
       "notes": "Pedido especial con precio negociado",
       "estimated_delivery": "2024-03-23T15:45:00.000Z"
+    },
+    {
+      "orderNumber": "OC-2024-001",
+      "supplier": "Tec",
+      "status": "PENDING",
+      "orderDate": "2025-05-16",
+      "expectedDate": "2025-05-22",
+      "totalAmount": 15,
+      "inventoryPartId": 1,
+      "quantity": 1,
+      "price": 15,
+      "notes": "",
+      "inventory_part_id": 1,
+      "order_date": "2025-05-16",
+      "expected_date": "2025-05-22",
+      "id": "RLvnJz5"
     }
   ]
 }
