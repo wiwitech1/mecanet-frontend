@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LanguageSwitcherComponent } from '../../../public/components/language-switcher/language-switcher.component';
+import { ThemeToggleComponent } from '../../../public/components/theme-toggle/theme-toggle.component';
+import { UserService } from '../../../core/services/user.service';
+import { AuthService } from '../../../features/security/services/auth.service';
 
 interface MenuItem {
   title: string;
@@ -21,17 +25,17 @@ interface MenuItem {
   templateUrl: './sidebar-mecanet.component.html',
   styleUrls: ['./sidebar-mecanet.component.scss'],
   standalone: true,
-  imports: [MatIconModule, CommonModule, RouterModule],
+  imports: [MatIconModule, CommonModule, RouterModule, LanguageSwitcherComponent, ThemeToggleComponent],
 })
 export class SidebarMecanetComponent {
   isExpanded = false;
-  
+
   // Menú dinámico
   menuItems: MenuItem[] = [
     {
       title: 'Inicio',
       icon: 'home',
-      route: '/dashboard',
+      route: '/',
     },
     {
       title: 'Calendario',
@@ -66,15 +70,16 @@ export class SidebarMecanetComponent {
           icon: 'factory',
         },
         {
-          title: 'Maquinarias',
-          route: '/activos/maquinarias',
-          icon: 'precision_manufacturing',
-        },
-        {
           title: 'Líneas de Producción',
           route: '/activos/lineas-produccion',
           icon: 'account_tree',
         },
+        {
+          title: 'Maquinarias',
+          route: '/activos/maquinarias',
+          icon: 'precision_manufacturing',
+        },
+        
       ],
     },
     {
@@ -119,7 +124,7 @@ export class SidebarMecanetComponent {
       route: '/components-demo',
     },
   ];
-  
+
   // Usuario actual (simulado)
   currentUser = {
     name: 'Juan Pérez',
@@ -127,6 +132,8 @@ export class SidebarMecanetComponent {
     avatar: 'assets/images/avatar.jpg',
     route: '/perfil'
   };
+
+  constructor(private userService: UserService, private authService: AuthService) {}
 
   toggleSidebar() {
     this.isExpanded = !this.isExpanded;
@@ -139,23 +146,21 @@ export class SidebarMecanetComponent {
   collapseSidebar() {
     this.isExpanded = false;
   }
-  
+
   logout() {
-    // Aquí iría la lógica de cierre de sesión
-    console.log('Cerrando sesión...');
-    // Ejemplo: this.authService.logout();
+    this.authService.logout();
   }
-  
+
   // Método para verificar si el usuario tiene permisos para ver un item
   hasPermission(item: MenuItem): boolean {
     // Si no hay roles definidos, todos pueden ver
     if (!item.roles || item.roles.length === 0) {
       return true;
     }
-    
+
     // Simulación de verificación de roles (en una app real, verificarías con un servicio de autenticación)
     // Por ahora, asumimos que el usuario actual tiene rol 'admin'
-    const userRoles = ['admin']; 
+    const userRoles = ['admin'];
     return item.roles.some(role => userRoles.includes(role));
   }
 }

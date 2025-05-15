@@ -41,6 +41,31 @@
     </ul>
   </div>
   
+  <!-- Rediseño de la sección de personalización -->
+  <div class="customize-section">
+    <div class="separator">
+      <div class="line"></div>
+      <mat-icon *ngIf="isExpanded">settings</mat-icon>
+      <div class="line"></div>
+    </div>
+    
+    <div class="customize-controls" [class.expanded]="isExpanded">
+      <div class="control-wrapper">
+        <span class="control-label" *ngIf="isExpanded">Idioma</span>
+        <div class="control-item">
+          <app-language-switcher></app-language-switcher>
+        </div>
+      </div>
+      
+      <div class="control-wrapper">
+        <span class="control-label" *ngIf="isExpanded">Tema</span>
+        <div class="control-item">
+          <app-theme-toggle></app-theme-toggle>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <div class="sidebar-footer">
     <a [routerLink]="currentUser.route" routerLinkActive="active">
       <mat-icon>person</mat-icon>
