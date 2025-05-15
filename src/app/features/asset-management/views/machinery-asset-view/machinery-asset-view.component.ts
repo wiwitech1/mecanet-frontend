@@ -11,6 +11,7 @@ import { InfoContainerComponent } from '../../../../shared/components/informatio
 import { MachineryService } from '../../services/machinery.service';
 import { MachineryEntity, MachineryStatus } from '../../models/machinery.entity';
 import { finalize } from 'rxjs';
+import { InteractMachineryComponent } from '../../components/interact-machinery/interact-machinery.component';
 
 @Component({
   selector: 'app-machinery-asset-view',
@@ -23,7 +24,8 @@ import { finalize } from 'rxjs';
     TitleViewComponent,
     InfoSectionComponent,
     InfoListItemsComponent,
-    InfoContainerComponent
+    InfoContainerComponent,
+    InteractMachineryComponent
   ],
   templateUrl: './machinery-asset-view.component.html',
   styleUrl: './machinery-asset-view.component.scss',
@@ -36,13 +38,33 @@ import { finalize } from 'rxjs';
       transition(':leave', [
         animate('300ms ease-in', style({ transform: 'translateX(100%)', opacity: 0 }))
       ])
+    ]),
+    trigger('modalAnimation', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'scale(0.95)' }),
+        animate('200ms ease-out', style({ opacity: 1, transform: 'scale(1)' }))
+      ]),
+      transition(':leave', [
+        animate('150ms ease-in', style({ opacity: 0, transform: 'scale(0.95)' }))
+      ])
+    ]),
+    trigger('overlayAnimation', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('200ms ease-out', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('150ms ease-in', style({ opacity: 0 }))
+      ])
     ])
   ]
 })
 export class MachineryAssetViewComponent implements OnInit {
   selectedMachineId: number | null = null;
   selectedMachine: MachineryEntity | null = null;
-  showDetailPanel = false; // Nueva variable para controlar la visibilidad del panel
+  showDetailPanel = false;
+  showMachineryModal = false;
+  isEditMode = false;
   
   // Datos reales que vendrán del servicio
   machineries: MachineryEntity[] = [];
@@ -57,7 +79,7 @@ export class MachineryAssetViewComponent implements OnInit {
     { key: 'brand', label: 'Marca', type: 'texto' as 'texto' },
     { key: 'status', label: 'Estado', type: 'texto' as 'texto' },
     { key: 'lastMaintenance', label: 'Último mantenimiento', type: 'texto' as 'texto' },
-    { key: 'details', label: 'Detalles', type: 'cta' as 'cta', ctaLabel: 'Ver' } // Cambiado a tipo cta
+    { key: 'details', label: 'Detalles', type: 'cta' as 'cta', ctaLabel: 'Ver' }
   ];
   
   // Datos adaptados para la tabla
@@ -200,9 +222,110 @@ export class MachineryAssetViewComponent implements OnInit {
   
   // Para el botón Nueva Máquina
   newMachineAction = () => {
-    // Aquí iría la lógica para abrir un formulario/modal
-    console.log('Acción: Crear nueva máquina');
+    this.isEditMode = false;
+    this.showMachineryModal = true;
   };
+  
+  // Para editar maquinaria existente
+  editMachine() {
+    this.isEditMode = true;
+    this.showMachineryModal = true;
+  }
+  
+  // Cerrar el modal
+  closeModal() {
+    this.showMachineryModal = false;
+  }
+  
+  // Guardar maquinaria (nueva o editada)
+  saveMachinery(machineryData: any) {
+    this.loading = true;
+    
+    if (this.isEditMode && this.selectedMachine) {
+      const updatedMachinery: MachineryEntity = {
+        ...this.selectedMachine,
+        name: machineryData.name,
+        model: machineryData.model,
+        brand: machineryData.brand,
+        serialNumber: machineryData.serial_number,
+        productionCapacity: machineryData.production_capacity,
+        recommendations: machineryData.recommendations,
+        measurements: (machineryData.measurements || []).map((m: any) => ({
+          id: m.id ?? 0,
+          name: m.name,
+          unit: m.unit,
+          value: m.value ?? 0,
+          lastUpdated: m.lastUpdated ? new Date(m.lastUpdated) : new Date()
+        })),
+        userUpdater: 1, // o el usuario real
+        updatedAt: new Date()
+      };
+      
+      this.machineryService.updateMachinery(updatedMachinery)
+        .pipe(finalize(() => {
+          this.loading = false;
+          this.showMachineryModal = false;
+        }))
+        .subscribe({
+          next: (updated) => {
+            // Actualiza la lista y el panel de detalles
+            const index = this.machineries.findIndex(m => m.id === updated.id);
+            if (index >= 0) {
+              this.machineries[index] = updated;
+              this.prepareTableData();
+            }
+            if (this.selectedMachineId === updated.id) {
+              this.selectedMachine = updated;
+              this.updateInfoPanel(updated);
+            }
+          },
+          error: (err) => {
+            this.error = 'Error al actualizar la maquinaria.';
+            console.error('Error updating machinery:', err);
+          }
+        });
+    } else {
+      // Lógica para crear una nueva maquinaria
+      // Construir la entidad completa
+      const newMachinery: MachineryEntity = {
+        id: 0, // o null, el backend lo asigna
+        name: machineryData.name,
+        model: machineryData.model,
+        brand: machineryData.brand,
+        serialNumber: machineryData.serial_number,
+        productionCapacity: machineryData.production_capacity,
+        recommendations: machineryData.recommendations,
+        status: 1,
+        userCreator: 1,
+        userUpdater: 1,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        measurements: (machineryData.measurements || []).map((m: any) => ({
+          id: 0,
+          name: m.name,
+          unit: m.unit,
+          value: m.value ?? 0,
+          lastUpdated: new Date()
+        }))
+      };
+      
+      this.machineryService.createMachinery(newMachinery)
+        .pipe(finalize(() => {
+          this.loading = false;
+          this.showMachineryModal = false;
+        }))
+        .subscribe({
+          next: (created) => {
+            this.machineries.push(created);
+            this.prepareTableData();
+          },
+          error: (err) => {
+            this.error = 'Error al crear la maquinaria.';
+            console.error('Error creating machinery:', err);
+          }
+        });
+    }
+  }
   
   // Activar/Desactivar máquina
   toggleMachineryStatus() {

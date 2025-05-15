@@ -50,7 +50,7 @@ export class MachineryService {
   updateMachinery(machinery: MachineryEntity): Observable<MachineryEntity> {
     const resource = MachineryAssembler.entityToUpdateResource(machinery);
     return this.http.patch<MachineryResource>(
-      `${this.apiUrl}/${machinery.id}`, 
+      `${this.apiUrl}/${machinery.id}`,
       resource
     ).pipe(
       map(updatedResource => MachineryAssembler.resourceToEntity(updatedResource)),

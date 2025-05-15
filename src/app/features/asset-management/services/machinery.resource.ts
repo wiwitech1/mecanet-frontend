@@ -25,10 +25,11 @@ export interface MachineryResource {
     model: string;
     brand: string;
     serial_number: string;
-    production_capacity: number;
-    recommendations: string;
+    production_capacity?: number;
+    recommendations?: string;
     status: number;
     user_creator: number;
+    measurements: CreateMachineryMeasurementResource[];
   }
   
   /**
@@ -43,6 +44,7 @@ export interface MachineryResource {
     recommendations?: string;
     status?: number;
     user_updater: number;
+    measurements?: CreateMachineryMeasurementResource[];
   }
 
 export interface MeasurementResource {
@@ -54,4 +56,11 @@ export interface MeasurementResource {
 export interface MachineryMeasurementResource extends MeasurementResource {
   value: number;
   last_updated: string;
+}
+
+export interface CreateMachineryMeasurementResource {
+  name: string;
+  unit: string;
+  value?: number;
+  last_updated?: string;
 }

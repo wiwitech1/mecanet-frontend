@@ -4,13 +4,12 @@
         <app-title-view text="Gestión de Activos > Maquinarias"/>
     </header>
 
-
     <main class="main-container">
-        <div class="search-container" [ngClass]="{'full-width': !showDetailPanel}">
+        <div class="search-container" [ngClass]="{'full-width': !showDetailPanel || showMachineryModal}">
             <div class="search-actions">
                 <app-search
                   [placeholder]="'Buscar'"
-                  [newLabel]="'Nueva Máquina'"
+                  [newLabel]="'+ Nueva Máquina'"
                   [actionFunction]="newMachineAction">
                 </app-search>
             </div>
@@ -33,7 +32,7 @@
             </div>
         </div>
 
-        <!-- Panel de información (solo visible cuando se hace clic en "Detalles") -->
+        <!-- Panel de información (solo visible cuando showDetailPanel es true) -->
         <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
             <div class="panel-header">
                 <button class="close-button" (click)="closeDetailPanel()">
@@ -53,6 +52,7 @@
                   [primaryButtonText]="'Editar'"
                   [showSecondaryButton]="true"
                   [secondaryButtonText]="selectedMachine.status === 1 ? 'Desactivar' : 'Activar'"
+                  (primaryButtonClick)="editMachine()"
                   (secondaryButtonClick)="toggleMachineryStatus()">
 
                   <app-info-section
@@ -91,7 +91,17 @@
         </div>
     </main>
 
-
+    <!-- Modal para crear/editar maquinaria -->
+    <div *ngIf="showMachineryModal" class="modal-overlay" [@overlayAnimation] (click)="closeModal()">
+        <div class="modal-container" [@modalAnimation] (click)="$event.stopPropagation()">
+            <app-interact-machinery
+                [machinery]="isEditMode ? selectedMachine : null"
+                [title]="isEditMode ? 'Editar Maquinaria' : 'Nueva Maquinaria'"
+                (save)="saveMachinery($event)"
+                (cancel)="closeModal()">
+            </app-interact-machinery>
+        </div>
+    </div>
 
 </div>
 

@@ -30,7 +30,9 @@ export class MachineryAssembler {
       userUpdater: resource.user_updater,
       createdAt: new Date(resource.created_at),
       updatedAt: new Date(resource.updated_at),
-      measurements: resource.measurements.map(this.measurementResourceToEntity)
+      measurements: resource.measurements
+        ? resource.measurements.map(this.measurementResourceToEntity)
+        : []
     };
   }
 
@@ -57,7 +59,15 @@ export class MachineryAssembler {
       production_capacity: entity.productionCapacity,
       recommendations: entity.recommendations,
       status: entity.status,
-      user_creator: entity.userCreator
+      user_creator: entity.userCreator,
+      measurements: entity.measurements
+        ? entity.measurements.map(m => ({
+            name: m.name,
+            unit: m.unit,
+            value: m.value ?? 0,
+            last_updated:new Date().toISOString()
+          }))
+        : []
     };
   }
 
@@ -75,7 +85,15 @@ export class MachineryAssembler {
       production_capacity: entity.productionCapacity,
       recommendations: entity.recommendations,
       status: entity.status,
-      user_updater: entity.userUpdater
+      user_updater: entity.userUpdater,
+      measurements: entity.measurements
+        ? entity.measurements.map(m => ({
+            name: m.name,
+            unit: m.unit,
+            value: m.value ?? 0,
+            last_updated: m.lastUpdated ? m.lastUpdated.toISOString() : new Date().toISOString()
+          }))
+        : []
     };
   }
 
@@ -86,7 +104,7 @@ export class MachineryAssembler {
       name: resource.name,
       unit: resource.unit,
       value: resource.value,
-      lastUpdated: new Date(resource.last_updated)
+      lastUpdated: resource.last_updated ? new Date(resource.last_updated) : new Date()
     };
   }
 }

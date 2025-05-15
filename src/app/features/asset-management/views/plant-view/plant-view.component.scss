@@ -1,0 +1,218 @@
+.container {
+    height: 100%;
+    min-height: 100vh;
+    box-sizing: border-box;
+    background: var(--clr-bg);
+    transition: background 0.3s;
+}
+
+.breadcrumb-header {
+    margin-bottom: 2em;
+}
+
+.main-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2.5em;
+    min-height: 80vh;
+    width: 100%;
+    transition: gap 0.3s;
+}
+
+.search-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    width: 72%;
+    height: 100%;
+    transition: width 0.3s ease;
+    
+    &.full-width {
+        width: 100% !important;
+    }
+}
+
+.table-container {
+    padding: 1em;
+    border: 1px solid var(--clr-shadow);
+    border-radius: var(--radius-md);
+    height: 100%;
+    min-width: 0;
+    overflow: hidden;
+    transition: box-shadow 0.3s, border 0.3s;
+}
+
+.information-panel-container {
+    width: 28%;
+    border-radius: var(--radius-md);
+    height: 100%;
+    transition: box-shadow 0.3s, border 0.3s, width 0.3s;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s ease;
+    
+    .panel-header {
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
+        z-index: 2;
+        
+        .close-button {
+            background: transparent;
+            border: none;
+            color: var(--clr-text);
+            font-size: 1.5em;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: opacity 0.2s;
+            
+            &:hover {
+                opacity: 1;
+            }
+        }
+    }
+}
+
+.loading-indicator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2em;
+    color: var(--clr-primary-400);
+    font-weight: 500;
+}
+
+.error-message {
+    color: var(--clr-danger);
+    padding: 1em;
+    border: 1px solid var(--clr-danger);
+    border-radius: var(--radius-md);
+    background-color: var(--clr-danger-050);
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+    
+    button {
+        align-self: flex-end;
+        background-color: var(--clr-primary-300);
+        color: white;
+        border: none;
+        padding: 0.5em 1em;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        transition: background-color 0.2s;
+        
+        &:hover {
+            background-color: var(--clr-primary-400);
+        }
+    }
+}
+
+/* Modal */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(3px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.modal-container {
+    position: relative;
+    max-width: 90%;
+    width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background-color: var(--clr-bg);
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform-origin: center center;
+    
+    &::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--clr-primary-200);
+        border-radius: 4px;
+    }
+}
+
+/* Tablet: apila los paneles, ajusta paddings y gaps */
+@media (max-width: 1024px) {
+    .main-container {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5em;
+        min-height: unset;
+    }
+    .search-container,
+    .information-panel-container {
+        width: 100%;
+        max-width: 100%;
+        min-width: 0;
+        box-sizing: border-box;
+    }
+    .information-panel-container {
+        margin-top: 0.5em;
+        height: auto;
+    }
+}
+
+/* Móvil: reduce paddings, bordes y fuentes para máxima claridad */
+@media (max-width: 600px) {
+    .container {
+        padding: 1em 0.2em;
+    }
+    .breadcrumb-header {
+        margin-bottom: 1em;
+    }
+    .main-container {
+        gap: 1em;
+    }
+    .table-container,
+    .information-panel-container {
+        border-radius: 12px;
+        box-shadow: 0 1px 4px 0 var(--clr-shadow);
+    }
+    .information-panel-container {
+        margin-top: 0.5em;
+    }
+    .modal-container {
+        width: 95%;
+    }
+}
+
+/* Estilos para el botón "Ver" en la columna de Detalles */
+::ng-deep .record-table {
+    .btn-primary {
+        background-color: var(--clr-primary-300);
+        color: white;
+        padding: 0.3em 1em;
+        border-radius: var(--radius-md);
+        border: none;
+        font-size: 0.8em;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        
+        &:hover {
+            background-color: var(--clr-primary-400);
+        }
+    }
+}

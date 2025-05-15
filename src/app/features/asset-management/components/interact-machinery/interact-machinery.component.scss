@@ -1,0 +1,377 @@
+.machinery-form-container {
+    width: 100%;
+  background-color: var(--clr-bg);
+  border-radius: var(--radius-md);
+  padding: 1.5em;
+  box-shadow: 0 2px 10px var(--clr-shadow);
+}
+*{
+    font-family: var(--font-family-primary);
+}
+
+.form-title {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: var(--clr-primary-400);
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.machinery-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  label {
+    color: var(--clr-text);
+    font-weight: 500;
+    font-size: 0.9rem;
+  }
+}
+
+.form-input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  width: 100%;
+  background-color: var(--clr-bg);
+  color: var(--clr-text);
+  transition: border-color 0.2s, box-shadow 0.2s;
+
+  &:focus {
+    outline: none;
+    border-color: var(--clr-primary-300);
+    box-shadow: 0 0 0 2px rgba(var(--clr-primary-300), 0.1);
+  }
+
+  &.with-unit {
+    padding-right: 3rem;
+  }
+  
+  &[readonly] {
+    background-color: var(--clr-surface);
+    cursor: default;
+    opacity: 0.9;
+  }
+}
+
+.date-input-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 0.8rem;
+  color: var(--clr-primary-300);
+  pointer-events: none;
+}
+
+.unit-input-container {
+  position: relative;
+}
+
+.unit-label {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--clr-text);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.dimensions-row {
+  margin-bottom: 1rem;
+}
+
+.dimensions-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dimension-input {
+  width: 5rem;
+  text-align: center;
+}
+
+.dimension-separator {
+  color: var(--clr-text);
+  font-weight: 500;
+}
+
+.dimension-unit {
+  position: static;
+  transform: none;
+  margin-left: 0.5rem;
+}
+
+.measurements-section {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+  background-color: var(--clr-bg);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 2px 8px var(--clr-shadow);
+  }
+}
+
+.measurements-header {
+  display: flex;
+  background-color: var(--clr-primary-400);
+  color: white;
+  padding: 0.6rem 1rem;
+  font-weight: 500;
+}
+
+.header-cell {
+  flex: 1;
+  
+  &.unit-header {
+    flex: 0 0 120px;
+    text-align: center;
+  }
+  
+  &.action-header {
+    flex: 0 0 50px;
+  }
+}
+
+.measurements-list {
+  max-height: 200px;
+  overflow-y: auto;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: var(--clr-primary-200);
+    border-radius: 3px;
+  }
+}
+
+.measurement-row {
+  display: flex;
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+  
+  &:last-child {
+    border-bottom: none;
+  }
+  
+  &:hover {
+    background-color: var(--clr-surface);
+  }
+}
+
+.measurement-cell {
+  padding: 0.5rem;
+  flex: 1;
+  
+  .form-input {
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 0.5rem;
+    background-color: transparent;
+    
+    &:focus {
+      background-color: var(--clr-bg);
+      border-color: var(--clr-primary-300);
+    }
+  }
+  
+  &.unit-cell {
+    flex: 0 0 120px;
+  }
+  
+  &.action-cell {
+    flex: 0 0 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #ff5252;
+  opacity: 0.5;
+  transition: all 0.2s;
+  
+  &:hover {
+    background-color: rgba(255, 82, 82, 0.1);
+    opacity: 1;
+  }
+  
+  svg {
+    stroke: currentColor;
+  }
+}
+
+.add-measurement-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--clr-primary-300);
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+  width: 100%;
+  justify-content: center;
+  
+  &:hover {
+    background-color: var(--clr-surface);
+    color: var(--clr-primary-400);
+  }
+  
+  svg {
+    stroke: currentColor;
+  }
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.btn-cancel, .btn-save {
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex: 1;
+  
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.btn-cancel {
+  background-color: transparent;
+  border: 1px solid #ddd;
+  color: var(--clr-text);
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.btn-save {
+  background-color: var(--clr-primary-300);
+  border: none;
+  color: white;
+  
+  &:hover {
+    background-color: var(--clr-primary-400);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Soporte para tema oscuro
+[data-theme='dark'] {
+  .form-input {
+    border-color: #444;
+    
+    &:focus {
+      border-color: var(--clr-primary-200);
+    }
+    
+    &[readonly] {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+  
+  .measurements-section {
+    border-color: #444;
+  }
+  
+  .measurement-row {
+    border-bottom-color: #333;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+  
+  .btn-cancel {
+    border-color: #444;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.05);
+    }
+  }
+  
+  .remove-btn:hover {
+    background-color: rgba(255, 82, 82, 0.2);
+  }
+}
+
+// Media queries para responsive
+@media (max-width: 576px) {
+  .machinery-form-container {
+    padding: 1.5rem;
+  }
+  
+  .dimensions-container {
+    flex-wrap: wrap;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+}
+
+.required {
+  color: var(--clr-danger, #e53935);
+  font-weight: bold;
+  margin-left: 2px;
+  font-size: 1em;
+}
+.optional {
+  color: var(--clr-primary-300);
+  font-size: 0.95em;
+  margin-left: 4px;
+}
+.form-input.invalid {
+  border-color: var(--clr-danger, #e53935);
+  background-color: #fff6f6;
+}
+.measurements-section.invalid {
+  border-color: var(--clr-danger, #e53935);
+}
+.measurements-error {
+  color: var(--clr-danger, #e53935);
+  font-size: 0.95em;
+  margin: 0.5em 0 0 1em;
+}
