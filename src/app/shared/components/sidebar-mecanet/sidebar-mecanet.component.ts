@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LanguageSwitcherComponent } from '../../../public/components/language-switcher/language-switcher.component';
 import { ThemeToggleComponent } from '../../../public/components/theme-toggle/theme-toggle.component';
+import { UserService } from '../../../core/services/user.service';
+import { AuthService } from '../../../features/security/services/auth.service';
 
 interface MenuItem {
   title: string;
@@ -131,6 +133,8 @@ export class SidebarMecanetComponent {
     route: '/perfil'
   };
 
+  constructor(private userService: UserService, private authService: AuthService) {}
+
   toggleSidebar() {
     this.isExpanded = !this.isExpanded;
   }
@@ -144,9 +148,7 @@ export class SidebarMecanetComponent {
   }
 
   logout() {
-    // Aquí iría la lógica de cierre de sesión
-    console.log('Cerrando sesión...');
-    // Ejemplo: this.authService.logout();
+    this.authService.logout();
   }
 
   // Método para verificar si el usuario tiene permisos para ver un item

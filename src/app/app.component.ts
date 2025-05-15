@@ -30,12 +30,13 @@ export class AppComponent {
 
  constructor(private translate: TranslateService, private router: Router) {
    this.translate.addLangs(['en', 'es']);
+   
    this.translate.setDefaultLang('en');
    this.translate.use('en');
  }
 
  shouldShowSidebar(): boolean {
-   return this.router.url !== '/iniciar-sesion' && this.router.url !== '/registrar';
+   return this.router.url !== '/iniciar-sesion' && this.router.url !== '/registrar' && this.router.url !== '/404';
  }
 }
 

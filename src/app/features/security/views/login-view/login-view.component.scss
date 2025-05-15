@@ -179,3 +179,13 @@ $gradient-end: #884fe3;
     font-size: 0.8rem; // Ajusta el tamaño de fuente para pantallas muy pequeñas
   }
 }
+
+.success-message {
+  color: green;
+  margin-bottom: 10px;
+}
+
+.error-message {
+  color: red;
+  margin-bottom: 10px;
+}

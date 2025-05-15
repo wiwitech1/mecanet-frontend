@@ -276,5 +276,107 @@
       "notes": "Pedido especial con precio negociado",
       "estimated_delivery": "2024-03-23T15:45:00.000Z"
     }
+  ],
+  "users": [
+    {
+      "id": "USR-001",
+      "name": "Juan Pérez",
+      "email": "juan.perez@example.com",
+      "password": "password123",
+      "roles": [
+        "admin",
+        "user"
+      ],
+      "created_at": "2025-01-15T08:00:00Z",
+      "updated_at": "2025-05-10T08:00:00Z"
+    },
+    {
+      "id": "USR-002",
+      "name": "María López",
+      "email": "maria.lopez@example.com",
+      "password": "securepass",
+      "roles": [
+        "user"
+      ],
+      "created_at": "2025-02-20T08:00:00Z",
+      "updated_at": "2025-05-11T08:00:00Z"
+    },
+    {
+      "id": "1dcd4c7a-c26e-43ec-86e7-72ade6c48280",
+      "name": "Persona1",
+      "password": "123",
+      "email": "mwifnew@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "createdAt": "2025-05-15T09:56:30.063Z",
+      "updatedAt": "2025-05-15T09:56:30.063Z"
+    },
+    {
+      "id": "4bb28955-d61b-4d1b-909b-5908d6ff2481",
+      "name": "Persona1",
+      "password": "123",
+      "email": "mwifnew@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "createdAt": "2025-05-15T09:56:30.073Z",
+      "updatedAt": "2025-05-15T09:56:30.073Z"
+    },
+    {
+      "id": "1e9fda11-1fee-4fbc-899f-ce096485e814",
+      "name": "Persona2",
+      "password": "123",
+      "email": "wirng@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "createdAt": "2025-05-15T09:59:32.560Z",
+      "updatedAt": "2025-05-15T09:59:32.560Z"
+    },
+    {
+      "id": "43f92037-ce65-41a3-aba1-dd0e6a4ac0a6",
+      "name": "Persona2",
+      "password": "123",
+      "email": "wirng@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "createdAt": "2025-05-15T09:59:32.566Z",
+      "updatedAt": "2025-05-15T09:59:32.566Z"
+    },
+    {
+      "id": "23b9ffcf-2031-4486-8c9e-f8a97678c9f9",
+      "name": "ewfn",
+      "password": "1343",
+      "email": "wdn@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "createdAt": "2025-05-15T10:01:27.464Z",
+      "updatedAt": "2025-05-15T10:01:27.464Z"
+    },
+    {
+      "id": "19178503-484a-49e9-b8d3-4d2a54e8f201",
+      "name": "PERSONA XD",
+      "password": "ewf",
+      "email": "wefwe@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "createdAt": "2025-05-15T10:02:24.110Z",
+      "updatedAt": "2025-05-15T10:02:24.110Z"
+    },
+    {
+      "id": "952fd621-dc75-4e7b-8231-fa7d42590245",
+      "name": "peronsaxd",
+      "password": "123",
+      "email": "hola@gmail.com",
+      "roles": [
+        "user"
+      ],
+      "createdAt": "2025-05-15T10:22:12.958Z",
+      "updatedAt": "2025-05-15T10:22:12.958Z"
+    }
   ]
 }

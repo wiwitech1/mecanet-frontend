@@ -8,6 +8,10 @@ import { MatButtonModule }    from '@angular/material/button';
 import { MatDividerModule }   from '@angular/material/divider';
 import { Router, RouterModule }       from '@angular/router';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { AuthService } from '../../services/auth.service';
+import { UserResponse } from '../../services/user.response';
+import { v4 as uuidv4 } from 'uuid';
+
 @Component({
   selector: 'app-register-view',
   standalone: true,                 // 👈 stand-alone component
@@ -32,7 +36,7 @@ export class RegisterViewComponent implements OnInit {
   registerForm!: FormGroup;
   hide = true;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -57,9 +61,25 @@ export class RegisterViewComponent implements OnInit {
       this.registerForm.markAllAsTouched();
       return;
     }
-    const { companyName, ruc, email, password } = this.registerForm.value;
-    console.log('Register →', companyName, ruc, email, password);
-    // TODO: llamar a tu servicio de autenticación
-    this.router.navigate(['/']);
+
+    const userResponse: UserResponse = {
+      id: uuidv4(), // Genera un UUID único
+      name: this.registerForm.value.companyName,
+      email: this.registerForm.value.email,
+      password: this.registerForm.value.password,
+      roles: ['user'],
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
+    };
+
+    this.authService.register(userResponse).subscribe({
+      next: (registeredUser) => {
+        console.log('Usuario registrado:', registeredUser);
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        console.error('Error al registrar:', error);
+      }
+    });
   }
 }

@@ -51,6 +51,9 @@
 
       <a routerLink="/forgot-password" class="forgot-link">Olvidé mi contraseña</a>
 
+       <!-- Mensajes de éxito y error -->
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
       <!-- Enviar -->
       <button
         mat-raised-button
@@ -58,7 +61,6 @@
         class="submit-btn"
         type="submit"
         [disabled]="loginForm.invalid"
-        (click)="onSubmit()"
       >
         Iniciar Sesión
       </button>
@@ -69,4 +71,6 @@
       </p>
     </form>
   </div>
+
+ 
 </div>

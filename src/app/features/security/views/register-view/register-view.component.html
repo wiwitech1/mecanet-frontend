@@ -14,7 +14,7 @@
   
         <!-- Nombre de la Empresa -->
         <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nombre de la Empresa</mat-label>
+          <mat-label>Nombre de Usuario</mat-label>
           <input matInput formControlName="companyName" />
         </mat-form-field>
   
@@ -77,7 +77,6 @@
           class="submit-btn"
           type="submit"
           [disabled]="registerForm.invalid"
-          (click)="onSubmit()"
         >
           Crear Cuenta
         </button>
