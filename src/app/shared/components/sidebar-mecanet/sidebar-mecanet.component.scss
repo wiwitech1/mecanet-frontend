@@ -166,9 +166,9 @@
   }
 
   .sidebar-footer {
-    margin-top: auto;
+    margin-top: 0;
+    border-top: none;
     padding: 16px;
-    border-top: 1px solid var(--clr-primary-200);
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -240,4 +240,96 @@
 .badge-success {
   background-color: #28a745;
   color: white;
+}
+
+// Rediseño de la sección de personalización
+.customize-section {
+  margin-top: auto;
+  padding: 16px 12px;
+  
+  .separator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    
+    .line {
+      flex: 1;
+      height: 1px;
+      background-color: var(--clr-primary-200);
+    }
+    
+    mat-icon {
+      margin: 0 8px;
+      font-size: 18px;
+      color: var(--clr-bg);
+      opacity: 0.7;
+    }
+  }
+  
+  .customize-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    
+    &.expanded {
+      padding: 0 8px;
+    }
+    
+    .control-wrapper {
+      display: flex;
+      flex-direction: column;
+      
+      .control-label {
+        font-size: 0.8rem;
+        color: var(--clr-bg);
+        opacity: 0.8;
+        margin-bottom: 6px;
+        font-weight: 500;
+      }
+      
+      .control-item {
+        display: flex;
+        justify-content: center;
+        
+        app-language-switcher {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+        
+        app-theme-toggle {
+          width: 100%;
+          display: flex;
+          justify-content: center;
+        }
+      }
+    }
+  }
+}
+
+// Ajustes para el selector de idioma
+:host ::ng-deep app-language-switcher .mat-button-toggle-group {
+  border-radius: 16px;
+  height: 30px;
+  background-color: var(--clr-primary-300);
+  border: none;
+  
+  .mat-button-toggle {
+    height: 30px;
+    line-height: 30px;
+    font-size: 0.8rem;
+    color: var(--clr-bg);
+    
+    &.mat-button-toggle-checked {
+      background-color: var(--clr-primary-400);
+      color: white;
+    }
+  }
+}
+
+// Ajustes para el toggle de tema
+:host ::ng-deep app-theme-toggle .theme-toggle-btn {
+  width: 56px;
+  margin: 0 auto;
 }

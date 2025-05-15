@@ -1,8 +1,6 @@
 import {Component} from '@angular/core';
 import {TranslateService} from '@ngx-translate/core';
-import {MatToolbar, MatToolbarRow} from '@angular/material/toolbar';
-import {RouterLink, RouterOutlet} from '@angular/router';
-import {MatAnchor} from '@angular/material/button';
+import {RouterLink, RouterOutlet, Router} from '@angular/router';
 import {CommonModule} from '@angular/common';
 import {ThemeToggleComponent} from './public/components/theme-toggle/theme-toggle.component';
 import {LanguageSwitcherComponent} from './public/components/language-switcher/language-switcher.component';
@@ -30,10 +28,14 @@ export class AppComponent {
    { path: '/work-orders', title: 'Work Orders' }
  ]
 
- constructor(private translate: TranslateService) {
+ constructor(private translate: TranslateService, private router: Router) {
    this.translate.addLangs(['en', 'es']);
    this.translate.setDefaultLang('en');
    this.translate.use('en');
+ }
+
+ shouldShowSidebar(): boolean {
+   return this.router.url !== '/iniciar-sesion' && this.router.url !== '/registrar';
  }
 }
 

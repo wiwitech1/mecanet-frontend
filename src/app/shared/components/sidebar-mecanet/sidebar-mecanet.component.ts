@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { LanguageSwitcherComponent } from '../../../public/components/language-switcher/language-switcher.component';
+import { ThemeToggleComponent } from '../../../public/components/theme-toggle/theme-toggle.component';
 
 interface MenuItem {
   title: string;
@@ -21,7 +23,7 @@ interface MenuItem {
   templateUrl: './sidebar-mecanet.component.html',
   styleUrls: ['./sidebar-mecanet.component.scss'],
   standalone: true,
-  imports: [MatIconModule, CommonModule, RouterModule],
+  imports: [MatIconModule, CommonModule, RouterModule, LanguageSwitcherComponent, ThemeToggleComponent],
 })
 export class SidebarMecanetComponent {
   isExpanded = false;
@@ -31,7 +33,7 @@ export class SidebarMecanetComponent {
     {
       title: 'Inicio',
       icon: 'home',
-      route: '/dashboard',
+      route: '/',
     },
     {
       title: 'Calendario',
@@ -66,15 +68,16 @@ export class SidebarMecanetComponent {
           icon: 'factory',
         },
         {
-          title: 'Maquinarias',
-          route: '/activos/maquinarias',
-          icon: 'precision_manufacturing',
-        },
-        {
           title: 'Líneas de Producción',
           route: '/activos/lineas-produccion',
           icon: 'account_tree',
         },
+        {
+          title: 'Maquinarias',
+          route: '/activos/maquinarias',
+          icon: 'precision_manufacturing',
+        },
+        
       ],
     },
     {

@@ -1,0 +1,181 @@
+// variables rápidas
+$primary: #7a63cb; // mismo púrpura que el botón
+$gradient-start: #5b63e6;
+$gradient-end: #884fe3;
+
+.login-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  overflow: hidden;
+}
+
+.login-image {
+  flex: 1.3; 
+  img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  clip-path: polygon(0 0, 100% 0, 72% 100%, 0% 100%);
+}
+
+// ----- Formulario -----
+.login-form-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+}
+
+.form-content {
+  width: 80%;
+  text-align: center;
+  padding: 0;
+}
+
+.logo {
+  width: 52px;
+  height: 52px;
+  margin-bottom: 0.75rem;
+}
+
+
+*{
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: $primary;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+  color: #7a7a7a;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.forgot-link {
+  display: block;
+  font-size: 0.85rem;
+  color: $primary;
+  margin-bottom: 1rem;
+  text-align: right;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.divider {
+  margin: 1rem 0;
+}
+
+.social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+  margin-bottom: 1.25rem;
+
+  .social-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #f5f5f5;
+
+    img {
+      width: 22px;
+      height: 22px;
+    }
+  }
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 25px;
+  background: $primary;
+  color: #fff;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s;
+
+  &:hover {
+    background: darken($primary, 10%);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    color: #fff;
+  }
+}
+
+.signup-text {
+  margin-top: 1.2rem;
+  font-size: 0.85rem;
+
+  a {
+    color: $primary;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+// Pequeños ajustes en <mat-form-field>
+::ng-deep .mat-form-field {
+  font-size: 0.9rem;
+}
+
+::ng-deep .mat-form-field-outline {
+  border-radius: 6px;
+}
+
+// Media queries para responsividad
+@media (max-width: 768px) {
+  .login-container {
+    flex-direction: column; 
+  }
+
+  .login-image {
+    display: none;
+  }
+
+  .login-form-wrapper {
+    padding: 1rem; // Reduce el padding para pantallas pequeñas
+  }
+
+  .form-content {
+    max-width: 100%; // Asegura que el formulario ocupe todo el ancho disponible
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 1.5rem; // Ajusta el tamaño de fuente para pantallas muy pequeñas
+  }
+
+  .subtitle {
+    font-size: 0.85rem; // Ajusta el tamaño de fuente para pantallas muy pequeñas
+  }
+
+  .submit-btn {
+    padding: 0.5rem 0.75rem; // Ajusta el padding del botón
+  }
+
+  .signup-text {
+    font-size: 0.8rem; // Ajusta el tamaño de fuente para pantallas muy pequeñas
+  }
+}

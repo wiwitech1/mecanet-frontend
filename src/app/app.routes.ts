@@ -1,7 +1,10 @@
 import { Routes } from '@angular/router';
 import { ProductionLineViewComponent } from './features/asset-management/views/production-line-view/production-line-view.component';
 import { PlantViewComponent } from './features/asset-management/views/plant-view/plant-view.component';
+import { HomeComponent } from './public/pages/home/home.component';
+import { RegisterViewComponent } from './features/security/views/register-view/register-view.component';
 const PageNotFoundComponent = () => import('./public/pages/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent);
+const LoginComponent = (): Promise<any> => import('./features/security/views/login-view/login-view.component').then(m => m.LoginViewComponent);
 const ComponentsDemoComponent = (): Promise<any> => import('./shared/views/components-demo/components-demo.component').then(m => m.ComponentsDemoComponent);
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 
@@ -16,8 +19,10 @@ const InventoryPartsViewComponent = (): Promise<any> => import('./features/inven
 const PurchaseOrdersViewComponent = (): Promise<any> => import('./features/purchase-orders/view/purchase-orders/purchase-orders.component').then(m => m.PurchaseOrdersComponent);
 
 export const routes: Routes = [
+    { path: 'iniciar-sesion', loadComponent: LoginComponent },
+    { path: 'registrar', component: RegisterViewComponent },
+    { path: '',                component: HomeComponent },
     { path: 'components-demo',  loadComponent: ComponentsDemoComponent },
-   // { path: 'news',            loadComponent: NewsViewComponent },
     { path: '',                redirectTo: '/components-demo', pathMatch: 'full' },
     { path: 'activos/plantas',   component: PlantViewComponent },
     { path: 'activos/lineas-produccion',   component: ProductionLineViewComponent },
