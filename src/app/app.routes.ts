@@ -3,9 +3,11 @@ import { ProductionLineViewComponent } from './features/asset-management/views/p
 import { PlantViewComponent } from './features/asset-management/views/plant-view/plant-view.component';
 import { HomeComponent } from './public/pages/home/home.component';
 import { RegisterViewComponent } from './features/security/views/register-view/register-view.component';
-const PageNotFoundComponent = () => import('./public/pages/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent);
-const LoginComponent = (): Promise<any> => import('./features/security/views/login-view/login-view.component').then(m => m.LoginViewComponent);
-const ComponentsDemoComponent = (): Promise<any> => import('./shared/views/components-demo/components-demo.component').then(m => m.ComponentsDemoComponent);
+import { authGuard } from './core/guards/auth.guard';
+import { nonAuthGuard } from './core/guards/non-auth.guard';
+import { PageNotFoundComponent } from './public/pages/page-not-found/page-not-found.component';
+import { LoginViewComponent } from './features/security/views/login-view/login-view.component';
+import { ComponentsDemoComponent } from './shared/views/components-demo/components-demo.component';
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 
 const MachineryAssetViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-asset-view/machinery-asset-view.component').then(m => m.MachineryAssetViewComponent);
@@ -19,16 +21,20 @@ const InventoryPartsViewComponent = (): Promise<any> => import('./features/inven
 const PurchaseOrdersViewComponent = (): Promise<any> => import('./features/purchase-orders/view/purchase-orders/purchase-orders.component').then(m => m.PurchaseOrdersComponent);
 
 export const routes: Routes = [
-    { path: 'iniciar-sesion', loadComponent: LoginComponent },
-    { path: 'registrar', component: RegisterViewComponent },
-    { path: '',                component: HomeComponent },
-    { path: 'components-demo',  loadComponent: ComponentsDemoComponent },
-    { path: '',                redirectTo: '/components-demo', pathMatch: 'full' },
-    { path: 'activos/plantas',   component: PlantViewComponent },
-    { path: 'activos/lineas-produccion',   component: ProductionLineViewComponent },
-    { path: 'activos/maquinarias',   loadComponent: MachineryAssetViewComponent },
+    // Rutas públicas o de autenticación - solo accesibles si NO hay sesión
+    { path: 'iniciar-sesion', component: LoginViewComponent, canActivate: [nonAuthGuard] },
+    { path: 'registrar', component: RegisterViewComponent, canActivate: [nonAuthGuard] },
+    { path: '404', component: PageNotFoundComponent },
+    
+    // Rutas protegidas - solo accesibles si hay sesión
+    { path: '', component: HomeComponent, canActivate: [authGuard] },
+    { path: 'components-demo', component: ComponentsDemoComponent, canActivate: [authGuard] },
+    { path: 'activos/plantas', component: PlantViewComponent, canActivate: [authGuard] },
+    { path: 'activos/lineas-produccion', component: ProductionLineViewComponent, canActivate: [authGuard] },
+    { path: 'activos/maquinarias', loadComponent: MachineryAssetViewComponent, canActivate: [authGuard] },
     {
         path: 'plan-mantenimiento',
+        canActivate: [authGuard],
         children: [
             { path: '', loadComponent: MaintancePlanComponent },
             { path: 'detalle/:id', loadComponent: MaintenancePlanDetailComponent },
@@ -38,9 +44,15 @@ export const routes: Routes = [
             { path: 'editar/:id', loadComponent: MaintenancePlanCreateComponent },
         ]
     },
-    { path: 'proprueba', loadComponent: PropruebaComponent },
-    { path: 'inventario/repuestos',   loadComponent: InventoryPartsViewComponent },
-    { path: 'inventario/ordenes-compra',   loadComponent: PurchaseOrdersViewComponent },
-    { path: '**',              loadComponent: PageNotFoundComponent }
+    { path: 'proprueba', loadComponent: PropruebaComponent, canActivate: [authGuard] },
+    { path: 'inventario/repuestos', loadComponent: InventoryPartsViewComponent, canActivate: [authGuard] },
+    { path: 'inventario/ordenes-compra', loadComponent: PurchaseOrdersViewComponent, canActivate: [authGuard] },
+    
+    // Ruta de redirección por defecto
+    { path: '', redirectTo: '/components-demo', pathMatch: 'full' },
+    
+    
+    // Página no encontrada
+    { path: '**', redirectTo: '/404' }
 ];
 

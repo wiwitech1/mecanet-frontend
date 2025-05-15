@@ -7,6 +7,8 @@ import { MatIconModule }      from '@angular/material/icon';
 import { MatButtonModule }    from '@angular/material/button';
 import { MatDividerModule }   from '@angular/material/divider';
 import { Router, RouterModule }       from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+
 @Component({
   selector: 'app-login-view',
   standalone: true,                 // 👈 stand-alone component
@@ -29,8 +31,10 @@ import { Router, RouterModule }       from '@angular/router';
 export class LoginViewComponent implements OnInit {
   loginForm!: FormGroup;
   hide = true;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router) {}
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -48,8 +52,16 @@ export class LoginViewComponent implements OnInit {
       return;
     }
     const { email, password } = this.loginForm.value;
-    console.log('Login →', email, password);
-    // TODO: llamar a tu servicio de autenticación
-    this.router.navigate(['/']);
+    this.authService.login(email, password).subscribe({
+      next: (user) => {
+        this.successMessage = 'Inicio de sesión exitoso. Bienvenido!';
+        this.errorMessage = null;
+        this.router.navigate(['/']);
+      },
+      error: (error) => {
+        this.errorMessage = 'Error al iniciar sesión: Credenciales inválidas.';
+        this.successMessage = null;
+      }
+    });
   }
 }
