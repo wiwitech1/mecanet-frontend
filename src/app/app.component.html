@@ -1,8 +1,8 @@
 <div class="app-container" role="application">
-    <aside class="sidebar-container" aria-label="Navegación principal">
+    <aside *ngIf="shouldShowSidebar()" class="sidebar-container" aria-label="Navegación principal">
         <app-sidebar-mecanet></app-sidebar-mecanet>
     </aside>
-    <main class="content" role="main" aria-label="Contenido principal">
-        <router-outlet/>
+    <main [ngClass]="{'content-without-sidebar': !shouldShowSidebar()}" class="content" role="main" aria-label="Contenido principal">
+        <router-outlet></router-outlet>
     </main>
 </div>

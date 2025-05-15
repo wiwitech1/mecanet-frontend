@@ -96,10 +96,11 @@ export class HomeComponent {
   quickLinks: QuickLink[] = [
     { name: 'Usuarios', icon: 'people', route: '/usuarios' },
     { name: 'Mantenimiento', icon: 'build', route: '/plan-mantenimiento' },
-    { name: 'Inventario', icon: 'inventory_2', route: '/inventario' },
-    { name: 'Órdenes', icon: 'receipt', route: '/ordenes' },
+    { name: 'Inventario', icon: 'inventory_2', route: '/inventario/repuestos' },
+    { name: 'Órdenes', icon: 'receipt', route: '/inventario/ordenes-compra' },
     { name: 'Reportes', icon: 'bar_chart', route: '/reportes' },
-    { name: 'Ajustes', icon: 'settings', route: '/ajustes' }
+    { name: 'Ajustes', icon: 'settings', route: '/ajustes' },
+    {name : "Activos", icon: "build", route: "/activos/maquinarias"}
   ];
   
   // Notificaciones recientes
