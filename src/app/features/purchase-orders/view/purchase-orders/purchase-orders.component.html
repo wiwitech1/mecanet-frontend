@@ -6,9 +6,8 @@
       <div class="left-container">
           <app-search
               [placeholder]="'Buscar por ID...'"
-              [newLabel]="'Orden de Compra'"
-              (search)="searchTerm = $event"
-              (newClick)="showCreateModal = true"
+              [newLabel]="'Nueva Orden de Compra'"
+              [actionFunction]="newPurchaseOrderAction"
           ></app-search>
           <app-record-table
               [columns]="columns"

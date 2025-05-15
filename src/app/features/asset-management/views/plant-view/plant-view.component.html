@@ -6,22 +6,22 @@
     <main class="main-container">
         <div class="search-container" [ngClass]="{'full-width': !showDetailPanel}">
             <div class="search-actions">
-                <app-search 
+                <app-search
                     [placeholder]="'Buscar plantas...'"
                     [newLabel]="'+ Nueva Planta'"
                     [actionFunction]="newPlantAction">
                 </app-search>
             </div>
-            
+
             <div *ngIf="loading && !showDetailPanel" class="loading-indicator">
                 Cargando plantas...
             </div>
-            
+
             <div *ngIf="error && !showDetailPanel" class="error-message">
                 {{ error }}
                 <button (click)="loadPlants()">Reintentar</button>
             </div>
-            
+
             <div *ngIf="!loading && !error" class="table-container">
                 <app-record-table
                     [columns]="tableColumns"
@@ -30,7 +30,7 @@
                 </app-record-table>
             </div>
         </div>
-        
+
         <!-- Panel de información -->
         <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
             <div class="panel-header">
@@ -38,11 +38,11 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            
+
             <div *ngIf="loading" class="loading-indicator">
                 Cargando información de la planta...
             </div>
-            
+
             <div *ngIf="!loading && selectedPlant">
                 <app-information-panel
                     [headerText]="'ID: ' + selectedPlantId + ' | ' + selectedPlant.name"
@@ -56,7 +56,7 @@
                     (closePanel)="closeDetailPanel()">
 
                     <!-- Información básica -->
-                    <app-info-section 
+                    <app-info-section
                         [infoType]="2"
                         [data]="[
                             { subtitle: 'Nombre', info: selectedPlant.name },
@@ -70,8 +70,8 @@
                     </app-info-section>
 
                     <!-- Líneas de producción -->
-                    <app-info-container 
-                        [title]="'Líneas de producción:'" 
+                    <app-info-container
+                        [title]="'Líneas de producción:'"
                         [titleType]="2">
                         <ng-container *ngIf="selectedPlant as plant">
                             <div class="machinery-list" *ngIf="(plant.productionLines ?? []).length > 0">
@@ -98,7 +98,7 @@
     <!-- Modal para crear/editar plantas -->
     <div *ngIf="showPlantModal" class="modal-overlay" [@overlayAnimation] (click)="closeModal()">
         <div class="modal-container" [@modalAnimation] (click)="$event.stopPropagation()">
-            <app-interact-plant 
+            <app-interact-plant
                 [showModal]="showPlantModal"
                 [plantToEdit]="isEditMode ? selectedPlant : null"
                 [title]="isEditMode ? 'Editar Planta' : 'Nueva Planta'"

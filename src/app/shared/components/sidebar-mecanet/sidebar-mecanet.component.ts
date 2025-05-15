@@ -25,7 +25,7 @@ interface MenuItem {
 })
 export class SidebarMecanetComponent {
   isExpanded = false;
-  
+
   // Menú dinámico
   menuItems: MenuItem[] = [
     {
@@ -119,7 +119,7 @@ export class SidebarMecanetComponent {
       route: '/components-demo',
     },
   ];
-  
+
   // Usuario actual (simulado)
   currentUser = {
     name: 'Juan Pérez',
@@ -139,23 +139,23 @@ export class SidebarMecanetComponent {
   collapseSidebar() {
     this.isExpanded = false;
   }
-  
+
   logout() {
     // Aquí iría la lógica de cierre de sesión
     console.log('Cerrando sesión...');
     // Ejemplo: this.authService.logout();
   }
-  
+
   // Método para verificar si el usuario tiene permisos para ver un item
   hasPermission(item: MenuItem): boolean {
     // Si no hay roles definidos, todos pueden ver
     if (!item.roles || item.roles.length === 0) {
       return true;
     }
-    
+
     // Simulación de verificación de roles (en una app real, verificarías con un servicio de autenticación)
     // Por ahora, asumimos que el usuario actual tiene rol 'admin'
-    const userRoles = ['admin']; 
+    const userRoles = ['admin'];
     return item.roles.some(role => userRoles.includes(role));
   }
 }

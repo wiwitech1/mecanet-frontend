@@ -148,6 +148,7 @@ export class InventoryPartsComponent implements OnInit {
     } catch (error) {
       console.error('Error al actualizar:', error);
     }
+    this.closePanel();
   }
   async handleDelete(id: number) {
     try {
@@ -158,6 +159,8 @@ export class InventoryPartsComponent implements OnInit {
     } catch (error) {
       console.error('Error al eliminar:', error);
     }
+
+    this.closePanel();
   }
   closePanel() {
     this.showInfoPanel = false;
@@ -193,9 +196,10 @@ export class InventoryPartsComponent implements OnInit {
       console.error('Error fetching part details:', error);
     }
   }
-  handleNewClick() {
+  handleNewClick=()=> {
     console.log('New click');
     this.selectedPart = null;
     this.showCreateModal = true;
+
   }
 }

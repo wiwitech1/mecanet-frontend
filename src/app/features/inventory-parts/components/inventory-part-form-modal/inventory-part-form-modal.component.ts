@@ -13,18 +13,8 @@ import { InventoryPartEntity } from '../../../shared/models/inventory-part.entit
 })
 export class InventoryPartFormModalComponent implements OnInit {
   @Input() isEdit = false;
-  @Input() set partData(data: Partial<InventoryPartEntity> | null) {
-    if (data) {
-      this.formData = {
-        code: data.code || '',
-        name: data.name || '',
-        description: data.description || '',
-        current_stock: data.current_stock || 0,
-        min_stock: data.min_stock || 0,
-        unit_price: data.unit_price || 0
-      };
-    }
-  }
+  @Input() partData: Partial<InventoryPartEntity> | null = null;
+  private originalData: Partial<InventoryPartEntity> | null = null;
 
   @Output() submit = new EventEmitter<Partial<InventoryPartEntity>>();
   @Output() delete = new EventEmitter<number>();
@@ -40,9 +30,12 @@ export class InventoryPartFormModalComponent implements OnInit {
   };
 
   ngOnInit() {
-    // Similar a onMounted en Vue
-    if (this.isEdit && this.partData) {
-      this.formData = { ...this.formData };
+    if (this.partData) {
+      this.originalData = this.partData;
+      this.formData = {
+        ...this.formData,
+        ...this.partData
+      };
     }
   }
 
@@ -59,7 +52,9 @@ export class InventoryPartFormModalComponent implements OnInit {
 
   handleDelete() {
     if (confirm('¿Está seguro de eliminar este repuesto?')) {
-      this.delete.emit((this.partData as any)?.id);
+      if (this.originalData?.id) {
+        this.delete.emit(this.originalData.id);
+      }
     }
   }
 }

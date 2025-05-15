@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { InventoryPartsApiService } from './inventory-parts-api.service';
+import { InventoryPartEntitysApiService } from './inventory-parts-api.service';
 
 describe('InventoryPartsApiService', () => {
-  let service: InventoryPartsApiService;
+  let service: InventoryPartEntitysApiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(InventoryPartsApiService);
+    service = TestBed.inject(InventoryPartEntitysApiService);
   });
 
   it('should be created', () => {

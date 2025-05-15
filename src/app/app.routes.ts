@@ -3,7 +3,7 @@ import { ProductionLineViewComponent } from './features/asset-management/views/p
 import { PlantViewComponent } from './features/asset-management/views/plant-view/plant-view.component';
 const PageNotFoundComponent = () => import('./public/pages/page-not-found/page-not-found.component').then(m => m.PageNotFoundComponent);
 const ComponentsDemoComponent = (): Promise<any> => import('./shared/views/components-demo/components-demo.component').then(m => m.ComponentsDemoComponent);
-const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
+//const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 
 const MachineryAssetViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-asset-view/machinery-asset-view.component').then(m => m.MachineryAssetViewComponent);
 const MaintancePlanComponent = (): Promise<any> => import('./features/maintance-plan/views/maintance-plan.component').then(m => m.MaintancePlanComponent);
@@ -34,10 +34,8 @@ export const routes: Routes = [
         ]
     },
     { path: 'proprueba', loadComponent: PropruebaComponent },
-    { path: '**',              loadComponent: PageNotFoundComponent },
     { path: 'inventario/repuestos',   loadComponent: InventoryPartsViewComponent },
-    { path: 'ordenes-compra',   loadComponent: PurchaseOrdersViewComponent },
-    { path: '**',              loadComponent: PageNotFoundComponent },
-
+    { path: 'inventario/ordenes-compra',   loadComponent: PurchaseOrdersViewComponent },
+    { path: '**',              loadComponent: PageNotFoundComponent }
 ];
 

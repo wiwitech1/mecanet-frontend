@@ -79,6 +79,11 @@ export class PurchaseOrdersComponent implements OnInit {
     this.showInfoPanel = true;
   }
 
+  newPurchaseOrderAction = () => {
+    this.showCreateModal = true;
+    this.selectedOrder = null;
+  };
+
   updateInfoPanel(order: PurchaseOrderEntity) {
     this.infoData = [
       { subtitle: 'ID', info: order.id },
