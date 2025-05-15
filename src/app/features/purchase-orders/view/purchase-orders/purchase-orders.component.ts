@@ -130,14 +130,8 @@ export class PurchaseOrdersComponent implements OnInit {
     }
   }
 
-  async handleDelete(id: number) {
-    try {
-      await this.purchaseOrdersService.deleteOrder(id);
-      this.showEditModal = false;
-      this.selectedOrder = null;
-      await this.loadPurchaseOrders();
-    } catch (error) {
-      console.error('Error al eliminar:', error);
-    }
+  handleDelete(id: string | number): void {
+    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
+    console.log('Eliminando orden de compra con ID:', numericId);
   }
 }
