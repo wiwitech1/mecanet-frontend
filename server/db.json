@@ -48,27 +48,6 @@
       "created_at": "2025-03-15T08:00:00Z",
       "updated_at": "2025-04-25T08:00:00Z",
       "production_lines": []
-    },
-    {
-      "name": "Nombre x",
-      "location": "wefe",
-      "capacity": 3,
-      "status": 1,
-      "description": "weinf",
-      "production_lines": [],
-      "id": 3
-    },
-    {
-      "name": "Nueova",
-      "location": "Ubi",
-      "capacity": 23,
-      "status": 1,
-      "description": "weifn",
-      "production_lines": [
-        null,
-        null
-      ],
-      "id": 4
     }
   ],
   "production_lines": [
@@ -123,15 +102,6 @@
           "updated_at": "2025-04-20"
         }
       ]
-    },
-    {
-      "name": "Nueva",
-      "plant_id": 1,
-      "capacity": 10,
-      "status": 1,
-      "description": "Es esta niam",
-      "machineries": [],
-      "id": 3
     }
   ],
   "machineries": [
@@ -210,45 +180,6 @@
           "last_updated": "2025-03-15T08:00:00Z"
         }
       ]
-    },
-    {
-      "name": "Maquina x",
-      "model": "XD",
-      "brand": "efe",
-      "serial_number": "32r42",
-      "production_capacity": 1,
-      "recommendations": "10",
-      "status": 0,
-      "user_creator": 1,
-      "measurements": [
-        {
-          "name": "Kilómetros",
-          "unit": "km",
-          "value": 0,
-          "last_updated": "2025-05-14T06:53:05.345Z"
-        }
-      ],
-      "id": 3,
-      "user_updater": 1
-    },
-    {
-      "name": "BUeno",
-      "model": "weoifn",
-      "brand": "si",
-      "serial_number": "no",
-      "production_capacity": 13,
-      "recommendations": "10",
-      "status": 1,
-      "user_creator": 1,
-      "measurements": [
-        {
-          "name": "hola",
-          "unit": "gm",
-          "value": 0,
-          "last_updated": "2025-05-14T06:57:32.502Z"
-        }
-      ],
-      "id": 4
     }
   ],
   "measurements": [
@@ -268,352 +199,82 @@
       "unit": "cycles"
     }
   ],
-  "maintenance-plan-data": [
+  "inventory-parts": [
     {
-      "planId": 1,
-      "productionLineId": 2,
-      "startDate": "2025-05-13T23:41:36.137Z",
-      "durationDays": 3,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "Verificación de niveles",
-              "taskDescription": "Revisar niveles de aceite",
-              "machineIds": [
-                1,
-                2
-              ]
-            },
-            {
-              "taskId": 2,
-              "taskName": "Limpieza general",
-              "taskDescription": "Limpiar los filtros",
-              "machineIds": [
-                3
-              ]
-            }
-          ]
-        },
-        {
-          "dayNumber": 2,
-          "tasks": [
-            {
-              "taskId": 3,
-              "taskName": "Chequeo de seguridad",
-              "taskDescription": "Revisar los sistemas de seguridad",
-              "machineIds": [
-                2,
-                4
-              ]
-            }
-          ]
-        },
-        {
-          "dayNumber": 3,
-          "tasks": [
-            {
-              "taskId": 4,
-              "taskName": "Inspección de equipos",
-              "taskDescription": "Inspeccionar la maquinaria de la línea",
-              "machineIds": [
-                1,
-                4
-              ]
-            }
-          ]
-        }
-      ]
+      "id": 1,
+      "code": "RPT-2024-001",
+      "name": "Filtro de Aceite Industrial",
+      "description": "Filtro de aceite de alta resistencia para maquinaria pesada",
+      "current_stock": 15,
+      "min_stock": 10,
+      "unit_price": 89.99,
+      "stock_status": "OK",
+      "last_restock": "2024-03-15T10:30:00.000Z"
     },
     {
-      "planId": 2,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T00:01:31.515Z",
-      "durationDays": 1,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "232",
-              "taskDescription": "sas",
-              "machineIds": [
-                202
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 2
+      "id": 2,
+      "code": "RPT-2024-002",
+      "name": "Correa de Distribución Premium",
+      "description": "Correa de distribución reforzada para motores industriales",
+      "current_stock": 8,
+      "min_stock": 12,
+      "unit_price": 145.5,
+      "stock_status": "LOW",
+      "last_restock": "2024-02-28T14:15:00.000Z"
     },
     {
-      "planId": 3,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T00:02:22.110Z",
-      "durationDays": 3,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "qew",
-              "taskDescription": "qwe",
-              "machineIds": [
-                103,
-                201
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 3
-    },
-    {
-      "planId": 4,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T00:15:09.280Z",
-      "durationDays": 2,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "tarea 1",
-              "taskDescription": "mimi tarea",
-              "machineIds": [
-                101,
-                102
-              ]
-            }
-          ]
-        },
-        {
-          "dayNumber": 2,
-          "tasks": [
-            {
-              "taskId": 2,
-              "taskName": "tarea 2",
-              "taskDescription": "mimi tarea 2",
-              "machineIds": [
-                202
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 4
-    },
-    {
-      "planId": 5,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T01:32:01.244Z",
-      "durationDays": 1,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "limpiar",
-              "taskDescription": "dd",
-              "machineIds": [
-                102
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 5
-    },
-    {
-      "planId": 6,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T03:08:27.672Z",
-      "durationDays": 2,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "Tarea aparece plis",
-              "taskDescription": "aparece porfa",
-              "machineIds": [
-                102,
-                202
-              ]
-            }
-          ]
-        },
-        {
-          "dayNumber": 2,
-          "tasks": [
-            {
-              "taskId": 2,
-              "taskName": "tareita",
-              "taskDescription": "ojito",
-              "machineIds": [
-                101,
-                102
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 6
+      "code": "RPT-2025-001",
+      "name": "Aceite de grua",
+      "description": "aceite de grua",
+      "current_stock": 10,
+      "min_stock": 5,
+      "unit_price": 35,
+      "id": 3,
+      "stock_status": "OK"
     }
   ],
-  "maintenance-dynamic-plans": [
+  "purchase-orders": [
     {
-      "dynamicPlanId": 1,
-      "userCreator": 1,
-      "parameter": "Parametro",
-      "startDate": "2025-05-14T03:17:49.670Z",
-      "machineIds": [
-        102,
-        103
-      ],
-      "tasks": [
-        {
-          "taskId": 1,
-          "taskName": "Trrea",
-          "taskDescription": "sdds",
-          "machineIds": [
-            202
-          ]
-        }
-      ],
-      "id": 1
+      "id": "OC-2024-001",
+      "inventory_part_id": 1,
+      "quantity": 25,
+      "price": 89.99,
+      "order_date": "2024-03-18T09:00:00.000Z",
+      "received_date": null,
+      "status": "PENDING",
+      "supplier": "Industrial Parts Co.",
+      "user_id": "USR-001",
+      "total_amount": 2249.75,
+      "notes": "Pedido urgente para reposición de stock",
+      "estimated_delivery": "2024-03-25T09:00:00.000Z"
     },
     {
-      "dynamicPlanId": 2,
-      "userCreator": 1,
-      "parameter": "nuevo",
-      "startDate": "2025-05-14T03:28:32.882Z",
-      "machineIds": [
-        102
-      ],
-      "tasks": [
-        {
-          "taskId": 1,
-          "taskName": "rr",
-          "taskDescription": "rr",
-          "machineIds": [
-            202
-          ]
-        },
-        {
-          "taskId": 2,
-          "taskName": "rr2",
-          "taskDescription": "ee",
-          "machineIds": [
-            102
-          ]
-        }
-      ],
-      "id": 2
+      "id": "OC-2024-002",
+      "inventory_part_id": 2,
+      "quantity": 30,
+      "price": 145.5,
+      "order_date": "2024-03-17T11:30:00.000Z",
+      "received_date": "2024-03-18T14:00:00.000Z",
+      "status": "RECEIVED",
+      "supplier": "MecaParts Solutions",
+      "user_id": "USR-002",
+      "total_amount": 4365,
+      "notes": "Reposición programada mensual",
+      "estimated_delivery": "2024-03-24T11:30:00.000Z"
     },
     {
-      "dynamicPlanId": 3,
-      "userCreator": 1,
-      "parameter": "ee",
-      "startDate": "2025-05-14T03:29:11.220Z",
-      "machineIds": [
-        103,
-        201
-      ],
-      "tasks": [
-        {
-          "taskId": 1,
-          "taskName": "ee",
-          "taskDescription": "ee",
-          "machineIds": [
-            103,
-            201
-          ]
-        }
-      ],
-      "id": 3
-    },
-    {
-      "dynamicPlanId": 4,
-      "userCreator": 1,
-      "parameter": "wwe",
-      "startDate": "2025-05-14T03:29:37.176Z",
-      "machineIds": [
-        101
-      ],
-      "tasks": [
-        {
-          "taskId": 1,
-          "taskName": "wer",
-          "taskDescription": "wre",
-          "machineIds": [
-            103,
-            202
-          ]
-        }
-      ],
-      "id": 4
-    },
-    {
-      "dynamicPlanId": 5,
-      "userCreator": 1,
-      "parameter": "asd",
-      "startDate": "2025-05-14T03:50:28.150Z",
-      "machineIds": [
-        201
-      ],
-      "tasks": [
-        {
-          "taskId": 1,
-          "taskName": " iiasd",
-          "taskDescription": "23",
-          "machineIds": [
-            201
-          ]
-        }
-      ],
-      "id": 5
-    },
-    {
-      "dynamicPlanId": 6,
-      "userCreator": 1,
-      "parameter": "Nuevo",
-      "startDate": "2025-05-14T03:51:28.647Z",
-      "machineIds": [
-        101,
-        102,
-        103,
-        201,
-        202
-      ],
-      "tasks": [
-        {
-          "taskId": 1,
-          "taskName": "gg",
-          "taskDescription": "gg",
-          "machineIds": [
-            101,
-            102,
-            103,
-            201,
-            202
-          ]
-        }
-      ],
-      "id": 6
+      "id": "OC-2024-003",
+      "inventory_part_id": 1,
+      "quantity": 15,
+      "price": 92.99,
+      "order_date": "2024-03-16T15:45:00.000Z",
+      "received_date": null,
+      "status": "APPROVED",
+      "supplier": "Industrial Parts Co.",
+      "user_id": "USR-001",
+      "total_amount": 1394.85,
+      "notes": "Pedido especial con precio negociado",
+      "estimated_delivery": "2024-03-23T15:45:00.000Z"
     }
   ]
 }
