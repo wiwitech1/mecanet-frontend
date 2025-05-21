@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlanItemEditorComponent } from './plan-item-editor.component';
+import { PlanItemCreatorComponent } from './plan-item-creator.component';
 
-describe('PlanItemEditorComponent', () => {
-  let component: PlanItemEditorComponent;
-  let fixture: ComponentFixture<PlanItemEditorComponent>;
+describe('PlanItemCreatorComponent', () => {
+  let component: PlanItemCreatorComponent;
+  let fixture: ComponentFixture<PlanItemCreatorComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PlanItemEditorComponent]
+      imports: [PlanItemCreatorComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PlanItemEditorComponent);
+    fixture = TestBed.createComponent(PlanItemCreatorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

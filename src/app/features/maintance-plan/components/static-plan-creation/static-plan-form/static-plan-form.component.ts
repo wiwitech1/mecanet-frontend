@@ -6,7 +6,8 @@ import { MaintenancePlanService } from '../../../services/maintenance-plan.servi
 
 import { PlanItemBoardComponent } from '../plan-item-board/plan-item-board.component';
 
-import { PlanItemEditorComponent } from '../plan-item-editor/plan-item-editor.component';
+import { PlanItemCreatorComponent } from '../plan-item-creator/plan-item-creator.component';
+
 
 import { MaintenancePlanItem } from '../../../model/maintenance-plan.entity';
 
@@ -16,12 +17,14 @@ interface Machine         { id: number; name: string; productionLineId: number; 
 @Component({
   selector: 'app-static-plan-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, PlanItemBoardComponent, PlanItemEditorComponent],
+  imports: [CommonModule, FormsModule, PlanItemBoardComponent, PlanItemCreatorComponent],
   templateUrl: './static-plan-form.component.html',
   styleUrls: ['./static-plan-form.component.scss', './static-plan-form2.component.scss']
 })
 export class StaticPlanFormComponent {
   activeTab: number = 1; // Por defecto muestra la pestaña 1
+
+  selectedItem: MaintenancePlanItem | null = null;
 
   @Output() close = new EventEmitter<void>();
 
@@ -38,6 +41,7 @@ export class StaticPlanFormComponent {
     durationDays: 3,
     items: [] as {
       dayNumber: number;
+      itemName: string;
       tasks: {
         taskId: number | null;
         taskName: string;
@@ -57,36 +61,44 @@ export class StaticPlanFormComponent {
 
   /*FUNCIONES PARA MANEJAR ITEMS*/
 
-  onAddElement() {
-    const nextDay = this.getNextAvailableDay();
-  
+  showItemCreator = false;
+
+  onOpenItemCreator() {
+    this.showItemCreator = true;
+  }
+
+  onCloseItemCreator() {
+    this.showItemCreator = false;
+  }
+
+
+  onAddElement(data: { name: string; day: number }) {
     const newItem: MaintenancePlanItem = {
-      dayNumber: nextDay,
+      dayNumber: data.day,
+      itemName: data.name,
       tasks: []
     };
-  
     this.formData.items.push(newItem);
     this.selectedItem = newItem;
   }
-  
+
+  // Obtener siguiente día disponible para un nuevo item
   getNextAvailableDay(): number {
     const usedDays = this.formData.items.map(item => item.dayNumber);
     for (let i = 1; i <= this.formData.durationDays; i++) {
       if (!usedDays.includes(i)) return i;
     }
-    return this.formData.durationDays + 1; // en caso todos estén ocupados
+    return this.formData.durationDays + 1;
   }
 
-  selectedItem: MaintenancePlanItem | null = null;
-
-onItemChanged(updatedItem: MaintenancePlanItem) {
-  // Actualiza el array formData.items con los cambios
-  const index = this.formData.items.findIndex(i => i === this.selectedItem);
-  if (index !== -1) {
-    this.formData.items[index] = updatedItem;
+  // Actualizar un item existente (si implementas edición luego)
+  onItemChanged(updatedItem: MaintenancePlanItem) {
+    const index = this.formData.items.findIndex(i => i === this.selectedItem);
+    if (index !== -1) {
+      this.formData.items[index] = updatedItem;
+    }
+    this.selectedItem = updatedItem;
   }
-  this.selectedItem = updatedItem; // opcionalmente reasignar para refrescar binding
-}
 
  /*FUNCIONES PARA MANEJAR ITEMS*/
 

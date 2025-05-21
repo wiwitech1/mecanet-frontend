@@ -37,22 +37,26 @@
     </div>
 
     <div *ngIf="activeTab === 2" class="subview subview-detallada">
+      
       <app-plan-item-board [durationDays]="formData.durationDays" [items]="formData.items"></app-plan-item-board>
       
-      <div class="center-button">
-        <button class="btn-add-item" (click)="onAddElement()">
-          <span class="material-icons">add</span> Agregar Elemento
-        </button>
-      </div>
       
-      <!--
-      <app-plan-item-editor 
-        [item]="selectedItem" 
-        (itemChanged)="onItemChanged($event)"
-        (taskAdded)="onTaskAdded()"
-        (taskRemoved)="onTaskRemoved($event)">
-      </app-plan-item-editor>
-      EDITOR DE ITEMS-->
+      <div class="center-button">
+        <button class="btn-add-item" (click)="onOpenItemCreator()">
+          <span class="material-icons">add</span> Agregar
+        </button>
+      </div>      
+      
+      <app-plan-item-creator
+        *ngIf="showItemCreator"
+        [itemNameDefault]="'Item ' + (formData.items.length + 1)"
+        [maxDays]="formData.durationDays"
+        (saveItem)="onAddElement($event); showItemCreator = false"
+        (cancel)="showItemCreator = false">
+      </app-plan-item-creator>
+
+
+
     </div>
 
     <!-- Botones comunes -->

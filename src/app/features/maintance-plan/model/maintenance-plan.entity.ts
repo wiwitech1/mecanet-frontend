@@ -9,6 +9,7 @@ export interface MaintenanceTask {
 
 export interface MaintenancePlanItem {
   dayNumber: number;
+  itemName: string;
   tasks: MaintenanceTask[];
 }
 

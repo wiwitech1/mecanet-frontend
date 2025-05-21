@@ -58,6 +58,7 @@ export class MaintenancePlanService {
           planId: newPlanId,
           items: planData.items.map(item => ({
             dayNumber: item.dayNumber,
+            itemName: item.itemName,
             tasks: item.tasks.map(task => ({
               ...task,
               taskId: task.taskId ?? taskIdCounter++,

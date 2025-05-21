@@ -1,0 +1,11 @@
+<div class="plan-item-creator">
+  <button class="btn-close" (click)="onCancel()">✕</button>
+
+  <label for="itemNameInput">Nombre del Item</label>
+  <input id="itemNameInput" type="text" [(ngModel)]="itemName" placeholder="Ingrese nombre" />
+
+  <label for="dayInput">Día asignado</label>
+  <input id="dayInput" type="number" [(ngModel)]="selectedDay" [min]="1" [max]="maxDays" />
+
+  <button (click)="onSave()" [disabled]="!itemName.trim()">Guardar</button>
+</div>

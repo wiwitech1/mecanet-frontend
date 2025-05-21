@@ -15,6 +15,7 @@ export class MaintenancePlanAssembler {
       userCreator: resource.userCreator,
       items: resource.items.map((item: MaintenancePlanItemResource) => ({
         dayNumber: item.dayNumber,
+        itemName: item.itemName,
         tasks: item.tasks.map((task: MaintenanceTaskResource) => ({
           taskId: task.taskId,
           taskName: task.taskName,
@@ -41,6 +42,7 @@ export class MaintenancePlanAssembler {
       userCreator: data.userCreator,
       items: data.items.map((item: MaintenancePlanItem) => ({
         dayNumber: item.dayNumber,
+        itemName: item.itemName,
         tasks: item.tasks.map((task: MaintenanceTask) => ({
           taskId: task.taskId,
           taskName: task.taskName,

@@ -7,6 +7,7 @@ export interface MaintenanceTaskResource {
   
   export interface MaintenancePlanItemResource {
     dayNumber: number;
+    itemName: string;
     tasks: MaintenanceTaskResource[];
   }
   

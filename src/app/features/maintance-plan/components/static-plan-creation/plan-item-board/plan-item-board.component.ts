@@ -9,7 +9,7 @@ import { MaintenancePlanItem } from '../../../model/maintenance-plan.entity';
   templateUrl: './plan-item-board.component.html',
   styleUrl: './plan-item-board.component.scss'
 })
-export class PlanItemBoardComponent {
+export class PlanItemBoardComponent implements AfterViewInit{
   @ViewChild('daysContainer') daysContainer!: ElementRef<HTMLDivElement>;
 
   @Input() durationDays: number = 1;
@@ -24,5 +24,9 @@ export class PlanItemBoardComponent {
       event.preventDefault(); // evita scroll vertical
       this.daysContainer.nativeElement.scrollLeft += event.deltaY;
     });
+  }
+
+  getItemsForDay(day: number): MaintenancePlanItem[] {
+    return this.items.filter(i => i.dayNumber === day);
   }
 }
