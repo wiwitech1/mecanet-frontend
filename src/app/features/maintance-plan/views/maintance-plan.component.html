@@ -1,64 +1,74 @@
 <div class="container">
-    
-    <header class="breadcrumb-header">
-        <app-title-view text="Planes de Mantenimiento"/>
-    </header>
+  <header class="breadcrumb-header">
+    <app-title-view text="Planes de Mantenimiento"></app-title-view>
+  </header>
 
-    
-    <main class="main-container">
-        <div class="search-container" [ngClass]="{'full-width': !showDetailPanel}">
-            <app-search 
-                [placeholder]="'Buscar plan de mantenimiento...'" 
-                [newLabel]="'Plan'" 
-                [actionFunction]="onNewPlanClick.bind(this)"
-                [filters]="searchFilters"
-                (search)="onSearch($event)"
-                (filterChange)="onFilterChange($event)"/>
-            
-            <div class="table-container">
-                <app-record-table 
-                    [columns]="tableColumns" 
-                    [data]="filteredPlansData"
-                    (ctaClick)="onRowClick($event)">
-                </app-record-table>
-            </div>
+  <main class="main-container">
+    <div class="search-container" [ngClass]="{'full-width': !showDetailPanel}">
+      <app-search
+        [placeholder]="'Buscar plan de mantenimiento...'"
+        [newLabel]="'+ Nuevo Plan'"
+        [actionFunction]="onNewPlanClick.bind(this)"
+        [filters]="searchFilters"
+        (search)="onSearch($event)"
+        (filterChange)="onFilterChange($event)">
+      </app-search>
+
+      <div class="table-container">
+        <app-record-table
+          [columns]="tableColumns"
+          [data]="filteredPlansData"
+          (ctaClick)="onRowClick($event)">
+        </app-record-table>
+      </div>
+    </div>
+
+    <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
+      <div class="panel-header">
+        <button class="close-button" (click)="closeDetailPanel()">
+          <span aria-hidden="true">×</span>
+        </button>
+      </div>
+
+      <app-information-panel
+        [headerText]="'Información del Plan'"
+        [showPrimaryButton]="selectedPlan !== null"
+        [primaryButtonText]="'Editar'">
+
+        <app-info-section
+          *ngIf="selectedPlan"
+          [infoType]="1"
+          [showSubtitle]="true"
+          [data]="planInfoData">
+        </app-info-section>
+
+        <app-info-container
+          *ngIf="selectedPlan && planTasksItems.length > 0"
+          [title]="'Tareas del Plan'"
+          [titleType]="1">
+          <app-info-list-items
+            [type]="'simpleList'"
+            [items]="planTasksItems">
+          </app-info-list-items>
+        </app-info-container>
+
+        <div *ngIf="!selectedPlan" class="no-selection-message">
+          <p>Seleccione un plan de mantenimiento para ver sus detalles</p>
         </div>
-        
-        <!-- Panel de información con animación -->
-        <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
-            <div class="panel-header">
-                <button class="close-button" (click)="closeDetailPanel()">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            
-            <app-information-panel [headerText]="'Información del Plan'" [showPrimaryButton]="selectedPlan !== null" [primaryButtonText]="'Editar'">
-                
-                <!-- Sección de información general del plan -->
-                <app-info-section 
-                    *ngIf="selectedPlan"
-                    [infoType]="1" 
-                    [showSubtitle]="true"
-                    [data]="planInfoData">
-                </app-info-section>
-                
-                <!-- Lista de tareas del plan -->
-                <app-info-container 
-                    *ngIf="selectedPlan && planTasksItems.length > 0"
-                    [title]="'Tareas del Plan'" 
-                    [titleType]="1">
-                    <app-info-list-items 
-                        [type]="'simpleList'" 
-                        [items]="planTasksItems">
-                    </app-info-list-items>
-                </app-info-container>
-                
-                <!-- Mensaje cuando no hay plan seleccionado -->
-                <div *ngIf="!selectedPlan" class="no-selection-message">
-                    <p>Seleccione un plan de mantenimiento para ver sus detalles</p>
-                </div>
-                
-            </app-information-panel>
-        </div>
-    </main>
+
+      </app-information-panel>
+    </div>
+
+    <app-choose-plan-type-modal
+    *ngIf="showChoosePlanModal"
+    (close)="closeChoosePlanModal()"
+    (select)="onPlanTypeSelect($event)">
+  </app-choose-plan-type-modal>
+
+  <app-static-plan-form
+  *ngIf="showStaticForm"
+  (close)="closeStaticForm()"
+  (planCreated)="onPlanCreated($event)">
+</app-static-plan-form>
+  </main>
 </div>

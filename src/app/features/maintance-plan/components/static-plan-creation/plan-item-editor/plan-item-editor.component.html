@@ -1,0 +1,17 @@
+
+
+<div *ngIf="item" class="plan-item-editor">
+    <label>Día</label>
+    <input type="number" [(ngModel)]="item.dayNumber" (ngModelChange)="onDayChange($event)" min="1" />
+  
+    <!-- Aquí puedes hacer un ngFor para las tareas y máquinas -->
+    <div *ngFor="let task of item.tasks; let i = index">
+      <div>
+        <span>{{ task.taskName }}</span>
+        <button (click)="removeTask(i)">Eliminar tarea</button>
+      </div>
+    </div>
+  
+    <button (click)="addTask()">Agregar Tarea</button>
+  </div>
+  

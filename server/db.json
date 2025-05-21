@@ -1,7 +1,7 @@
 {
   "plants": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Main Manufacturing Plant",
       "location": "123 Industrial Rd, Lima, Peru",
       "capacity": 50,
@@ -39,7 +39,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Secondary Plant",
       "location": "456 Secondary Ave, Arequipa, Peru",
       "capacity": 30,
@@ -56,7 +56,7 @@
       "status": 1,
       "description": "weinf",
       "production_lines": [],
-      "id": 3
+      "id": "3"
     },
     {
       "name": "Nueova",
@@ -68,12 +68,12 @@
         null,
         null
       ],
-      "id": 4
+      "id": "4"
     }
   ],
   "production_lines": [
     {
-      "id": 1,
+      "id": "1",
       "plant_id": 1,
       "name": "Assembly Line A",
       "capacity": 1000,
@@ -99,7 +99,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "plant_id": 1,
       "name": "Packaging Line B",
       "capacity": 500,
@@ -131,12 +131,12 @@
       "status": 1,
       "description": "Es esta niam",
       "machineries": [],
-      "id": 3
+      "id": "3"
     }
   ],
   "machineries": [
     {
-      "id": 1,
+      "id": "1",
       "name": "CNC Lathe Machine",
       "production_line_id": 1,
       "model": "CNC-2000X",
@@ -174,7 +174,7 @@
       ]
     },
     {
-      "id": 2,
+      "id": "2",
       "production_line_id": 2,
       "name": "Hydraulic Press",
       "model": "HP-1500",
@@ -228,7 +228,7 @@
           "last_updated": "2025-05-14T06:53:05.345Z"
         }
       ],
-      "id": 3,
+      "id": "3",
       "user_updater": 1
     },
     {
@@ -248,232 +248,152 @@
           "last_updated": "2025-05-14T06:57:32.502Z"
         }
       ],
-      "id": 4
+      "id": "4"
     }
   ],
   "measurements": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Kilometers",
       "unit": "km"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Operation Hours",
       "unit": "hours"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Production Cycles",
       "unit": "cycles"
     }
   ],
-  "maintenance-plan-data": [
-    {
-      "planId": 1,
-      "productionLineId": 2,
-      "startDate": "2025-05-13T23:41:36.137Z",
-      "durationDays": 3,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "Verificación de niveles",
-              "taskDescription": "Revisar niveles de aceite",
-              "machineIds": [
-                1,
-                2
-              ]
-            },
-            {
-              "taskId": 2,
-              "taskName": "Limpieza general",
-              "taskDescription": "Limpiar los filtros",
-              "machineIds": [
-                3
-              ]
-            }
-          ]
-        },
-        {
-          "dayNumber": 2,
-          "tasks": [
-            {
-              "taskId": 3,
-              "taskName": "Chequeo de seguridad",
-              "taskDescription": "Revisar los sistemas de seguridad",
-              "machineIds": [
-                2,
-                4
-              ]
-            }
-          ]
-        },
-        {
-          "dayNumber": 3,
-          "tasks": [
-            {
-              "taskId": 4,
-              "taskName": "Inspección de equipos",
-              "taskDescription": "Inspeccionar la maquinaria de la línea",
-              "machineIds": [
-                1,
-                4
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "planId": 2,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T00:01:31.515Z",
-      "durationDays": 1,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "232",
-              "taskDescription": "sas",
-              "machineIds": [
-                202
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 2
-    },
-    {
-      "planId": 3,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T00:02:22.110Z",
-      "durationDays": 3,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "qew",
-              "taskDescription": "qwe",
-              "machineIds": [
-                103,
-                201
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 3
-    },
-    {
-      "planId": 4,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T00:15:09.280Z",
-      "durationDays": 2,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "tarea 1",
-              "taskDescription": "mimi tarea",
-              "machineIds": [
-                101,
-                102
-              ]
-            }
-          ]
-        },
-        {
-          "dayNumber": 2,
-          "tasks": [
-            {
-              "taskId": 2,
-              "taskName": "tarea 2",
-              "taskDescription": "mimi tarea 2",
-              "machineIds": [
-                202
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 4
-    },
-    {
-      "planId": 5,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T01:32:01.244Z",
-      "durationDays": 1,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "limpiar",
-              "taskDescription": "dd",
-              "machineIds": [
-                102
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 5
-    },
-    {
-      "planId": 6,
-      "productionLineId": 2,
-      "startDate": "2025-05-14T03:08:27.672Z",
-      "durationDays": 2,
-      "userCreator": 1,
-      "items": [
-        {
-          "dayNumber": 1,
-          "tasks": [
-            {
-              "taskId": 1,
-              "taskName": "Tarea aparece plis",
-              "taskDescription": "aparece porfa",
-              "machineIds": [
-                102,
-                202
-              ]
-            }
-          ]
-        },
-        {
-          "dayNumber": 2,
-          "tasks": [
-            {
-              "taskId": 2,
-              "taskName": "tareita",
-              "taskDescription": "ojito",
-              "machineIds": [
-                101,
-                102
-              ]
-            }
-          ]
-        }
-      ],
-      "id": 6
-    }
-  ],
+  "maintenance-plan-data": {
+    "info": [
+      {
+        "registers": 3
+      }
+    ],
+    "data": [
+      {
+        "planId": 1,
+        "planName": "Plan de Mantenimiento 1",
+        "productionLineId": 2,
+        "startDate": "2025-05-13T23:41:36.137Z",
+        "durationDays": 3,
+        "userCreator": 1,
+        "items": [
+          {
+            "dayNumber": 1,
+            "tasks": [
+              {
+                "taskId": 1,
+                "taskName": "Verificación de niveles",
+                "taskDescription": "Revisar niveles de aceite",
+                "machineIds": [
+                  1,
+                  2
+                ]
+              },
+              {
+                "taskId": 2,
+                "taskName": "Limpieza general",
+                "taskDescription": "Limpiar los filtros",
+                "machineIds": [
+                  3
+                ]
+              }
+            ]
+          },
+          {
+            "dayNumber": 2,
+            "tasks": [
+              {
+                "taskId": 3,
+                "taskName": "Chequeo de seguridad",
+                "taskDescription": "Revisar los sistemas de seguridad",
+                "machineIds": [
+                  2,
+                  4
+                ]
+              }
+            ]
+          },
+          {
+            "dayNumber": 3,
+            "tasks": [
+              {
+                "taskId": 4,
+                "taskName": "Inspección de equipos",
+                "taskDescription": "Inspeccionar la maquinaria de la línea",
+                "machineIds": [
+                  1,
+                  4
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "planId": 2,
+        "planName": "Hola",
+        "productionLineId": 1,
+        "startDate": "2025-04-30",
+        "durationDays": 1,
+        "userCreator": 1,
+        "items": [
+          {
+            "dayNumber": 1,
+            "tasks": [
+              {
+                "taskId": 5,
+                "taskName": "cuy",
+                "taskDescription": "cuyo",
+                "machineIds": []
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "planId": 3,
+        "planName": "Plan prueba",
+        "productionLineId": 2,
+        "startDate": "2025-05-14T00:00:00.000Z",
+        "durationDays": 2,
+        "userCreator": 1,
+        "items": [
+          {
+            "dayNumber": 1,
+            "tasks": [
+              {
+                "taskId": 6,
+                "taskName": "qwe",
+                "taskDescription": "qwe",
+                "machineIds": []
+              }
+            ]
+          },
+          {
+            "dayNumber": 2,
+            "tasks": [
+              {
+                "taskId": 7,
+                "taskName": "qwe",
+                "taskDescription": "qwe",
+                "machineIds": [
+                  4,
+                  3
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
   "maintenance-dynamic-plans": [
     {
       "dynamicPlanId": 1,
@@ -494,7 +414,7 @@
           ]
         }
       ],
-      "id": 1
+      "id": "1"
     },
     {
       "dynamicPlanId": 2,
@@ -522,7 +442,7 @@
           ]
         }
       ],
-      "id": 2
+      "id": "2"
     },
     {
       "dynamicPlanId": 3,
@@ -544,7 +464,7 @@
           ]
         }
       ],
-      "id": 3
+      "id": "3"
     },
     {
       "dynamicPlanId": 4,
@@ -565,7 +485,7 @@
           ]
         }
       ],
-      "id": 4
+      "id": "4"
     },
     {
       "dynamicPlanId": 5,
@@ -585,7 +505,7 @@
           ]
         }
       ],
-      "id": 5
+      "id": "5"
     },
     {
       "dynamicPlanId": 6,
@@ -613,7 +533,7 @@
           ]
         }
       ],
-      "id": 6
+      "id": "6"
     }
   ]
 }

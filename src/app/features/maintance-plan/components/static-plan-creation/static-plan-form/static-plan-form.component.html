@@ -1,0 +1,64 @@
+
+<div class="modal-overlay" (click)="onClose()">
+  <div   class="modal-content"
+  [ngClass]="{'modal-wide': activeTab === 2}"
+  (click)="$event.stopPropagation()">
+
+    <h2 class="modal-title">Nuevo Plan de Mantenimiento Estático</h2>
+
+    <div class="tabs">
+      <div class="tab" [class.active]="activeTab === 1" (click)="activeTab = 1">Información General</div>
+      <div class="tab" [class.active]="activeTab === 2" (click)="activeTab = 2">Información Detallada</div>
+    </div>
+
+    <div *ngIf="activeTab === 1" class="subview subview-general">
+       <!-- Formulario -->
+    <div class="form-section">
+      <label for="planName">Nombre</label>
+      <input id="planName" class="form-control" type="text" [(ngModel)]="formData.planName" />
+    
+      <label for="startDate">Fecha Inicio</label>
+      <input id="startDate" class="form-control" type="date" [(ngModel)]="formData.startDate" />
+    
+      <label for="durationDays">Duración</label>
+      <div class="input-with-unit">
+        <input id="durationDays" class="form-control" type="number" min="1" [(ngModel)]="formData.durationDays" />
+        <span class="unit">días</span>
+      </div>
+    
+      <label for="repeatWeeks">Repetir cada</label>
+      <div class="input-with-unit">
+        <input id="repeatWeeks" class="form-control" type="number" min="1" [(ngModel)]="formData.repeatCycle"/>
+        <span class="unit">semanas</span>
+      </div>
+      
+    </div>
+
+    </div>
+
+    <div *ngIf="activeTab === 2" class="subview subview-detallada">
+      <app-plan-item-board [durationDays]="formData.durationDays" [items]="formData.items"></app-plan-item-board>
+      
+      <div class="center-button">
+        <button class="btn-add-item" (click)="onAddElement()">
+          <span class="material-icons">add</span> Agregar Elemento
+        </button>
+      </div>
+      
+      <!--
+      <app-plan-item-editor 
+        [item]="selectedItem" 
+        (itemChanged)="onItemChanged($event)"
+        (taskAdded)="onTaskAdded()"
+        (taskRemoved)="onTaskRemoved($event)">
+      </app-plan-item-editor>
+      EDITOR DE ITEMS-->
+    </div>
+
+    <!-- Botones comunes -->
+    <div class="form-actions">
+      <button class="btn-cancel" (click)="onClose()">Cancelar</button>
+      <button class="btn-continue" (click)="onContinue()">Continuar</button>
+    </div>
+  </div>
+</div>

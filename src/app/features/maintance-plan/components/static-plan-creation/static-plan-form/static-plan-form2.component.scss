@@ -1,0 +1,36 @@
+.btn-add-item {
+    display: inline-flex;
+    font-family: var(--font-family-base);
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 1.2rem;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--clr-primary-400); 
+    background-color:  var(--clr-bg);
+    border: 1.5px solid var(--clr-primary-100);
+    border-radius: 9999px; 
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    
+        .icon {
+        font-size: 1.1rem;
+        line-height: 1;
+        }
+    
+        &:hover {
+            transform: scale(1.03); 
+    
+        &:focus {
+        outline: none;
+        box-shadow: 0 0 4px var(--clr-primary-300);
+        }
+    }
+}
+
+.center-button {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0; // margen arriba y abajo para separación
+  }
+  
