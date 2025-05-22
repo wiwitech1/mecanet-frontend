@@ -2,7 +2,7 @@
 <div class="modal-overlay" (click)="onClose()">
   <div   class="modal-content"
   [ngClass]="{'modal-wide': activeTab === 2}"
-  (click)="$event.stopPropagation()">
+  (click)="$event.stopPropagation()" (click)="closeProductionLinePanel()">
 
     <h2 class="modal-title">Nuevo Plan de Mantenimiento Estático</h2>
 
@@ -11,12 +11,16 @@
       <div class="tab" [class.active]="activeTab === 2" (click)="activeTab = 2">Información Detallada</div>
     </div>
 
-    <div *ngIf="activeTab === 1" class="subview subview-general">
+    <div *ngIf="activeTab === 1" class="subview subview-general" >
        <!-- Formulario -->
     <div class="form-section">
       <label for="planName">Nombre</label>
       <input id="planName" class="form-control" type="text" [(ngModel)]="formData.planName" />
-    
+
+      <label for="productionLineInput">Línea de Producción</label>
+<input id="productionLineInput" class="form-control" type="text" readonly placeholder="Selecciona una línea..." [(ngModel)]="formData.productionLineId"   (click)="openProductionLinePanel($event)"
+/>
+
       <label for="startDate">Fecha Inicio</label>
       <input id="startDate" class="form-control" type="date" [(ngModel)]="formData.startDate" />
     
@@ -38,15 +42,23 @@
 
     <div *ngIf="activeTab === 2" class="subview subview-detallada">
       
-      <app-plan-item-board [durationDays]="formData.durationDays" [items]="formData.items"></app-plan-item-board>
+        <app-plan-item-board 
+          [items]="formData.items" 
+          [durationDays]="formData.durationDays"
+          (itemMoved)="onItemMoved($event)">
+        </app-plan-item-board>
+
       
       
       <div class="center-button">
         <button class="btn-add-item" (click)="onOpenItemCreator()">
-          <span class="material-icons">add</span> Agregar
+          <span class="material-icons">add</span> Agregar Elemento
         </button>
+
+        
       </div>      
-      
+
+      <div class="center-button">
       <app-plan-item-creator
         *ngIf="showItemCreator"
         [itemNameDefault]="'Item ' + (formData.items.length + 1)"
@@ -54,8 +66,7 @@
         (saveItem)="onAddElement($event); showItemCreator = false"
         (cancel)="showItemCreator = false">
       </app-plan-item-creator>
-
-
+      </div>
 
     </div>
 
@@ -65,4 +76,10 @@
       <button class="btn-continue" (click)="onContinue()">Continuar</button>
     </div>
   </div>
+
+  <div *ngIf="isEditingProductionLine" class="production-line-edit-text" (click)="$event.stopPropagation()">
+    Aquí va el texto muejeje
+    <button (click)="isEditingProductionLine = false">Cerrar</button>
+  </div>
+
 </div>

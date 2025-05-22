@@ -35,5 +35,20 @@ export class PlanItemCreatorComponent implements OnInit {
     this.cancel.emit();
   }
 
+  isEditingName = false;
+
+enableEditName() {
+  this.isEditingName = true;
+  // Opcional: enfocar input al activarse
+  setTimeout(() => {
+    const input = document.getElementById('itemNameInput');
+    input?.focus();
+  }, 0);
+}
+
+disableEditName() {
+  this.isEditingName = false;
+}
+
   
 }

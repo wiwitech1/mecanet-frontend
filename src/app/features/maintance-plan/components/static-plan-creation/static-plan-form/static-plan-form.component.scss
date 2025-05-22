@@ -21,6 +21,15 @@
   transition: width 0.3s ease;
 }
 
+.modal-secondary {
+  margin-left: 20px;
+  width: 300px;
+  height: 300px;
+  max-height: 90vh;
+  overflow-y: auto;
+  border: 2px solid #498fe0;
+}
+
 .subview-general,
 .subview-detallada {
   max-width: 70em;
@@ -47,7 +56,7 @@
 .tabs {
   display: flex;
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 1.9rem;
   font-size: 0.9em;
 
   .tab {

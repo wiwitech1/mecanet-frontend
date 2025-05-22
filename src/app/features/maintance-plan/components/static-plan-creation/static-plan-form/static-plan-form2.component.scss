@@ -3,8 +3,8 @@
     font-family: var(--font-family-base);
     align-items: center;
     gap: 0.5rem;
-    padding: 0.4rem 1.2rem;
-    font-size: 0.95rem;
+    padding: 0.2rem 1.2rem;
+    font-size: 0.85rem;
     font-weight: 400;
     color: var(--clr-primary-400); 
     background-color:  var(--clr-bg);
@@ -31,6 +31,5 @@
 .center-button {
     display: flex;
     justify-content: center;
-    margin: 2rem 0; // margen arriba y abajo para separación
+    margin: 1rem 0; // margen arriba y abajo para separación
   }
-  

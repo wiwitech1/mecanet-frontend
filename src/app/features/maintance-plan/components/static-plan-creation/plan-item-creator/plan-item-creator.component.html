@@ -1,11 +1,15 @@
 <div class="plan-item-creator">
   <button class="btn-close" (click)="onCancel()">✕</button>
+ 
+  <div class="item-name-container" (click)="enableEditName()" [class.editing]="isEditingName">
+    <label *ngIf="!isEditingName" class="item-name-text">{{ itemName }}</label>
+    <input *ngIf="isEditingName" id="itemNameInput" type="text" [(ngModel)]="itemName" (blur)="disableEditName()" />
+  </div>
 
-  <label for="itemNameInput">Nombre del Item</label>
-  <input id="itemNameInput" type="text" [(ngModel)]="itemName" placeholder="Ingrese nombre" />
-
-  <label for="dayInput">Día asignado</label>
-  <input id="dayInput" type="number" [(ngModel)]="selectedDay" [min]="1" [max]="maxDays" />
+  <div class="day-assigned-container">
+    <label for="dayInput">Día </label>
+    <input id="dayInput" type="number" [(ngModel)]="selectedDay" [min]="1" [max]="maxDays" />
+  </div>
 
   <button (click)="onSave()" [disabled]="!itemName.trim()">Guardar</button>
 </div>

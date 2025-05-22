@@ -1,16 +1,21 @@
-<!-- plan-item-board.component.html -->
 <div #daysContainer class="days-container">
-  <div class="day-box" *ngFor="let day of daysArray">
-    
+  <div 
+    class="day-box" 
+    *ngFor="let day of daysArray"
+    cdkDropList
+    [cdkDropListData]="getItemsForDay(day)"
+    (cdkDropListDropped)="drop($event, day)">
+
     <div class="day-title">Día {{ day }}</div>
 
     <div class="items-container">
-      <div *ngFor="let item of getItemsForDay(day)" class="item-box">
+      <div 
+        *ngFor="let item of getItemsForDay(day)" 
+        cdkDrag 
+        [cdkDragData]="item" 
+        class="item-box">
         {{ item.itemName }}
       </div>
     </div>
-
   </div>
 </div>
-
-  
