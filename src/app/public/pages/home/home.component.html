@@ -1,0 +1,325 @@
+<div class="home-container">
+  <!-- Hero Banner -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="user-greeting">
+        <h1>Bienvenido, <span class="user-name">{{userName}}</span></h1>
+        <p class="user-role">{{userRole}}</p>
+        
+        <div class="hero-actions">
+          <div class="plant-selector">
+
+            <mat-form-field appearance="outline" class="mat-form-field-custom">
+              <mat-label>Planta Actual</mat-label>
+              <mat-select [(value)]="selectedPlant">
+                <mat-option *ngFor="let plant of plants" [value]="plant.id">
+                  {{plant.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            
+          </div>
+          
+          <button mat-raised-button color="primary" class="action-button">
+            <mat-icon>add_circle</mat-icon>
+            Crear Orden de Trabajo
+          </button>
+        </div>
+      </div>
+     
+    </div>
+  </section>
+
+  <!-- KPI Dashboard -->
+  <section class="kpi-dashboard">
+    <h2 class="section-title">Métricas Globales</h2>
+    
+    <div class="kpi-cards">
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <mat-icon>schedule</mat-icon>
+          <h3>MTTR</h3>
+        </div>
+        <div class="kpi-value">2.5h</div>
+        <div class="kpi-trend up">
+          <mat-icon>arrow_upward</mat-icon>
+          <span>12%</span>
+        </div>
+      </div>
+      
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <mat-icon>update</mat-icon>
+          <h3>MTBF</h3>
+        </div>
+        <div class="kpi-value">180h</div>
+        <div class="kpi-trend down">
+          <mat-icon>arrow_downward</mat-icon>
+          <span>5%</span>
+        </div>
+      </div>
+      
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <mat-icon>pending_actions</mat-icon>
+          <h3>OTs Abiertas</h3>
+        </div>
+        <div class="kpi-value">24</div>
+        <div class="kpi-trend up">
+          <mat-icon>arrow_upward</mat-icon>
+          <span>8%</span>
+        </div>
+      </div>
+      
+      <div class="kpi-card">
+        <div class="kpi-header">
+          <mat-icon>warning</mat-icon>
+          <h3>Alertas Stock</h3>
+        </div>
+        <div class="kpi-value">7</div>
+        <div class="kpi-trend neutral">
+          <mat-icon>remove</mat-icon>
+          <span>0%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <div class="dashboard-grid">
+    <!-- Quick Links -->
+    <section class="quick-links">
+      <h2 class="section-title">Accesos Rápidos</h2>
+      <div class="links-grid">
+        <a class="quick-link"
+           *ngFor="let link of quickLinks"
+           [routerLink]="link.route">
+          <div class="link-icon">
+            <mat-icon>{{link.icon}}</mat-icon>
+          </div>
+          <span class="link-text">{{link.name}}</span>
+        </a>
+      </div>
+    </section>
+    
+    <!-- Recent Notifications -->
+    <section class="notifications">
+      <div class="section-header">
+        <h2 class="section-title">Notificaciones Recientes</h2>
+        <a class="view-all">Ver todas</a>
+      </div>
+      
+      <div class="notification-list">
+        <div class="notification-item" *ngFor="let notification of recentNotifications">
+          <div class="notification-icon" [ngClass]="notification.type">
+            <mat-icon>{{notification.icon}}</mat-icon>
+          </div>
+          <div class="notification-content">
+            <p class="notification-text">{{notification.message}}</p>
+            <span class="notification-time">{{notification.time}}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+       <!-- Personal Summary -->
+       <section class="personal-summary">
+        <h2 class="section-title">Información del personal de la planta</h2>
+        
+        <div class="admin-dashboard">
+          <div class="team-performance">
+            <h3><mat-icon>trending_up</mat-icon> Rendimiento del equipo</h3>
+            <div class="performance-bar">
+              <div class="bar-fill high"></div>
+            </div>
+            <div class="performance-meta">
+              <span>Promedio de cumplimiento</span>
+              <span class="performance-percent">85%</span>
+            </div>
+          </div>
+          
+          <div class="team-stats">
+            <div class="stat-card">
+              <div class="stat-value">12</div>
+              <div class="stat-label">Técnicos activos</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">85%</div>
+              <div class="stat-label">OTs a tiempo</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">4</div>
+              <div class="stat-label">OTs atrasadas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-value">92%</div>
+              <div class="stat-label">Eficiencia</div>
+            </div>
+          </div>
+          
+          <div class="action-tips">
+            <mat-icon>priority_high</mat-icon>
+            <p>La <strong>Línea A12</strong> está por debajo del 60% de eficiencia. Se recomienda revisar la asignación de personal.</p>
+          </div>
+        </div>
+      </section>
+    
+    <!-- Maintenance Timeline -->
+    <section class="maintenance-timeline">
+      <div class="section-header">
+        <h2 class="section-title">Próximos Mantenimientos</h2>
+        <a class="view-all">Ver calendario</a>
+      </div>
+      
+      <div class="timeline-scroll">
+        <div class="timeline-card" *ngFor="let maintenance of scheduledMaintenance">
+          <div class="timeline-date">
+            <span class="day">{{maintenance.date.day}}</span>
+            <span class="month">{{maintenance.date.month}}</span>
+          </div>
+          <div class="timeline-content">
+            <h4 class="equipment-name">{{maintenance.equipment}}</h4>
+            <div class="timeline-details">
+              <span class="priority" [ngClass]="'priority-'+maintenance.priority">
+                {{maintenance.priority}}
+              </span>
+              <span class="status" [ngClass]="maintenance.status">
+                {{maintenance.status}}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Equipment Status -->
+    <section class="equipment-status">
+      <div class="section-header">
+        <h2 class="section-title">Estado de Equipos</h2>
+        <a class="view-all">Ver detalles</a>
+      </div>
+      
+      <div class="equipment-grid">
+        <div class="equipment-card" *ngFor="let equipment of equipmentStatus">
+          <div class="equipment-icon" [ngClass]="equipment.status">
+            <mat-icon>{{equipment.icon}}</mat-icon>
+          </div>
+          <div class="equipment-info">
+            <h4>{{equipment.name}}</h4>
+            <p class="equipment-location">{{equipment.location}}</p>
+            <span class="status-badge" [ngClass]="equipment.status">
+              {{equipment.statusText}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Inventory Health -->
+    <section class="inventory-health">
+      <div class="section-header">
+        <h2 class="section-title">Salud del Inventario</h2>
+        <a class="view-all">Ver inventario</a>
+      </div>
+      
+      <div class="inventory-heatmap">
+        <div class="heatmap-legend">
+          <span class="legend-item critical">Crítico</span>
+          <span class="legend-item warning">Bajo</span>
+          <span class="legend-item normal">Normal</span>
+        </div>
+        
+        <div class="heatmap-grid">
+          <div class="heatmap-item" *ngFor="let item of inventoryHealth" 
+               [ngClass]="item.status">
+            <div class="item-icon">
+              <mat-icon>{{item.icon}}</mat-icon>
+            </div>
+            <div class="item-details">
+              <h4>{{item.name}}</h4>
+              <div class="item-stock">
+                <span class="current">{{item.current}}</span>
+                <span class="separator">/</span>
+                <span class="minimum">{{item.minimum}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Recent Activity -->
+    <section class="recent-activity">
+      <div class="section-header">
+        <h2 class="section-title">Actividad Reciente</h2>
+        <a class="view-all">Ver histórico</a>
+      </div>
+      
+      <div class="activity-list">
+        <div class="activity-item" *ngFor="let activity of recentActivity">
+          <div class="activity-time">{{activity.time}}</div>
+          <div class="activity-content">
+            <div class="activity-icon" [ngClass]="activity.type">
+              <mat-icon>{{activity.icon}}</mat-icon>
+            </div>
+            <div class="activity-details">
+              <p class="activity-text">
+                <span class="activity-user">{{activity.user}}</span> 
+                {{activity.action}}
+              </p>
+              <div class="activity-meta">
+                <span class="activity-id">{{activity.workOrderId}}</span>
+                <span class="activity-equipment">{{activity.equipment}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Personal Productivity -->
+    <section class="personal-productivity">
+      <div class="section-header">
+        <h2 class="section-title">Mi Productividad</h2>
+        <a class="view-all">Ver tareas</a>
+      </div>
+      
+      <div class="productivity-content">
+        <div class="productivity-stats">
+          <div class="stat-item">
+            <div class="stat-value">8</div>
+            <div class="stat-label">Tareas Asignadas</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Tareas Pendientes Hoy</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">12</div>
+            <div class="stat-label">Notificaciones</div>
+          </div>
+        </div>
+        
+        <div class="task-preview">
+          <h3>Próximas Tareas</h3>
+          <div class="task-list">
+            <div class="task-item" *ngFor="let task of upcomingTasks">
+              <div class="task-checkbox">
+                <mat-icon>check_box_outline_blank</mat-icon>
+              </div>
+              <div class="task-content">
+                <p class="task-name">{{task.name}}</p>
+                <div class="task-meta">
+                  <span class="task-due">{{task.dueDate}}</span>
+                  <span class="task-priority" [ngClass]="'priority-'+task.priority">
+                    {{task.priority}}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+ 
+  </div>
+</div>

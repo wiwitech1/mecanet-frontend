@@ -80,7 +80,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   loading = true;
   error: string | null = null;
   searchTerm = '';
-  
+
   // Estado de la interfaz
   showDetailPanel = false;
   showCreateModal = false;
@@ -95,7 +95,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
     { key: 'status', label: 'Estado', type: 'texto' },
     { key: 'actions', label: 'Acciones', type: 'cta', ctaLabel: 'Ver', ctaVariant: 'primary' }
   ];
-  
+
   tableActions = [
     { name: 'Ver detalles', icon: 'visibility' },
     { name: 'Editar', icon: 'edit' }
@@ -132,7 +132,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   loadPlants(): void {
     this.loading = true;
     this.error = null;
-    
+
     this.plantService.getAll()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -163,7 +163,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   // Acciones del usuario
   onSearch(event: string): void {
     this.searchTerm = event;
-    this.filteredPlants = this.plants.filter(plant => 
+    this.filteredPlants = this.plants.filter(plant =>
       plant.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
       plant.id.toString().includes(this.searchTerm)
     );
@@ -171,7 +171,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   onTableAction(event: { row: any, column: RecordTableColumn }): void {
     const { row, column } = event;
-    
+
     if (column.key === 'actions') {
       this.showPlantDetails(row.id);
     }
@@ -180,7 +180,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   showPlantDetails(plantId: number): void {
     this.selectedPlantId = plantId;
     this.loading = true;
-    
+
     this.plantService.getById(plantId)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -200,7 +200,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   prepareInfoPanelData(): void {
     if (!this.selectedPlant) return;
-    
+
     this.infoData = [
       { label: 'ID', value: this.selectedPlant.id },
       { label: 'Nombre', value: this.selectedPlant.name },
@@ -210,7 +210,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
       { label: 'Creado', value: this.selectedPlant.createdAt.toLocaleDateString() },
       { label: 'Última actualización', value: this.selectedPlant.updatedAt.toLocaleDateString() }
     ];
-    
+
     // Preparamos los datos de las líneas de producción para el panel
     this.productionLinesItems = this.selectedPlant.productionLines.map(line => ({
       id: line.id,
@@ -268,7 +268,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   savePlant(plantData: Partial<PlantEntity>): void {
     this.loading = true;
     this.error = null;
-    
+
     this.plantService.create(plantData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
@@ -288,24 +288,24 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   // Método para actualizar una planta existente
   updatePlant(plantData: Partial<PlantEntity>): void {
     if (!plantData.id) return;
-    
+
     this.loading = true;
     this.error = null;
-    
+
     this.plantService.update(plantData.id, plantData)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (updatedPlant) => {
-          this.plants = this.plants.map(p => 
+          this.plants = this.plants.map(p =>
             p.id === updatedPlant.id ? updatedPlant : p
           );
           this.filteredPlants = [...this.plants];
-          
+
           if (this.selectedPlantId === updatedPlant.id) {
             this.selectedPlant = updatedPlant;
             this.prepareInfoPanelData();
           }
-          
+
           this.loading = false;
         },
         error: (err) => {
@@ -318,16 +318,16 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   togglePlantStatus(): void {
     if (!this.selectedPlant || this.selectedPlantId === null) return;
-    
-    const newStatus = this.selectedPlant.status === PlantStatus.ACTIVE 
-      ? PlantStatus.INACTIVE 
+
+    const newStatus = this.selectedPlant.status === PlantStatus.ACTIVE
+      ? PlantStatus.INACTIVE
       : PlantStatus.ACTIVE;
-    
+
     const plantToUpdate: Partial<PlantEntity> = {
       id: this.selectedPlantId,
       status: newStatus
     };
-    
+
     this.updatePlant(plantToUpdate);
   }
 

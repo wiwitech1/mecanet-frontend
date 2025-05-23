@@ -1,0 +1,76 @@
+<div class="login-container">
+  <!-- Mitad izquierda (imagen con recorte diagonal) -->
+  <div class="login-image">
+    <img src="/assets/img/login-img.png" alt="Company logo" class="logo" />
+  </div>
+
+  <!-- Mitad derecha (formulario) -->
+  <div class="login-form-wrapper">
+    <form class="form-content" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <img src="assets/img/logo.png" alt="Company logo" class="logo" />
+
+      <h1 class="title">Iniciar Sesión</h1>
+      <p class="subtitle">¡Nos alegra tenerte de vuelta!</p>
+
+      <!-- Correo -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo electrónico</mat-label>
+        <input
+          matInput
+          placeholder="admin@company.com"
+          formControlName="email"
+          type="email"
+        />
+        <mat-error *ngIf="email.invalid && (email.dirty || email.touched)"
+          >Ingresa un correo válido</mat-error
+        >
+      </mat-form-field>
+
+      <!-- Contraseña -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          placeholder="********"
+          formControlName="password"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="hide = !hide"
+          aria-label="Mostrar u ocultar contraseña"
+        >
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="password.invalid && (password.dirty || password.touched)"
+          >La contraseña es obligatoria</mat-error
+        >
+      </mat-form-field>
+
+      <a routerLink="/forgot-password" class="forgot-link">Olvidé mi contraseña</a>
+
+       <!-- Mensajes de éxito y error -->
+  <div *ngIf="successMessage" class="success-message">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      <!-- Enviar -->
+      <button
+        mat-raised-button
+        color="primary"
+        class="submit-btn"
+        type="submit"
+        [disabled]="loginForm.invalid"
+      >
+        Iniciar Sesión
+      </button>
+
+      <p class="signup-text">
+        No tienes una cuenta?
+        <a routerLink="/registrar">Crea una</a>
+      </p>
+    </form>
+  </div>
+
+ 
+</div>

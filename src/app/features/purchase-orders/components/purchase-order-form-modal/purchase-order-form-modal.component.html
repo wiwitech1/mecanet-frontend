@@ -1,0 +1,170 @@
+<div class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h2>{{ isEdit ? 'Editar Orden de Compra' : 'Nueva Orden de Compra' }}</h2>
+            <button class="close-button" (click)="handleCancel()">×</button>
+        </div>
+
+        <div class="modal-content">
+            <form (ngSubmit)="handleSubmit()" #form="ngForm" class="form-container">
+                <div class="form-group">
+                    <label for="orderNumber">Número de Orden</label>
+                    <input
+                        id="orderNumber"
+                        [(ngModel)]="formData.orderNumber"
+                        name="orderNumber"
+                        type="text"
+                        required
+                        [disabled]="isEdit"
+                        placeholder="Ingrese el número de orden"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="supplier">Proveedor</label>
+                    <input
+                        id="supplier"
+                        [(ngModel)]="formData.supplier"
+                        name="supplier"
+                        type="text"
+                        required
+                        placeholder="Ingrese el nombre del proveedor"
+                    />
+                </div>
+
+                <div class="form-group">
+                    <label for="inventoryPartId">Repuesto</label>
+                    <select
+                        id="inventoryPartId"
+                        [(ngModel)]="formData.inventoryPartId"
+                        name="inventoryPartId"
+                        required
+                    >
+                        <option [ngValue]="undefined" disabled>Seleccione un repuesto</option>
+                        <option *ngFor="let part of inventoryParts" [ngValue]="part.id">
+                            {{ part.name }} ({{ part.code }})
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="quantity">Cantidad</label>
+                        <input
+                            id="quantity"
+                            [(ngModel)]="formData.quantity"
+                            name="quantity"
+                            type="number"
+                            required
+                            min="1"
+                            (change)="updateTotalAmount()"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Precio Unitario</label>
+                        <input
+                            id="price"
+                            [(ngModel)]="formData.price"
+                            name="price"
+                            type="number"
+                            required
+                            min="0"
+                            step="0.01"
+                            (change)="updateTotalAmount()"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="orderDate">Fecha de Orden</label>
+                        <input
+                            id="orderDate"
+                            [(ngModel)]="formData.orderDate"
+                            name="orderDate"
+                            type="date"
+                            required
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expectedDate">Fecha Esperada</label>
+                        <input
+                            id="expectedDate"
+                            [(ngModel)]="formData.expectedDate"
+                            name="expectedDate"
+                            type="date"
+                            required
+                        />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="status">Estado</label>
+                        <select
+                            id="status"
+                            [(ngModel)]="formData.status"
+                            name="status"
+                            required
+                        >
+                            <option *ngFor="let option of statusOptions" [value]="option.value">
+                                {{ option.label }}
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="totalAmount">Monto Total</label>
+                        <input
+                            id="totalAmount"
+                            [(ngModel)]="formData.totalAmount"
+                            name="totalAmount"
+                            type="number"
+                            required
+                            readonly
+                            min="0"
+                            step="0.01"
+                        />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">Notas</label>
+                    <textarea
+                        id="notes"
+                        [(ngModel)]="formData.notes"
+                        name="notes"
+                        rows="3"
+                        placeholder="Ingrese notas adicionales"
+                    ></textarea>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <app-button
+                variant="outline"
+                (click)="handleCancel()"
+            >
+                Cancelar
+            </app-button>
+            <app-button
+                *ngIf="isEdit"
+                variant="danger"
+                (click)="handleDelete()"
+                style="background-color: var(--clr-danger);"
+            >
+                Eliminar
+            </app-button>
+            <app-button
+                variant="primary"
+                (click)="handleSubmit()"
+                [disabled]="!form.valid"
+            >
+                {{ isEdit ? 'Guardar Cambios' : 'Crear' }}
+            </app-button>
+        </div>
+    </div>
+</div>
