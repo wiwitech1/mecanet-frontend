@@ -1,0 +1,17 @@
+<div class="task-box">
+    <label>Nombre de Tarea</label>
+    <input type="text" [(ngModel)]="taskName" />
+  
+    <label>Descripción</label>
+    <textarea [(ngModel)]="taskDescription"></textarea>
+  
+    <label>Máquinas (IDs separados por coma)</label>
+<input type="text" [(ngModel)]="machineIdsInput" />
+
+  
+    <div class="actions">
+      <button (click)="onCreate()">Crear Tarea</button>
+      <button (click)="cancel.emit()">Cancelar</button>
+    </div>
+  </div>
+  

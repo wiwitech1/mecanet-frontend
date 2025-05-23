@@ -1,0 +1,29 @@
+<!-- Clic en overlay ⇒ cerrar; clic dentro del contenido NO lo propaga -->
+<div class="modal-overlay" (click)="onClose()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2>Seleccione el Tipo de Plan</h2>
+  
+      <div class="plan-options">
+        <div class="plan-option" (click)="selectPlan('dynamic')">
+          <div class="plan-icon">
+            <i class="pi pi-sliders-h"></i>
+          </div>
+          <h3>Plan Dinámico</h3>
+          <p>Basado en parámetros y condiciones específicas</p>
+        </div>
+  
+        <div class="plan-option" (click)="selectPlan('static')">
+          <div class="plan-icon">
+            <i class="pi pi-calendar"></i>
+          </div>
+          <h3>Plan Estático</h3>
+          <p>Programado a fechas y períodos fijos</p>
+        </div>
+      </div>
+  
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="onClose()">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  

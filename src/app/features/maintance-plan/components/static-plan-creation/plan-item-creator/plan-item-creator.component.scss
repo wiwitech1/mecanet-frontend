@@ -1,0 +1,243 @@
+.plan-item-wrapper {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+
+  .plan-item-creator {
+    border: 1px solid var(--clr-grey-200);
+    padding: 1rem;
+    border-radius: 6px;
+    min-width: 20rem;
+    ///max-width: 29rem;
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  /* INPUTS DEL DÍA Y LAS MÁQUINAS */
+  .inputs-vertical-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .form-row {
+
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    align-items: flex-start;
+    gap: 1.2rem;
+  
+    label {
+      width: 6rem;
+      padding-top: 0.4rem;
+    }
+  
+  }
+  
+  
+  
+  
+  
+  .form-row label {
+    font-weight: 400;
+    color: var(--clr-primary-500);
+    font-size: 0.95rem;
+    text-align: left;
+  }
+  
+  .form-row input {
+    width: 100%;
+    padding: 0.6rem 0.8rem;
+    border-radius: 10px;
+    border: 1px solid var(--clr-grey-200);
+    font-size: 0.95rem;
+    box-sizing: border-box;
+  }
+  
+
+  /* INPUTS DEL DÍA Y LAS MÁQUINAS */
+
+  .btn-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    border: none;
+    background: transparent;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  
+
+  /* INPUT DEL NOMBRE DEL ITEM */
+  .item-name-container {
+    margin-bottom: 1rem;
+    cursor: pointer;
+  }
+  
+  .item-name-text {
+    color: var(--clr-text);
+    display: inline-block;
+    font-weight: bold;
+    font-size: 1rem;
+    border-bottom: 1px dotted transparent;
+    transition: border-color 0.3s ease;
+    padding-bottom: 2px;
+  }
+  
+  .item-name-container:hover .item-name-text {
+    border-color: var(--clr-grey-200);
+  }
+  
+  .item-name-container.editing .item-name-text {
+    border-color: transparent;
+  }
+  
+  .item-name-container.editing input {
+    color: var(--clr-text);
+    font-family: var(--font-family-base);
+    border: none;
+    border-bottom: 1px solid var(--clr-grey-200);
+    outline: none;
+    font-size: 1rem;
+    font-weight: bold;
+    padding: 2px 0;
+    box-sizing: border-box;
+  }
+
+  /* INPUT DEL NOMBRE DEL ITEM */
+  
+  button[disabled] {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+
+
+  /*SELECTOR DE MÁQUINAS*/
+  
+  
+  .machinery-panel {
+    border: 1px solid var(--clr-grey-200);
+    border-radius: 6px;
+    padding: 1rem;
+    min-width: 16rem;
+    max-width: 20rem;
+    height: auto;
+    background-color: var(--clr-bg);
+  }
+  
+  .machine-input {
+    padding: 0.5rem 0.8rem;
+    border-radius: 12px;
+    border: 1px solid var(--clr-grey-200);
+    background-color: white;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--clr-text);
+    width: 100%;
+  }
+  
+  .machinery-list {
+    list-style: none;
+    padding-left: 0;
+    overflow-y: auto;
+    margin-top: 0.8rem;
+  
+    li {
+      margin-bottom: 0.5rem; /* espacio entre elementos */
+    }
+  
+    label {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+    }
+  
+    input[type="checkbox"] {
+      accent-color: var(--clr-primary-500); // si usas colores personalizados
+    }
+  }
+  
+
+  .machine-display {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.4rem 0.6rem;
+    min-height: 2.3rem;
+    max-height: 2.5rem;
+    border: 1px solid var(--clr-grey-200);
+    border-radius: 12px;
+    background-color: white;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-size: 0.9rem;
+    height: auto;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .chip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 6rem;
+    padding: 0.1rem 0.3rem;
+    background-color: #f2f0fa;
+    border-radius: 20px;
+    box-sizing: border-box;
+    font-size: 0.85rem;
+  
+    &.chip-more {
+      background-color: rgb(232, 233, 235);
+      color: var(--clr-primary-700);
+      font-weight: 500;
+      cursor: pointer;
+      width: 2rem;
+      justify-content: center;
+    }
+  }
+  
+  .chip-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex: 1;
+  }
+  
+  .chip-remove {
+    background-color: var(--clr-primary-400);
+    color: white;
+    border-radius: 50%;
+    font-size: 1.3em;
+    width: 1.2rem;
+    height: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0.3rem;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  
+  .actions {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    button {
+    font-family: var(--font-family-base);
+    background:  var(--clr-primary-400);
+    color: white;
+    border: none;
+    border-radius: 12em;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+    }
+  }

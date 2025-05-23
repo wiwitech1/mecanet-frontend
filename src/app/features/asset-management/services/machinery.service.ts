@@ -78,4 +78,5 @@ export class MachineryService {
     console.error('Error en MachineryService:', error);
     return throwError(() => new Error('Ocurrió un error al procesar la solicitud. Por favor intente nuevamente.'));
   }
+
 }
