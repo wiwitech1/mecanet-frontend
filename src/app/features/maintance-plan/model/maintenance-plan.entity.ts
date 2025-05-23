@@ -19,7 +19,7 @@ export interface MaintenancePlanData {
   repeatCycle: number;
   planName: string;
   productionLineId: number;
-  startDate: Date;
+  startDate: string | null;
   durationDays: number;
   userCreator: number;
   items: MaintenancePlanItem[];

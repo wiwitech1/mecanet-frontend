@@ -6,12 +6,13 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+gap: 1rem;
 }
  
 .modal-content {
+  display: inline-block;
   background: white;
   padding: 2rem 3rem;
-  width: auto;
   max-width: 90vw;
   min-width: 45em;
   border-radius: 15px;
@@ -21,30 +22,21 @@
   transition: width 0.3s ease;
 }
 
-.modal-secondary {
-  margin-left: 20px;
-  width: 300px;
-  height: 300px;
-  max-height: 90vh;
-  overflow-y: auto;
-  border: 2px solid #498fe0;
+.error-message {
+  color: #c00;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 }
 
-.subview-general,
-.subview-detallada {
-  max-width: 70em;
-  width: 100%;
-  box-sizing: border-box;
-}
 
 .modal-wide {
-  width: 55em;
+  width: 60em;
 }
 
 .modal-content:not(.modal-wide) {
   width: 46em; /* ancho base */
 }
-
+ 
 
 .modal-title {
   font-size: 1.2rem;
@@ -56,7 +48,6 @@
 .tabs {
   display: flex;
   width: 100%;
-  margin-bottom: 1.9rem;
   font-size: 0.9em;
 
   .tab {
@@ -80,6 +71,7 @@
 }
 
 .form-section {
+  margin-top: 1.9rem;
   display: grid;
   grid-template-columns: max-content 1fr;
   column-gap: 4.5rem;

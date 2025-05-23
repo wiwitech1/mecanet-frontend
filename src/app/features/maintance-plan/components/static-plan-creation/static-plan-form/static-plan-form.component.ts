@@ -1,22 +1,31 @@
 import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
 import { MaintenancePlanService } from '../../../services/maintenance-plan.service';
-import { ProductionLineService } from '../../../../shared/production-lines/services/production-line.service';
-
+import { ProductionLineService } from '../../../../asset-management/services/production-line.service';
 import { PlanItemBoardComponent } from '../plan-item-board/plan-item-board.component';
-
 import { PlanItemCreatorComponent } from '../plan-item-creator/plan-item-creator.component';
-
-
-import { MaintenancePlanItem } from '../../../model/maintenance-plan.entity';
+import { MaintenancePlanItem, MaintenanceTask } from '../../../model/maintenance-plan.entity';
+import { MaintenancePlanData } from '../../../model/maintenance-plan.entity';
 
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
+/*Animaciones */
+import { TemplatePortal } from '@angular/cdk/portal';
+import { TemplateRef, ViewContainerRef } from '@angular/core';
+
+import {
+  Overlay,OverlayRef,ConnectedPosition,FlexibleConnectedPositionStrategy} from '@angular/cdk/overlay';
+import { ComponentRef, ElementRef, ViewChild, Injector } from '@angular/core';
+import { ComponentPortal } from '@angular/cdk/portal';
+/*Animaciones */
+
+
 interface ProductionLine { id: number; name: string; }
 interface Machine         { id: number; name: string; productionLineId: number; }
- 
+
+
+
 @Component({
   selector: 'app-static-plan-form',
   standalone: true,
@@ -25,20 +34,141 @@ interface Machine         { id: number; name: string; productionLineId: number; 
   styleUrls: ['./static-plan-form.component.scss', './static-plan-form2.component.scss']
 })
 export class StaticPlanFormComponent implements OnInit {
-  activeTab: number = 1; // Por defecto muestra la pestaña 1
 
-  constructor(private productionLineService: ProductionLineService) {}
+  constructor(private productionLineService: ProductionLineService, private overlay: Overlay, private injector: Injector,  private viewContainerRef: ViewContainerRef, private maintenancePlanService: MaintenancePlanService) {}
+
+
+  formData: MaintenancePlanData = {
+    planName: '',
+    productionLineId: 0,
+    startDate: null,
+    repeatCycle: 1,
+    durationDays: 3,
+    planId: 0,
+    userCreator: 1,
+    items: []
+  };
+
 
   ngOnInit() {
     this.productionLineService.getProductionLineIdAndName().subscribe({
       next: (lines) => {
-        console.log('Production lines (id & name):', lines);
+        this.productionLines = lines;
+        this.filteredLines = lines;
+        console.log(this.productionLines);
       },
       error: (err) => {
         console.error('Error fetching production lines:', err);
       }
     });
   }
+
+  /*BUSQUEDA DE LINEAS DE PRODUCCION*/
+  productionLines: { id: number; name: string }[] = [];
+  filteredLines: { id: number; name: string }[] = [];
+  selectedProductionLineName: string = '';
+
+
+  onSearchChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const term = input.value.toLowerCase();
+  
+    this.filteredLines = this.productionLines.filter(line =>
+      line.name.toLowerCase().includes(term)
+    );
+  }
+
+  selectLine(line: { id: number; name: string }) {
+    this.formData.productionLineId = line.id;
+    this.selectedProductionLineName = line.name;
+  }
+
+
+  // Animaciones
+
+  hasAnimatedPanel = false;
+  panelExpanded = false;
+  @ViewChild('productionLineInputRef') productionLineInputRef!: ElementRef;
+
+  overlayRef!: OverlayRef;
+
+  @ViewChild('ballTemplate') ballTemplate!: TemplateRef<any>;
+
+  inputOffset = { top: 0, left: 0 };
+
+  resetPanelState() {
+    this.hasAnimatedPanel = false;
+    this.panelExpanded = false;
+    this.isEditingProductionLine = false;
+  }
+  
+
+  showBallOverlay() {
+    if (this.overlayRef) return;
+
+    this.resetPanelState();
+
+    const inputElement = this.productionLineInputRef.nativeElement;
+    const rect = inputElement.getBoundingClientRect();
+  
+    const finalBallOffset = 70;
+    const spacing = 8;
+  
+    const positionStrategy = this.overlay.position()
+      .flexibleConnectedTo(inputElement)
+      .withPositions([
+        {
+          originX: 'end',
+          originY: 'center',
+          overlayX: 'start',
+          overlayY: 'center',
+          offsetX: spacing
+        }
+      ]);
+  
+    this.overlayRef = this.overlay.create({
+      positionStrategy,
+      hasBackdrop: false,
+      scrollStrategy: this.overlay.scrollStrategies.reposition()
+    });
+  
+    const portal = new TemplatePortal(this.ballTemplate, this.viewContainerRef);
+    this.overlayRef.attach(portal);
+  
+    // Esperamos a que se renderice la bolita y termine su animación (400ms)
+    setTimeout(() => {
+      const ballOverlayElement = this.overlayRef.overlayElement.querySelector('.trigger-ball') as HTMLElement;
+  
+      // 1. Mostramos el contenedor (nace como bolita)
+      this.isEditingProductionLine = true;
+  
+      // 2. Esperamos al próximo tick para asegurar que el DOM lo pinte
+      setTimeout(() => {
+        this.hasAnimatedPanel = true;
+  
+        setTimeout(() => {
+          this.hasAnimatedPanel = false;
+          this.panelExpanded = true;
+        }, 200); // duración igual a la animación
+      }, 20);
+  
+      // 5. Ya no necesitamos la bolita
+      this.hideBallOverlay();
+    }, 250);
+  }
+  
+  hideBallOverlay() {
+    if (this.overlayRef) {
+      this.overlayRef.detach();
+      this.overlayRef = undefined!;
+    }
+  }
+
+  //
+
+
+  activeTab: number = 1; // Por defecto muestra la pestaña 1
+
 
   selectedItem: MaintenancePlanItem | null = null;
 
@@ -64,31 +194,41 @@ export class StaticPlanFormComponent implements OnInit {
     this.activeTab = tabNumber;
   }
 
-  formData = {
-    planName: '',
-    productionLineId: '',
-    startDate: '',
-    repeatCycle: 1,
-    durationDays: 3,
-    items: [] as {
-      dayNumber: number;
-      itemName: string;
-      tasks: {
-        taskId: number | null;
-        taskName: string;
-        taskDescription: string;
-        machineIds: number[];
-      }[];
-    }[]
-  };
   
   onClose() {
+    this.submitted = false;
     this.close.emit();
   }
 
-  onContinue() {
-    console.log('Plan actual:', this.formData);
+
+  /*FUNCIONES DE VALIDACION Y CREACION DE PLAN*/
+  submitted = false;
+
+  isFormValid(): boolean {
+    const nameOk = this.formData.planName?.trim().length > 0;
+    const lineOk = this.formData.productionLineId > 0;
+    const dateOk = typeof this.formData.startDate === 'string' && this.formData.startDate.trim() !== '';
+    return nameOk && lineOk && dateOk;
   }
+
+
+  onContinue() {
+    this.submitted = true;
+    if (!this.isFormValid()) return;
+
+    const planToSave = {
+      ...this.formData
+    };
+
+    this.maintenancePlanService.createPlan(planToSave).subscribe({
+      next: created => {
+        console.log('✅ Plan creado:', created);
+        this.onClose();
+      },
+      error: err => console.error('❌ Error:', err)
+    });
+  }
+  
 
   /*FUNCIONES PARA MANEJAR ITEMS*/
 
@@ -103,11 +243,24 @@ export class StaticPlanFormComponent implements OnInit {
   }
 
 
-  onAddElement(data: { name: string; day: number }) {
+  onAddElement(data: {
+    itemName: string;
+    dayNumber: number;
+    tasks: {
+      taskName: string;
+      taskDescription: string;
+      machineIds: number[];
+    }[];
+  }) {
     const newItem: MaintenancePlanItem = {
-      dayNumber: data.day,
-      itemName: data.name,
-      tasks: []
+      itemName: data.itemName,
+      dayNumber: data.dayNumber,
+      tasks: data.tasks.map(t => ({
+        taskId: null,
+        taskName: t.taskName,
+        taskDescription: t.taskDescription,
+        machineIds: t.machineIds
+      }))
     };
     this.formData.items.push(newItem);
     this.selectedItem = newItem;

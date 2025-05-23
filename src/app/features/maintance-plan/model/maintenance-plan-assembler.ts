@@ -10,7 +10,7 @@ export class MaintenancePlanAssembler {
       repeatCycle: resource.repeatCycle,
       planName: resource.planName,
       productionLineId: resource.productionLineId,
-      startDate: new Date(resource.startDate),
+      startDate: resource.startDate,
       durationDays: resource.durationDays,
       userCreator: resource.userCreator,
       items: resource.items.map((item: MaintenancePlanItemResource) => ({
@@ -37,7 +37,7 @@ export class MaintenancePlanAssembler {
       planName: data.planName,
       repeatCycle: data.repeatCycle,
       productionLineId: data.productionLineId,
-      startDate: data.startDate.toISOString(),
+      startDate: data.startDate || '',
       durationDays: data.durationDays,
       userCreator: data.userCreator,
       items: data.items.map((item: MaintenancePlanItem) => ({

@@ -7,7 +7,7 @@ const NewsViewComponent = (): Promise<any> => import('./features/news/views/news
 
 const MachineryAssetViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-asset-view/machinery-asset-view.component').then(m => m.MachineryAssetViewComponent);
 const MaintancePlanComponent = (): Promise<any> => import('./features/maintance-plan/views/maintance-plan.component').then(m => m.MaintancePlanComponent);
-const PropruebaComponent = (): Promise<any> => import('./features/shared/production-lines/proprueba/proprueba.component').then(m => m.PropruebaComponent);
+
 
 export const routes: Routes = [
     { path: 'components-demo',  loadComponent: ComponentsDemoComponent },
@@ -22,7 +22,6 @@ export const routes: Routes = [
             { path: '', loadComponent: MaintancePlanComponent },
         ]
     },
-    { path: 'proprueba', loadComponent: PropruebaComponent },
     { path: '**',              loadComponent: PageNotFoundComponent }
 ];
 

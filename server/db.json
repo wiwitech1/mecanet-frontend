@@ -95,6 +95,34 @@
           "user_updater": 1,
           "created_at": "2025-05-01",
           "updated_at": "2025-05-10"
+        },
+        {
+          "id": 2,
+          "name": "Maquinaria 2",
+          "model": "CNC-2000X",
+          "brand": "ABC Manufacturing",
+          "serial_number": "SN123456789",
+          "production_capacity": 100,
+          "recommendations": "Regular maintenance is recommended every 500 hours of operation.",
+          "status": 1,
+          "user_creator": 1,
+          "user_updater": 1,
+          "created_at": "2025-05-01",
+          "updated_at": "2025-05-10"
+        },
+        {
+          "id": 3,
+          "name": "Gon mi bb",
+          "model": "CNC-2000X",
+          "brand": "ABC Manufacturing",
+          "serial_number": "SN123456789",
+          "production_capacity": 100,
+          "recommendations": "Regular maintenance is recommended every 500 hours of operation.",
+          "status": 1,
+          "user_creator": 1,
+          "user_updater": 1,
+          "created_at": "2025-05-01",
+          "updated_at": "2025-05-10"
         }
       ]
     },
@@ -123,15 +151,6 @@
           "updated_at": "2025-04-20"
         }
       ]
-    },
-    {
-      "name": "Nueva",
-      "plant_id": 1,
-      "capacity": 10,
-      "status": 1,
-      "description": "Es esta niam",
-      "machineries": [],
-      "id": "3"
     }
   ],
   "machineries": [
@@ -210,45 +229,6 @@
           "last_updated": "2025-03-15T08:00:00Z"
         }
       ]
-    },
-    {
-      "name": "Maquina x",
-      "model": "XD",
-      "brand": "efe",
-      "serial_number": "32r42",
-      "production_capacity": 1,
-      "recommendations": "10",
-      "status": 0,
-      "user_creator": 1,
-      "measurements": [
-        {
-          "name": "Kilómetros",
-          "unit": "km",
-          "value": 0,
-          "last_updated": "2025-05-14T06:53:05.345Z"
-        }
-      ],
-      "id": "3",
-      "user_updater": 1
-    },
-    {
-      "name": "BUeno",
-      "model": "weoifn",
-      "brand": "si",
-      "serial_number": "no",
-      "production_capacity": 13,
-      "recommendations": "10",
-      "status": 1,
-      "user_creator": 1,
-      "measurements": [
-        {
-          "name": "hola",
-          "unit": "gm",
-          "value": 0,
-          "last_updated": "2025-05-14T06:57:32.502Z"
-        }
-      ],
-      "id": "4"
     }
   ],
   "measurements": [
@@ -271,7 +251,7 @@
   "maintenance-plan-data": {
     "info": [
       {
-        "registers": 3
+        "registers": 4
       }
     ],
     "data": [
@@ -386,6 +366,31 @@
                 "machineIds": [
                   4,
                   3
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "planId": 4,
+        "planName": "funciono?",
+        "repeatCycle": 1,
+        "productionLineId": "1",
+        "startDate": "2025-05-14",
+        "durationDays": 1,
+        "userCreator": 1,
+        "items": [
+          {
+            "dayNumber": 1,
+            "itemName": "Item 1",
+            "tasks": [
+              {
+                "taskId": 8,
+                "taskName": "qweqweqw",
+                "taskDescription": "qwewe",
+                "machineIds": [
+                  2
                 ]
               }
             ]

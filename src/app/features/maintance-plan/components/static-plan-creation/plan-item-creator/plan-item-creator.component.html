@@ -1,3 +1,5 @@
+<div class="plan-item-wrapper">
+
 <div class="plan-item-creator">
   <button class="btn-close" (click)="onCancel()">✕</button>
  
@@ -6,10 +8,79 @@
     <input *ngIf="isEditingName" id="itemNameInput" type="text" [(ngModel)]="itemName" (blur)="disableEditName()" />
   </div>
 
-  <div class="day-assigned-container">
-    <label for="dayInput">Día </label>
-    <input id="dayInput" type="number" [(ngModel)]="selectedDay" [min]="1" [max]="maxDays" />
+  <div class="inputs-vertical-grid">
+    <div class="form-row" style="position: relative;">
+      <label for="machinesInput">Máquinas</label>
+      
+      <div id="machinesInput" class="machine-display" (click)="isSelectorOpen = true">
+        <ng-container *ngFor="let machine of visibleChips">
+          <div class="chip">
+            <span class="chip-text">{{ machine.name }}</span>
+            <span class="chip-remove" (click)="toggleMachinery(machine); $event.stopPropagation()">×</span>
+          </div>
+        </ng-container>
+    
+        <div
+          class="chip chip-more"
+          *ngIf="hiddenChipsCount > 0"
+          (click)="onExpandClick(); $event.stopPropagation()"
+        >
+          +{{ hiddenChipsCount }}
+        </div>
+      </div>
+    
+    </div>
+    
+    
+  
+    <div class="form-row">
+      <label for="dayInput">Día</label>
+      <input id="dayInput" type="number" [(ngModel)]="selectedDay" [min]="1" [max]="maxDays" />
+    </div>
+  </div>
+  
+  
+
+
+  <div class="actions">
+    <button class="btn-add-task" (click)="openTaskCreator()">+ Añadir Tarea</button>
+    <button (click)="onSave()" [disabled]="!itemName.trim()">Guardar</button>
+  </div>
+  
+</div>
+
+
+<div class="machinery-panel" *ngIf="isSelectorOpen">
+  <div class="search-container">
+    <span class="material-icons search-icon">search</span>
+    <input
+      type="text"
+      placeholder="Buscar"
+      class="search-input"
+      [(ngModel)]="searchTerm"
+    />
   </div>
 
-  <button (click)="onSave()" [disabled]="!itemName.trim()">Guardar</button>
+  <ul class="machinery-list">
+    <li *ngFor="let machine of filteredMachineries">
+      <label>
+        <input
+          type="checkbox"
+          [checked]="isMachineSelected(machine.id)"
+          (change)="toggleMachinery(machine)"
+        />
+        {{ machine.name }}
+      </label>
+    </li>
+  </ul>
+
+  <button (click)="isSelectorOpen = false">cerrar</button>
+</div>
+
+<app-task-creator 
+  *ngIf="showTaskCreator" 
+  (taskCreated)="onTaskCreated($event)"
+  (cancel)="closeTaskCreator()"
+></app-task-creator>
+
 </div>

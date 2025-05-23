@@ -1,8 +1,7 @@
-
 <div class="modal-overlay" (click)="onClose()">
   <div   class="modal-content"
   [ngClass]="{'modal-wide': activeTab === 2}"
-  (click)="$event.stopPropagation()" (click)="closeProductionLinePanel()">
+  (click)="$event.stopPropagation()" (click)="closeProductionLinePanel()" (click)="resetPanelState()">
 
     <h2 class="modal-title">Nuevo Plan de Mantenimiento Estático</h2>
 
@@ -11,18 +10,25 @@
       <div class="tab" [class.active]="activeTab === 2" (click)="activeTab = 2">Información Detallada</div>
     </div>
 
-    <div *ngIf="activeTab === 1" class="subview subview-general" >
+    <div *ngIf="activeTab === 1" >
        <!-- Formulario -->
     <div class="form-section">
       <label for="planName">Nombre</label>
       <input id="planName" class="form-control" type="text" [(ngModel)]="formData.planName" />
 
       <label for="productionLineInput">Línea de Producción</label>
-<input id="productionLineInput" class="form-control" type="text" readonly placeholder="Selecciona una línea..." [(ngModel)]="formData.productionLineId"   (click)="openProductionLinePanel($event)"
-/>
+      <input #productionLineInputRef id="productionLineInput" class="form-control" type="text" readonly placeholder="Selecciona una línea..." (click)="showBallOverlay()"  [value]="selectedProductionLineName"
+      />
 
-      <label for="startDate">Fecha Inicio</label>
+      <ng-template #ballTemplate>
+        <div class="trigger-ball"></div>
+      </ng-template>
+
+      <label for="startDate">Fecha Inicio <span class="required">*</span></label>
       <input id="startDate" class="form-control" type="date" [(ngModel)]="formData.startDate" />
+      <div class="error-message" *ngIf="submitted && (!formData.startDate || formData.startDate === '')">
+        La fecha de inicio es obligatoria.
+      </div>
     
       <label for="durationDays">Duración</label>
       <div class="input-with-unit">
@@ -40,13 +46,15 @@
 
     </div>
 
-    <div *ngIf="activeTab === 2" class="subview subview-detallada">
+    <div *ngIf="activeTab === 2">
       
+
         <app-plan-item-board 
           [items]="formData.items" 
           [durationDays]="formData.durationDays"
           (itemMoved)="onItemMoved($event)">
         </app-plan-item-board>
+        
 
       
       
@@ -63,10 +71,14 @@
         *ngIf="showItemCreator"
         [itemNameDefault]="'Item ' + (formData.items.length + 1)"
         [maxDays]="formData.durationDays"
+        [productionLineId]="formData.productionLineId"
         (saveItem)="onAddElement($event); showItemCreator = false"
         (cancel)="showItemCreator = false">
       </app-plan-item-creator>
+
+      
       </div>
+      
 
     </div>
 
@@ -77,9 +89,41 @@
     </div>
   </div>
 
-  <div *ngIf="isEditingProductionLine" class="production-line-edit-text" (click)="$event.stopPropagation()">
-    Aquí va el texto muejeje
-    <button (click)="isEditingProductionLine = false">Cerrar</button>
+<div
+  *ngIf="isEditingProductionLine"
+
+  [ngClass]="{
+    'animate-expand': hasAnimatedPanel,
+    'expanded-panel': panelExpanded
+  }"
+  class="production-line-edit-text"
+  (click)="$event.stopPropagation()"
+>
+  <div *ngIf="panelExpanded">
+
+    <div class="search-container">
+      <span class="material-icons search-icon">search</span>
+      <input
+          type="text"
+          placeholder="Buscar"
+          class="search-input"
+          (input)="onSearchChange($event)"
+        />
+
+    </div>
+
+    <div class="lines-list">
+      <div
+        class="line-item"
+        *ngFor="let line of filteredLines; let i = index"
+        [class.alt]="i % 2 === 0"
+        (click)="selectLine(line)"
+      >
+        {{ line.name }}
+      </div>
+    </div>
   </div>
+</div>
+
 
 </div>

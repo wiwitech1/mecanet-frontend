@@ -78,4 +78,25 @@ export class ProductionLineService {
     console.error('Error en ProductionLineService:', error);
     return throwError(() => new Error('Ocurrió un error al procesar la solicitud. Por favor intente nuevamente.'));
   }
+
+  getProductionLineIdAndName(): Observable<{ id: number; name: string }[]> { return this.getAllProductionLines().pipe( map((lines: ProductionLineEntity[]) => lines.map(line => ({ id: line.id, name: line.name })) ), catchError(this.handleError) ); }
+
+  /**
+   * Obtiene las maquinarias asociadas a una línea de producción específica
+   * @param productionLineId ID de la línea de producción
+   * @returns Observable con array de objetos que contienen id y nombre de las maquinarias
+   */
+  getMachineriesByProductionLine(productionLineId: number): Observable<{ id: number, name: string }[]> {
+    return this.getAllProductionLines().pipe(
+      map((lines) => {
+        const selected = lines.find(line => line.id === productionLineId);
+        return selected?.machineries?.map(m => ({
+          id: m.id,
+          name: m.name
+        })) || [];
+      }),
+      catchError(this.handleError)
+    );
+  }
+  
 }
