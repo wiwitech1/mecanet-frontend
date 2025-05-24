@@ -291,13 +291,31 @@
       "order_date": "2025-05-16",
       "expected_date": "2025-05-22",
       "id": "RLvnJz5"
+    },
+    {
+      "orderNumber": "OC-2024-004",
+      "supplier": "Tec",
+      "status": "APPROVED",
+      "orderDate": "2025-05-10",
+      "expectedDate": "2025-05-30",
+      "totalAmount": 255,
+      "inventoryPartId": 2,
+      "quantity": 17,
+      "price": 15,
+      "notes": "y5gtfredws",
+      "inventory_part_id": 2,
+      "order_date": "2025-05-10",
+      "expected_date": "2025-05-30",
+      "id": "c06H9d1"
     }
   ],
   "users": [
     {
       "id": "USR-001",
+      "code": "USR-001",
       "name": "Juan Pérez",
       "email": "juan.perez@example.com",
+      "ruc": "123456789",
       "password": "password123",
       "roles": [
         "admin",
@@ -308,8 +326,10 @@
     },
     {
       "id": "USR-002",
+      "code": "USR-002",
       "name": "María López",
       "email": "maria.lopez@example.com",
+      "ruc": "123456789",
       "password": "securepass",
       "roles": [
         "user"
@@ -319,9 +339,11 @@
     },
     {
       "id": "1dcd4c7a-c26e-43ec-86e7-72ade6c48280",
+      "code": "USR-003",
       "name": "Persona1",
       "password": "123",
       "email": "mwifnew@gmail.com",
+      "ruc": "123456789",
       "roles": [
         "user"
       ],
@@ -330,9 +352,11 @@
     },
     {
       "id": "4bb28955-d61b-4d1b-909b-5908d6ff2481",
+      "code": "USR-004",
       "name": "Persona1",
       "password": "123",
       "email": "mwifnew@gmail.com",
+      "ruc": "123456789",
       "roles": [
         "user"
       ],
@@ -341,9 +365,11 @@
     },
     {
       "id": "1e9fda11-1fee-4fbc-899f-ce096485e814",
+      "code": "USR-005",
       "name": "Persona2",
       "password": "123",
       "email": "wirng@gmail.com",
+      "ruc": "123456789",
       "roles": [
         "user"
       ],
@@ -352,9 +378,11 @@
     },
     {
       "id": "43f92037-ce65-41a3-aba1-dd0e6a4ac0a6",
+      "code": "USR-006",
       "name": "Persona2",
       "password": "123",
       "email": "wirng@gmail.com",
+      "ruc": "123456789",
       "roles": [
         "user"
       ],
@@ -363,9 +391,11 @@
     },
     {
       "id": "23b9ffcf-2031-4486-8c9e-f8a97678c9f9",
+      "code": "USR-007",
       "name": "ewfn",
       "password": "1343",
       "email": "wdn@gmail.com",
+      "ruc": "123456789",
       "roles": [
         "user"
       ],
@@ -374,9 +404,11 @@
     },
     {
       "id": "19178503-484a-49e9-b8d3-4d2a54e8f201",
+      "code": "USR-008",
       "name": "PERSONA XD",
       "password": "ewf",
       "email": "wefwe@gmail.com",
+      "ruc": "123456789",
       "roles": [
         "user"
       ],
@@ -385,9 +417,11 @@
     },
     {
       "id": "952fd621-dc75-4e7b-8231-fa7d42590245",
+      "code": "USR-009",
       "name": "peronsaxd",
       "password": "123",
       "email": "hola@gmail.com",
+      "ruc": "123456789",
       "roles": [
         "user"
       ],

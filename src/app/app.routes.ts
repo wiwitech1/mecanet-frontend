@@ -19,13 +19,14 @@ const MaintenancePlanCreateDynamicComponent = (): Promise<any> => import('./feat
 const PropruebaComponent = (): Promise<any> => import('./features/shared/production-lines/proprueba/proprueba.component').then(m => m.PropruebaComponent);
 const InventoryPartsViewComponent = (): Promise<any> => import('./features/inventory-parts/views/inventory-parts/inventory-parts.component').then(m => m.InventoryPartsComponent);
 const PurchaseOrdersViewComponent = (): Promise<any> => import('./features/purchase-orders/view/purchase-orders/purchase-orders.component').then(m => m.PurchaseOrdersComponent);
+const PersonnelAdministrationComponent = (): Promise<any> => import('./features/personnel-administration/views/personnel-administration/personnel-administration.component').then(m => m.PersonnelAdministrationComponent);
 
 export const routes: Routes = [
     // Rutas públicas o de autenticación - solo accesibles si NO hay sesión
     { path: 'iniciar-sesion', component: LoginViewComponent, canActivate: [nonAuthGuard] },
     { path: 'registrar', component: RegisterViewComponent, canActivate: [nonAuthGuard] },
     { path: '404', component: PageNotFoundComponent },
-    
+
     // Rutas protegidas - solo accesibles si hay sesión
     { path: '', component: HomeComponent, canActivate: [authGuard] },
     { path: 'components-demo', component: ComponentsDemoComponent, canActivate: [authGuard] },
@@ -47,11 +48,12 @@ export const routes: Routes = [
     { path: 'proprueba', loadComponent: PropruebaComponent, canActivate: [authGuard] },
     { path: 'inventario/repuestos', loadComponent: InventoryPartsViewComponent, canActivate: [authGuard] },
     { path: 'inventario/ordenes-compra', loadComponent: PurchaseOrdersViewComponent, canActivate: [authGuard] },
-    
+    { path: 'personal', loadComponent: PersonnelAdministrationComponent, canActivate: [authGuard] },
+
     // Ruta de redirección por defecto
     { path: '', redirectTo: '/components-demo', pathMatch: 'full' },
-    
-    
+
+
     // Página no encontrada
     { path: '**', redirectTo: '/404' }
 ];

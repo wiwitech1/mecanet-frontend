@@ -6,6 +6,18 @@
       <div class="left-container">
           <app-search
               [placeholder]="'Buscar por ID...'"
+              [filters]="[
+                  {
+                      value: 'status',
+                      label: 'Estado',
+                      options: [
+                          { value: 'PENDING', label: 'PENDING' },
+                          { value: 'APPROVED', label: 'APPROVED' },
+                          { value: 'REJECTED', label: 'REJECTED' },
+                          { value: 'CANCELLED', label: 'CANCELLED' }
+                      ]
+                  }
+              ]"
               [newLabel]="'Nueva Orden de Compra'"
               [actionFunction]="newPurchaseOrderAction"
           ></app-search>
