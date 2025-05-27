@@ -307,14 +307,34 @@
       "order_date": "2025-05-10",
       "expected_date": "2025-05-30",
       "id": "c06H9d1"
+    },
+    {
+      "orderNumber": "OC-2024-007",
+      "supplier": "Tec",
+      "status": "PENDING",
+      "orderDate": "2025-05-23",
+      "expectedDate": "2025-05-31",
+      "totalAmount": 255,
+      "inventoryPartId": 2,
+      "quantity": 15,
+      "price": 17,
+      "notes": "asdfgnm",
+      "inventory_part_id": 2,
+      "order_date": "2025-05-23",
+      "expected_date": "2025-05-31",
+      "id": "OcOt46k"
     }
   ],
   "users": [
     {
-      "id": "USR-001",
       "code": "USR-001",
       "name": "Juan Pérez",
       "email": "juan.perez@example.com",
+      "role": "admin",
+      "phone": "945464893",
+      "address": "uhhygfds",
+      "status": "active",
+      "id": "USR-001",
       "ruc": "123456789",
       "password": "password123",
       "roles": [

@@ -79,7 +79,7 @@ export class SidebarMecanetComponent {
           route: '/activos/maquinarias',
           icon: 'precision_manufacturing',
         },
-        
+
       ],
     },
     {
@@ -110,6 +110,12 @@ export class SidebarMecanetComponent {
       title: 'Administración del Personal',
       icon: 'people',
       route: '/personal',
+      roles: ['admin', 'manager'],
+    },
+    {
+      title: 'Administración de roles',
+      icon: 'people',
+      route: '/roles',
       roles: ['admin', 'manager'],
     },
     {

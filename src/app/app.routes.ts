@@ -1,3 +1,4 @@
+
 import { Routes } from '@angular/router';
 import { ProductionLineViewComponent } from './features/asset-management/views/production-line-view/production-line-view.component';
 import { PlantViewComponent } from './features/asset-management/views/plant-view/plant-view.component';
@@ -20,6 +21,7 @@ const PropruebaComponent = (): Promise<any> => import('./features/shared/product
 const InventoryPartsViewComponent = (): Promise<any> => import('./features/inventory-parts/views/inventory-parts/inventory-parts.component').then(m => m.InventoryPartsComponent);
 const PurchaseOrdersViewComponent = (): Promise<any> => import('./features/purchase-orders/view/purchase-orders/purchase-orders.component').then(m => m.PurchaseOrdersComponent);
 const PersonnelAdministrationComponent = (): Promise<any> => import('./features/personnel-administration/views/personnel-administration/personnel-administration.component').then(m => m.PersonnelAdministrationComponent);
+const RoleManagementComponent = (): Promise<any> => import('./features/role-management/views/role-management/role-management.component').then(m => m.RoleManagementComponent);
 
 export const routes: Routes = [
     // Rutas públicas o de autenticación - solo accesibles si NO hay sesión
@@ -49,6 +51,7 @@ export const routes: Routes = [
     { path: 'inventario/repuestos', loadComponent: InventoryPartsViewComponent, canActivate: [authGuard] },
     { path: 'inventario/ordenes-compra', loadComponent: PurchaseOrdersViewComponent, canActivate: [authGuard] },
     { path: 'personal', loadComponent: PersonnelAdministrationComponent, canActivate: [authGuard] },
+    { path: 'roles', loadComponent: RoleManagementComponent, canActivate: [authGuard] },
 
     // Ruta de redirección por defecto
     { path: '', redirectTo: '/components-demo', pathMatch: 'full' },

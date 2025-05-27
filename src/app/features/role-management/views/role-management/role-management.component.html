@@ -1,0 +1,90 @@
+<div class="container">
+  <header class="breadcrumb-header">
+    <app-title-view text="Gestión de Roles"/>
+  </header>
+  <div class="main-content">
+    <div class="left-container">
+      <app-search
+        [placeholder]="'Buscar por nombre o código...'"
+        [filters]="[
+            {
+                value: 'role',
+                label: 'Rol',
+                options: [
+                    { value: 'admin', label: 'Administrador' },
+                    { value: 'user', label: 'Usuario' }
+                ]
+            }
+        ]"
+        [newLabel]="'Nuevo Rol'"
+        (search)="handleSearch($event)"
+        (filterChange)="handleFilterChange($event)"
+      ></app-search>
+      <app-record-table
+        [columns]="columns"
+        [data]="filteredData"
+        (ctaClick)="handleInfoClick($event)"
+      ></app-record-table>
+    </div>
+
+    <div class="right-container" [class.show-panel]="showInfoPanel">
+      <app-information-panel
+        *ngIf="showInfoPanel && selectedUser"
+        [headerText]="'Usuario: ' + selectedUser.code"
+        [showHeader]="true"
+        [showPrimaryButton]="true"
+        [primaryButtonText]="'Editar'"
+        (primaryButtonClick)="showEditModal = true">
+
+        <app-info-container [title]="'Información Personal'" [titleType]="2">
+          <app-info-section
+            [infoType]="2"
+            [data]="infoData">
+          </app-info-section>
+        </app-info-container>
+
+        <app-info-container [title]="'Información de Contacto'" [titleType]="2">
+          <app-info-section
+            [infoType]="2"
+            [data]="contactData">
+          </app-info-section>
+        </app-info-container>
+
+        <div class="panel-actions">
+          <app-button
+            [variant]="'warning'"
+            [size]="'sm'"
+            [iconLeft]="'pi pi-times'"
+            (click)="closePanel()">
+            Cerrar
+          </app-button>
+          <app-button
+            [variant]="'outline'"
+            [size]="'sm'"
+            [iconLeft]="'pi pi-pencil'"
+            (click)="showEditModal = true">
+            Editar
+          </app-button>
+        </div>
+      </app-information-panel>
+    </div>
+  </div>
+
+  <!-- Modales -->
+  <app-personnet-administration-form-modal
+    *ngIf="showCreateModal"
+    [isEdit]="false"
+    [userData]="null"
+    (submit)="handleCreate($event)"
+    (cancel)="showCreateModal = false"
+  ></app-personnet-administration-form-modal>
+
+  <app-personnet-administration-form-modal
+    *ngIf="showEditModal"
+    [isEdit]="true"
+    [userData]="selectedUser"
+    (submit)="handleEdit($event)"
+    (delete)="handleDelete($event)"
+    (cancel)="showEditModal = false"
+  ></app-personnet-administration-form-modal>
+</div>
