@@ -8,12 +8,12 @@
     display: flex;
     align-items: center;
     font-size: .95em;
-    
+
     &-item {
         color: var(--clr-primary-300);
         font-weight: 600;
     }
-    
+
     &-separator {
         margin: 0 8px;
         color: var(--clr-primary-300);

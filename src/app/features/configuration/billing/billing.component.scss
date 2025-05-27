@@ -1,0 +1,229 @@
+$primary-purple: #846BAE;
+$light-purple: #c7a2e8;
+$text-color: #846BAE;
+$light-text: #666;
+$border-color: #ddd;
+$card-bg: #fff;
+$input-bg: #f9f9f9;
+
+.billing-container {
+  font-family: Paragraph, sans-serif;
+}
+
+.current-plan-card {
+  background-color: $primary-purple;
+  color: #fff;
+  border-radius: 10px;
+  padding: 30px;
+  margin-bottom: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .robot-icon {
+      width: 50px;
+      height: 50px;
+      margin-right: 15px;
+      background-color: #fff; // Or an actual icon
+      border-radius: 50%;
+      padding: 5px;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: 1.8em;
+    }
+
+    .plan-type {
+      font-size: 1.2em;
+      margin-left: 10px;
+      opacity: 0.8;
+    }
+  }
+
+  .card-content {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+
+
+    .plan-detail {
+      background-color: $primary-purple(255, 255, 255, 0.2);
+      padding: 15px 25px;
+      border-radius: 8px;
+      text-align: center;
+      flex: 1;
+      border: 1px solid white;
+      margin: 0 10px;
+
+      h3 {
+        margin-top: 0;
+        font-size: 1em;
+        opacity: 0.8;
+      }
+
+      p {
+        font-size: 1.6em;
+        font-weight: bold;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+.billing-details-section {
+  display: flex;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 40px;
+
+  .card-details,
+  .available-plans {
+    background-color: $card-bg;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    flex: 1;
+    border: 1px solid $primary-purple;
+
+    h3 {
+      color: $text-color;
+      margin-top: 0;
+      margin-bottom: 25px;
+      font-size: 1.4em;
+    }
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      color: $primary-purple;
+      font-size: 0.9em;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid $border-color;
+      border-radius: 6px;
+      background-color: $input-bg;
+      font-size: 1em;
+      box-sizing: border-box;
+      color: $text-color;
+
+      &:focus {
+        outline: none;
+        border-color: $primary-purple;
+        box-shadow: 0 0 0 2px rgba($primary-purple, 0.2);
+      }
+
+      &[readonly] {
+        background-color: $primary-purple;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .form-row {
+    display: flex;
+    gap: 20px;
+
+    .expiry-date,
+    .security-code {
+      flex: 1;
+    }
+  }
+
+  .available-plans {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid $primary-purple;
+
+    .plan-option-card {
+      border: 1px solid $primary-purple;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: left;
+      background-color: $card-bg;
+
+
+      .plan-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+
+        .robot-icon-small {
+          width: 50px;
+          height: 50px;
+          margin-right: 10px;
+          border-radius: 50%;
+          padding: 3px;
+        }
+
+        h4 {
+          margin: 0;
+          font-size: 1.1em;
+          color: $text-color;
+        }
+      }
+
+      .btn-acquire {
+        background-color: white;
+        color: $primary-purple;
+        border: $primary-purple 1px solid;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+        margin-top: 10px;
+        width: 100%;
+
+        &:hover {
+          background-color: darken($light-purple, 2%);
+        }
+
+        &:not(:last-child) {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+}
+
+.save-button-container {
+  display: flex;
+  justify-content: center;
+
+  .btn-save {
+    background-color: $primary-purple;
+    color: #fff;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+    &:hover {
+      background-color: darken($primary-purple, 10%);
+    }
+  }
+}

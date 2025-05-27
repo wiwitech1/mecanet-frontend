@@ -1,0 +1,47 @@
+.settings-container{
+  font-family: Paragraph, sans-serif;
+  align-self: center;
+  width: 70%;
+  margin: 0 auto; /* Centra horizontalmente el contenedor */
+  flex-direction: column;
+  align-items: center;
+  p{
+    font-family: Paragraph, sans-serif;
+  }
+  .delete-form {
+    background-color: #fff0f0;
+    border: 1px solid #f05b5b;
+    border-radius: 10px;
+    padding: 2rem;
+    margin-top: 1rem;
+    font-family: Paragraph, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .delete-form label {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .delete-form textarea {
+    resize: none;
+    min-height: 100px;
+    margin-top: 0.5rem;
+    padding: 1rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+
+  .delete-form .delete-btn {
+    margin-top: 1rem;
+    padding: 0.7rem 2rem;
+    background-color: #d64747;
+    color: white;
+    border: none;
+    border-radius: 20px;
+  }
+}
+

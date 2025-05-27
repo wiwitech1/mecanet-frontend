@@ -83,7 +83,7 @@ export class HomeComponent {
   // Usuario actual
   userName: string = 'Carlos Rodríguez';
   userRole: string = 'Gerente de Mantenimiento';
-  
+
   // Plantas
   selectedPlant: number = 1;
   plants: Plant[] = [
@@ -91,7 +91,7 @@ export class HomeComponent {
     { id: 2, name: 'Planta Norte' },
     { id: 3, name: 'Planta Sur' }
   ];
-  
+
   // Enlaces rápidos
   quickLinks: QuickLink[] = [
     { name: 'Usuarios', icon: 'people', route: '/usuarios' },
@@ -99,10 +99,10 @@ export class HomeComponent {
     { name: 'Inventario', icon: 'inventory_2', route: '/inventario/repuestos' },
     { name: 'Órdenes', icon: 'receipt', route: '/inventario/ordenes-compra' },
     { name: 'Reportes', icon: 'bar_chart', route: '/reportes' },
-    { name: 'Ajustes', icon: 'settings', route: '/ajustes' },
-    {name : "Activos", icon: "build", route: "/activos/maquinarias"}
+    { name: 'Ajustes', icon: 'settings', route: '/ajustes/cuenta' },
+    { name: "Activos", icon: "build", route: "/activos/maquinarias"}
   ];
-  
+
   // Notificaciones recientes
   recentNotifications: Notification[] = [
     {
@@ -136,7 +136,7 @@ export class HomeComponent {
       time: 'Hace 1 día'
     }
   ];
-  
+
   // Mantenimientos programados
   scheduledMaintenance: MaintenanceSchedule[] = [
     {
@@ -170,7 +170,7 @@ export class HomeComponent {
       status: 'in-progress'
     }
   ];
-  
+
   // Estado de equipos
   equipmentStatus: Equipment[] = [
     {
@@ -202,7 +202,7 @@ export class HomeComponent {
       icon: 'check_circle'
     }
   ];
-  
+
   // Salud del inventario
   inventoryHealth: InventoryItem[] = [
     {
@@ -248,7 +248,7 @@ export class HomeComponent {
       status: 'critical'
     }
   ];
-  
+
   // Actividad reciente
   recentActivity: ActivityItem[] = [
     {
@@ -288,7 +288,7 @@ export class HomeComponent {
       equipment: 'Reactor R5'
     }
   ];
-  
+
   // Tareas próximas
   upcomingTasks: Task[] = [
     {

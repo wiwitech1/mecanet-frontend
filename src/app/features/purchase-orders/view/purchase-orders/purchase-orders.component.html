@@ -1,72 +1,84 @@
 <div class="container">
   <header class="breadcrumb-header">
-      <app-title-view text="Órdenes de Compra"/>
+    <app-title-view text="Órdenes de Compra"/>
   </header>
   <div class="main-content">
-      <div class="left-container">
-          <app-search
-              [placeholder]="'Buscar por ID...'"
-              [newLabel]="'Nueva Orden de Compra'"
-              [actionFunction]="newPurchaseOrderAction"
-          ></app-search>
-          <app-record-table
-              [columns]="columns"
-              [data]="purchaseOrders"
-              (ctaClick)="handleInfoClick($event)"
-          ></app-record-table>
-      </div>
-      <div class="right-container" [class.show-panel]="showInfoPanel">
-          <app-information-panel
-              *ngIf="showInfoPanel && selectedOrder"
-              [headerText]="'Orden de Compra: ' + selectedOrder.id"
-              [showHeader]="true"
-              [showPrimaryButton]="true"
-              [primaryButtonText]="'Editar'"
-              (primaryButtonClick)="showEditModal = true">
+    <div class="left-container">
+      <app-search
+        [placeholder]="'Buscar por ID...'"
+        [filters]="[
+                  {
+                      value: 'status',
+                      label: 'Estado',
+                      options: [
+                          { value: 'PENDING', label: 'PENDING' },
+                          { value: 'APPROVED', label: 'APPROVED' },
+                          { value: 'REJECTED', label: 'REJECTED' },
+                          { value: 'CANCELLED', label: 'CANCELLED' }
+                      ]
+                  }
+              ]"
+        [newLabel]="'Nueva Orden de Compra'"
+        [actionFunction]="newPurchaseOrderAction"
+      ></app-search>
+      <app-record-table
+        [columns]="columns"
+        [data]="purchaseOrders"
+        (ctaClick)="handleInfoClick($event)"
+      ></app-record-table>
+    </div>
+    <div class="right-container" [class.show-panel]="showInfoPanel">
+      <app-information-panel
+        *ngIf="showInfoPanel && selectedOrder"
+        [headerText]="'Orden de Compra: ' + selectedOrder.id"
+        [showHeader]="true"
+        [showPrimaryButton]="true"
+        [primaryButtonText]="'Editar'"
+        (primaryButtonClick)="showEditModal = true">
 
-              <app-info-container [title]="'Información General'" [titleType]="2">
-                  <app-info-section
-                      [infoType]="2"
-                      [data]="infoData">
-                  </app-info-section>
-              </app-info-container>
+        <app-info-container [title]="'Información General'" [titleType]="2">
+          <app-info-section
+            [infoType]="2"
+            [data]="infoData">
+          </app-info-section>
+        </app-info-container>
 
-              <app-info-container [title]="'Detalles de la Orden'" [titleType]="2">
-                  <app-info-section
-                      [infoType]="2"
-                      [data]="orderData">
-                  </app-info-section>
-              </app-info-container>
+        <app-info-container [title]="'Detalles de la Orden'" [titleType]="2">
+          <app-info-section
+            [infoType]="2"
+            [data]="orderData">
+          </app-info-section>
+        </app-info-container>
 
-              <div class="panel-actions">
-                  <app-button
-                      [variant]="'warning'"
-                      [size]="'sm'"
-                      [iconLeft]="'pi pi-times'"
-                      (click)="closePanel()">
-                      Cerrar
-                  </app-button>
-              </div>
-          </app-information-panel>
-      </div>
+        <div class="panel-actions">
+          <app-button
+            [variant]="'warning'"
+            [size]="'sm'"
+            [iconLeft]="'pi pi-times'"
+            (click)="closePanel()">
+            Cerrar
+          </app-button>
+        </div>
+      </app-information-panel>
+    </div>
   </div>
 
   <!-- Modales -->
   <app-purchase-order-form-modal
-      *ngIf="showCreateModal"
-      [isEdit]="false"
-      [orderData]="null"
-      (submit)="handleCreate($event)"
-      (cancel)="showCreateModal = false"
+    *ngIf="showCreateModal"
+    [isEdit]="false"
+    [orderData]="null"
+    (submit)="handleCreate($event)"
+    (cancel)="showCreateModal = false"
   ></app-purchase-order-form-modal>
 
   <app-purchase-order-form-modal
-      *ngIf="showEditModal"
-      [isEdit]="true"
-      [orderData]="selectedOrder"
-      (submit)="handleEdit($event)"
-      (delete)="handleDelete($event)"
-      (cancel)="showEditModal = false"
+    *ngIf="showEditModal"
+    [isEdit]="true"
+    [orderData]="selectedOrder"
+    (submit)="handleEdit($event)"
+    (delete)="handleDelete($event)"
+    (cancel)="showEditModal = false"
   ></app-purchase-order-form-modal>
 </div>
 
