@@ -534,5 +534,34 @@
                 "cancel": "Cancel"
             }
         }
+    },
+    "pageNotFound": {
+        "title": "Page Not Found",
+        "description": "The page you are looking for does not exist.",
+        "invalidPath": "The path",
+        "backHome": "Back to Home"
+    },
+    "maintenanceCalendar": {
+        "title": "Maintenance Calendar",
+        "viewToggle": {
+            "weekly": "Weekly",
+            "monthly": "Monthly"
+        },
+        "search": {
+            "placeholder": "Search activity..."
+        },
+        "activityDetails": {
+            "title": "Activity Details",
+            "activityName": "Activity Name",
+            "date": "Date",
+            "time": "Time",
+            "assignedStaff": "Assigned Staff",
+            "notes": "Notes",
+            "notAvailable": "---"
+        },
+        "months": [
+            "January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"
+        ]
     }
 }

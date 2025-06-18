@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { TitleViewComponent } from '../../../../shared/components/title-view/title-view.component';
 import { SearchComponent } from '../../../../shared/components/search/search.component';
 import { InformationPanelComponent } from '../../../../shared/components/information-panel/information-panel.component';
@@ -11,6 +12,7 @@ import { CalendarWeeklyComponent } from '../../components/calendar-weekly/calend
   standalone: true,
   imports: [
     CommonModule,
+    TranslateModule,
     TitleViewComponent,
     SearchComponent,
     InformationPanelComponent,
@@ -24,11 +26,11 @@ export class MaintenanceCalendarComponent {
   isWeeklyView: boolean = true;
   currentDate = new Date();
 
+  constructor(private translate: TranslateService) {}
+
   get currentPeriod(): string {
-    const months = [
-      "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
-      "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
-    ];
+    const currentLang = this.translate.currentLang || 'es';
+    const months = this.translate.instant('maintenanceCalendar.months');
     return `${months[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
   }
 

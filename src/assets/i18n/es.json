@@ -507,5 +507,34 @@
                 "cancel": "Cancelar"
             }
         }
+    },
+    "pageNotFound": {
+        "title": "Página no encontrada",
+        "description": "La página que estás buscando no existe o no se encuentra disponible.",
+        "invalidPath": "La ruta",
+        "backHome": "Volver al Inicio"
+    },
+    "maintenanceCalendar": {
+        "title": "Calendario de Mantenimiento",
+        "viewToggle": {
+            "weekly": "Semanal",
+            "monthly": "Mensual"
+        },
+        "search": {
+            "placeholder": "Buscar actividad..."
+        },
+        "activityDetails": {
+            "title": "Detalles de la Actividad",
+            "activityName": "Nombre de la actividad",
+            "date": "Fecha",
+            "time": "Hora",
+            "assignedStaff": "Personal encargado",
+            "notes": "Anotaciones",
+            "notAvailable": "---"
+        },
+        "months": [
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ]
     }
 }
