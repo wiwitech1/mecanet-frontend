@@ -14,6 +14,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { MaintenanceDynamicPlanService } from '../../services/maintenance-dynamic-plan.service';
 import { MaintenanceDynamicPlan } from '../../model/maintenance-dynamic-plan.model';
@@ -36,16 +37,17 @@ import { MaintenanceDynamicPlan } from '../../model/maintenance-dynamic-plan.mod
     MatChipsModule,
     MatDividerModule,
     MatExpansionModule,
-    MatTooltipModule
+    MatTooltipModule,
+    TranslateModule
   ],
   template: `
     <div class="main-container">
       <header class="page-header">
         <div class="header-content">
-          <button mat-icon-button class="back-button" (click)="navigateBack()" aria-label="Volver">
+          <button mat-icon-button class="back-button" (click)="navigateBack()" [attr.aria-label]="'maintenancePlanCreate.dynamicPlan.backButton' | translate">
             <mat-icon>arrow_back</mat-icon>
           </button>
-          <h1 class="page-title">Crear Plan de Mantenimiento Dinámico</h1>
+          <h1 class="page-title">{{ 'maintenancePlanCreate.dynamicPlan.title' | translate }}</h1>
         </div>
       </header>
 
@@ -55,31 +57,31 @@ import { MaintenanceDynamicPlan } from '../../model/maintenance-dynamic-plan.mod
             <form [formGroup]="dynamicPlanForm" (ngSubmit)="onSubmit()" class="dynamic-plan-form">
               
               <section class="form-section">
-                <h2 class="section-title">Información General</h2>
+                <h2 class="section-title">{{ 'maintenancePlanCreate.dynamicPlan.sections.generalInfo.title' | translate }}</h2>
                 
                 <mat-form-field appearance="outline" class="full-width custom-field">
-                  <mat-label>Parámetro*</mat-label>
+                  <mat-label>{{ 'maintenancePlanCreate.dynamicPlan.sections.generalInfo.parameter.label' | translate }}</mat-label>
                   <input matInput formControlName="parameter" required>
-                  <mat-error *ngIf="dynamicPlanForm.get('parameter')?.invalid">Este campo es requerido</mat-error>
+                  <mat-error *ngIf="dynamicPlanForm.get('parameter')?.invalid">{{ 'maintenancePlanCreate.dynamicPlan.sections.generalInfo.parameter.error' | translate }}</mat-error>
                 </mat-form-field>
                 
                 <div class="form-row">
                   <mat-form-field appearance="outline" class="half-width custom-field">
-                    <mat-label>Fecha de Inicio*</mat-label>
+                    <mat-label>{{ 'maintenancePlanCreate.dynamicPlan.sections.generalInfo.startDate.label' | translate }}</mat-label>
                     <input matInput [matDatepicker]="picker" formControlName="startDate" required>
                     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                    <mat-error *ngIf="dynamicPlanForm.get('startDate')?.invalid">Este campo es requerido</mat-error>
+                    <mat-error *ngIf="dynamicPlanForm.get('startDate')?.invalid">{{ 'maintenancePlanCreate.dynamicPlan.sections.generalInfo.startDate.error' | translate }}</mat-error>
                   </mat-form-field>
                   
                   <mat-form-field appearance="outline" class="half-width custom-field">
-                    <mat-label>Máquinas Asignadas*</mat-label>
+                    <mat-label>{{ 'maintenancePlanCreate.dynamicPlan.sections.generalInfo.machineIds.label' | translate }}</mat-label>
                     <mat-select formControlName="machineIds" multiple required>
                       <mat-option *ngFor="let machine of machines" [value]="machine.id">
                         {{ machine.name }}
                       </mat-option>
                     </mat-select>
-                    <mat-error *ngIf="dynamicPlanForm.get('machineIds')?.invalid">Seleccione al menos una máquina</mat-error>
+                    <mat-error *ngIf="dynamicPlanForm.get('machineIds')?.invalid">{{ 'maintenancePlanCreate.dynamicPlan.sections.generalInfo.machineIds.error' | translate }}</mat-error>
                   </mat-form-field>
                 </div>
               </section>
@@ -88,45 +90,45 @@ import { MaintenanceDynamicPlan } from '../../model/maintenance-dynamic-plan.mod
               
               <section class="form-section">
                 <div class="section-header">
-                  <h2 class="section-title">Tareas</h2>
+                  <h2 class="section-title">{{ 'maintenancePlanCreate.dynamicPlan.sections.tasks.title' | translate }}</h2>
                   <button type="button" mat-flat-button color="primary" (click)="addTask()" class="action-button">
-                    <mat-icon>add</mat-icon> Agregar Tarea
+                    <mat-icon>add</mat-icon> {{ 'maintenancePlanCreate.dynamicPlan.sections.tasks.addTask' | translate }}
                   </button>
                 </div>
                 
                 <div formArrayName="tasks" class="tasks-container">
                   <div *ngIf="tasksArray.length === 0" class="empty-state">
                     <mat-icon class="empty-icon">assignment</mat-icon>
-                    <p>No hay tareas programadas. Haga clic en "Agregar Tarea" para comenzar.</p>
+                    <p>{{ 'maintenancePlanCreate.dynamicPlan.sections.tasks.emptyState' | translate }}</p>
                   </div>
                   
                   <div *ngFor="let task of tasksArray.controls; let i = index" [formGroupName]="i" class="task-card">
                     <div class="task-header">
-                      <h3 class="task-title">Tarea {{ i + 1 }}</h3>
-                      <button type="button" mat-icon-button color="warn" (click)="removeTask(i)" matTooltip="Eliminar Tarea" class="delete-button">
+                      <h3 class="task-title">{{ 'maintenancePlanCreate.dynamicPlan.sections.tasks.task' | translate }} {{ i + 1 }}</h3>
+                      <button type="button" mat-icon-button color="warn" (click)="removeTask(i)" [matTooltip]="'maintenancePlanCreate.dynamicPlan.sections.tasks.removeTask' | translate" class="delete-button">
                         <mat-icon>delete</mat-icon>
                       </button>
                     </div>
                     
                     <mat-form-field appearance="outline" class="full-width custom-field">
-                      <mat-label>Nombre de la Tarea*</mat-label>
+                      <mat-label>{{ 'maintenancePlanCreate.dynamicPlan.sections.tasks.taskFields.taskName.label' | translate }}</mat-label>
                       <input matInput formControlName="taskName" required>
-                      <mat-error *ngIf="task.get('taskName')?.invalid">Este campo es requerido</mat-error>
+                      <mat-error *ngIf="task.get('taskName')?.invalid">{{ 'maintenancePlanCreate.dynamicPlan.sections.tasks.taskFields.taskName.error' | translate }}</mat-error>
                     </mat-form-field>
                     
                     <mat-form-field appearance="outline" class="full-width custom-field">
-                      <mat-label>Descripción</mat-label>
+                      <mat-label>{{ 'maintenancePlanCreate.dynamicPlan.sections.tasks.taskFields.taskDescription.label' | translate }}</mat-label>
                       <textarea matInput formControlName="taskDescription" rows="2"></textarea>
                     </mat-form-field>
                     
                     <mat-form-field appearance="outline" class="full-width custom-field">
-                      <mat-label>Máquinas específicas (opcional)</mat-label>
+                      <mat-label>{{ 'maintenancePlanCreate.dynamicPlan.sections.tasks.taskFields.machineIds.label' | translate }}</mat-label>
                       <mat-select formControlName="machineIds" multiple>
                         <mat-option *ngFor="let machine of machines" [value]="machine.id">
                           {{ machine.name }}
                         </mat-option>
                       </mat-select>
-                      <mat-hint>Si no selecciona, se usarán las máquinas generales del plan</mat-hint>
+                      <mat-hint>{{ 'maintenancePlanCreate.dynamicPlan.sections.tasks.taskFields.machineIds.hint' | translate }}</mat-hint>
                     </mat-form-field>
                   </div>
                 </div>
@@ -134,10 +136,10 @@ import { MaintenanceDynamicPlan } from '../../model/maintenance-dynamic-plan.mod
               
               <div class="form-actions">
                 <button type="button" mat-stroked-button class="cancel-button" (click)="navigateBack()">
-                  Cancelar
+                  {{ 'maintenancePlanCreate.dynamicPlan.actions.cancel' | translate }}
                 </button>
                 <button type="submit" mat-flat-button color="primary" class="submit-button" [disabled]="dynamicPlanForm.invalid || isSubmitting">
-                  {{ isSubmitting ? 'Guardando...' : 'Guardar Plan Dinámico' }}
+                  {{ isSubmitting ? ('maintenancePlanCreate.dynamicPlan.actions.saving' | translate) : ('maintenancePlanCreate.dynamicPlan.actions.save' | translate) }}
                 </button>
               </div>
               
@@ -395,7 +397,8 @@ export class MaintenancePlanCreateDynamicComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private maintenanceDynamicPlanService: MaintenanceDynamicPlanService
+    private maintenanceDynamicPlanService: MaintenanceDynamicPlanService,
+    private translateService: TranslateService
   ) {
     this.dynamicPlanForm = this.createForm();
   }
@@ -477,7 +480,7 @@ export class MaintenancePlanCreateDynamicComponent implements OnInit {
       error: (error) => {
         this.isSubmitting = false;
         console.error('Error al crear el plan dinámico:', error);
-        this.submitError = 'Error al crear el plan. Por favor, inténtelo de nuevo más tarde.';
+        this.submitError = this.translateService.instant('maintenancePlanCreate.dynamicPlan.errors.createError');
       }
     });
   }

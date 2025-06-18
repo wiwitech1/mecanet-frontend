@@ -1,21 +1,22 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TitleViewComponent } from '../../../../shared/components/title-view/title-view.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
   selector: 'app-maintenance-plan-create-select',
   standalone: true,
-  imports: [CommonModule, TitleViewComponent, ButtonComponent],
+  imports: [CommonModule, TitleViewComponent, ButtonComponent, TranslateModule],
   template: `
 
 <div class="header">
     <header class="breadcrumb-header">
-      <button class="back-button" aria-label="Volver" (click)="goBack()">
+      <button class="back-button" [attr.aria-label]="'maintenancePlanCreate.backButton' | translate" (click)="goBack()">
         <span class="back-icon">&#8592;</span> <!-- Icono de flecha izquierda -->
       </button>
-      <app-title-view text="Crear Plan de Mantenimiento"/>
+      <app-title-view [text]="'maintenancePlanCreate.title' | translate"/>
     </header>
   </div>
 
@@ -23,17 +24,17 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
     <div class="container">
 
   <div class="plan-type-selector">
-    <h3>Seleccione el tipo de plan a crear</h3>
+    <h3>{{ 'maintenancePlanCreate.selector.title' | translate }}</h3>
 
     <div class="plan-options">
       <!-- Plan Estático -->
       <div class="plan-option" (click)="goToStaticPlan()">
         <div class="plan-content">
           <div class="plan-icon">🗓️</div>
-          <h4>Plan Estático</h4>
-          <p class="plan-subtitle">Organización por días</p>
+          <h4>{{ 'maintenancePlanCreate.selector.staticPlan.title' | translate }}</h4>
+          <p class="plan-subtitle">{{ 'maintenancePlanCreate.selector.staticPlan.subtitle' | translate }}</p>
           <p class="plan-description">
-            Cree un plan de mantenimiento organizado por días, con tareas específicas para cada uno.
+            {{ 'maintenancePlanCreate.selector.staticPlan.description' | translate }}
           </p>
           <app-button 
             variant="primary" 
@@ -41,7 +42,7 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
             radius="md"
             (clicked)="goToStaticPlan()"
             class="select-button-container">
-            SELECCIONAR
+            {{ 'maintenancePlanCreate.selector.staticPlan.selectButton' | translate }}
           </app-button>
         </div>
       </div>
@@ -50,10 +51,10 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
       <div class="plan-option" (click)="goToDynamicPlan()">
         <div class="plan-content">
           <div class="plan-icon">⚡</div>
-          <h4>Plan Dinámico</h4>
-          <p class="plan-subtitle">Organización por tareas</p>
+          <h4>{{ 'maintenancePlanCreate.selector.dynamicPlan.title' | translate }}</h4>
+          <p class="plan-subtitle">{{ 'maintenancePlanCreate.selector.dynamicPlan.subtitle' | translate }}</p>
           <p class="plan-description">
-            Cree un plan de mantenimiento más flexible, enfocado en tareas específicas sin estructura de días.
+            {{ 'maintenancePlanCreate.selector.dynamicPlan.description' | translate }}
           </p>
           <app-button 
             variant="primary" 
@@ -61,7 +62,7 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
             radius="md"
             (clicked)="goToDynamicPlan()"
             class="select-button-container">
-            SELECCIONAR
+            {{ 'maintenancePlanCreate.selector.dynamicPlan.selectButton' | translate }}
           </app-button>
         </div>
       </div>
@@ -188,7 +189,7 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 })
 export class MaintenancePlanCreateSelectComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private translate: TranslateService) {}
 
   goBack() {
     window.history.back(); // Regresa a la página anterior

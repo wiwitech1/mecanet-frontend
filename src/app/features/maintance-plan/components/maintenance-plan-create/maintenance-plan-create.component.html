@@ -1,10 +1,10 @@
 <div class="container">
   <header class="page-header">
     <div class="title-section">
-      <button mat-icon-button [routerLink]="['/plan-mantenimiento']" aria-label="Volver" class="custom-back-button">
+      <button mat-icon-button [routerLink]="['/plan-mantenimiento']" [attr.aria-label]="'maintenancePlanCreate.staticPlan.backButton' | translate" class="custom-back-button">
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <h2>{{ isEditMode ? 'Editar' : 'Crear' }} Plan de Mantenimiento</h2>
+      <h2>{{ isEditMode ? ('maintenancePlanCreate.staticPlan.title.edit' | translate) : ('maintenancePlanCreate.staticPlan.title.create' | translate) }}</h2>
     </div>
   </header>
 
@@ -14,34 +14,34 @@
         
         <!-- Sección de Información General -->
         <section class="form-section">
-          <h3 class="section-title">Información General</h3>
+          <h3 class="section-title">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.title' | translate }}</h3>
           
           <div class="form-fields-container">
             <mat-form-field appearance="outline" class="full-width custom-field">
-              <mat-label>Línea de Producción*</mat-label>
+              <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.productionLine.label' | translate }}</mat-label>
               <mat-select formControlName="productionLineId" required>
                 <mat-option *ngFor="let line of productionLines" [value]="line.id">
                   {{ line.name }}
                 </mat-option>
               </mat-select>
-              <mat-error *ngIf="mainForm.get('productionLineId')?.invalid">Este campo es requerido</mat-error>
+              <mat-error *ngIf="mainForm.get('productionLineId')?.invalid">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.productionLine.error' | translate }}</mat-error>
             </mat-form-field>
             
             <div class="form-row">
               <mat-form-field appearance="outline" class="full-width custom-field">
-                <mat-label>Fecha de Inicio*</mat-label>
+                <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.startDate.label' | translate }}</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="startDate" required>
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-                <mat-error *ngIf="mainForm.get('startDate')?.invalid">Este campo es requerido</mat-error>
+                <mat-error *ngIf="mainForm.get('startDate')?.invalid">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.startDate.error' | translate }}</mat-error>
               </mat-form-field>
               
               <mat-form-field appearance="outline" class="full-width custom-field" style="display: none;">
-                <mat-label>Duración (días)*</mat-label>
+                <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.duration.label' | translate }}</mat-label>
                 <input matInput type="number" formControlName="durationDays" min="1" max="30" required>
-                <mat-error *ngIf="mainForm.get('durationDays')?.hasError('required')">Este campo es requerido</mat-error>
-                <mat-error *ngIf="mainForm.get('durationDays')?.hasError('min')">El mínimo es 1 día</mat-error>
-                <mat-error *ngIf="mainForm.get('durationDays')?.hasError('max')">El máximo es 30 días</mat-error>
+                <mat-error *ngIf="mainForm.get('durationDays')?.hasError('required')">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.duration.error.required' | translate }}</mat-error>
+                <mat-error *ngIf="mainForm.get('durationDays')?.hasError('min')">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.duration.error.min' | translate }}</mat-error>
+                <mat-error *ngIf="mainForm.get('durationDays')?.hasError('max')">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.duration.error.max' | translate }}</mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -52,9 +52,9 @@
         <!-- Sección de Programación de Tareas -->
         <section class="form-section">
           <div class="section-header">
-            <h3 class="section-title">Programación de Tareas</h3>
+            <h3 class="section-title">{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.title' | translate }}</h3>
             <button type="button" mat-flat-button color="primary" (click)="addItem()" class="custom-add-button">
-              <mat-icon>add</mat-icon> Agregar Día
+              <mat-icon>add</mat-icon> {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.addDay' | translate }}
             </button>
           </div>
           
@@ -63,55 +63,55 @@
               <mat-expansion-panel [formGroupName]="i" class="custom-panel">
                 <mat-expansion-panel-header class="custom-panel-header">
                   <mat-panel-title>
-                    Día {{ itemGroup.get('dayNumber')?.value }}
+                    {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.day' | translate }} {{ itemGroup.get('dayNumber')?.value }}
                   </mat-panel-title>
                   <mat-panel-description>
-                    {{ getTasksArray(i).length }} tarea(s)
+                    {{ getTasksArray(i).length }} {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.tasks' | translate }}
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 
                 <div class="panel-content">
                   <div class="tasks-header">
-                    <h4>Tareas para el día {{ itemGroup.get('dayNumber')?.value }}</h4>
+                    <h4>{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.tasksForDay' | translate }} {{ itemGroup.get('dayNumber')?.value }}</h4>
                     
-                    <button type="button" mat-mini-fab color="primary" (click)="addTask(i)" matTooltip="Agregar Tarea" class="custom-add-task-button">
+                    <button type="button" mat-mini-fab color="primary" (click)="addTask(i)" [matTooltip]="'maintenancePlanCreate.staticPlan.sections.taskScheduling.addTask' | translate" class="custom-add-task-button">
                       <mat-icon>add</mat-icon>
                     </button>
                   </div>
                   
                   <div formArrayName="tasks" class="tasks-list">
                     <div *ngIf="getTasksArray(i).length === 0" class="no-tasks-message">
-                      No hay tareas programadas para este día. Haga clic en "Agregar Tarea" para comenzar.
+                      {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.noTasksMessage' | translate }}
                     </div>
                     
                     <div *ngFor="let taskGroup of getTasksArray(i).controls; let j = index" [formGroupName]="j" class="task-item">
                       <div class="task-header">
-                        <h5 class="task-title">Tarea {{ j + 1 }}</h5>
-                        <button type="button" mat-icon-button color="warn" (click)="removeTask(i, j)" matTooltip="Eliminar Tarea" class="custom-delete-button">
+                        <h5 class="task-title">{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.task' | translate }} {{ j + 1 }}</h5>
+                        <button type="button" mat-icon-button color="warn" (click)="removeTask(i, j)" [matTooltip]="'maintenancePlanCreate.staticPlan.sections.taskScheduling.removeTask' | translate" class="custom-delete-button">
                           <mat-icon>delete</mat-icon>
                         </button>
                       </div>
                       
                       <div class="task-content">
                         <mat-form-field appearance="outline" class="full-width custom-field">
-                          <mat-label>Nombre de la Tarea*</mat-label>
+                          <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.taskName.label' | translate }}</mat-label>
                           <input matInput formControlName="taskName" required>
-                          <mat-error *ngIf="taskGroup.get('taskName')?.invalid">Este campo es requerido</mat-error>
+                          <mat-error *ngIf="taskGroup.get('taskName')?.invalid">{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.taskName.error' | translate }}</mat-error>
                         </mat-form-field>
                         
                         <mat-form-field appearance="outline" class="full-width custom-field">
-                          <mat-label>Descripción</mat-label>
+                          <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.taskDescription.label' | translate }}</mat-label>
                           <textarea matInput formControlName="taskDescription" rows="2"></textarea>
                         </mat-form-field>
                         
                         <mat-form-field appearance="outline" class="full-width custom-field">
-                          <mat-label>Máquinas Involucradas*</mat-label>
+                          <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.machineIds.label' | translate }}</mat-label>
                           <mat-select formControlName="machineIds" multiple required>
                             <mat-option *ngFor="let machine of machines" [value]="machine.id">
                               {{ machine.name }}
                             </mat-option>
                           </mat-select>
-                          <mat-error *ngIf="taskGroup.get('machineIds')?.invalid">Este campo es requerido</mat-error>
+                          <mat-error *ngIf="taskGroup.get('machineIds')?.invalid">{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.machineIds.error' | translate }}</mat-error>
                         </mat-form-field>
                       </div>
                     </div>
@@ -120,7 +120,7 @@
                 
                 <mat-action-row>
                   <button type="button" mat-button color="warn" (click)="removeItem(i)" [disabled]="itemsArray.length <= 1" class="custom-remove-button">
-                    <mat-icon>remove_circle</mat-icon> Eliminar Día
+                    <mat-icon>remove_circle</mat-icon> {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.removeDay' | translate }}
                   </button>
                 </mat-action-row>
               </mat-expansion-panel>
@@ -129,9 +129,9 @@
         </section>
         
         <div class="form-actions">
-          <button type="button" mat-button routerLink="/plan-mantenimiento" class="custom-cancel-button">Cancelar</button>
+          <button type="button" mat-button routerLink="/plan-mantenimiento" class="custom-cancel-button">{{ 'maintenancePlanCreate.staticPlan.actions.cancel' | translate }}</button>
           <button type="submit" mat-flat-button color="primary" [disabled]="mainForm.invalid || isSubmitting" class="custom-submit-button">
-            {{ isSubmitting ? 'Guardando...' : (isEditMode ? 'Actualizar Plan' : 'Guardar Plan') }}
+            {{ isSubmitting ? ('maintenancePlanCreate.staticPlan.actions.saving' | translate) : (isEditMode ? ('maintenancePlanCreate.staticPlan.actions.update' | translate) : ('maintenancePlanCreate.staticPlan.actions.save' | translate)) }}
           </button>
         </div>
         
