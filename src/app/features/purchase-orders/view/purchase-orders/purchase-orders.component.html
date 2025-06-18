@@ -1,12 +1,12 @@
 <div class="container">
   <header class="breadcrumb-header">
-      <app-title-view text="Órdenes de Compra"/>
+      <app-title-view [text]="'purchaseOrders.title' | translate"/>
   </header>
   <div class="main-content">
       <div class="left-container">
           <app-search
-              [placeholder]="'Buscar por ID...'"
-              [newLabel]="'Nueva Orden de Compra'"
+              [placeholder]="'purchaseOrders.search.placeholder' | translate"
+              [newLabel]="'purchaseOrders.search.newOrder' | translate"
               [actionFunction]="newPurchaseOrderAction"
           ></app-search>
           <app-record-table
@@ -18,20 +18,20 @@
       <div class="right-container" [class.show-panel]="showInfoPanel">
           <app-information-panel
               *ngIf="showInfoPanel && selectedOrder"
-              [headerText]="'Orden de Compra: ' + selectedOrder.id"
+              [headerText]="('purchaseOrders.infoPanel.orderPrefix' | translate) + selectedOrder.id"
               [showHeader]="true"
               [showPrimaryButton]="true"
-              [primaryButtonText]="'Editar'"
+              [primaryButtonText]="'purchaseOrders.infoPanel.edit' | translate"
               (primaryButtonClick)="showEditModal = true">
 
-              <app-info-container [title]="'Información General'" [titleType]="2">
+              <app-info-container [title]="'purchaseOrders.infoPanel.sections.generalInfo.title' | translate" [titleType]="2">
                   <app-info-section
                       [infoType]="2"
                       [data]="infoData">
                   </app-info-section>
               </app-info-container>
 
-              <app-info-container [title]="'Detalles de la Orden'" [titleType]="2">
+              <app-info-container [title]="'purchaseOrders.infoPanel.sections.orderDetails.title' | translate" [titleType]="2">
                   <app-info-section
                       [infoType]="2"
                       [data]="orderData">
@@ -44,7 +44,7 @@
                       [size]="'sm'"
                       [iconLeft]="'pi pi-times'"
                       (click)="closePanel()">
-                      Cerrar
+                      {{ 'purchaseOrders.infoPanel.close' | translate }}
                   </app-button>
               </div>
           </app-information-panel>
@@ -65,7 +65,7 @@
       [isEdit]="true"
       [orderData]="selectedOrder"
       (submit)="handleEdit($event)"
-      (delete)="handleDelete($event)"
+      (delete)="handleDelete(+$event)"
       (cancel)="showEditModal = false"
   ></app-purchase-order-form-modal>
 </div>

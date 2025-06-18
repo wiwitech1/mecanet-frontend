@@ -1,26 +1,26 @@
 <div class="container">
 
     <header class="breadcrumb-header">
-        <app-title-view text="Gestión de Activos > Maquinarias"/>
+        <app-title-view [text]="'assetManagement.breadcrumb.machinery' | translate"/>
     </header>
 
     <main class="main-container">
         <div class="search-container" [ngClass]="{'full-width': !showDetailPanel || showMachineryModal}">
             <div class="search-actions">
                 <app-search
-                  [placeholder]="'Buscar'"
-                  [newLabel]="'+ Nueva Máquina'"
+                  [placeholder]="'assetManagement.search.machinery.placeholder' | translate"
+                  [newLabel]="'assetManagement.search.machinery.newButton' | translate"
                   [actionFunction]="newMachineAction">
                 </app-search>
             </div>
 
             <div *ngIf="loading && !showDetailPanel" class="loading-indicator">
-                Cargando datos...
+                {{ 'assetManagement.loading.data' | translate }}
             </div>
 
             <div *ngIf="error && !showDetailPanel" class="error-message">
                 {{ error }}
-                <button (click)="loadMachineries()">Reintentar</button>
+                <button (click)="loadMachineries()">{{ 'assetManagement.error.retry' | translate }}</button>
             </div>
 
             <div *ngIf="!loading && !error" class="table-container">
@@ -35,13 +35,13 @@
         <!-- Panel de información (solo visible cuando showDetailPanel es true) -->
         <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
             <div class="panel-header">
-                <button class="close-button" (click)="closeDetailPanel()">
+                <button class="close-button" (click)="closeDetailPanel()" [attr.aria-label]="'assetManagement.buttons.close' | translate">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
 
             <div *ngIf="loading" class="loading-indicator">
-                Cargando información de la maquinaria...
+                {{ 'assetManagement.loading.machinery' | translate }}
             </div>
 
             <div *ngIf="!loading && selectedMachine">
@@ -49,9 +49,9 @@
                   [headerText]="'ID: ' + selectedMachineId + ' | ' + selectedMachine.name"
                   [showHeader]="true"
                   [showPrimaryButton]="true"
-                  [primaryButtonText]="'Editar'"
+                  [primaryButtonText]="'assetManagement.buttons.edit' | translate"
                   [showSecondaryButton]="true"
-                  [secondaryButtonText]="selectedMachine.status === 1 ? 'Desactivar' : 'Activar'"
+                  [secondaryButtonText]="(selectedMachine.status === 1 ? 'assetManagement.buttons.deactivate' : 'assetManagement.buttons.activate') | translate"
                   (primaryButtonClick)="editMachine()"
                   (secondaryButtonClick)="toggleMachineryStatus()">
 
@@ -61,7 +61,7 @@
                   </app-info-section>
 
                   <app-info-container
-                    [title]="'Especificaciones técnicas:'"
+                    [title]="'assetManagement.machinery.details.specifications' | translate"
                     [titleType]="2">
                     <app-info-section
                       [infoType]="2"
@@ -70,7 +70,7 @@
                   </app-info-container>
 
                   <app-info-container
-                    [title]="'Historial de mantenimiento'"
+                    [title]="'assetManagement.machinery.details.maintenanceHistory' | translate"
                     [titleType]="2">
                     <app-info-list-items
                       [type]="'maintenance'"
@@ -79,7 +79,7 @@
                   </app-info-container>
 
                   <app-info-container
-                    [title]="'Mediciones actuales:'"
+                    [title]="'assetManagement.machinery.details.currentMeasurements' | translate"
                     [titleType]="2">
                     <app-info-section
                       [infoType]="2"
@@ -96,7 +96,7 @@
         <div class="modal-container" [@modalAnimation] (click)="$event.stopPropagation()">
             <app-interact-machinery
                 [machinery]="isEditMode ? selectedMachine : null"
-                [title]="isEditMode ? 'Editar Maquinaria' : 'Nueva Maquinaria'"
+                [title]="(isEditMode ? 'assetManagement.machinery.modal.edit' : 'assetManagement.machinery.modal.new') | translate"
                 (save)="saveMachinery($event)"
                 (cancel)="closeModal()">
             </app-interact-machinery>

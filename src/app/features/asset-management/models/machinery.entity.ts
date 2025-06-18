@@ -18,7 +18,6 @@ export interface MachineryEntity {
     updatedAt: Date;
     measurements: MachineryMeasurementEntity[];
 }
-  
 
 /**
  * Enumeración para los posibles estados de una máquina

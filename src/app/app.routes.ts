@@ -10,22 +10,22 @@ import { LoginViewComponent } from './features/security/views/login-view/login-v
 import { ComponentsDemoComponent } from './shared/views/components-demo/components-demo.component';
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 
+
 const MachineryAssetViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-asset-view/machinery-asset-view.component').then(m => m.MachineryAssetViewComponent);
 const MaintancePlanComponent = (): Promise<any> => import('./features/maintance-plan/views/maintance-plan.component').then(m => m.MaintancePlanComponent);
-const MaintenancePlanDetailComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-detail/maintenance-plan-detail.component').then(m => m.MaintenancePlanDetailComponent);
-const MaintenancePlanCreateComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create/maintenance-plan-create.component').then(m => m.MaintenancePlanCreateComponent);
-const MaintenancePlanCreateSelectComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-select/maintenance-plan-create-select.component').then(m => m.MaintenancePlanCreateSelectComponent);
-const MaintenancePlanCreateDynamicComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-dynamic/maintenance-plan-create-dynamic.component').then(m => m.MaintenancePlanCreateDynamicComponent);
-const PropruebaComponent = (): Promise<any> => import('./features/shared/production-lines/proprueba/proprueba.component').then(m => m.PropruebaComponent);
+
+//const PropruebaComponent = (): Promise<any> => import('./features/shared/production-lines/proprueba/proprueba.component').then(m => m.PropruebaComponent);
 const InventoryPartsViewComponent = (): Promise<any> => import('./features/inventory-parts/views/inventory-parts/inventory-parts.component').then(m => m.InventoryPartsComponent);
 const PurchaseOrdersViewComponent = (): Promise<any> => import('./features/purchase-orders/view/purchase-orders/purchase-orders.component').then(m => m.PurchaseOrdersComponent);
+
+const MaintenanceCalendarComponent = (): Promise<any> => import('./features/maintenance-calendar/view/maintenance-calendar/maintenance-calendar.component').then(m => m.MaintenanceCalendarComponent);
 
 export const routes: Routes = [
     // Rutas públicas o de autenticación - solo accesibles si NO hay sesión
     { path: 'iniciar-sesion', component: LoginViewComponent, canActivate: [nonAuthGuard] },
     { path: 'registrar', component: RegisterViewComponent, canActivate: [nonAuthGuard] },
     { path: '404', component: PageNotFoundComponent },
-    
+
     // Rutas protegidas - solo accesibles si hay sesión
     { path: '', component: HomeComponent, canActivate: [authGuard] },
     { path: 'components-demo', component: ComponentsDemoComponent, canActivate: [authGuard] },
@@ -37,22 +37,23 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '', loadComponent: MaintancePlanComponent },
-            { path: 'detalle/:id', loadComponent: MaintenancePlanDetailComponent },
-            { path: 'crear', loadComponent: MaintenancePlanCreateSelectComponent },
-            { path: 'crear-estatico', loadComponent: MaintenancePlanCreateComponent },
-            { path: 'crear-dinamico', loadComponent: MaintenancePlanCreateDynamicComponent },
-            { path: 'editar/:id', loadComponent: MaintenancePlanCreateComponent },
         ]
     },
-    { path: 'proprueba', loadComponent: PropruebaComponent, canActivate: [authGuard] },
+    {
+        path: 'calendario',
+        canActivate: [authGuard],
+        children: [
+            { path: '', loadComponent: MaintenanceCalendarComponent },
+        ]
+    },
+    //{ path: 'proprueba', loadComponent: PropruebaComponent, canActivate: [authGuard] },
     { path: 'inventario/repuestos', loadComponent: InventoryPartsViewComponent, canActivate: [authGuard] },
     { path: 'inventario/ordenes-compra', loadComponent: PurchaseOrdersViewComponent, canActivate: [authGuard] },
-    
+
     // Ruta de redirección por defecto
     { path: '', redirectTo: '/components-demo', pathMatch: 'full' },
-    
-    
+
+
     // Página no encontrada
     { path: '**', redirectTo: '/404' }
 ];
-

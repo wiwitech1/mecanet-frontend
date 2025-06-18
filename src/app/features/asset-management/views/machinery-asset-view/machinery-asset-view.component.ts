@@ -12,12 +12,14 @@ import { MachineryService } from '../../services/machinery.service';
 import { MachineryEntity, MachineryStatus } from '../../models/machinery.entity';
 import { finalize } from 'rxjs';
 import { InteractMachineryComponent } from '../../components/interact-machinery/interact-machinery.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-machinery-asset-view',
   standalone: true,
   imports: [
     CommonModule,
+    TranslateModule,
     InformationPanelComponent,
     SearchComponent,
     RecordTableComponent,
@@ -65,48 +67,51 @@ export class MachineryAssetViewComponent implements OnInit {
   showDetailPanel = false;
   showMachineryModal = false;
   isEditMode = false;
-  
+
   // Datos reales que vendrán del servicio
   machineries: MachineryEntity[] = [];
   loading = false;
   error: string | null = null;
-  
+
   // Columnas para la tabla
   columns = [
-    { key: 'id', label: 'ID', type: 'texto' as 'texto' },
-    { key: 'name', label: 'Nombre', type: 'texto' as 'texto' },
-    { key: 'model', label: 'Modelo', type: 'texto' as 'texto' },
-    { key: 'brand', label: 'Marca', type: 'texto' as 'texto' },
-    { key: 'status', label: 'Estado', type: 'texto' as 'texto' },
-    { key: 'lastMaintenance', label: 'Último mantenimiento', type: 'texto' as 'texto' },
-    { key: 'details', label: 'Detalles', type: 'cta' as 'cta', ctaLabel: 'Ver' }
+    { key: 'id', label: 'assetManagement.columns.id', type: 'texto' as 'texto' },
+    { key: 'name', label: 'assetManagement.columns.name', type: 'texto' as 'texto' },
+    { key: 'model', label: 'assetManagement.columns.model', type: 'texto' as 'texto' },
+    { key: 'brand', label: 'assetManagement.columns.brand', type: 'texto' as 'texto' },
+    { key: 'status', label: 'assetManagement.columns.status', type: 'texto' as 'texto' },
+    { key: 'lastMaintenance', label: 'assetManagement.columns.lastMaintenance', type: 'texto' as 'texto' },
+    { key: 'details', label: 'assetManagement.columns.details', type: 'cta' as 'cta', ctaLabel: 'assetManagement.columns.detailsButton' }
   ];
-  
+
   // Datos adaptados para la tabla
   machines: any[] = [];
-  
+
   // Datos técnicos para mostrar en el panel de información
   infoData: {subtitle: string, info: string}[] = [];
-  
+
   // Especificaciones técnicas
   techData: {subtitle: string, info: string}[] = [];
-  
+
   // Historial de mantenimiento
   maintenanceItems: {date: string, type: string, responsible: string}[] = [];
-  
+
   // Medidas
   measurementData: {subtitle: string, info: string}[] = [];
-  
-  constructor(private machineryService: MachineryService) {}
-  
+
+  constructor(
+    private machineryService: MachineryService,
+    private translate: TranslateService
+  ) {}
+
   ngOnInit() {
     this.loadMachineries();
   }
-  
+
   loadMachineries() {
     this.loading = true;
     this.error = null;
-    
+
     this.machineryService.getAllMachineries()
       .pipe(finalize(() => this.loading = false))
       .subscribe({
@@ -122,35 +127,31 @@ export class MachineryAssetViewComponent implements OnInit {
         }
       });
   }
-  
+
   prepareTableData() {
     this.machines = this.machineries.map(machinery => ({
       id: machinery.id,
       name: machinery.name,
       model: machinery.model,
       brand: machinery.brand,
-      status: this.getStatusText(machinery.status),
+      status: this.getStatusLabel(machinery.status),
       lastMaintenance: this.formatDate(machinery.updatedAt),
       details: machinery.id, // Pasamos el ID como valor para el botón CTA
       // Guardamos el objeto original para tenerlo accesible
       original: machinery
     }));
   }
-  
-  getStatusText(status: number): string {
-    switch(status) {
-      case MachineryStatus.ACTIVE: return 'Activo';
-      case MachineryStatus.INACTIVE: return 'Inactivo';
-      case MachineryStatus.MAINTENANCE: return 'En mantenimiento';
-      case MachineryStatus.REPAIR: return 'En reparación';
-      default: return 'Desconocido';
-    }
+
+  getStatusLabel(status: number): string {
+    return status === 1 ?
+      this.translate.instant('assetManagement.status.active') :
+      this.translate.instant('assetManagement.status.inactive');
   }
-  
+
   formatDate(date: Date): string {
     return date ? new Date(date).toLocaleDateString('es-ES') : '';
   }
-  
+
   selectMachinery(id: number) {
     this.loading = true;
     this.machineryService.getMachineryById(id)
@@ -169,35 +170,35 @@ export class MachineryAssetViewComponent implements OnInit {
         }
       });
   }
-  
+
   updateInfoPanel(machinery: MachineryEntity) {
     // Información básica
     this.infoData = [
       { subtitle: 'Nombre', info: machinery.name },
       { subtitle: 'Modelo', info: machinery.model },
-      { subtitle: 'Estado actual', info: this.getStatusText(machinery.status) },
+      { subtitle: 'Estado actual', info: this.getStatusLabel(machinery.status) },
       { subtitle: 'Marca', info: machinery.brand },
       { subtitle: 'Número de serie', info: machinery.serialNumber },
       { subtitle: 'Fecha actualización', info: this.formatDate(machinery.updatedAt) }
     ];
-    
+
     // Especificaciones técnicas
     this.techData = [
       { subtitle: 'Capacidad de producción', info: `${machinery.productionCapacity} unidades/hora` },
       { subtitle: 'Recomendaciones', info: machinery.recommendations }
     ];
-    
+
     // Historial de mantenimiento
     this.maintenanceItems = [
-      { 
-        date: this.formatDate(new Date(machinery.createdAt)), 
-        type: 'Preventivo', 
-        responsible: 'Técnico Asignado' 
+      {
+        date: this.formatDate(new Date(machinery.createdAt)),
+        type: 'Preventivo',
+        responsible: 'Técnico Asignado'
       },
-      { 
-        date: this.formatDate(machinery.updatedAt), 
-        type: 'Correctivo', 
-        responsible: 'Supervisor' 
+      {
+        date: this.formatDate(machinery.updatedAt),
+        type: 'Correctivo',
+        responsible: 'Supervisor'
       }
     ];
 
@@ -207,40 +208,40 @@ export class MachineryAssetViewComponent implements OnInit {
       info: `${measurement.value} ${measurement.unit}`
     }));
   }
-  
+
   onCtaClick(event: {row: any, column: any}) {
     if (event.column.key === 'details' && event.row && event.row.id) {
       this.selectMachinery(event.row.id);
     }
   }
-  
+
   closeDetailPanel() {
     this.showDetailPanel = false;
     this.selectedMachine = null;
     this.selectedMachineId = null;
   }
-  
+
   // Para el botón Nueva Máquina
   newMachineAction = () => {
     this.isEditMode = false;
     this.showMachineryModal = true;
   };
-  
+
   // Para editar maquinaria existente
   editMachine() {
     this.isEditMode = true;
     this.showMachineryModal = true;
   }
-  
+
   // Cerrar el modal
   closeModal() {
     this.showMachineryModal = false;
   }
-  
+
   // Guardar maquinaria (nueva o editada)
   saveMachinery(machineryData: any) {
     this.loading = true;
-    
+
     if (this.isEditMode && this.selectedMachine) {
       const updatedMachinery: MachineryEntity = {
         ...this.selectedMachine,
@@ -260,7 +261,7 @@ export class MachineryAssetViewComponent implements OnInit {
         userUpdater: 1, // o el usuario real
         updatedAt: new Date()
       };
-      
+
       this.machineryService.updateMachinery(updatedMachinery)
         .pipe(finalize(() => {
           this.loading = false;
@@ -308,7 +309,7 @@ export class MachineryAssetViewComponent implements OnInit {
           lastUpdated: new Date()
         }))
       };
-      
+
       this.machineryService.createMachinery(newMachinery)
         .pipe(finalize(() => {
           this.loading = false;
@@ -326,18 +327,18 @@ export class MachineryAssetViewComponent implements OnInit {
         });
     }
   }
-  
+
   // Activar/Desactivar máquina
   toggleMachineryStatus() {
     if (!this.selectedMachine) return;
-    
-    const newStatus = this.selectedMachine.status === MachineryStatus.ACTIVE 
-      ? MachineryStatus.INACTIVE 
+
+    const newStatus = this.selectedMachine.status === MachineryStatus.ACTIVE
+      ? MachineryStatus.INACTIVE
       : MachineryStatus.ACTIVE;
-    
+
     this.loading = true;
     this.machineryService.changeMachineryStatus(
-      this.selectedMachine.id, 
+      this.selectedMachine.id,
       newStatus,
       1 // Hardcoded userUpdaterId por ahora
     )
@@ -350,7 +351,7 @@ export class MachineryAssetViewComponent implements OnInit {
           this.machineries[index] = updatedMachinery;
           this.prepareTableData();
         }
-        
+
         // Actualizar la máquina seleccionada
         this.selectedMachine = updatedMachinery;
         this.updateInfoPanel(updatedMachinery);

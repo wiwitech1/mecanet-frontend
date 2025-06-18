@@ -3,7 +3,7 @@
     <thead>
       <tr>
         <th *ngFor="let col of columns" [ngClass]="'header-' + col.type">
-          {{ col.label }}
+          {{ col.label | translate }}
         </th>
       </tr>
     </thead>
@@ -22,7 +22,7 @@
                 size="sm"
                 (clicked)="onCtaClick(row, col)"
               >
-                {{ col.ctaLabel || 'Acción' }}
+                {{ col.ctaLabel ? (col.ctaLabel | translate) : 'Acción' }}
               </app-button>
             </ng-container>
           </ng-container>
@@ -32,6 +32,6 @@
   </table>
   <div *ngIf="!data?.length" class="empty-state">
     <mat-icon>sentiment_dissatisfied</mat-icon>
-    <span>No hay datos para mostrar</span>
+    <span>{{ 'recordTable.emptyState' | translate }}</span>
   </div>
 </div>

@@ -1,25 +1,25 @@
 <div class="container">
     <header class="breadcrumb-header">
-        <app-title-view text="Gestión de Activos > Plantas"/>
+        <app-title-view [text]="'assetManagement.breadcrumb.plants' | translate"/>
     </header>
 
     <main class="main-container">
         <div class="search-container" [ngClass]="{'full-width': !showDetailPanel}">
             <div class="search-actions">
                 <app-search
-                    [placeholder]="'Buscar plantas...'"
-                    [newLabel]="'+ Nueva Planta'"
+                    [placeholder]="'assetManagement.search.plants.placeholder' | translate"
+                    [newLabel]="'assetManagement.search.plants.newButton' | translate"
                     [actionFunction]="newPlantAction">
                 </app-search>
             </div>
 
             <div *ngIf="loading && !showDetailPanel" class="loading-indicator">
-                Cargando plantas...
+                {{ 'assetManagement.loading.plants' | translate }}
             </div>
 
             <div *ngIf="error && !showDetailPanel" class="error-message">
                 {{ error }}
-                <button (click)="loadPlants()">Reintentar</button>
+                <button (click)="loadPlants()">{{ 'assetManagement.error.retry' | translate }}</button>
             </div>
 
             <div *ngIf="!loading && !error" class="table-container">
@@ -34,13 +34,13 @@
         <!-- Panel de información -->
         <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
             <div class="panel-header">
-                <button class="close-button" (click)="closeDetailPanel()">
+                <button class="close-button" (click)="closeDetailPanel()" [attr.aria-label]="'assetManagement.buttons.close' | translate">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
 
             <div *ngIf="loading" class="loading-indicator">
-                Cargando información de la planta...
+                {{ 'assetManagement.loading.plantInfo' | translate }}
             </div>
 
             <div *ngIf="!loading && selectedPlant">
@@ -48,9 +48,9 @@
                     [headerText]="'ID: ' + selectedPlantId + ' | ' + selectedPlant.name"
                     [showHeader]="true"
                     [showPrimaryButton]="true"
-                    [primaryButtonText]="'Editar'"
+                    [primaryButtonText]="'assetManagement.buttons.edit' | translate"
                     [showSecondaryButton]="true"
-                    [secondaryButtonText]="selectedPlant.status === 1 ? 'Desactivar' : 'Activar'"
+                    [secondaryButtonText]="(selectedPlant.status === 1 ? 'assetManagement.buttons.deactivate' : 'assetManagement.buttons.activate') | translate"
                     (primaryButtonClick)="editPlant()"
                     (secondaryButtonClick)="togglePlantStatus()"
                     (closePanel)="closeDetailPanel()">
@@ -59,19 +59,19 @@
                     <app-info-section
                         [infoType]="2"
                         [data]="[
-                            { subtitle: 'Nombre', info: selectedPlant.name },
-                            { subtitle: 'Ubicación', info: selectedPlant.location },
-                            { subtitle: 'Estado', info: getStatusLabel(selectedPlant.status) },
-                            { subtitle: 'Capacidad', info: selectedPlant.capacity + ' unidades' },
-                            { subtitle: 'Fecha creación', info: selectedPlant.createdAt ? (selectedPlant.createdAt | date:'shortDate') : '' },
-                            { subtitle: 'Última actualización', info: selectedPlant.updatedAt ? (selectedPlant.updatedAt | date:'shortDate') : '' },
-                            { subtitle: 'Descripción', info: selectedPlant.description }
+                            { subtitle: ('assetManagement.plants.details.name' | translate), info: selectedPlant.name },
+                            { subtitle: ('assetManagement.plants.details.location' | translate), info: selectedPlant.location },
+                            { subtitle: ('assetManagement.plants.details.status' | translate), info: getStatusLabel(selectedPlant.status) },
+                            { subtitle: ('assetManagement.plants.details.capacity' | translate), info: selectedPlant.capacity + ' ' + ('assetManagement.plants.details.capacityUnits' | translate) },
+                            { subtitle: ('assetManagement.plants.details.createdAt' | translate), info: selectedPlant.createdAt ? (selectedPlant.createdAt | date:'shortDate') : '' },
+                            { subtitle: ('assetManagement.plants.details.updatedAt' | translate), info: selectedPlant.updatedAt ? (selectedPlant.updatedAt | date:'shortDate') : '' },
+                            { subtitle: ('assetManagement.plants.details.description' | translate), info: selectedPlant.description }
                         ]">
                     </app-info-section>
 
                     <!-- Líneas de producción -->
                     <app-info-container
-                        [title]="'Líneas de producción:'"
+                        [title]="'assetManagement.plants.details.productionLines' | translate"
                         [titleType]="2">
                         <ng-container *ngIf="selectedPlant as plant">
                             <div class="machinery-list" *ngIf="(plant.productionLines ?? []).length > 0">
@@ -79,14 +79,14 @@
                                     <div class="machinery-info">
                                         <span class="machinery-name">{{ line.name }}</span>
                                         <div class="machinery-details">
-                                            <span class="machinery-model">Capacidad: {{ line.capacity }}</span>
+                                            <span class="machinery-model">{{ 'assetManagement.plants.details.lineCapacity' | translate }}: {{ line.capacity }}</span>
                                             <span class="machinery-status">{{ getProductionLineStatusLabel(line.status) }}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div *ngIf="!plant.productionLines?.length" class="empty-machinery-list">
-                                No hay líneas de producción en esta planta.
+                                {{ 'assetManagement.plants.details.noLines' | translate }}
                             </div>
                         </ng-container>
                     </app-info-container>
@@ -101,7 +101,7 @@
             <app-interact-plant
                 [showModal]="showPlantModal"
                 [plantToEdit]="isEditMode ? selectedPlant : null"
-                [title]="isEditMode ? 'Editar Planta' : 'Nueva Planta'"
+                [title]="(isEditMode ? 'assetManagement.plants.modal.edit' : 'assetManagement.plants.modal.new') | translate"
                 [availableProductionLines]="allProductionLines"
                 (save)="onSavePlant($event)"
                 (cancel)="closeModal()">

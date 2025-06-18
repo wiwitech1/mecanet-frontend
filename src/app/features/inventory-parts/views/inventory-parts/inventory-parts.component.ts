@@ -10,6 +10,7 @@ import { InfoContainerComponent } from '../../../../shared/components/informatio
 import { ButtonComponent, ButtonVariant } from '../../../../shared/components/button/button.component';
 import { SearchComponent } from '../../../../shared/components/search/search.component';
 import { TitleViewComponent } from '../../../../shared/components/title-view/title-view.component';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 interface TableColumn {
   key: string;
@@ -35,7 +36,8 @@ interface TableColumn {
     InfoContainerComponent,
     ButtonComponent,
     InventoryPartFormModalComponent,
-    SearchComponent
+    SearchComponent,
+    TranslateModule
   ]
 })
 export class InventoryPartsComponent implements OnInit {
@@ -50,19 +52,26 @@ export class InventoryPartsComponent implements OnInit {
   stockData: { subtitle: string; info: any }[] = [];
   // Filtros para el componente de búsqueda
   filters = [
-    { key: 'stockStatus', label: 'Estado del Stock', options: [
-      { value: 'ok', label: 'OK' },
-      { value: 'low', label: 'Bajo' },
-    ]}
+    {
+      value: 'stock_status',
+      label: 'inventoryParts.search.filters.status.label',
+      options: [
+        { value: 'OK', label: 'inventoryParts.search.filters.status.options.ok' },
+        { value: 'LOW', label: 'inventoryParts.search.filters.status.options.low' }
+      ]
+    }
   ];
   columns: TableColumn[] = [
-    { key: 'code', label: 'Código', type: 'texto' },
-    { key: 'name', label: 'Nombre', type: 'texto' },
-    { key: 'current_stock', label: 'Stock Actual', type: 'numero' },
-    { key: 'stock_status', label: 'Estado del Stock', type: 'texto', filterable: true },
-    { key: 'actions', label: '', type: 'cta', ctaLabel: 'Detalles', ctaVariant: 'primary' }
+    { key: 'code', label: 'inventoryParts.table.code', type: 'texto' },
+    { key: 'name', label: 'inventoryParts.table.name', type: 'texto' },
+    { key: 'current_stock', label: 'inventoryParts.table.currentStock', type: 'numero' },
+    { key: 'stock_status', label: 'inventoryParts.table.stockStatus', type: 'texto', filterable: true },
+    { key: 'actions', label: '', type: 'cta', ctaLabel: 'inventoryParts.table.details', ctaVariant: 'primary' }
   ];
-  constructor(private inventoryPartsService: InventoryPartEntitysApiService) {
+  constructor(
+    private inventoryPartsService: InventoryPartEntitysApiService,
+    private translate: TranslateService
+  ) {
     console.log('InventoryPartsComponent initialized');
   }
   ngOnInit() {
@@ -115,17 +124,19 @@ export class InventoryPartsComponent implements OnInit {
   }
   updateInfoPanel(inventoryPart: InventoryPartEntity) {
     this.infoData = [
-      { subtitle: 'Código', info: inventoryPart.code },
-      { subtitle: 'Nombre', info: inventoryPart.name },
-      { subtitle: 'Descripción', info: inventoryPart.description || 'No disponible' }
+      { subtitle: this.translate.instant('inventoryParts.infoPanel.sections.generalInfo.code'), info: inventoryPart.code },
+      { subtitle: this.translate.instant('inventoryParts.infoPanel.sections.generalInfo.name'), info: inventoryPart.name },
+      { subtitle: this.translate.instant('inventoryParts.infoPanel.sections.generalInfo.description'),
+        info: inventoryPart.description || this.translate.instant('inventoryParts.infoPanel.sections.generalInfo.notAvailable') }
     ];
 
     this.stockData = [
-      { subtitle: 'Stock Actual', info: inventoryPart.current_stock },
-      { subtitle: 'Stock Mínimo', info: inventoryPart.min_stock },
-      { subtitle: 'Precio Unitario', info: `$${inventoryPart.unit_price}` },
-      { subtitle: 'Estado', info: inventoryPart.stock_status },
-      { subtitle: 'Última Reposición', info: inventoryPart.last_restock || 'No disponible' }
+      { subtitle: this.translate.instant('inventoryParts.infoPanel.sections.stockInfo.currentStock'), info: inventoryPart.current_stock },
+      { subtitle: this.translate.instant('inventoryParts.infoPanel.sections.stockInfo.minStock'), info: inventoryPart.min_stock },
+      { subtitle: this.translate.instant('inventoryParts.infoPanel.sections.stockInfo.unitPrice'), info: `$${inventoryPart.unit_price}` },
+      { subtitle: this.translate.instant('inventoryParts.infoPanel.sections.stockInfo.status'), info: inventoryPart.stock_status },
+      { subtitle: this.translate.instant('inventoryParts.infoPanel.sections.stockInfo.lastRestock'),
+        info: inventoryPart.last_restock || this.translate.instant('inventoryParts.infoPanel.sections.stockInfo.notAvailable') }
     ];
   }
   async handleCreate(formData: Partial<InventoryPartEntity>) {

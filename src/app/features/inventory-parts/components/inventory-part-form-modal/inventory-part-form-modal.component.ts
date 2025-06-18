@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { InventoryPartEntity } from '../../../shared/models/inventory-part.entity';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-inventory-part-form-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent],
+  imports: [CommonModule, FormsModule, ButtonComponent, TranslateModule],
   templateUrl: './inventory-part-form-modal.component.html',
   styleUrls: ['./inventory-part-form-modal.component.scss']
 })
@@ -29,9 +30,11 @@ export class InventoryPartFormModalComponent implements OnInit {
     unit_price: 0
   };
 
+  constructor(private translate: TranslateService) {}
+
   ngOnInit() {
     if (this.partData) {
-      this.originalData = this.partData;
+      this.originalData = { ...this.partData };
       this.formData = {
         ...this.formData,
         ...this.partData
@@ -40,10 +43,11 @@ export class InventoryPartFormModalComponent implements OnInit {
   }
 
   handleSubmit() {
-    this.submit.emit({
+    const formDataForBackend = {
       ...this.formData,
-      id: (this.partData as any)?.id
-    });
+      id: this.originalData?.id
+    };
+    this.submit.emit(formDataForBackend);
   }
 
   handleCancel() {
@@ -51,7 +55,7 @@ export class InventoryPartFormModalComponent implements OnInit {
   }
 
   handleDelete() {
-    if (confirm('¿Está seguro de eliminar este repuesto?')) {
+    if (confirm(this.translate.instant('inventoryParts.form.confirmDelete'))) {
       if (this.originalData?.id) {
         this.delete.emit(this.originalData.id);
       }

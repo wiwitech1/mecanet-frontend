@@ -1,61 +1,61 @@
 <div class="production-line-form-container">
-    <h2 class="form-title">{{ title }}</h2>
-  
-    <form [formGroup]="productionLineForm" (ngSubmit)="onSubmit()" class="production-line-form">
-      <div class="form-row">
-        <label for="name">Nombre <span class="required">*</span></label>
-        <input type="text" id="name" formControlName="name" class="form-input" [class.invalid]="productionLineForm.get('name')?.invalid && productionLineForm.get('name')?.touched">
+  <h2 class="form-title">{{ title }}</h2>
+
+  <form [formGroup]="productionLineForm" (ngSubmit)="onSubmit()" class="production-line-form">
+    <div class="form-row">
+      <label for="name">{{ 'assetManagement.forms.productionLine.fields.name.label' | translate }} <span class="required">*</span></label>
+      <input type="text" id="name" formControlName="name" class="form-input" [class.invalid]="productionLineForm.get('name')?.invalid && productionLineForm.get('name')?.touched">
+    </div>
+
+    <div class="form-row">
+      <label for="plant_id">{{ 'assetManagement.forms.productionLine.fields.plant.label' | translate }} <span class="required">*</span></label>
+      <select id="plant_id" formControlName="plant_id" class="form-input" [class.invalid]="productionLineForm.get('plant_id')?.invalid && productionLineForm.get('plant_id')?.touched">
+        <option value="1">Planta Principal</option>
+        <option value="2">Planta Secundaria</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <label for="capacity">{{ 'assetManagement.forms.productionLine.fields.capacity.label' | translate }} <span class="required">*</span></label>
+      <div class="capacity-input-container">
+        <input type="number" id="capacity" formControlName="capacity" class="form-input" [class.invalid]="productionLineForm.get('capacity')?.invalid && productionLineForm.get('capacity')?.touched">
+        <span class="capacity-unit">{{ 'assetManagement.forms.productionLine.fields.capacityUnit' | translate }}</span>
       </div>
-  
-      <div class="form-row">
-        <label for="plant_id">Planta <span class="required">*</span></label>
-        <select id="plant_id" formControlName="plant_id" class="form-input" [class.invalid]="productionLineForm.get('plant_id')?.invalid && productionLineForm.get('plant_id')?.touched">
-          <option value="1">Planta Principal</option>
-          <option value="2">Planta Secundaria</option>
-        </select>
-      </div>
-  
-      <div class="form-row">
-        <label for="capacity">Capacidad <span class="required">*</span></label>
-        <div class="capacity-input-container">
-          <input type="number" id="capacity" formControlName="capacity" class="form-input" [class.invalid]="productionLineForm.get('capacity')?.invalid && productionLineForm.get('capacity')?.touched">
-          <span class="capacity-unit">unidades/hora</span>
+    </div>
+
+    <div class="form-row">
+      <label for="description">{{ 'assetManagement.forms.productionLine.fields.description.label' | translate }} <span class="required">*</span></label>
+      <textarea id="description" formControlName="description" rows="3" class="form-input" [class.invalid]="productionLineForm.get('description')?.invalid && productionLineForm.get('description')?.touched"></textarea>
+    </div>
+
+    <div class="form-row">
+      <label>{{ 'assetManagement.forms.productionLine.fields.machineries.label' | translate }} <span class="required">*</span></label>
+      <div class="machinery-list">
+        <div *ngIf="!availableMachineries.length" class="empty-machinery-list">
+          {{ 'assetManagement.forms.productionLine.noMachineries' | translate }}
         </div>
-      </div>
-  
-      <div class="form-row">
-        <label for="description">Descripción <span class="required">*</span></label>
-        <textarea id="description" formControlName="description" rows="3" class="form-input" [class.invalid]="productionLineForm.get('description')?.invalid && productionLineForm.get('description')?.touched"></textarea>
-      </div>
-  
-      <div class="form-row">
-        <label>Maquinarias disponibles <span class="required">*</span></label>
-        <div class="machinery-list">
-          <div *ngIf="!availableMachineries.length" class="empty-machinery-list">
-            No hay maquinarias disponibles.
+        <div *ngFor="let machinery of availableMachineries" class="machinery-item"
+             [class.selected]="isMachinerySelected(machinery.id)"
+             (click)="toggleMachinerySelection(machinery.id)">
+          <div class="machinery-info">
+            <span class="machinery-name">{{ machinery.name }}</span>
+            <span class="machinery-model">{{ machinery.model }}</span>
           </div>
-          <div *ngFor="let machinery of availableMachineries" class="machinery-item"
-               [class.selected]="isMachinerySelected(machinery.id)"
-               (click)="toggleMachinerySelection(machinery.id)">
-            <div class="machinery-info">
-              <span class="machinery-name">{{ machinery.name }}</span>
-              <span class="machinery-model">{{ machinery.model }}</span>
-            </div>
-            <div class="selection-indicator">
-              <svg *ngIf="isMachinerySelected(machinery.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
+          <div class="selection-indicator">
+            <svg *ngIf="isMachinerySelected(machinery.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
           </div>
         </div>
-        <div class="selected-machinery-count">
-          {{ selectedMachineries.length }} maquinaria(s) seleccionada(s)
-        </div>
       </div>
-  
-      <div class="form-actions">
-        <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
-        <button type="submit" class="btn-save" [disabled]="productionLineForm.invalid || !selectedMachineries.length">Guardar</button>
+      <div class="selected-machinery-count">
+        {{ selectedMachineries.length }} {{ 'assetManagement.forms.productionLine.selectedMachineries' | translate }}
       </div>
-    </form>
-  </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">{{ 'assetManagement.forms.buttons.cancel' | translate }}</button>
+      <button type="submit" class="btn-save" [disabled]="productionLineForm.invalid || !selectedMachineries.length">{{ 'assetManagement.forms.buttons.save' | translate }}</button>
+    </div>
+  </form>
+</div>

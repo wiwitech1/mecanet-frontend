@@ -1,0 +1,112 @@
+.main-container {
+  display: flex;
+  gap: 2rem;
+  padding: 1rem;
+  height: calc(100vh - 200px); // Ajusta según el header y otros elementos
+}
+
+.calendar-container {
+  flex: 1;
+  min-width: 0; // Evita que el flex item se desborde
+  background: var(--clr-bg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.panel-container {
+  width: 300px; // Ancho fijo para el panel
+  background: var(--clr-bg);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.hero {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 1rem;
+}
+
+.calendar-controls {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.view-toggle {
+  display: flex;
+  background: var(--clr-surface);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.toggle-option {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: transparent;
+  color: var(--clr-primary-500);
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &.active {
+    background: var(--clr-primary-100);
+    color: var(--clr-bg);
+  }
+
+  &:hover:not(.active) {
+    background: var(--clr-primary-50);
+  }
+}
+
+// Responsive
+@media (max-width: 1024px) {
+  .main-container {
+    flex-direction: column;
+  }
+
+  .panel-container {
+    width: 100%;
+  }
+}
+
+.header {
+  padding: 1rem;
+}
+
+.headerPanel {
+  margin: 10px;
+}
+
+.line {
+  height: 1.3px;
+  background-color: var(--clr-grey-200);
+  border: none;
+  opacity: 0.5;
+}
+
+.content {
+  margin: 0;
+}
+
+.calendar {
+  padding: 1em;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.search {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}
+
+.panel {
+  position: fixed;
+  align-items: center;
+  right: 3.6vw;
+  top: 35vh;
+  justify-content: space-between;
+}

@@ -1,22 +1,22 @@
 <div class="container">
   <header class="breadcrumb-header">
-      <app-title-view text="Inventario > Repuestos"/>
+      <app-title-view [text]="'inventoryParts.breadcrumb' | translate"/>
   </header>
   <div class="main-content">
       <div class="left-container">
           <app-search
-              [placeholder]="'Buscar por código o nombre...'"
+              [placeholder]="'inventoryParts.search.placeholder' | translate"
               [filters]="[
                   {
                       value: 'stock_status',
-                      label: 'Estado',
+                      label: 'inventoryParts.search.filters.status.label' | translate,
                       options: [
-                          { value: 'OK', label: 'OK' },
-                          { value: 'LOW', label: 'LOW' }
+                          { value: 'OK', label: 'inventoryParts.search.filters.status.options.ok' | translate },
+                          { value: 'LOW', label: 'inventoryParts.search.filters.status.options.low' | translate }
                       ]
                   }
               ]"
-              [newLabel]="'Nuevo Repuesto'"
+              [newLabel]="'inventoryParts.search.newPart' | translate"
               [actionFunction]="handleNewClick"
           ></app-search>
           <app-record-table
@@ -28,20 +28,20 @@
       <div class="right-container" [class.show-panel]="showInfoPanel">
           <app-information-panel
               *ngIf="showInfoPanel && selectedPart"
-              [headerText]="'Repuesto: ' + selectedPart.code"
+              [headerText]="('inventoryParts.infoPanel.partPrefix' | translate) + selectedPart.code"
               [showHeader]="true"
               [showPrimaryButton]="true"
-              [primaryButtonText]="'Editar'"
+              [primaryButtonText]="'inventoryParts.infoPanel.edit' | translate"
               (primaryButtonClick)="showEditModal = true">
 
-              <app-info-container [title]="'Información General'" [titleType]="2">
+              <app-info-container [title]="'inventoryParts.infoPanel.sections.generalInfo.title' | translate" [titleType]="2">
                   <app-info-section
                       [infoType]="2"
                       [data]="infoData">
                   </app-info-section>
               </app-info-container>
 
-              <app-info-container [title]="'Información de Stock'" [titleType]="2">
+              <app-info-container [title]="'inventoryParts.infoPanel.sections.stockInfo.title' | translate" [titleType]="2">
                   <app-info-section
                       [infoType]="2"
                       [data]="stockData">
@@ -54,15 +54,15 @@
                       [size]="'sm'"
                       [iconLeft]="'pi pi-times'"
                       (click)="closePanel()">
-                      Cerrar
+                      {{ 'inventoryParts.infoPanel.close' | translate }}
                   </app-button>
                   <app-button
-                  [variant]="'outline'"
-                  [size]="'sm'"
-                  [iconLeft]="'pi pi-times'"
-                  (click)="showEditModal = true">
-                  Editar
-              </app-button>
+                      [variant]="'outline'"
+                      [size]="'sm'"
+                      [iconLeft]="'pi pi-times'"
+                      (click)="showEditModal = true">
+                      {{ 'inventoryParts.infoPanel.edit' | translate }}
+                  </app-button>
               </div>
 
           </app-information-panel>

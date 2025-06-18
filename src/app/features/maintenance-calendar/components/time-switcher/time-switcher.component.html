@@ -1,0 +1,11 @@
+<div class="time-switcher">
+  <div class="switch-container">
+    <button
+      *ngFor="let option of options"
+      class="switch-option"
+      [class.active]="selectedValue === option.value"
+      (click)="onValueChange(option.value)">
+      {{ option.label }}
+    </button>
+  </div>
+</div>

@@ -3,18 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlantEntity, PlantStatus } from '../../models/plant.entity';
 import { ProductionLineEntity } from '../../models/production-line.entity';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-interact-plant',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './interact-plant.component.html',
   styleUrl: './interact-plant.component.scss'
 })
 export class InteractPlantComponent implements OnInit {
   @Input() showModal = false;
   @Input() plantToEdit: PlantEntity | null = null;
-  @Input() title: string = 'Nueva Planta';
+  @Input() title: string = '';
   @Input() availableProductionLines: ProductionLineEntity[] = [];
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
@@ -22,17 +23,19 @@ export class InteractPlantComponent implements OnInit {
   plantForm: FormGroup;
   isEditMode = false;
   selectedProductionLines: number[] = [];
-  
-  // Enums para el template
+
   plantStatuses = [
-    { value: PlantStatus.ACTIVE, label: 'Activo' },
-    { value: PlantStatus.INACTIVE, label: 'Inactivo' },
-    { value: PlantStatus.MAINTENANCE, label: 'En mantenimiento' }
+    { value: PlantStatus.ACTIVE, label: 'assetManagement.status.active' },
+    { value: PlantStatus.INACTIVE, label: 'assetManagement.status.inactive' },
+    { value: PlantStatus.MAINTENANCE, label: 'assetManagement.status.maintenance' }
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService
+  ) {
     this.plantForm = this.fb.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3)]],
       location: ['', Validators.required],
       capacity: ['', [Validators.required, Validators.min(1)]],
       description: [''],
@@ -42,7 +45,10 @@ export class InteractPlantComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEditMode = !!this.plantToEdit;
-    
+    this.title = this.translate.instant(this.isEditMode ?
+      'assetManagement.forms.plant.title.edit' :
+      'assetManagement.forms.plant.title.new');
+
     if (this.isEditMode && this.plantToEdit) {
       this.plantForm.patchValue({
         name: this.plantToEdit.name,
@@ -99,11 +105,14 @@ export class InteractPlantComponent implements OnInit {
     if (!control) return '';
 
     if (control.hasError('required')) {
-      return 'Este campo es requerido';
+      return this.translate.instant(`assetManagement.forms.plant.fields.${fieldName}.required`);
     }
     if (control.hasError('min')) {
-      return 'El valor mínimo es 1';
+      return this.translate.instant(`assetManagement.forms.plant.fields.${fieldName}.min`);
+    }
+    if (control.hasError('minlength')) {
+      return this.translate.instant(`assetManagement.forms.plant.fields.${fieldName}.minLength`);
     }
     return '';
   }
-} 
+}

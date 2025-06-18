@@ -1,10 +1,540 @@
 {
     "home": {
         "title": "Inicio",
-        "description": "Página de inicio"
+        "description": "Página de inicio",
+        "welcome": {
+            "greeting": "Bienvenido",
+            "currentPlant": "Planta Actual"
+        },
+        "actions": {
+            "createWorkOrder": "Crear Orden de Trabajo"
+        },
+        "metrics": {
+            "title": "Métricas Globales",
+            "mttr": {
+                "title": "MTTR",
+                "value": "2.5h"
+            },
+            "mtbf": {
+                "title": "MTBF",
+                "value": "180h"
+            },
+            "openWorkOrders": {
+                "title": "OTs Abiertas",
+                "value": "24"
+            },
+            "stockAlerts": {
+                "title": "Alertas Stock",
+                "value": "7"
+            }
+        },
+        "quickLinks": {
+            "title": "Accesos Rápidos"
+        },
+        "notifications": {
+            "title": "Notificaciones Recientes",
+            "viewAll": "Ver todas"
+        },
+        "staffInfo": {
+            "title": "Información del personal de la planta",
+            "teamPerformance": {
+                "title": "Rendimiento del equipo",
+                "averageCompliance": "Promedio de cumplimiento",
+                "stats": {
+                    "activeTechnicians": "Técnicos activos",
+                    "onTimeWOs": "OTs a tiempo",
+                    "delayedWOs": "OTs atrasadas",
+                    "efficiency": "Eficiencia"
+                }
+            },
+            "actionTips": {
+                "warning": "La Línea A12 está por debajo del 60% de eficiencia. Se recomienda revisar la asignación de personal."
+            }
+        },
+        "maintenanceTimeline": {
+            "title": "Próximos Mantenimientos",
+            "viewCalendar": "Ver calendario"
+        },
+        "equipmentStatus": {
+            "title": "Estado de Equipos",
+            "viewDetails": "Ver detalles"
+        },
+        "inventoryHealth": {
+            "title": "Salud del Inventario",
+            "viewInventory": "Ver inventario",
+            "legend": {
+                "critical": "Crítico",
+                "warning": "Bajo",
+                "normal": "Normal"
+            }
+        },
+        "recentActivity": {
+            "title": "Actividad Reciente",
+            "viewHistory": "Ver histórico"
+        },
+        "personalProductivity": {
+            "title": "Mi Productividad",
+            "viewTasks": "Ver tareas",
+            "stats": {
+                "assignedTasks": "Tareas Asignadas",
+                "pendingToday": "Tareas Pendientes Hoy",
+                "notifications": "Notificaciones"
+            },
+            "upcomingTasks": {
+                "title": "Próximas Tareas"
+            }
+        }
     },
     "about": {
         "title": "Acerca de",
         "description": "Página de acerca de"
+    },
+    "search": {
+        "placeholder": "Buscar...",
+        "filters": "Filtros",
+        "defaultNewLabel": "Nuevo"
+    },
+    "recordTable": {
+        "emptyState": "No hay datos para mostrar",
+        "defaultAction": "Acción",
+        "columnTypes": {
+            "text": "texto",
+            "number": "numero",
+            "information": "informacion",
+            "cta": "cta",
+            "template": "template"
+        }
+    },
+    "sidebar": {
+        "menu": {
+            "home": "Inicio",
+            "calendar": "Calendario",
+            "inventory": {
+                "title": "Inventario",
+                "parts": "Repuestos",
+                "purchaseOrders": "Órdenes de compra"
+            },
+            "assetManagement": {
+                "title": "Gestión de Activos",
+                "plants": "Plantas",
+                "productionLines": "Líneas de Producción",
+                "machinery": "Maquinarias"
+            },
+            "workOrder": "Orden de Trabajo",
+            "maintenancePlan": "Plan de Mantenimiento",
+            "execution": "Ejecución",
+            "dashboard": "Dashboard",
+            "staffManagement": "Administración del Personal",
+            "settings": "Configuración",
+            "demo": "Demo"
+        },
+        "user": {
+            "role": "Administrador",
+            "profile": "Perfil"
+        },
+        "customization": {
+            "language": "Idioma",
+            "theme": "Tema"
+        }
+    },
+    "inventoryParts": {
+        "breadcrumb": "Inventario > Repuestos",
+        "search": {
+            "placeholder": "Buscar por código o nombre...",
+            "filters": {
+                "status": {
+                    "label": "Estado",
+                    "options": {
+                        "ok": "OK",
+                        "low": "Bajo"
+                    }
+                }
+            },
+            "newPart": "Nuevo Repuesto"
+        },
+        "table": {
+            "code": "Código",
+            "name": "Nombre",
+            "currentStock": "Stock Actual",
+            "stockStatus": "Estado del Stock",
+            "details": "Detalles"
+        },
+        "infoPanel": {
+            "partPrefix": "Repuesto: ",
+            "edit": "Editar",
+            "close": "Cerrar",
+            "sections": {
+                "generalInfo": {
+                    "title": "Información General",
+                    "code": "Código",
+                    "name": "Nombre",
+                    "description": "Descripción",
+                    "notAvailable": "No disponible"
+                },
+                "stockInfo": {
+                    "title": "Información de Stock",
+                    "currentStock": "Stock Actual",
+                    "minStock": "Stock Mínimo",
+                    "unitPrice": "Precio Unitario",
+                    "status": "Estado",
+                    "lastRestock": "Última Reposición",
+                    "notAvailable": "No disponible"
+                }
+            }
+        },
+        "form": {
+            "title": {
+                "edit": "Editar Repuesto",
+                "new": "Nuevo Repuesto"
+            },
+            "fields": {
+                "code": {
+                    "label": "Código",
+                    "placeholder": "Ingrese el código"
+                },
+                "name": {
+                    "label": "Nombre",
+                    "placeholder": "Ingrese el nombre"
+                },
+                "description": {
+                    "label": "Descripción",
+                    "placeholder": "Ingrese la descripción"
+                },
+                "currentStock": {
+                    "label": "Stock Actual"
+                },
+                "minStock": {
+                    "label": "Stock Mínimo"
+                },
+                "unitPrice": {
+                    "label": "Precio Unitario"
+                }
+            },
+            "actions": {
+                "cancel": "Cancelar",
+                "delete": "Eliminar",
+                "save": "Guardar Cambios",
+                "create": "Crear"
+            },
+            "confirmDelete": "¿Está seguro de eliminar este repuesto?"
+        }
+    },
+    "purchaseOrders": {
+        "title": "Órdenes de Compra",
+        "search": {
+            "placeholder": "Buscar por ID...",
+            "newOrder": "Nueva Orden de Compra"
+        },
+        "table": {
+            "id": "ID",
+            "part": "Repuesto",
+            "price": "Precio",
+            "orderDate": "Fecha Solicitada",
+            "status": "Estado",
+            "details": "Detalles"
+        },
+        "infoPanel": {
+            "orderPrefix": "Orden de Compra: ",
+            "edit": "Editar",
+            "close": "Cerrar",
+            "sections": {
+                "generalInfo": {
+                    "title": "Información General",
+                    "id": "ID",
+                    "part": "Repuesto",
+                    "orderDate": "Fecha Solicitada",
+                    "notAvailable": "No disponible"
+                },
+                "orderDetails": {
+                    "title": "Detalles de la Orden",
+                    "price": "Precio",
+                    "status": "Estado",
+                    "notes": "Notas",
+                    "noNotes": "Sin notas"
+                }
+            }
+        },
+        "form": {
+            "title": {
+                "edit": "Editar Orden de Compra",
+                "new": "Nueva Orden de Compra"
+            },
+            "fields": {
+                "orderNumber": {
+                    "label": "Número de Orden",
+                    "placeholder": "Ingrese el número de orden"
+                },
+                "supplier": {
+                    "label": "Proveedor",
+                    "placeholder": "Ingrese el nombre del proveedor"
+                },
+                "part": {
+                    "label": "Repuesto",
+                    "placeholder": "Seleccione un repuesto"
+                },
+                "quantity": {
+                    "label": "Cantidad"
+                },
+                "unitPrice": {
+                    "label": "Precio Unitario"
+                },
+                "orderDate": {
+                    "label": "Fecha de Orden"
+                },
+                "expectedDate": {
+                    "label": "Fecha Esperada"
+                },
+                "status": {
+                    "label": "Estado",
+                    "options": {
+                        "pending": "Pendiente",
+                        "approved": "Aprobada",
+                        "received": "Recibida",
+                        "cancelled": "Cancelada"
+                    }
+                },
+                "totalAmount": {
+                    "label": "Monto Total"
+                },
+                "notes": {
+                    "label": "Notas",
+                    "placeholder": "Ingrese notas adicionales"
+                }
+            },
+            "actions": {
+                "cancel": "Cancelar",
+                "delete": "Eliminar",
+                "save": "Guardar Cambios",
+                "create": "Crear"
+            },
+            "confirmDelete": "¿Está seguro de eliminar esta orden de compra?"
+        }
+    },
+    "errors": {
+        "loadingParts": "Error al cargar repuestos"
+    },
+    "assetManagement": {
+        "breadcrumb": {
+            "machinery": "Gestión de Activos > Maquinarias",
+            "plants": "Gestión de Activos > Plantas",
+            "productionLines": "Gestión de Activos > Líneas de Producción"
+        },
+        "search": {
+            "machinery": {
+                "placeholder": "Buscar",
+                "newButton": "+ Nueva Máquina"
+            },
+            "plants": {
+                "placeholder": "Buscar plantas...",
+                "newButton": "+ Nueva Planta"
+            },
+            "productionLines": {
+                "placeholder": "Buscar",
+                "newButton": "+ Nueva Línea"
+            }
+        },
+        "loading": {
+            "data": "Cargando datos...",
+            "machinery": "Cargando información de la maquinaria...",
+            "plants": "Cargando plantas...",
+            "plantInfo": "Cargando información de la planta...",
+            "productionLines": "Cargando información de la línea..."
+        },
+        "error": {
+            "retry": "Reintentar"
+        },
+        "status": {
+            "active": "Activo",
+            "inactive": "Inactivo",
+            "maintenance": "En mantenimiento"
+        },
+        "buttons": {
+            "edit": "Editar",
+            "activate": "Activar",
+            "deactivate": "Desactivar",
+            "close": "Cerrar"
+        },
+        "machinery": {
+            "modal": {
+                "edit": "Editar Maquinaria",
+                "new": "Nueva Maquinaria"
+            },
+            "details": {
+                "specifications": "Especificaciones técnicas:",
+                "maintenanceHistory": "Historial de mantenimiento",
+                "currentMeasurements": "Mediciones actuales:"
+            }
+        },
+        "plants": {
+            "modal": {
+                "edit": "Editar Planta",
+                "new": "Nueva Planta"
+            },
+            "details": {
+                "name": "Nombre",
+                "location": "Ubicación",
+                "status": "Estado",
+                "capacity": "Capacidad",
+                "capacityUnits": "unidades",
+                "createdAt": "Fecha creación",
+                "updatedAt": "Última actualización",
+                "description": "Descripción",
+                "productionLines": "Líneas de producción:",
+                "noLines": "No hay líneas de producción en esta planta.",
+                "lineCapacity": "Capacidad"
+            }
+        },
+        "productionLines": {
+            "modal": {
+                "edit": "Editar Línea de Producción",
+                "new": "Nueva Línea de Producción"
+            },
+            "details": {
+                "specifications": "Especificaciones:",
+                "assignedMachinery": "Maquinarias asignadas",
+                "noMachinery": "No hay maquinarias asignadas a esta línea."
+            }
+        },
+        "columns": {
+            "id": "ID",
+            "name": "Nombre",
+            "model": "Modelo",
+            "brand": "Marca",
+            "status": "Estado",
+            "lastMaintenance": "Último Mantenimiento",
+            "details": "Detalles",
+            "detailsButton": "Ver",
+            "location": "Ubicación",
+            "capacity": "Capacidad",
+            "createdAt": "Fecha Creación",
+            "updatedAt": "Última Actualización",
+            "productionLines": "Líneas de Producción",
+            "plant": "Planta",
+            "machines": "Máquinas",
+            "efficiency": "Eficiencia"
+        },
+        "forms": {
+            "machinery": {
+                "title": "Información de Maquinaria",
+                "fields": {
+                    "name": "Nombre",
+                    "model": "Modelo",
+                    "brand": "Marca",
+                    "serialNumber": "N° de Serie",
+                    "productionCapacity": "Capacidad de Producción",
+                    "recommendations": "Recomendaciones",
+                    "status": "Estado",
+                    "measurements": "Mediciones",
+                    "measurementName": "Nombre",
+                    "measurementValue": "Valor",
+                    "measurementUnit": "Unidad"
+                },
+                "placeholders": {
+                    "name": "Ingrese nombre de la maquinaria",
+                    "model": "Ingrese modelo",
+                    "brand": "Ingrese marca",
+                    "serialNumber": "Ingrese número de serie",
+                    "productionCapacity": "Ingrese capacidad de producción",
+                    "recommendations": "Ingrese recomendaciones"
+                },
+                "errors": {
+                    "atLeastOneMeasurement": "Debe agregar al menos una medida válida."
+                },
+                "buttons": {
+                    "addMeasurement": "Agregar Medida"
+                }
+            },
+            "plant": {
+                "title": {
+                    "new": "Nueva Planta",
+                    "edit": "Editar Planta"
+                },
+                "fields": {
+                    "name": {
+                        "label": "Nombre",
+                        "required": "El nombre es requerido",
+                        "minLength": "El nombre debe tener al menos 3 caracteres"
+                    },
+                    "location": {
+                        "label": "Ubicación",
+                        "required": "La ubicación es requerida"
+                    },
+                    "capacity": {
+                        "label": "Capacidad",
+                        "required": "La capacidad es requerida",
+                        "min": "La capacidad debe ser mayor que 0",
+                        "unit": "unidades"
+                    },
+                    "description": {
+                        "label": "Descripción",
+                        "optional": "opcional"
+                    },
+                    "status": {
+                        "label": "Estado",
+                        "required": "El estado es requerido"
+                    },
+                    "productionLines": {
+                        "label": "Líneas de producción disponibles",
+                        "noLines": "No hay líneas de producción disponibles.",
+                        "selectedCount": "línea(s) seleccionada(s)"
+                    }
+                },
+                "buttons": {
+                    "save": "Guardar",
+                    "cancel": "Cancelar"
+                }
+            },
+            "productionLine": {
+                "title": "Información de Línea de Producción",
+                "fields": {
+                    "name": "Nombre",
+                    "plant": "Planta",
+                    "capacity": "Capacidad",
+                    "description": "Descripción",
+                    "status": "Estado",
+                    "machineries": "Maquinarias"
+                },
+                "placeholders": {
+                    "name": "Ingrese nombre de la línea",
+                    "capacity": "Ingrese capacidad",
+                    "description": "Ingrese descripción",
+                    "selectPlant": "Seleccione una planta",
+                    "selectMachineries": "Seleccione maquinarias"
+                }
+            },
+            "buttons": {
+                "save": "Guardar",
+                "cancel": "Cancelar"
+            }
+        }
+    },
+    "pageNotFound": {
+        "title": "Página no encontrada",
+        "description": "La página que estás buscando no existe o no se encuentra disponible.",
+        "invalidPath": "La ruta",
+        "backHome": "Volver al Inicio"
+    },
+    "maintenanceCalendar": {
+        "title": "Calendario de Mantenimiento",
+        "viewToggle": {
+            "weekly": "Semanal",
+            "monthly": "Mensual"
+        },
+        "search": {
+            "placeholder": "Buscar actividad..."
+        },
+        "activityDetails": {
+            "title": "Detalles de la Actividad",
+            "activityName": "Nombre de la actividad",
+            "date": "Fecha",
+            "time": "Hora",
+            "assignedStaff": "Personal encargado",
+            "notes": "Anotaciones",
+            "notAvailable": "---"
+        },
+        "months": [
+            "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+            "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ]
     }
 }
