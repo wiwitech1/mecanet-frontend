@@ -1,7 +1,89 @@
 {
     "home": {
         "title": "Home",
-        "description": "Home page"
+        "description": "Home page",
+        "welcome": {
+            "greeting": "Welcome",
+            "currentPlant": "Current Plant"
+        },
+        "actions": {
+            "createWorkOrder": "Create Work Order"
+        },
+        "metrics": {
+            "title": "Global Metrics",
+            "mttr": {
+                "title": "MTTR",
+                "value": "2.5h"
+            },
+            "mtbf": {
+                "title": "MTBF",
+                "value": "180h"
+            },
+            "openWorkOrders": {
+                "title": "Open WOs",
+                "value": "24"
+            },
+            "stockAlerts": {
+                "title": "Stock Alerts",
+                "value": "7"
+            }
+        },
+        "quickLinks": {
+            "title": "Quick Access"
+        },
+        "notifications": {
+            "title": "Recent Notifications",
+            "viewAll": "View all"
+        },
+        "staffInfo": {
+            "title": "Plant Staff Information",
+            "teamPerformance": {
+                "title": "Team Performance",
+                "averageCompliance": "Average compliance",
+                "stats": {
+                    "activeTechnicians": "Active technicians",
+                    "onTimeWOs": "On-time WOs",
+                    "delayedWOs": "Delayed WOs",
+                    "efficiency": "Efficiency"
+                }
+            },
+            "actionTips": {
+                "warning": "Line A12 is below 60% efficiency. Staff allocation review is recommended."
+            }
+        },
+        "maintenanceTimeline": {
+            "title": "Upcoming Maintenance",
+            "viewCalendar": "View calendar"
+        },
+        "equipmentStatus": {
+            "title": "Equipment Status",
+            "viewDetails": "View details"
+        },
+        "inventoryHealth": {
+            "title": "Inventory Health",
+            "viewInventory": "View inventory",
+            "legend": {
+                "critical": "Critical",
+                "warning": "Low",
+                "normal": "Normal"
+            }
+        },
+        "recentActivity": {
+            "title": "Recent Activity",
+            "viewHistory": "View history"
+        },
+        "personalProductivity": {
+            "title": "My Productivity",
+            "viewTasks": "View tasks",
+            "stats": {
+                "assignedTasks": "Assigned Tasks",
+                "pendingToday": "Pending Tasks Today",
+                "notifications": "Notifications"
+            },
+            "upcomingTasks": {
+                "title": "Upcoming Tasks"
+            }
+        }
     },
     "about": {
         "title": "About",

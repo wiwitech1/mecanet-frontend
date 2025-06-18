@@ -1,7 +1,89 @@
 {
     "home": {
         "title": "Inicio",
-        "description": "Página de inicio"
+        "description": "Página de inicio",
+        "welcome": {
+            "greeting": "Bienvenido",
+            "currentPlant": "Planta Actual"
+        },
+        "actions": {
+            "createWorkOrder": "Crear Orden de Trabajo"
+        },
+        "metrics": {
+            "title": "Métricas Globales",
+            "mttr": {
+                "title": "MTTR",
+                "value": "2.5h"
+            },
+            "mtbf": {
+                "title": "MTBF",
+                "value": "180h"
+            },
+            "openWorkOrders": {
+                "title": "OTs Abiertas",
+                "value": "24"
+            },
+            "stockAlerts": {
+                "title": "Alertas Stock",
+                "value": "7"
+            }
+        },
+        "quickLinks": {
+            "title": "Accesos Rápidos"
+        },
+        "notifications": {
+            "title": "Notificaciones Recientes",
+            "viewAll": "Ver todas"
+        },
+        "staffInfo": {
+            "title": "Información del personal de la planta",
+            "teamPerformance": {
+                "title": "Rendimiento del equipo",
+                "averageCompliance": "Promedio de cumplimiento",
+                "stats": {
+                    "activeTechnicians": "Técnicos activos",
+                    "onTimeWOs": "OTs a tiempo",
+                    "delayedWOs": "OTs atrasadas",
+                    "efficiency": "Eficiencia"
+                }
+            },
+            "actionTips": {
+                "warning": "La Línea A12 está por debajo del 60% de eficiencia. Se recomienda revisar la asignación de personal."
+            }
+        },
+        "maintenanceTimeline": {
+            "title": "Próximos Mantenimientos",
+            "viewCalendar": "Ver calendario"
+        },
+        "equipmentStatus": {
+            "title": "Estado de Equipos",
+            "viewDetails": "Ver detalles"
+        },
+        "inventoryHealth": {
+            "title": "Salud del Inventario",
+            "viewInventory": "Ver inventario",
+            "legend": {
+                "critical": "Crítico",
+                "warning": "Bajo",
+                "normal": "Normal"
+            }
+        },
+        "recentActivity": {
+            "title": "Actividad Reciente",
+            "viewHistory": "Ver histórico"
+        },
+        "personalProductivity": {
+            "title": "Mi Productividad",
+            "viewTasks": "Ver tareas",
+            "stats": {
+                "assignedTasks": "Tareas Asignadas",
+                "pendingToday": "Tareas Pendientes Hoy",
+                "notifications": "Notificaciones"
+            },
+            "upcomingTasks": {
+                "title": "Próximas Tareas"
+            }
+        }
     },
     "about": {
         "title": "Acerca de",
