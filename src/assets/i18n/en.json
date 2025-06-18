@@ -230,5 +230,227 @@
     },
     "errors": {
         "loadingParts": "Error loading parts"
+    },
+    "assetManagement": {
+        "breadcrumb": {
+            "machinery": "Asset Management > Machinery",
+            "plants": "Asset Management > Plants",
+            "productionLines": "Asset Management > Production Lines"
+        },
+        "search": {
+            "machinery": {
+                "placeholder": "Search",
+                "newButton": "+ New Machine"
+            },
+            "plants": {
+                "placeholder": "Search plants...",
+                "newButton": "+ New Plant"
+            },
+            "productionLines": {
+                "placeholder": "Search",
+                "newButton": "+ New Line"
+            }
+        },
+        "loading": {
+            "data": "Loading data...",
+            "machinery": "Loading machinery information...",
+            "plants": "Loading plants...",
+            "plantInfo": "Loading plant information...",
+            "productionLines": "Loading line information..."
+        },
+        "error": {
+            "retry": "Retry"
+        },
+        "status": {
+            "active": "Active",
+            "inactive": "Inactive",
+            "maintenance": "Under Maintenance"
+        },
+        "buttons": {
+            "edit": "Edit",
+            "activate": "Activate",
+            "deactivate": "Deactivate",
+            "close": "Close"
+        },
+        "machinery": {
+            "modal": {
+                "edit": "Edit Machinery",
+                "new": "New Machinery"
+            },
+            "details": {
+                "specifications": "Technical specifications:",
+                "maintenanceHistory": "Maintenance history",
+                "currentMeasurements": "Current measurements:"
+            }
+        },
+        "plants": {
+            "modal": {
+                "edit": "Edit Plant",
+                "new": "New Plant"
+            },
+            "details": {
+                "name": "Name",
+                "location": "Location",
+                "status": "Status",
+                "capacity": "Capacity",
+                "capacityUnits": "units",
+                "createdAt": "Creation date",
+                "updatedAt": "Last update",
+                "description": "Description",
+                "productionLines": "Production lines:",
+                "noLines": "No production lines in this plant.",
+                "lineCapacity": "Capacity"
+            }
+        },
+        "productionLines": {
+            "modal": {
+                "edit": "Edit Production Line",
+                "new": "New Production Line"
+            },
+            "details": {
+                "specifications": "Specifications:",
+                "assignedMachinery": "Assigned machinery",
+                "noMachinery": "No machinery assigned to this line."
+            }
+        },
+        "columns": {
+            "id": "ID",
+            "name": "Name",
+            "model": "Model",
+            "brand": "Brand",
+            "status": "Status",
+            "lastMaintenance": "Last Maintenance",
+            "details": "Details",
+            "detailsButton": "View",
+            "location": "Location",
+            "capacity": "Capacity",
+            "createdAt": "Creation Date",
+            "updatedAt": "Last Update",
+            "productionLines": "Production Lines",
+            "plant": "Plant",
+            "machines": "Machines",
+            "efficiency": "Efficiency"
+        },
+        "forms": {
+            "machinery": {
+                "title": "Machinery Information",
+                "fields": {
+                    "name": "Name",
+                    "model": "Model",
+                    "brand": "Brand",
+                    "serialNumber": "Serial Number",
+                    "productionCapacity": "Production Capacity",
+                    "recommendations": "Recommendations",
+                    "status": "Status",
+                    "measurements": "Measurements",
+                    "measurementName": "Name",
+                    "measurementValue": "Value",
+                    "measurementUnit": "Unit"
+                },
+                "placeholders": {
+                    "name": "Enter machinery name",
+                    "model": "Enter model",
+                    "brand": "Enter brand",
+                    "serialNumber": "Enter serial number",
+                    "productionCapacity": "Enter production capacity",
+                    "recommendations": "Enter recommendations"
+                },
+                "errors": {
+                    "atLeastOneMeasurement": "You must add at least one valid measurement."
+                },
+                "buttons": {
+                    "addMeasurement": "Add Measurement"
+                }
+            },
+            "plant": {
+                "title": {
+                    "new": "New Plant",
+                    "edit": "Edit Plant"
+                },
+                "fields": {
+                    "name": {
+                        "label": "Name",
+                        "required": "Name is required",
+                        "minLength": "Name must be at least 3 characters long"
+                    },
+                    "location": {
+                        "label": "Location",
+                        "required": "Location is required"
+                    },
+                    "capacity": {
+                        "label": "Capacity",
+                        "required": "Capacity is required",
+                        "min": "Capacity must be greater than 0",
+                        "unit": "units"
+                    },
+                    "description": {
+                        "label": "Description",
+                        "optional": "optional"
+                    },
+                    "status": {
+                        "label": "Status",
+                        "required": "Status is required"
+                    },
+                    "productionLines": {
+                        "label": "Available Production Lines",
+                        "noLines": "No production lines available.",
+                        "selectedCount": "line(s) selected"
+                    }
+                },
+                "buttons": {
+                    "save": "Save",
+                    "cancel": "Cancel"
+                }
+            },
+            "productionLine": {
+                "title": {
+                    "new": "New Production Line",
+                    "edit": "Edit Production Line"
+                },
+                "fields": {
+                    "name": {
+                        "label": "Name",
+                        "required": "Name is required",
+                        "minLength": "Name must be at least 3 characters long"
+                    },
+                    "plant": {
+                        "label": "Plant",
+                        "required": "Plant is required"
+                    },
+                    "capacity": {
+                        "label": "Capacity",
+                        "required": "Capacity is required",
+                        "min": "Capacity must be greater than 0"
+                    },
+                    "description": {
+                        "label": "Description",
+                        "required": "Description is required"
+                    },
+                    "machineries": {
+                        "label": "Available Machineries",
+                        "required": "At least one machinery must be selected"
+                    },
+                    "capacityUnit": "units/hour"
+                },
+                "plants": {
+                    "main": "Main Plant",
+                    "secondary": "Secondary Plant"
+                },
+                "placeholders": {
+                    "name": "Enter line name",
+                    "capacity": "Enter capacity",
+                    "description": "Enter description"
+                },
+                "noMachineries": "No machineries available.",
+                "selectedMachineries": "machinery(ies) selected",
+                "errors": {
+                    "loadMachineries": "Error loading available machineries"
+                }
+            },
+            "buttons": {
+                "save": "Save",
+                "cancel": "Cancel"
+            }
+        }
     }
 }

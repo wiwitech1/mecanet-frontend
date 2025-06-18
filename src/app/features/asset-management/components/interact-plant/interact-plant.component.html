@@ -2,93 +2,93 @@
   <div class="modal-container" (click)="$event.stopPropagation()">
     <div class="plant-form-container">
       <h2 class="form-title">{{ title }}</h2>
-      
+
       <form [formGroup]="plantForm" (ngSubmit)="onSubmit()" class="plant-form">
         <div class="form-row">
-          <label for="name">Nombre <span class="required">*</span></label>
-          <input 
-            type="text" 
-            id="name" 
-            formControlName="name" 
-            class="form-input" 
+          <label for="name">{{ 'assetManagement.forms.plant.fields.name.label' | translate }} <span class="required">*</span></label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            class="form-input"
             [class.invalid]="isFieldInvalid('name')"
           >
           <div class="error-message" *ngIf="isFieldInvalid('name')">
             {{ getErrorMessage('name') }}
           </div>
         </div>
-        
+
         <div class="form-row">
-          <label for="location">Ubicación <span class="required">*</span></label>
-          <input 
-            type="text" 
-            id="location" 
-            formControlName="location" 
-            class="form-input" 
+          <label for="location">{{ 'assetManagement.forms.plant.fields.location.label' | translate }} <span class="required">*</span></label>
+          <input
+            type="text"
+            id="location"
+            formControlName="location"
+            class="form-input"
             [class.invalid]="isFieldInvalid('location')"
           >
           <div class="error-message" *ngIf="isFieldInvalid('location')">
             {{ getErrorMessage('location') }}
           </div>
         </div>
-        
+
         <div class="form-row">
-          <label for="capacity">Capacidad <span class="required">*</span></label>
+          <label for="capacity">{{ 'assetManagement.forms.plant.fields.capacity.label' | translate }} <span class="required">*</span></label>
           <div class="capacity-input-container">
-            <input 
-              type="number" 
-              id="capacity" 
-              formControlName="capacity" 
-              class="form-input" 
+            <input
+              type="number"
+              id="capacity"
+              formControlName="capacity"
+              class="form-input"
               [class.invalid]="isFieldInvalid('capacity')"
             >
-            <span class="capacity-unit">unidades</span>
+            <span class="capacity-unit">{{ 'assetManagement.forms.plant.fields.capacity.unit' | translate }}</span>
           </div>
           <div class="error-message" *ngIf="isFieldInvalid('capacity')">
             {{ getErrorMessage('capacity') }}
           </div>
         </div>
-        
+
         <div class="form-row">
-          <label for="description">Descripción</label>
-          <textarea 
-            id="description" 
-            formControlName="description" 
-            rows="3" 
+          <label for="description">{{ 'assetManagement.forms.plant.fields.description.label' | translate }}</label>
+          <textarea
+            id="description"
+            formControlName="description"
+            rows="3"
             class="form-input"
           ></textarea>
         </div>
-        
+
         <div class="form-row">
-          <label for="status">Estado <span class="required">*</span></label>
-          <select 
-            id="status" 
-            formControlName="status" 
-            class="form-input" 
+          <label for="status">{{ 'assetManagement.forms.plant.fields.status.label' | translate }} <span class="required">*</span></label>
+          <select
+            id="status"
+            formControlName="status"
+            class="form-input"
             [class.invalid]="isFieldInvalid('status')"
           >
             <option *ngFor="let status of plantStatuses" [value]="status.value">
-              {{ status.label }}
+              {{ status.label | translate }}
             </option>
           </select>
           <div class="error-message" *ngIf="isFieldInvalid('status')">
             {{ getErrorMessage('status') }}
           </div>
         </div>
-        
+
         <div class="form-row">
-          <label>Líneas de producción disponibles <span class="required">*</span></label>
+          <label>{{ 'assetManagement.forms.plant.fields.productionLines.label' | translate }} <span class="required">*</span></label>
           <div class="production-line-list">
             <div *ngIf="!availableProductionLines.length" class="empty-list">
-              No hay líneas de producción disponibles.
+              {{ 'assetManagement.forms.plant.fields.productionLines.noLines' | translate }}
             </div>
-            <div *ngFor="let line of availableProductionLines" 
+            <div *ngFor="let line of availableProductionLines"
                  class="production-line-item"
                  [class.selected]="isProductionLineSelected(line.id)"
                  (click)="toggleProductionLineSelection(line.id)">
               <div class="line-info">
                 <span class="line-name">{{ line.name }}</span>
-                <span class="line-capacity">Capacidad: {{ line.capacity }}</span>
+                <span class="line-capacity">{{ 'assetManagement.forms.plant.fields.capacity.label' | translate }}: {{ line.capacity }}</span>
               </div>
               <div class="selection-indicator">
                 <svg *ngIf="isProductionLineSelected(line.id)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
@@ -98,15 +98,15 @@
             </div>
           </div>
           <div class="selected-count">
-            {{ selectedProductionLines.length }} línea(s) seleccionada(s)
+            {{ selectedProductionLines.length }} {{ 'assetManagement.forms.plant.fields.productionLines.selectedCount' | translate }}
           </div>
         </div>
-        
+
         <div class="form-actions">
-          <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
-          <button type="submit" class="btn-save" [disabled]="plantForm.invalid">Guardar</button>
+          <button type="button" class="btn-cancel" (click)="onCancel()">{{ 'assetManagement.forms.buttons.cancel' | translate }}</button>
+          <button type="submit" class="btn-save" [disabled]="plantForm.invalid">{{ 'assetManagement.forms.buttons.save' | translate }}</button>
         </div>
       </form>
     </div>
   </div>
-</div> 
+</div>

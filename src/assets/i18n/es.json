@@ -230,5 +230,200 @@
     },
     "errors": {
         "loadingParts": "Error al cargar repuestos"
+    },
+    "assetManagement": {
+        "breadcrumb": {
+            "machinery": "Gestión de Activos > Maquinarias",
+            "plants": "Gestión de Activos > Plantas",
+            "productionLines": "Gestión de Activos > Líneas de Producción"
+        },
+        "search": {
+            "machinery": {
+                "placeholder": "Buscar",
+                "newButton": "+ Nueva Máquina"
+            },
+            "plants": {
+                "placeholder": "Buscar plantas...",
+                "newButton": "+ Nueva Planta"
+            },
+            "productionLines": {
+                "placeholder": "Buscar",
+                "newButton": "+ Nueva Línea"
+            }
+        },
+        "loading": {
+            "data": "Cargando datos...",
+            "machinery": "Cargando información de la maquinaria...",
+            "plants": "Cargando plantas...",
+            "plantInfo": "Cargando información de la planta...",
+            "productionLines": "Cargando información de la línea..."
+        },
+        "error": {
+            "retry": "Reintentar"
+        },
+        "status": {
+            "active": "Activo",
+            "inactive": "Inactivo",
+            "maintenance": "En mantenimiento"
+        },
+        "buttons": {
+            "edit": "Editar",
+            "activate": "Activar",
+            "deactivate": "Desactivar",
+            "close": "Cerrar"
+        },
+        "machinery": {
+            "modal": {
+                "edit": "Editar Maquinaria",
+                "new": "Nueva Maquinaria"
+            },
+            "details": {
+                "specifications": "Especificaciones técnicas:",
+                "maintenanceHistory": "Historial de mantenimiento",
+                "currentMeasurements": "Mediciones actuales:"
+            }
+        },
+        "plants": {
+            "modal": {
+                "edit": "Editar Planta",
+                "new": "Nueva Planta"
+            },
+            "details": {
+                "name": "Nombre",
+                "location": "Ubicación",
+                "status": "Estado",
+                "capacity": "Capacidad",
+                "capacityUnits": "unidades",
+                "createdAt": "Fecha creación",
+                "updatedAt": "Última actualización",
+                "description": "Descripción",
+                "productionLines": "Líneas de producción:",
+                "noLines": "No hay líneas de producción en esta planta.",
+                "lineCapacity": "Capacidad"
+            }
+        },
+        "productionLines": {
+            "modal": {
+                "edit": "Editar Línea de Producción",
+                "new": "Nueva Línea de Producción"
+            },
+            "details": {
+                "specifications": "Especificaciones:",
+                "assignedMachinery": "Maquinarias asignadas",
+                "noMachinery": "No hay maquinarias asignadas a esta línea."
+            }
+        },
+        "columns": {
+            "id": "ID",
+            "name": "Nombre",
+            "model": "Modelo",
+            "brand": "Marca",
+            "status": "Estado",
+            "lastMaintenance": "Último Mantenimiento",
+            "details": "Detalles",
+            "detailsButton": "Ver",
+            "location": "Ubicación",
+            "capacity": "Capacidad",
+            "createdAt": "Fecha Creación",
+            "updatedAt": "Última Actualización",
+            "productionLines": "Líneas de Producción",
+            "plant": "Planta",
+            "machines": "Máquinas",
+            "efficiency": "Eficiencia"
+        },
+        "forms": {
+            "machinery": {
+                "title": "Información de Maquinaria",
+                "fields": {
+                    "name": "Nombre",
+                    "model": "Modelo",
+                    "brand": "Marca",
+                    "serialNumber": "N° de Serie",
+                    "productionCapacity": "Capacidad de Producción",
+                    "recommendations": "Recomendaciones",
+                    "status": "Estado",
+                    "measurements": "Mediciones",
+                    "measurementName": "Nombre",
+                    "measurementValue": "Valor",
+                    "measurementUnit": "Unidad"
+                },
+                "placeholders": {
+                    "name": "Ingrese nombre de la maquinaria",
+                    "model": "Ingrese modelo",
+                    "brand": "Ingrese marca",
+                    "serialNumber": "Ingrese número de serie",
+                    "productionCapacity": "Ingrese capacidad de producción",
+                    "recommendations": "Ingrese recomendaciones"
+                },
+                "errors": {
+                    "atLeastOneMeasurement": "Debe agregar al menos una medida válida."
+                },
+                "buttons": {
+                    "addMeasurement": "Agregar Medida"
+                }
+            },
+            "plant": {
+                "title": {
+                    "new": "Nueva Planta",
+                    "edit": "Editar Planta"
+                },
+                "fields": {
+                    "name": {
+                        "label": "Nombre",
+                        "required": "El nombre es requerido",
+                        "minLength": "El nombre debe tener al menos 3 caracteres"
+                    },
+                    "location": {
+                        "label": "Ubicación",
+                        "required": "La ubicación es requerida"
+                    },
+                    "capacity": {
+                        "label": "Capacidad",
+                        "required": "La capacidad es requerida",
+                        "min": "La capacidad debe ser mayor que 0",
+                        "unit": "unidades"
+                    },
+                    "description": {
+                        "label": "Descripción",
+                        "optional": "opcional"
+                    },
+                    "status": {
+                        "label": "Estado",
+                        "required": "El estado es requerido"
+                    },
+                    "productionLines": {
+                        "label": "Líneas de producción disponibles",
+                        "noLines": "No hay líneas de producción disponibles.",
+                        "selectedCount": "línea(s) seleccionada(s)"
+                    }
+                },
+                "buttons": {
+                    "save": "Guardar",
+                    "cancel": "Cancelar"
+                }
+            },
+            "productionLine": {
+                "title": "Información de Línea de Producción",
+                "fields": {
+                    "name": "Nombre",
+                    "plant": "Planta",
+                    "capacity": "Capacidad",
+                    "description": "Descripción",
+                    "status": "Estado",
+                    "machineries": "Maquinarias"
+                },
+                "placeholders": {
+                    "name": "Ingrese nombre de la línea",
+                    "capacity": "Ingrese capacidad",
+                    "description": "Ingrese descripción",
+                    "selectPlant": "Seleccione una planta",
+                    "selectMachineries": "Seleccione maquinarias"
+                }
+            },
+            "buttons": {
+                "save": "Guardar",
+                "cancel": "Cancelar"
+            }
+        }
     }
 }

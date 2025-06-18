@@ -4,17 +4,18 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ProductionLineEntity } from '../../models/production-line.entity';
 import { MachineryEntity } from '../../models/machinery.entity';
 import { MachineryService } from '../../services/machinery.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-interact-production-line',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './interact-production-line.component.html',
   styleUrl: './interact-production-line.component.scss'
 })
 export class InteractProductionLineComponent implements OnInit {
   @Input() productionLine: ProductionLineEntity | null = null;
-  @Input() title: string = 'Nueva Línea de Producción';
+  @Input() title: string = '';
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -22,26 +23,31 @@ export class InteractProductionLineComponent implements OnInit {
   isEditMode = false;
   availableMachineries: MachineryEntity[] = [];
   selectedMachineries: number[] = [];
-  
+
   constructor(
     private fb: FormBuilder,
-    private machineryService: MachineryService
+    private machineryService: MachineryService,
+    private translate: TranslateService
   ) {
     this.productionLineForm = this.fb.group({
-      name: ['', Validators.required],
-      plant_id: [1, Validators.required], // Valor por defecto
-      capacity: ['', [Validators.required, Validators.min(0)]],
+      name: ['', [Validators.required, Validators.minLength(3)]],
+      plant_id: [1, Validators.required],
+      capacity: ['', [Validators.required, Validators.min(1)]],
       description: ['', Validators.required],
-      status: [1] // Por defecto activo
+      status: [1]
     });
   }
 
   ngOnInit(): void {
     this.isEditMode = !!this.productionLine;
+    this.title = this.translate.instant(
+      this.isEditMode ?
+      'assetManagement.forms.productionLine.title.edit' :
+      'assetManagement.forms.productionLine.title.new'
+    );
     this.loadAvailableMachineries();
-    
+
     if (this.isEditMode && this.productionLine) {
-      // Si estamos en modo edición, rellenamos el formulario
       this.productionLineForm.patchValue({
         name: this.productionLine.name,
         plant_id: this.productionLine.plantId,
@@ -49,30 +55,27 @@ export class InteractProductionLineComponent implements OnInit {
         description: this.productionLine.description,
         status: this.productionLine.status
       });
-      
-      // Seleccionamos las maquinarias actuales
+
       this.selectedMachineries = this.productionLine.machineries.map(m => m.id);
     }
   }
-  
+
   loadAvailableMachineries() {
     this.machineryService.getAllMachineries().subscribe({
       next: (machineries) => {
         this.availableMachineries = machineries;
       },
       error: (err) => {
-        console.error('Error al cargar maquinarias disponibles:', err);
+        console.error(this.translate.instant('assetManagement.forms.productionLine.errors.loadMachineries'), err);
       }
     });
   }
-  
+
   toggleMachinerySelection(machineryId: number) {
     const index = this.selectedMachineries.indexOf(machineryId);
     if (index > -1) {
-      // Si ya está seleccionada, la quitamos
       this.selectedMachineries.splice(index, 1);
     } else {
-      // Si no está seleccionada, la añadimos
       this.selectedMachineries.push(machineryId);
     }
   }
@@ -82,8 +85,7 @@ export class InteractProductionLineComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.productionLineForm.valid) {
-      // Añadimos las maquinarias seleccionadas al objeto que emitimos
+    if (this.productionLineForm.valid && this.selectedMachineries.length > 0) {
       const formData = {
         ...this.productionLineForm.value,
         machineries: this.selectedMachineries
@@ -96,5 +98,21 @@ export class InteractProductionLineComponent implements OnInit {
 
   onCancel(): void {
     this.cancel.emit();
+  }
+
+  getErrorMessage(fieldName: string): string {
+    const control = this.productionLineForm.get(fieldName);
+    if (!control) return '';
+
+    if (control.hasError('required')) {
+      return this.translate.instant(`assetManagement.forms.productionLine.fields.${fieldName}.required`);
+    }
+    if (control.hasError('min')) {
+      return this.translate.instant(`assetManagement.forms.productionLine.fields.${fieldName}.min`);
+    }
+    if (control.hasError('minlength')) {
+      return this.translate.instant(`assetManagement.forms.productionLine.fields.${fieldName}.minLength`);
+    }
+    return '';
   }
 }
