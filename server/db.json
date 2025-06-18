@@ -459,155 +459,27 @@
     }
   ],
   "maintenance-plan-data": {
-    "info": [
+    "planId": 1,
+    "productionLineId": 2,
+    "startDate": "2025-06-18T22:52:30.823Z",
+    "durationDays": 1,
+    "userCreator": 1,
+    "items": [
       {
-        "registers": 4
+        "dayNumber": 1,
+        "tasks": [
+          {
+            "taskId": 1,
+            "taskName": "New task",
+            "taskDescription": "desscription",
+            "machineIds": [
+              202
+            ]
+          }
+        ]
       }
     ],
-    "data": [
-      {
-        "planId": 1,
-        "planName": "Plan de Mantenimiento 1",
-        "productionLineId": 2,
-        "startDate": "2025-05-13T23:41:36.137Z",
-        "durationDays": 3,
-        "userCreator": 1,
-        "items": [
-          {
-            "dayNumber": 1,
-            "tasks": [
-              {
-                "taskId": 1,
-                "taskName": "Verificación de niveles",
-                "taskDescription": "Revisar niveles de aceite",
-                "machineIds": [
-                  1,
-                  2
-                ]
-              },
-              {
-                "taskId": 2,
-                "taskName": "Limpieza general",
-                "taskDescription": "Limpiar los filtros",
-                "machineIds": [
-                  3
-                ]
-              }
-            ]
-          },
-          {
-            "dayNumber": 2,
-            "tasks": [
-              {
-                "taskId": 3,
-                "taskName": "Chequeo de seguridad",
-                "taskDescription": "Revisar los sistemas de seguridad",
-                "machineIds": [
-                  2,
-                  4
-                ]
-              }
-            ]
-          },
-          {
-            "dayNumber": 3,
-            "tasks": [
-              {
-                "taskId": 4,
-                "taskName": "Inspección de equipos",
-                "taskDescription": "Inspeccionar la maquinaria de la línea",
-                "machineIds": [
-                  1,
-                  4
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "planId": 2,
-        "planName": "Hola",
-        "productionLineId": 1,
-        "startDate": "2025-04-30",
-        "durationDays": 1,
-        "userCreator": 1,
-        "items": [
-          {
-            "dayNumber": 1,
-            "tasks": [
-              {
-                "taskId": 5,
-                "taskName": "cuy",
-                "taskDescription": "cuyo",
-                "machineIds": []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "planId": 3,
-        "planName": "Plan prueba",
-        "productionLineId": 2,
-        "startDate": "2025-05-14T00:00:00.000Z",
-        "durationDays": 2,
-        "userCreator": 1,
-        "items": [
-          {
-            "dayNumber": 1,
-            "tasks": [
-              {
-                "taskId": 6,
-                "taskName": "qwe",
-                "taskDescription": "qwe",
-                "machineIds": []
-              }
-            ]
-          },
-          {
-            "dayNumber": 2,
-            "tasks": [
-              {
-                "taskId": 7,
-                "taskName": "qwe",
-                "taskDescription": "qwe",
-                "machineIds": [
-                  4,
-                  3
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "planId": 4,
-        "planName": "funciono?",
-        "repeatCycle": 1,
-        "productionLineId": "1",
-        "startDate": "2025-05-14",
-        "durationDays": 1,
-        "userCreator": 1,
-        "items": [
-          {
-            "dayNumber": 1,
-            "itemName": "Item 1",
-            "tasks": [
-              {
-                "taskId": 8,
-                "taskName": "qweqweqw",
-                "taskDescription": "qwewe",
-                "machineIds": [
-                  2
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "id": 1
   },
   "maintenance-dynamic-plans": [
     {
@@ -749,6 +621,26 @@
         }
       ],
       "id": "6"
+    },
+    {
+      "dynamicPlanId": 7,
+      "userCreator": 1,
+      "parameter": "nuevo",
+      "startDate": "2025-06-18T22:46:16.008Z",
+      "machineIds": [
+        102
+      ],
+      "tasks": [
+        {
+          "taskId": 1,
+          "taskName": "jhhjb",
+          "taskDescription": "m m ",
+          "machineIds": [
+            102
+          ]
+        }
+      ],
+      "id": 7
     }
   ]
 }
