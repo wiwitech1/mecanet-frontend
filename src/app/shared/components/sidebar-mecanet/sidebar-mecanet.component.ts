@@ -6,6 +6,7 @@ import { LanguageSwitcherComponent } from '../../../public/components/language-s
 import { ThemeToggleComponent } from '../../../public/components/theme-toggle/theme-toggle.component';
 import { UserService } from '../../../core/services/user.service';
 import { AuthService } from '../../../features/security/services/auth.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 interface MenuItem {
   title: string;
@@ -25,7 +26,7 @@ interface MenuItem {
   templateUrl: './sidebar-mecanet.component.html',
   styleUrls: ['./sidebar-mecanet.component.scss'],
   standalone: true,
-  imports: [MatIconModule, CommonModule, RouterModule, LanguageSwitcherComponent, ThemeToggleComponent],
+  imports: [MatIconModule, CommonModule, RouterModule, LanguageSwitcherComponent, ThemeToggleComponent, TranslateModule],
 })
 export class SidebarMecanetComponent {
   isExpanded = false;
@@ -33,57 +34,56 @@ export class SidebarMecanetComponent {
   // Menú dinámico
   menuItems: MenuItem[] = [
     {
-      title: 'Inicio',
+      title: 'sidebar.menu.home',
       icon: 'home',
       route: '/',
     },
     {
-      title: 'Calendario',
+      title: 'sidebar.menu.calendar',
       icon: 'calendar_today',
       route: '/calendario',
     },
     {
-      title: 'Inventario',
+      title: 'sidebar.menu.inventory.title',
       icon: 'inventory_2',
       route: '/inventario',
       children: [
         {
-          title: 'Repuestos',
+          title: 'sidebar.menu.inventory.parts',
           route: '/inventario/repuestos',
           icon: 'category',
         },
         {
-          title: 'Órdenes de compra',
+          title: 'sidebar.menu.inventory.purchaseOrders',
           route: '/inventario/ordenes-compra',
           icon: 'receipt',
         },
       ],
     },
     {
-      title: 'Gestión de Activos',
+      title: 'sidebar.menu.assetManagement.title',
       icon: 'settings',
       route: '/activos',
       children: [
         {
-          title: 'Plantas',
+          title: 'sidebar.menu.assetManagement.plants',
           route: '/activos/plantas',
           icon: 'factory',
         },
         {
-          title: 'Líneas de Producción',
+          title: 'sidebar.menu.assetManagement.productionLines',
           route: '/activos/lineas-produccion',
           icon: 'account_tree',
         },
         {
-          title: 'Maquinarias',
+          title: 'sidebar.menu.assetManagement.machinery',
           route: '/activos/maquinarias',
           icon: 'precision_manufacturing',
         },
-        
       ],
     },
     {
-      title: 'Orden de Trabajo',
+      title: 'sidebar.menu.workOrder',
       icon: 'assignment',
       route: '/ordenes-trabajo',
       badge: {
@@ -92,34 +92,34 @@ export class SidebarMecanetComponent {
       }
     },
     {
-      title: 'Plan de Mantenimiento',
+      title: 'sidebar.menu.maintenancePlan',
       icon: 'build',
       route: '/plan-mantenimiento',
     },
     {
-      title: 'Ejecución',
+      title: 'sidebar.menu.execution',
       icon: 'play_circle',
       route: '/ejecucion',
     },
     {
-      title: 'Dashboard',
+      title: 'sidebar.menu.dashboard',
       icon: 'dashboard',
       route: '/dashboard',
     },
     {
-      title: 'Administración del Personal',
+      title: 'sidebar.menu.staffManagement',
       icon: 'people',
       route: '/personal',
       roles: ['admin', 'manager'],
     },
     {
-      title: 'Configuración',
+      title: 'sidebar.menu.settings',
       icon: 'settings',
       route: '/configuracion',
       roles: ['admin'],
     },
     {
-      title: 'Demo',
+      title: 'sidebar.menu.demo',
       icon: 'settings',
       route: '/components-demo',
     },
@@ -128,7 +128,7 @@ export class SidebarMecanetComponent {
   // Usuario actual (simulado)
   currentUser = {
     name: 'Juan Pérez',
-    role: 'Administrador',
+    role: 'sidebar.user.role',
     avatar: 'assets/images/avatar.jpg',
     route: '/perfil'
   };

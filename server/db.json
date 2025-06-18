@@ -340,6 +340,20 @@
       "order_date": "2025-05-16",
       "expected_date": "2025-05-22",
       "id": "RLvnJz5"
+    },
+    {
+      "orderNumber": "",
+      "supplier": "",
+      "status": "PENDING",
+      "orderDate": "2025-06-18",
+      "expectedDate": "",
+      "totalAmount": 0,
+      "quantity": 1,
+      "price": 0,
+      "notes": "",
+      "order_date": "2025-06-18",
+      "expected_date": "",
+      "id": "ez0wMik"
     }
   ],
   "users": [
@@ -444,7 +458,7 @@
       "updatedAt": "2025-05-15T10:22:12.958Z"
     }
   ],
-    "maintenance-plan-data": {
+  "maintenance-plan-data": {
     "info": [
       {
         "registers": 4

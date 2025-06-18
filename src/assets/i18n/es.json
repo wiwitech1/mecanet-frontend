@@ -6,5 +6,229 @@
     "about": {
         "title": "Acerca de",
         "description": "Página de acerca de"
+    },
+    "search": {
+        "placeholder": "Buscar...",
+        "filters": "Filtros",
+        "defaultNewLabel": "Nuevo"
+    },
+    "recordTable": {
+        "emptyState": "No hay datos para mostrar",
+        "defaultAction": "Acción",
+        "columnTypes": {
+            "text": "texto",
+            "number": "numero",
+            "information": "informacion",
+            "cta": "cta",
+            "template": "template"
+        }
+    },
+    "sidebar": {
+        "menu": {
+            "home": "Inicio",
+            "calendar": "Calendario",
+            "inventory": {
+                "title": "Inventario",
+                "parts": "Repuestos",
+                "purchaseOrders": "Órdenes de compra"
+            },
+            "assetManagement": {
+                "title": "Gestión de Activos",
+                "plants": "Plantas",
+                "productionLines": "Líneas de Producción",
+                "machinery": "Maquinarias"
+            },
+            "workOrder": "Orden de Trabajo",
+            "maintenancePlan": "Plan de Mantenimiento",
+            "execution": "Ejecución",
+            "dashboard": "Dashboard",
+            "staffManagement": "Administración del Personal",
+            "settings": "Configuración",
+            "demo": "Demo"
+        },
+        "user": {
+            "role": "Administrador",
+            "profile": "Perfil"
+        },
+        "customization": {
+            "language": "Idioma",
+            "theme": "Tema"
+        }
+    },
+    "inventoryParts": {
+        "breadcrumb": "Inventario > Repuestos",
+        "search": {
+            "placeholder": "Buscar por código o nombre...",
+            "filters": {
+                "status": {
+                    "label": "Estado",
+                    "options": {
+                        "ok": "OK",
+                        "low": "Bajo"
+                    }
+                }
+            },
+            "newPart": "Nuevo Repuesto"
+        },
+        "table": {
+            "code": "Código",
+            "name": "Nombre",
+            "currentStock": "Stock Actual",
+            "stockStatus": "Estado del Stock",
+            "details": "Detalles"
+        },
+        "infoPanel": {
+            "partPrefix": "Repuesto: ",
+            "edit": "Editar",
+            "close": "Cerrar",
+            "sections": {
+                "generalInfo": {
+                    "title": "Información General",
+                    "code": "Código",
+                    "name": "Nombre",
+                    "description": "Descripción",
+                    "notAvailable": "No disponible"
+                },
+                "stockInfo": {
+                    "title": "Información de Stock",
+                    "currentStock": "Stock Actual",
+                    "minStock": "Stock Mínimo",
+                    "unitPrice": "Precio Unitario",
+                    "status": "Estado",
+                    "lastRestock": "Última Reposición",
+                    "notAvailable": "No disponible"
+                }
+            }
+        },
+        "form": {
+            "title": {
+                "edit": "Editar Repuesto",
+                "new": "Nuevo Repuesto"
+            },
+            "fields": {
+                "code": {
+                    "label": "Código",
+                    "placeholder": "Ingrese el código"
+                },
+                "name": {
+                    "label": "Nombre",
+                    "placeholder": "Ingrese el nombre"
+                },
+                "description": {
+                    "label": "Descripción",
+                    "placeholder": "Ingrese la descripción"
+                },
+                "currentStock": {
+                    "label": "Stock Actual"
+                },
+                "minStock": {
+                    "label": "Stock Mínimo"
+                },
+                "unitPrice": {
+                    "label": "Precio Unitario"
+                }
+            },
+            "actions": {
+                "cancel": "Cancelar",
+                "delete": "Eliminar",
+                "save": "Guardar Cambios",
+                "create": "Crear"
+            },
+            "confirmDelete": "¿Está seguro de eliminar este repuesto?"
+        }
+    },
+    "purchaseOrders": {
+        "title": "Órdenes de Compra",
+        "search": {
+            "placeholder": "Buscar por ID...",
+            "newOrder": "Nueva Orden de Compra"
+        },
+        "table": {
+            "id": "ID",
+            "part": "Repuesto",
+            "price": "Precio",
+            "orderDate": "Fecha Solicitada",
+            "status": "Estado",
+            "details": "Detalles"
+        },
+        "infoPanel": {
+            "orderPrefix": "Orden de Compra: ",
+            "edit": "Editar",
+            "close": "Cerrar",
+            "sections": {
+                "generalInfo": {
+                    "title": "Información General",
+                    "id": "ID",
+                    "part": "Repuesto",
+                    "orderDate": "Fecha Solicitada",
+                    "notAvailable": "No disponible"
+                },
+                "orderDetails": {
+                    "title": "Detalles de la Orden",
+                    "price": "Precio",
+                    "status": "Estado",
+                    "notes": "Notas",
+                    "noNotes": "Sin notas"
+                }
+            }
+        },
+        "form": {
+            "title": {
+                "edit": "Editar Orden de Compra",
+                "new": "Nueva Orden de Compra"
+            },
+            "fields": {
+                "orderNumber": {
+                    "label": "Número de Orden",
+                    "placeholder": "Ingrese el número de orden"
+                },
+                "supplier": {
+                    "label": "Proveedor",
+                    "placeholder": "Ingrese el nombre del proveedor"
+                },
+                "part": {
+                    "label": "Repuesto",
+                    "placeholder": "Seleccione un repuesto"
+                },
+                "quantity": {
+                    "label": "Cantidad"
+                },
+                "unitPrice": {
+                    "label": "Precio Unitario"
+                },
+                "orderDate": {
+                    "label": "Fecha de Orden"
+                },
+                "expectedDate": {
+                    "label": "Fecha Esperada"
+                },
+                "status": {
+                    "label": "Estado",
+                    "options": {
+                        "pending": "Pendiente",
+                        "approved": "Aprobada",
+                        "received": "Recibida",
+                        "cancelled": "Cancelada"
+                    }
+                },
+                "totalAmount": {
+                    "label": "Monto Total"
+                },
+                "notes": {
+                    "label": "Notas",
+                    "placeholder": "Ingrese notas adicionales"
+                }
+            },
+            "actions": {
+                "cancel": "Cancelar",
+                "delete": "Eliminar",
+                "save": "Guardar Cambios",
+                "create": "Crear"
+            },
+            "confirmDelete": "¿Está seguro de eliminar esta orden de compra?"
+        }
+    },
+    "errors": {
+        "loadingParts": "Error al cargar repuestos"
     }
 }

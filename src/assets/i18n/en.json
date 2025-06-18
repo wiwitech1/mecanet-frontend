@@ -6,5 +6,229 @@
     "about": {
         "title": "About",
         "description": "About page"
+    },
+    "search": {
+        "placeholder": "Search...",
+        "filters": "Filters",
+        "defaultNewLabel": "New"
+    },
+    "recordTable": {
+        "emptyState": "No data to display",
+        "defaultAction": "Action",
+        "columnTypes": {
+            "text": "text",
+            "number": "number",
+            "information": "information",
+            "cta": "cta",
+            "template": "template"
+        }
+    },
+    "sidebar": {
+        "menu": {
+            "home": "Home",
+            "calendar": "Calendar",
+            "inventory": {
+                "title": "Inventory",
+                "parts": "Parts",
+                "purchaseOrders": "Purchase Orders"
+            },
+            "assetManagement": {
+                "title": "Asset Management",
+                "plants": "Plants",
+                "productionLines": "Production Lines",
+                "machinery": "Machinery"
+            },
+            "workOrder": "Work Order",
+            "maintenancePlan": "Maintenance Plan",
+            "execution": "Execution",
+            "dashboard": "Dashboard",
+            "staffManagement": "Staff Management",
+            "settings": "Settings",
+            "demo": "Demo"
+        },
+        "user": {
+            "role": "Administrator",
+            "profile": "Profile"
+        },
+        "customization": {
+            "language": "Language",
+            "theme": "Theme"
+        }
+    },
+    "inventoryParts": {
+        "breadcrumb": "Inventory > Parts",
+        "search": {
+            "placeholder": "Search by code or name...",
+            "filters": {
+                "status": {
+                    "label": "Status",
+                    "options": {
+                        "ok": "OK",
+                        "low": "LOW"
+                    }
+                }
+            },
+            "newPart": "New Part"
+        },
+        "table": {
+            "code": "Code",
+            "name": "Name",
+            "currentStock": "Current Stock",
+            "stockStatus": "Stock Status",
+            "details": "Details"
+        },
+        "infoPanel": {
+            "partPrefix": "Part: ",
+            "edit": "Edit",
+            "close": "Close",
+            "sections": {
+                "generalInfo": {
+                    "title": "General Information",
+                    "code": "Code",
+                    "name": "Name",
+                    "description": "Description",
+                    "notAvailable": "Not available"
+                },
+                "stockInfo": {
+                    "title": "Stock Information",
+                    "currentStock": "Current Stock",
+                    "minStock": "Minimum Stock",
+                    "unitPrice": "Unit Price",
+                    "status": "Status",
+                    "lastRestock": "Last Restock",
+                    "notAvailable": "Not available"
+                }
+            }
+        },
+        "form": {
+            "title": {
+                "edit": "Edit Part",
+                "new": "New Part"
+            },
+            "fields": {
+                "code": {
+                    "label": "Code",
+                    "placeholder": "Enter code"
+                },
+                "name": {
+                    "label": "Name",
+                    "placeholder": "Enter name"
+                },
+                "description": {
+                    "label": "Description",
+                    "placeholder": "Enter description"
+                },
+                "currentStock": {
+                    "label": "Current Stock"
+                },
+                "minStock": {
+                    "label": "Minimum Stock"
+                },
+                "unitPrice": {
+                    "label": "Unit Price"
+                }
+            },
+            "actions": {
+                "cancel": "Cancel",
+                "delete": "Delete",
+                "save": "Save Changes",
+                "create": "Create"
+            },
+            "confirmDelete": "Are you sure you want to delete this part?"
+        }
+    },
+    "purchaseOrders": {
+        "title": "Purchase Orders",
+        "search": {
+            "placeholder": "Search by ID...",
+            "newOrder": "New Purchase Order"
+        },
+        "table": {
+            "id": "ID",
+            "part": "Part",
+            "price": "Price",
+            "orderDate": "Order Date",
+            "status": "Status",
+            "details": "Details"
+        },
+        "infoPanel": {
+            "orderPrefix": "Purchase Order: ",
+            "edit": "Edit",
+            "close": "Close",
+            "sections": {
+                "generalInfo": {
+                    "title": "General Information",
+                    "id": "ID",
+                    "part": "Part",
+                    "orderDate": "Order Date",
+                    "notAvailable": "Not available"
+                },
+                "orderDetails": {
+                    "title": "Order Details",
+                    "price": "Price",
+                    "status": "Status",
+                    "notes": "Notes",
+                    "noNotes": "No notes"
+                }
+            }
+        },
+        "form": {
+            "title": {
+                "edit": "Edit Purchase Order",
+                "new": "New Purchase Order"
+            },
+            "fields": {
+                "orderNumber": {
+                    "label": "Order Number",
+                    "placeholder": "Enter order number"
+                },
+                "supplier": {
+                    "label": "Supplier",
+                    "placeholder": "Enter supplier name"
+                },
+                "part": {
+                    "label": "Part",
+                    "placeholder": "Select a part"
+                },
+                "quantity": {
+                    "label": "Quantity"
+                },
+                "unitPrice": {
+                    "label": "Unit Price"
+                },
+                "orderDate": {
+                    "label": "Order Date"
+                },
+                "expectedDate": {
+                    "label": "Expected Date"
+                },
+                "status": {
+                    "label": "Status",
+                    "options": {
+                        "pending": "Pending",
+                        "approved": "Approved",
+                        "received": "Received",
+                        "cancelled": "Cancelled"
+                    }
+                },
+                "totalAmount": {
+                    "label": "Total Amount"
+                },
+                "notes": {
+                    "label": "Notes",
+                    "placeholder": "Enter additional notes"
+                }
+            },
+            "actions": {
+                "cancel": "Cancel",
+                "delete": "Delete",
+                "save": "Save Changes",
+                "create": "Create"
+            },
+            "confirmDelete": "Are you sure you want to delete this purchase order?"
+        }
+    },
+    "errors": {
+        "loadingParts": "Error loading parts"
     }
 }
