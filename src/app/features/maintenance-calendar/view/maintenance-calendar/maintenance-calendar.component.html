@@ -1,0 +1,55 @@
+<div class="header">
+  <header class="breadcrumb-header">
+    <app-title-view text="Calendario de mantenimiento"/>
+  </header>
+</div>
+
+<div class="hero">
+  <div class="calendar-controls">
+    <div class="view-toggle">
+      <button
+        class="toggle-option"
+        [class.active]="isWeeklyView"
+        (click)="setWeeklyView()">
+        Semanal
+      </button>
+      <button
+        class="toggle-option"
+        [class.active]="!isWeeklyView"
+        (click)="setMonthlyView()">
+        Mensual
+      </button>
+    </div>
+  </div>
+  <app-search
+    class="search"
+    [placeholder]="'Buscar actividad...'"
+    (search)="onSearch($event)">
+  </app-search>
+</div>
+
+<div class="main-container">
+  <div class="calendar-container">
+    <app-calendar-weekly
+      *ngIf="isWeeklyView"
+      [currentDate]="currentDate">
+    </app-calendar-weekly>
+    <app-calendar-monthly
+      *ngIf="!isWeeklyView"
+      [currentDate]="currentDate">
+    </app-calendar-monthly>
+  </div>
+
+  <div class="panel-container">
+    <app-information-panel
+      [headerText]="'Detalles de la actividad'">
+      <div class="content">
+        <div><strong>Nombre de la actividad:</strong> {{ activityDetails.nombre || '---' }}</div>
+        <div><strong>Fecha:</strong> {{ activityDetails.fecha || '---' }}</div>
+        <div><strong>Hora:</strong> {{ activityDetails.hora || '---' }}</div>
+        <div><strong>Personal encargado:</strong> {{ activityDetails.personal || '---' }}</div>
+        <div><strong>Anotaciones:</strong> {{ activityDetails.anotaciones || '---' }}</div>
+      </div>
+    </app-information-panel>
+  </div>
+</div>

@@ -65,7 +65,7 @@
       [isEdit]="true"
       [orderData]="selectedOrder"
       (submit)="handleEdit($event)"
-      (delete)="handleDelete($event)"
+      (delete)="handleDelete(+$event)"
       (cancel)="showEditModal = false"
   ></app-purchase-order-form-modal>
 </div>
