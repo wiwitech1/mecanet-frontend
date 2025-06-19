@@ -50,7 +50,7 @@ export class ProductionLineService {
   updateProductionLine(productionLine: ProductionLineEntity): Observable<ProductionLineEntity> {
     const resource = ProductionLineAssembler.entityToUpdateResource(productionLine);
     return this.http.patch<ProductionLineResource>(
-      `${this.apiUrl}/${productionLine.id}`, 
+      `${this.apiUrl}/${productionLine.id}`,
       resource
     ).pipe(
       map(updatedResource => ProductionLineAssembler.resourceToEntity(updatedResource)),
@@ -63,7 +63,7 @@ export class ProductionLineService {
    */
   changeProductionLineStatus(id: number, status: ProductionLineStatus): Observable<ProductionLineEntity> {
     return this.http.patch<ProductionLineResource>(
-      `${this.apiUrl}/${id}`, 
+      `${this.apiUrl}/${id}`,
       { status }
     ).pipe(
       map(resource => ProductionLineAssembler.resourceToEntity(resource)),
@@ -98,5 +98,5 @@ export class ProductionLineService {
       catchError(this.handleError)
     );
   }
-  
+
 }

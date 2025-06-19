@@ -11,7 +11,7 @@ $gradient-end: #884fe3;
 }
 
 .login-image {
-  flex: 1.3; 
+  flex: 1.3;
   img{
     width: 100%;
     height: 100%;
@@ -146,7 +146,7 @@ $gradient-end: #884fe3;
 // Media queries para responsividad
 @media (max-width: 768px) {
   .login-container {
-    flex-direction: column; 
+    flex-direction: column;
   }
 
   .login-image {

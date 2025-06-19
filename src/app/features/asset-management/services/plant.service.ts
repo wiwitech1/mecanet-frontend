@@ -89,4 +89,4 @@ export class PlantService {
     console.error('Error en PlantService:', error);
     return throwError(() => new Error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.'));
   }
-} 
+}

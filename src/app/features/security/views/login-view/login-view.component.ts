@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';          // 👈 aquí vive *ngIf
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule }     from '@angular/material/input';
-import { MatIconModule }      from '@angular/material/icon';
-import { MatButtonModule }    from '@angular/material/button';
-import { MatDividerModule }   from '@angular/material/divider';
-import { Router, RouterModule }       from '@angular/router';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -34,26 +34,27 @@ export class LoginViewComponent implements OnInit {
   successMessage: string | null = null;
   errorMessage: string | null = null;
 
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) {}
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+      username: ['', Validators.required],
       password: ['', Validators.required],
     });
   }
 
-  get email()     { return this.loginForm.get('email')!; }
-  get password()  { return this.loginForm.get('password')!; }
+  get username() { return this.loginForm.get('username')!; }
+  get password() { return this.loginForm.get('password')!; }
 
   onSubmit(): void {
     if (this.loginForm.invalid) {
       this.loginForm.markAllAsTouched();
       return;
     }
-    const { email, password } = this.loginForm.value;
-    this.authService.login(email, password).subscribe({
+    const { username, password } = this.loginForm.value;
+    this.authService.login(username, password).subscribe({
       next: (user) => {
+        console.log('User logged in:', user);
         this.successMessage = 'Inicio de sesión exitoso. Bienvenido!';
         this.errorMessage = null;
         this.router.navigate(['/']);
@@ -63,5 +64,6 @@ export class LoginViewComponent implements OnInit {
         this.successMessage = null;
       }
     });
+
   }
 }

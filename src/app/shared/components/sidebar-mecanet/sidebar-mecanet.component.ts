@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -28,8 +28,8 @@ interface MenuItem {
   standalone: true,
   imports: [MatIconModule, CommonModule, RouterModule, LanguageSwitcherComponent, ThemeToggleComponent, TranslateModule],
 })
-export class SidebarMecanetComponent {
-  isExpanded = false;
+export class SidebarMecanetComponent implements OnInit {
+  isExpanded = true;
 
   // Menú dinámico
   menuItems: MenuItem[] = [
@@ -125,15 +125,44 @@ export class SidebarMecanetComponent {
     },
   ];
 
-  // Usuario actual (simulado)
+  // Usuario actual (leído desde localStorage)
   currentUser = {
-    name: 'Juan Pérez',
-    role: 'sidebar.user.role',
+    name: '',
+    role: '',
     avatar: 'assets/images/avatar.jpg',
     route: '/perfil'
   };
 
   constructor(private userService: UserService, private authService: AuthService) {}
+
+  ngOnInit() {
+    this.loadUserFromLocalStorage();
+  }
+
+  loadUserFromLocalStorage() {
+    try {
+      const userData = localStorage.getItem('userSession');
+      if (userData) {
+        const user = JSON.parse(userData);
+        this.currentUser.name = user.username || 'Usuario';
+
+        // Determinar el rol basado en los roles del usuario
+        if (user.roles && user.roles.includes('ROLE_ADMIN')) {
+          this.currentUser.role = 'sidebar.user.admin';
+        } else {
+          this.currentUser.role = 'sidebar.user.technician';
+        }
+      } else {
+        console.log('No se encontraron datos de usuario en localStorage');
+        this.currentUser.name = 'Usuario';
+        this.currentUser.role = 'sidebar.user.technician';
+      }
+    } catch (error) {
+      console.error('Error al cargar datos del usuario desde localStorage:', error);
+      this.currentUser.name = 'Usuario';
+      this.currentUser.role = 'sidebar.user.technician';
+    }
+  }
 
   toggleSidebar() {
     this.isExpanded = !this.isExpanded;
