@@ -79,7 +79,7 @@ export class SidebarMecanetComponent {
           route: '/activos/maquinarias',
           icon: 'precision_manufacturing',
         },
-        
+
       ],
     },
     {
@@ -115,7 +115,7 @@ export class SidebarMecanetComponent {
     {
       title: 'Configuración',
       icon: 'settings',
-      route: '/configuracion',
+      route: '/ajustes/cuenta',
       roles: ['admin'],
     },
     {

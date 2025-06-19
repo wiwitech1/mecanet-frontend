@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {
   ConfigurationPanelComponent
-} from '../../../shared/components/configuration-panel/configuration-panel.component';
+} from '../../../../shared/components/configuration-panel/configuration-panel.component';
 
 @Component({
   selector: 'app-billing',

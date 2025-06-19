@@ -8,9 +8,9 @@ import { nonAuthGuard } from './core/guards/non-auth.guard';
 import { PageNotFoundComponent } from './public/pages/page-not-found/page-not-found.component';
 import { LoginViewComponent } from './features/security/views/login-view/login-view.component';
 import { ComponentsDemoComponent } from './shared/views/components-demo/components-demo.component';
-import { AccountInfoComponent} from './features/configuration/account-info/account-info.component';
-import { BillingComponent} from './features/configuration/billing/billing.component';
-import { DeleteAccountComponent} from './features/configuration/delete-account/delete-account.component';
+import { AccountInfoComponent} from './features/configuration/views/account-info/account-info.component';
+import { BillingComponent} from './features/configuration/views/billing/billing.component';
+import { DeleteAccountComponent} from './features/configuration/views/delete-account/delete-account.component';
 import {ConfigurationPanelComponent} from './shared/components/configuration-panel/configuration-panel.component';
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 
