@@ -130,6 +130,8 @@
         },
         "user": {
             "role": "Administrador",
+            "admin": "Administrador",
+            "technician": "Técnico",
             "profile": "Perfil"
         },
         "customization": {

@@ -3,89 +3,259 @@
     <div class="login-image">
       <img src="/assets/img/login-img.png" alt="Company logo" class="logo" />
     </div>
-  
+
     <!-- Mitad derecha (formulario) -->
     <div class="login-form-wrapper">
-      <form class="form-content" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div class="form-content">
         <img src="assets/img/logo.png" alt="Company logo" class="logo" />
-  
+
         <h1 class="title">Crear cuenta</h1>
         <p class="subtitle">¡Estamos felices de que te unas!</p>
-  
-        <!-- Nombre de la Empresa -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Nombre de Usuario</mat-label>
-          <input matInput formControlName="companyName" />
-        </mat-form-field>
-  
-        <!-- RUC -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>RUC</mat-label>
-          <input matInput formControlName="ruc" />
-        </mat-form-field>
-  
-        <!-- Correo electrónico -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Correo electrónico</mat-label>
-          <input matInput formControlName="email" type="email" />
-          <mat-error *ngIf="email.invalid && (email.dirty || email.touched)"
-            >Ingresa un correo válido</mat-error
-          >
-        </mat-form-field>
-  
-        <!-- Contraseña -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Contraseña</mat-label>
-          <input
-            matInput
-            [type]="hide ? 'password' : 'text'"
-            formControlName="password"
-          />
-          <button
-            mat-icon-button
-            matSuffix
-            type="button"
-            (click)="hide = !hide"
-            aria-label="Mostrar u ocultar contraseña"
-          >
-            <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
-          </button>
-          <mat-error *ngIf="password.invalid && (password.dirty || password.touched)"
-            >La contraseña es obligatoria</mat-error
-          >
-        </mat-form-field>
-  
-        <!-- Repetir Contraseña -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Repetir Contraseña</mat-label>
-          <input
-            matInput
-            [type]="hide ? 'password' : 'text'"
-            formControlName="confirmPassword"
-          />
-        </mat-form-field>
-  
-        <!-- Términos y Condiciones -->
-        <mat-checkbox formControlName="terms">
-          He leído y acepto los <a href="#">Términos y Condiciones</a>
-        </mat-checkbox>
-  
-        <!-- Enviar -->
-        <button
-          mat-raised-button
-          color="primary"
-          class="submit-btn"
-          type="submit"
-          [disabled]="registerForm.invalid"
-        >
-          Crear Cuenta
-        </button>
-  
+
+        <!-- Stepper -->
+        <div class="stepper-container">
+          <div class="stepper">
+            <div class="step" [class.active]="currentStep === 1" [class.completed]="currentStep > 1">
+              <div class="step-number">1</div>
+              <div class="step-label">Empresa</div>
+            </div>
+            <div class="step-line" [class.completed]="currentStep > 1"></div>
+            <div class="step" [class.active]="currentStep === 2">
+              <div class="step-number">2</div>
+              <div class="step-label">Personal</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulario -->
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+          <!-- Paso 1: Información de la Empresa -->
+          <div class="step-content" *ngIf="currentStep === 1">
+            <h3 class="step-title">Información de la Empresa</h3>
+            <p class="step-description">Completa los datos de tu empresa para comenzar</p>
+
+            <div class="form-grid">
+              <!-- Columna 1 -->
+              <div class="form-column">
+                <!-- RUC -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>RUC</mat-label>
+                  <input matInput formControlName="ruc" />
+                  <mat-error *ngIf="ruc.invalid && (ruc.dirty || ruc.touched)">
+                    El RUC es obligatorio
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Nombre Legal -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nombre Legal</mat-label>
+                  <input matInput formControlName="legalName" />
+                  <mat-error *ngIf="legalName.invalid && (legalName.dirty || legalName.touched)">
+                    El nombre legal es obligatorio
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Nombre Comercial -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nombre Comercial</mat-label>
+                  <input matInput formControlName="commercialName" />
+                  <mat-error *ngIf="commercialName.invalid && (commercialName.dirty || commercialName.touched)">
+                    El nombre comercial es obligatorio
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Dirección -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Dirección</mat-label>
+                  <input matInput formControlName="address" />
+                  <mat-error *ngIf="address.invalid && (address.dirty || address.touched)">
+                    La dirección es obligatoria
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Ciudad -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Ciudad</mat-label>
+                  <input matInput formControlName="city" />
+                  <mat-error *ngIf="city.invalid && (city.dirty || city.touched)">
+                    La ciudad es obligatoria
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Columna 2 -->
+              <div class="form-column">
+                <!-- País -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>País</mat-label>
+                  <input matInput formControlName="country" />
+                  <mat-error *ngIf="country.invalid && (country.dirty || country.touched)">
+                    El país es obligatorio
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Teléfono de la Empresa -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Teléfono de la Empresa</mat-label>
+                  <input matInput formControlName="tenantPhone" />
+                  <mat-error *ngIf="tenantPhone.invalid && (tenantPhone.dirty || tenantPhone.touched)">
+                    El teléfono es obligatorio
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Email de la Empresa -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Email de la Empresa</mat-label>
+                  <input matInput formControlName="tenantEmail" type="email" />
+                  <mat-error *ngIf="tenantEmail.invalid && (tenantEmail.dirty || tenantEmail.touched)">
+                    Ingresa un email válido
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Sitio Web -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Sitio Web (opcional)</mat-label>
+                  <input matInput formControlName="website" />
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Botón Siguiente -->
+            <button
+              mat-raised-button
+              color="primary"
+              class="next-btn"
+              type="button"
+              (click)="nextStep()"
+              [disabled]="!isStep1Valid() || isLoading"
+            >
+              <mat-spinner *ngIf="isLoading" diameter="20" class="spinner"></mat-spinner>
+              <span *ngIf="!isLoading">Siguiente</span>
+              <mat-icon *ngIf="!isLoading">arrow_forward</mat-icon>
+            </button>
+          </div>
+
+          <!-- Paso 2: Información Personal -->
+          <div class="step-content" *ngIf="currentStep === 2">
+            <h3 class="step-title">Información Personal</h3>
+            <p class="step-description">Completa tus datos personales para finalizar</p>
+
+            <div class="form-grid">
+              <!-- Columna 1 -->
+              <div class="form-column">
+                <!-- Nombre de Usuario -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nombre de Usuario</mat-label>
+                  <input matInput formControlName="username" />
+                  <mat-error *ngIf="username.invalid && (username.dirty || username.touched)">
+                    El nombre de usuario es obligatorio
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Nombre -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Nombre</mat-label>
+                  <input matInput formControlName="firstName" />
+                  <mat-error *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)">
+                    El nombre es obligatorio
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Apellido -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Apellido</mat-label>
+                  <input matInput formControlName="lastName" />
+                  <mat-error *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)">
+                    El apellido es obligatorio
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Correo electrónico personal -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Correo electrónico personal</mat-label>
+                  <input matInput formControlName="email" type="email" />
+                  <mat-error *ngIf="email.invalid && (email.dirty || email.touched)">
+                    Ingresa un correo válido
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <!-- Columna 2 -->
+              <div class="form-column">
+                <!-- Contraseña -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Contraseña</mat-label>
+                  <input
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="password"
+                  />
+                  <button
+                    mat-icon-button
+                    matSuffix
+                    type="button"
+                    (click)="hide = !hide"
+                    aria-label="Mostrar u ocultar contraseña"
+                  >
+                    <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+                  </button>
+                  <mat-error *ngIf="password.invalid && (password.dirty || password.touched)">
+                    La contraseña es obligatoria
+                  </mat-error>
+                </mat-form-field>
+
+                <!-- Repetir Contraseña -->
+                <mat-form-field appearance="outline" class="full-width">
+                  <mat-label>Repetir Contraseña</mat-label>
+                  <input
+                    matInput
+                    [type]="hide ? 'password' : 'text'"
+                    formControlName="confirmPassword"
+                  />
+                  <mat-error *ngIf="confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched)">
+                    Las contraseñas no coinciden
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+
+            <!-- Términos y Condiciones -->
+            <mat-checkbox formControlName="terms">
+              He leído y acepto los <a href="#">Términos y Condiciones</a>
+            </mat-checkbox>
+
+            <!-- Botones de navegación -->
+            <div class="step-buttons">
+              <button
+                mat-stroked-button
+                type="button"
+                class="back-btn"
+                (click)="previousStep()"
+                [disabled]="isLoading"
+              >
+                <mat-icon>arrow_back</mat-icon>
+                Anterior
+              </button>
+
+              <button
+                mat-raised-button
+                color="primary"
+                class="submit-btn"
+                type="submit"
+                [disabled]="registerForm.invalid || isLoading"
+              >
+                <mat-spinner *ngIf="isLoading" diameter="20" class="spinner"></mat-spinner>
+                <span *ngIf="!isLoading">Crear Cuenta</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
         <p class="signup-text">
           Ya tienes una cuenta?
           <a routerLink="/iniciar-sesion">Inicia sesión</a>
         </p>
-      </form>
+      </div>
     </div>
   </div>
-  

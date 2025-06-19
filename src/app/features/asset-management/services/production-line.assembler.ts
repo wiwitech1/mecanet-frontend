@@ -1,8 +1,8 @@
 import { ProductionLineEntity } from '../models/production-line.entity';
-import { 
-  ProductionLineResource, 
-  CreateProductionLineResource, 
-  UpdateProductionLineResource 
+import {
+  ProductionLineResource,
+  CreateProductionLineResource,
+  UpdateProductionLineResource
 } from './production-line.resource';
 import { MachineryAssembler } from './machinery.assembler';
 
@@ -17,7 +17,7 @@ export class ProductionLineAssembler {
    */
   public static resourceToEntity(resource: any): ProductionLineEntity {
     if (!resource) return null as any;
-    
+
     return {
       id: resource.id,
       plantId: resource.plant_id,
@@ -27,8 +27,8 @@ export class ProductionLineAssembler {
       description: resource.description,
       createdAt: new Date(resource.created_at),
       updatedAt: new Date(resource.updated_at),
-      machineries: resource.machineries 
-        ? resource.machineries.map(MachineryAssembler.resourceToEntity) 
+      machineries: resource.machineries
+        ? resource.machineries.map(MachineryAssembler.resourceToEntity)
         : []
     };
   }
@@ -76,7 +76,7 @@ export class ProductionLineAssembler {
 
   public static entityToResource(entity: ProductionLineEntity): any {
     if (!entity) return null;
-    
+
     return {
       id: entity.id,
       name: entity.name,

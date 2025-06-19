@@ -29,7 +29,7 @@ export class PlantAssembler {
       description: resource.description,
       createdAt: new Date(resource.created_at),
       updatedAt: new Date(resource.updated_at),
-      productionLines: resource.production_lines ? 
+      productionLines: resource.production_lines ?
         resource.production_lines.map(line => ProductionLineAssembler.resourceToEntity(line)) : []
     };
   }
@@ -78,7 +78,7 @@ export class PlantAssembler {
    */
   updateEntityToResource(entity: Partial<PlantEntity>): UpdatePlantResource {
     const resource: UpdatePlantResource = {};
-    
+
     if (entity.name !== undefined) resource.name = entity.name;
     if (entity.location !== undefined) resource.location = entity.location;
     if (entity.capacity !== undefined) resource.capacity = entity.capacity;
@@ -87,7 +87,7 @@ export class PlantAssembler {
     if (entity.productionLines !== undefined) {
       resource.production_lines = entity.productionLines.map(line => line.id);
     }
-    
+
     return resource;
   }
-} 
+}

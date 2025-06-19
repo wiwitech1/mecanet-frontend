@@ -16,7 +16,7 @@ export interface MachineryResource {
     updated_at: string; // Fecha en formato string desde la API
     measurements: MachineryMeasurementResource[]; // Añadido para reflejar la nueva estructura
   }
-  
+
   /**
    * Estructura para crear una nueva máquina
    */
@@ -31,7 +31,7 @@ export interface MachineryResource {
     user_creator: number;
     measurements: CreateMachineryMeasurementResource[];
   }
-  
+
   /**
    * Estructura para actualizar una máquina existente
    */

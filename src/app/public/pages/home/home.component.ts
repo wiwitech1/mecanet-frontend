@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -82,10 +82,10 @@ interface Task {
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   // Usuario actual
-  userName: string = 'Carlos Rodríguez';
-  userRole: string = 'Gerente de Mantenimiento';
+  userName: string = '';
+  userRole: string = '';
 
   // Plantas
   selectedPlant: number = 1;
@@ -310,4 +310,32 @@ export class HomeComponent {
       priority: 'low'
     }
   ];
+
+  ngOnInit() {
+    this.loadUserFromLocalStorage();
+  }
+
+  loadUserFromLocalStorage() {
+    try {
+      const userData = localStorage.getItem('userSession');
+      if (userData) {
+        const user = JSON.parse(userData);
+        this.userName = user.name || 'Usuario';
+
+        // Determinar el rol basado en los roles del usuario
+        if (user.roles && user.roles.includes('ROLE_ADMIN')) {
+          this.userRole = 'Administrador';
+        } else {
+          this.userRole = 'Técnico';
+        }
+      } else {
+        this.userName = 'Usuario';
+        this.userRole = 'Técnico';
+      }
+    } catch (error) {
+      console.error('Error al cargar datos del usuario desde localStorage:', error);
+      this.userName = 'Usuario';
+      this.userRole = 'Técnico';
+    }
+  }
 }

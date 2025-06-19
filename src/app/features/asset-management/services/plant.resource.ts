@@ -37,4 +37,4 @@ export interface UpdatePlantResource {
     status?: number;
     description?: string;
     production_lines?: number[]; // IDs de líneas de producción
-} 
+}
