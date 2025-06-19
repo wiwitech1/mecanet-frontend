@@ -15,7 +15,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class InteractProductionLineComponent implements OnInit {
   @Input() productionLine: ProductionLineEntity | null = null;
-  @Input() title: string = '';
+  @Input() title: string = 'Nueva Línea de Producción';
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
 
@@ -26,28 +26,23 @@ export class InteractProductionLineComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private machineryService: MachineryService,
-    private translate: TranslateService
+    private machineryService: MachineryService
   ) {
     this.productionLineForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      plant_id: [1, Validators.required],
-      capacity: ['', [Validators.required, Validators.min(1)]],
+      name: ['', Validators.required],
+      plant_id: [1, Validators.required], // Valor por defecto
+      capacity: ['', [Validators.required, Validators.min(0)]],
       description: ['', Validators.required],
-      status: [1]
+      status: [1] // Por defecto activo
     });
   }
 
   ngOnInit(): void {
     this.isEditMode = !!this.productionLine;
-    this.title = this.translate.instant(
-      this.isEditMode ?
-      'assetManagement.forms.productionLine.title.edit' :
-      'assetManagement.forms.productionLine.title.new'
-    );
     this.loadAvailableMachineries();
 
     if (this.isEditMode && this.productionLine) {
+      // Si estamos en modo edición, rellenamos el formulario
       this.productionLineForm.patchValue({
         name: this.productionLine.name,
         plant_id: this.productionLine.plantId,
@@ -56,6 +51,7 @@ export class InteractProductionLineComponent implements OnInit {
         status: this.productionLine.status
       });
 
+      // Seleccionamos las maquinarias actuales
       this.selectedMachineries = this.productionLine.machineries.map(m => m.id);
     }
   }
@@ -66,7 +62,7 @@ export class InteractProductionLineComponent implements OnInit {
         this.availableMachineries = machineries;
       },
       error: (err) => {
-        console.error(this.translate.instant('assetManagement.forms.productionLine.errors.loadMachineries'), err);
+        console.error('Error al cargar maquinarias disponibles:', err);
       }
     });
   }
@@ -74,8 +70,10 @@ export class InteractProductionLineComponent implements OnInit {
   toggleMachinerySelection(machineryId: number) {
     const index = this.selectedMachineries.indexOf(machineryId);
     if (index > -1) {
+      // Si ya está seleccionada, la quitamos
       this.selectedMachineries.splice(index, 1);
     } else {
+      // Si no está seleccionada, la añadimos
       this.selectedMachineries.push(machineryId);
     }
   }
@@ -85,7 +83,8 @@ export class InteractProductionLineComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.productionLineForm.valid && this.selectedMachineries.length > 0) {
+    if (this.productionLineForm.valid) {
+      // Añadimos las maquinarias seleccionadas al objeto que emitimos
       const formData = {
         ...this.productionLineForm.value,
         machineries: this.selectedMachineries
@@ -98,21 +97,5 @@ export class InteractProductionLineComponent implements OnInit {
 
   onCancel(): void {
     this.cancel.emit();
-  }
-
-  getErrorMessage(fieldName: string): string {
-    const control = this.productionLineForm.get(fieldName);
-    if (!control) return '';
-
-    if (control.hasError('required')) {
-      return this.translate.instant(`assetManagement.forms.productionLine.fields.${fieldName}.required`);
-    }
-    if (control.hasError('min')) {
-      return this.translate.instant(`assetManagement.forms.productionLine.fields.${fieldName}.min`);
-    }
-    if (control.hasError('minlength')) {
-      return this.translate.instant(`assetManagement.forms.productionLine.fields.${fieldName}.minLength`);
-    }
-    return '';
   }
 }

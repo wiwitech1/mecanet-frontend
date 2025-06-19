@@ -1,0 +1,45 @@
+<div class="execution-card">
+  <div class="machinery-name">{{ machineryName }}</div>
+  <div class="tasks-section">
+    <span class="section-title">Tareas:</span>
+    <div class="tasks-list">
+      <div *ngFor="let task of tasks; let i = index" class="task-item">
+        <label class="checkbox-label">
+          <input type="checkbox" [checked]="task.completed" (change)="task.completed = !task.completed" />
+          <span class="custom-checkbox"></span>
+          <span>{{ task.label }}</span>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="observations-section">
+    <span class="section-title">Observaciones</span>
+    <textarea rows="3" [(ngModel)]="observations" placeholder="Texto"></textarea>
+  </div>
+  <div class="products-section">
+    <span class="section-title">Productos utilizados</span>
+    <table class="products-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products; let i = index">
+          <td>
+            <input [(ngModel)]="product.name" placeholder="Nombre del producto" />
+          </td>
+          <td>
+            <input type="number" min="0" [(ngModel)]="product.quantity" style="width: 60px;" />
+          </td>
+          <td>
+            <button type="button" (click)="products.splice(i, 1)">🗑️</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button type="button" class="add-product-btn" (click)="products.push({ name: '', quantity: 1 })">+ Agregar producto</button>
+  </div>
+</div>

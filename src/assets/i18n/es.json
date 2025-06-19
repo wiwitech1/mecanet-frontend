@@ -670,5 +670,112 @@
                 "createError": "Error al crear el plan. Por favor, inténtelo de nuevo más tarde."
             }
         }
+    },
+    "workOrder": {
+        "breadcrumb": "Órdenes de Trabajo",
+        "search": {
+            "placeholder": "Buscar por código...",
+            "newOrder": "Nueva Orden de Trabajo",
+            "filters": {
+                "title": "Filtros",
+                "type": {
+                    "label": "Tipo",
+                    "options": {
+                        "all": "Todos",
+                        "preventive": "Preventivo",
+                        "corrective": "Correctivo"
+                    }
+                },
+                "status": {
+                    "label": "Estado",
+                    "options": {
+                        "all": "Todos",
+                        "pending": "Pendiente",
+                        "inProgress": "En Progreso",
+                        "completed": "Completado",
+                        "cancelled": "Cancelado"
+                    }
+                },
+                "date": {
+                    "label": "Fecha",
+                    "options": {
+                        "all": "Todas",
+                        "today": "Hoy",
+                        "thisWeek": "Esta Semana",
+                        "thisMonth": "Este Mes",
+                        "custom": "Personalizado"
+                    }
+                }
+            }
+        },
+        "table": {
+            "code": "Código",
+            "date": "Fecha",
+            "type": "Tipo",
+            "assign": "Asignar Técnicos",
+            "details": "Detalles"
+        },
+        "infoPanel": {
+            "orderPrefix": "Orden: ",
+            "edit": "Editar",
+            "close": "Cerrar",
+            "sections": {
+                "generalInfo": {
+                    "title": "Información General",
+                    "code": "Código",
+                    "date": "Fecha",
+                    "type": "Tipo",
+                    "productionLine": "Línea de Producción"
+                },
+                "technicians": {
+                    "title": "Técnicos Asignados",
+                    "noTechnicians": "No hay técnicos asignados"
+                }
+            }
+        },
+        "form": {
+            "title": {
+                "edit": "Editar Orden de Trabajo",
+                "new": "Nueva Orden de Trabajo"
+            },
+            "fields": {
+                "code": {
+                    "label": "Código",
+                    "placeholder": "Ingrese el código"
+                },
+                "date": {
+                    "label": "Fecha"
+                },
+                "productionLine": {
+                    "label": "Línea de Producción",
+                    "placeholder": "Seleccione una línea"
+                },
+                "type": {
+                    "label": "Tipo",
+                    "options": {
+                        "preventive": "Preventivo",
+                        "corrective": "Correctivo"
+                    }
+                },
+                "technicians": {
+                    "label": "Asignación de Técnicos",
+                    "select": "Seleccionar técnico",
+                    "selectPlaceholder": "Elige un técnico",
+                    "add": "Agregar técnico",
+                    "remove": "Eliminar técnico",
+                    "technician": "Técnico",
+                    "machines": "Maquinarias",
+                    "machinesHint": "Selecciona las maquinarias que asignarás a este técnico",
+                    "emptyState": "No hay técnicos asignados. Haz clic en 'Agregar técnico' para comenzar."
+                }
+            },
+            "actions": {
+                "cancel": "Cancelar",
+                "delete": "Eliminar",
+                "save": "Guardar Cambios",
+                "create": "Crear"
+            },
+            "confirmDelete": "¿Está seguro de eliminar esta orden de trabajo?"
+        }
     }
 }
