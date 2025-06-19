@@ -1,0 +1,57 @@
+.container {
+  width: 100%;
+  padding: 2rem 1.5rem;
+}
+.order-selector {
+  margin: 1rem 0 2rem 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.cards-scroll {
+  overflow-x: auto;
+  padding-bottom: 1.5rem;
+}
+.cards-row {
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  min-width: 900px;
+}
+.actions-row {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+.finish-btn, .save-btn {
+  background: #a18cd1;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.7rem 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.finish-btn {
+  background: #fff;
+  color: #6c5ce7;
+  border: 1.5px solid #a18cd1;
+}
+.save-btn {
+  background: #a18cd1;
+}
+.finish-btn:hover, .save-btn:hover {
+  opacity: 0.85;
+}
+@media (max-width: 900px) {
+  .cards-row {
+    min-width: 600px;
+    gap: 1rem;
+  }
+  .container {
+    padding: 1rem 0.5rem;
+  }
+}
