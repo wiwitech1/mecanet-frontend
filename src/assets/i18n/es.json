@@ -538,5 +538,137 @@
             "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
             "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
         ]
+    },
+    "maintenancePlanCreate": {
+        "title": "Crear Plan de Mantenimiento",
+        "backButton": "Volver",
+        "selector": {
+            "title": "Seleccione el tipo de plan a crear",
+            "staticPlan": {
+                "title": "Plan Estático",
+                "subtitle": "Organización por días",
+                "description": "Cree un plan de mantenimiento organizado por días, con tareas específicas para cada uno.",
+                "selectButton": "SELECCIONAR"
+            },
+            "dynamicPlan": {
+                "title": "Plan Dinámico",
+                "subtitle": "Organización por tareas",
+                "description": "Cree un plan de mantenimiento más flexible, enfocado en tareas específicas sin estructura de días.",
+                "selectButton": "SELECCIONAR"
+            }
+        },
+        "staticPlan": {
+            "title": {
+                "create": "Crear Plan de Mantenimiento",
+                "edit": "Editar Plan de Mantenimiento"
+            },
+            "backButton": "Volver",
+            "sections": {
+                "generalInfo": {
+                    "title": "Información General",
+                    "productionLine": {
+                        "label": "Línea de Producción*",
+                        "error": "Este campo es requerido"
+                    },
+                    "startDate": {
+                        "label": "Fecha de Inicio*",
+                        "error": "Este campo es requerido"
+                    },
+                    "duration": {
+                        "label": "Duración (días)*",
+                        "error": {
+                            "required": "Este campo es requerido",
+                            "min": "El mínimo es 1 día",
+                            "max": "El máximo es 30 días"
+                        }
+                    }
+                },
+                "taskScheduling": {
+                    "title": "Programación de Tareas",
+                    "addDay": "Agregar Día",
+                    "day": "Día",
+                    "tasks": "tarea(s)",
+                    "tasksForDay": "Tareas para el día",
+                    "addTask": "Agregar Tarea",
+                    "noTasksMessage": "No hay tareas programadas para este día. Haga clic en \"Agregar Tarea\" para comenzar.",
+                    "task": "Tarea",
+                    "removeTask": "Eliminar Tarea",
+                    "removeDay": "Eliminar Día",
+                    "taskFields": {
+                        "taskName": {
+                            "label": "Nombre de la Tarea*",
+                            "error": "Este campo es requerido"
+                        },
+                        "taskDescription": {
+                            "label": "Descripción"
+                        },
+                        "machineIds": {
+                            "label": "Máquinas Involucradas*",
+                            "error": "Este campo es requerido"
+                        }
+                    }
+                }
+            },
+            "actions": {
+                "cancel": "Cancelar",
+                "save": "Guardar Plan",
+                "update": "Actualizar Plan",
+                "saving": "Guardando..."
+            },
+            "errors": {
+                "createError": "Error al crear el plan. Por favor, inténtelo de nuevo más tarde.",
+                "updateError": "Error al actualizar el plan. Por favor, inténtelo de nuevo más tarde.",
+                "loadError": "Error al cargar el plan. Por favor, inténtelo de nuevo más tarde."
+            }
+        },
+        "dynamicPlan": {
+            "title": "Crear Plan de Mantenimiento Dinámico",
+            "backButton": "Volver",
+            "sections": {
+                "generalInfo": {
+                    "title": "Información General",
+                    "parameter": {
+                        "label": "Parámetro*",
+                        "error": "Este campo es requerido"
+                    },
+                    "startDate": {
+                        "label": "Fecha de Inicio*",
+                        "error": "Este campo es requerido"
+                    },
+                    "machineIds": {
+                        "label": "Máquinas Asignadas*",
+                        "error": "Seleccione al menos una máquina"
+                    }
+                },
+                "tasks": {
+                    "title": "Tareas",
+                    "addTask": "Agregar Tarea",
+                    "task": "Tarea",
+                    "removeTask": "Eliminar Tarea",
+                    "emptyState": "No hay tareas programadas. Haga clic en \"Agregar Tarea\" para comenzar.",
+                    "taskFields": {
+                        "taskName": {
+                            "label": "Nombre de la Tarea*",
+                            "error": "Este campo es requerido"
+                        },
+                        "taskDescription": {
+                            "label": "Descripción"
+                        },
+                        "machineIds": {
+                            "label": "Máquinas específicas (opcional)",
+                            "hint": "Si no selecciona, se usarán las máquinas generales del plan"
+                        }
+                    }
+                }
+            },
+            "actions": {
+                "cancel": "Cancelar",
+                "save": "Guardar Plan Dinámico",
+                "saving": "Guardando..."
+            },
+            "errors": {
+                "createError": "Error al crear el plan. Por favor, inténtelo de nuevo más tarde."
+            }
+        }
     }
 }

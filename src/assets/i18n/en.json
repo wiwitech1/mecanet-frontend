@@ -565,5 +565,137 @@
             "January", "February", "March", "April", "May", "June",
             "July", "August", "September", "October", "November", "December"
         ]
+    },
+    "maintenancePlanCreate": {
+        "title": "Create Maintenance Plan",
+        "backButton": "Back",
+        "selector": {
+            "title": "Select the type of plan to create",
+            "staticPlan": {
+                "title": "Static Plan",
+                "subtitle": "Day-based organization",
+                "description": "Create a maintenance plan organized by days, with specific tasks for each one.",
+                "selectButton": "SELECT"
+            },
+            "dynamicPlan": {
+                "title": "Dynamic Plan",
+                "subtitle": "Task-based organization",
+                "description": "Create a more flexible maintenance plan, focused on specific tasks without day structure.",
+                "selectButton": "SELECT"
+            }
+        },
+        "staticPlan": {
+            "title": {
+                "create": "Create Maintenance Plan",
+                "edit": "Edit Maintenance Plan"
+            },
+            "backButton": "Back",
+            "sections": {
+                "generalInfo": {
+                    "title": "General Information",
+                    "productionLine": {
+                        "label": "Production Line*",
+                        "error": "This field is required"
+                    },
+                    "startDate": {
+                        "label": "Start Date*",
+                        "error": "This field is required"
+                    },
+                    "duration": {
+                        "label": "Duration (days)*",
+                        "error": {
+                            "required": "This field is required",
+                            "min": "Minimum is 1 day",
+                            "max": "Maximum is 30 days"
+                        }
+                    }
+                },
+                "taskScheduling": {
+                    "title": "Task Scheduling",
+                    "addDay": "Add Day",
+                    "day": "Day",
+                    "tasks": "task(s)",
+                    "tasksForDay": "Tasks for day",
+                    "addTask": "Add Task",
+                    "noTasksMessage": "No tasks scheduled for this day. Click \"Add Task\" to get started.",
+                    "task": "Task",
+                    "removeTask": "Remove Task",
+                    "removeDay": "Remove Day",
+                    "taskFields": {
+                        "taskName": {
+                            "label": "Task Name*",
+                            "error": "This field is required"
+                        },
+                        "taskDescription": {
+                            "label": "Description"
+                        },
+                        "machineIds": {
+                            "label": "Involved Machines*",
+                            "error": "This field is required"
+                        }
+                    }
+                }
+            },
+            "actions": {
+                "cancel": "Cancel",
+                "save": "Save Plan",
+                "update": "Update Plan",
+                "saving": "Saving..."
+            },
+            "errors": {
+                "createError": "Error creating the plan. Please try again later.",
+                "updateError": "Error updating the plan. Please try again later.",
+                "loadError": "Error loading the plan. Please try again later."
+            }
+        },
+        "dynamicPlan": {
+            "title": "Create Dynamic Maintenance Plan",
+            "backButton": "Back",
+            "sections": {
+                "generalInfo": {
+                    "title": "General Information",
+                    "parameter": {
+                        "label": "Parameter*",
+                        "error": "This field is required"
+                    },
+                    "startDate": {
+                        "label": "Start Date*",
+                        "error": "This field is required"
+                    },
+                    "machineIds": {
+                        "label": "Assigned Machines*",
+                        "error": "Select at least one machine"
+                    }
+                },
+                "tasks": {
+                    "title": "Tasks",
+                    "addTask": "Add Task",
+                    "task": "Task",
+                    "removeTask": "Remove Task",
+                    "emptyState": "No tasks scheduled. Click \"Add Task\" to get started.",
+                    "taskFields": {
+                        "taskName": {
+                            "label": "Task Name*",
+                            "error": "This field is required"
+                        },
+                        "taskDescription": {
+                            "label": "Description"
+                        },
+                        "machineIds": {
+                            "label": "Specific machines (optional)",
+                            "hint": "If not selected, the general plan machines will be used"
+                        }
+                    }
+                }
+            },
+            "actions": {
+                "cancel": "Cancel",
+                "save": "Save Dynamic Plan",
+                "saving": "Saving..."
+            },
+            "errors": {
+                "createError": "Error creating the plan. Please try again later."
+            }
+        }
     }
 }
