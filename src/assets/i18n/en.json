@@ -118,7 +118,8 @@
                 "title": "Asset Management",
                 "plants": "Plants",
                 "productionLines": "Production Lines",
-                "machinery": "Machinery"
+                "machinery": "Machinery",
+                "machineryMetrics": "Machinery Metrics"
             },
             "workOrder": "Work Order",
             "maintenancePlan": "Maintenance Plan",
@@ -696,6 +697,28 @@
             "errors": {
                 "createError": "Error creating the plan. Please try again later."
             }
+        }
+    },
+    "machineryMetrics": {
+        "breadcrumb": "Asset Management > Machinery Metrics",
+        "loading": "Loading machineries...",
+        "retry": "Retry",
+        "serialNumber": "Serial No.",
+        "search": {
+            "placeholder": "Search by name, model or brand...",
+            "refresh": "Refresh"
+        },
+        "measurements": {
+            "title": "Measurements",
+            "currentValue": "Current Value",
+            "lastUpdated": "Last Updated",
+            "newValue": "New value",
+            "update": "Upload",
+            "noMeasurements": "No measurements available for this machinery"
+        },
+        "emptyState": {
+            "title": "No machineries found",
+            "message": "No machineries available or none match the search criteria"
         }
     }
 }

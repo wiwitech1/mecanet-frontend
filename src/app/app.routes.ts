@@ -25,6 +25,9 @@ const PurchaseOrdersViewComponent = (): Promise<any> => import('./features/purch
 
 const MaintenanceCalendarComponent = (): Promise<any> => import('./features/maintenance-calendar/view/maintenance-calendar/maintenance-calendar.component').then(m => m.MaintenanceCalendarComponent);
 
+const MachineryMetricsViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-metrics-view/machinery-metrics-view.component').then(m => m.MachineryMetricsViewComponent);
+
+
 export const routes: Routes = [
     // Rutas públicas o de autenticación - solo accesibles si NO hay sesión
     { path: 'iniciar-sesion', component: LoginViewComponent, canActivate: [nonAuthGuard] },
@@ -37,6 +40,7 @@ export const routes: Routes = [
     { path: 'activos/plantas', component: PlantViewComponent, canActivate: [authGuard] },
     { path: 'activos/lineas-produccion', component: ProductionLineViewComponent, canActivate: [authGuard] },
     { path: 'activos/maquinarias', loadComponent: MachineryAssetViewComponent, canActivate: [authGuard] },
+    { path: 'activos/metricas', loadComponent: MachineryMetricsViewComponent, canActivate: [authGuard] },
     {
         path: 'plan-mantenimiento',
         canActivate: [authGuard],
