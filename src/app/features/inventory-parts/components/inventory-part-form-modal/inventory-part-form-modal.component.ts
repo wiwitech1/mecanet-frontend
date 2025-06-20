@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { InventoryPartEntity } from '../../../shared/models/inventory-part.entity';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { calculateStockStatus } from '../../../shared/services/inventory-part.assembler';
 
 @Component({
   selector: 'app-inventory-part-form-modal',
@@ -27,7 +28,8 @@ export class InventoryPartFormModalComponent implements OnInit {
     description: '',
     current_stock: 0,
     min_stock: 0,
-    unit_price: 0
+    unit_price: 0,
+    stock_status: 'OUT_OF_STOCK'
   };
 
   constructor(private translate: TranslateService) {}
@@ -39,12 +41,31 @@ export class InventoryPartFormModalComponent implements OnInit {
         ...this.formData,
         ...this.partData
       };
+      // Calcular stock_status inicial si no está presente
+      this.onStockChange();
+    }
+  }
+
+    onStockChange() {
+    // Recalcular stock_status cuando cambien los valores de stock
+    if (this.formData.current_stock !== undefined && this.formData.min_stock !== undefined) {
+      this.formData.stock_status = calculateStockStatus(
+        this.formData.current_stock || 0,
+        this.formData.min_stock || 0
+      );
     }
   }
 
   handleSubmit() {
+    // Calcular el stock_status basado en los valores actuales
+    const stockStatus = calculateStockStatus(
+      this.formData.current_stock || 0,
+      this.formData.min_stock || 0
+    );
+
     const formDataForBackend = {
       ...this.formData,
+      stock_status: stockStatus,
       id: this.originalData?.id
     };
     this.submit.emit(formDataForBackend);

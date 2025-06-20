@@ -2,31 +2,20 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { InventoryPartEntity} from '../../shared/models/inventory-part.entity';
+import { calculateStockStatus } from '../../shared/services/inventory-part.assembler';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryPartEntitysApiService {// Ajusta esto según tu configuración
-  private apiUrl = 'http://localhost:3000/inventory-parts';
+  private apiUrl = 'https://6854b3de6a6ef0ed662fcca2.mockapi.io/api/v1/inventory-parts';
   constructor(private http: HttpClient) {}
 
-  private calculateStockStatus(currentStock: number, minStock: number): string {
-    if (currentStock <= 0) {
-      return 'CERO';
-    } else if (currentStock < minStock) {
-      return 'LOW';
-    } else if (currentStock === minStock) {
-      return 'OK';
-    } else {
-      return 'OK';
-    }
-  }
-
   private preparePartData(data: Partial<InventoryPartEntity>): Partial<InventoryPartEntity> {
-    if (data.current_stock !== undefined && data.min_stock !== undefined && !data.stock_status) {
+    if (data.current_stock !== undefined && data.min_stock !== undefined) {
       return {
         ...data,
-        stock_status: this.calculateStockStatus(data.current_stock, data.min_stock)
+        stock_status: calculateStockStatus(data.current_stock, data.min_stock)
       };
     }
     return data;

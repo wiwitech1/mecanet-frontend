@@ -9,7 +9,7 @@ import { InventoryPartEntity } from '../../shared/models/inventory-part.entity';
   providedIn: 'root'
 })
 export class PurchaseOrdersApiService {
-  private apiUrl = 'http://localhost:3000/purchase-orders';
+  private apiUrl = 'https://6854b3de6a6ef0ed662fcca2.mockapi.io/api/v1/purchase-orders';
 
   constructor(
     private http: HttpClient,
