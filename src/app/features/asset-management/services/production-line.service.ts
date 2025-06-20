@@ -12,7 +12,7 @@ import { UserService } from '../../../core/services/user.service';
   providedIn: 'root'
 })
 export class ProductionLineService {
-  private apiUrl = environment.serverBaseUrl + '/production_lines';
+  private apiUrl = environment.serverBaseUrl + '/production-lines';
 
   constructor(
     private http: HttpClient,
@@ -31,18 +31,20 @@ export class ProductionLineService {
   /**
    * Obtiene todas las líneas de producción del servidor
    */
-  getAllProductionLines(): Observable<ProductionLineEntity[]> {
+  getAllProductionLines(plantId: number): Observable<ProductionLineEntity[]> {
     const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
-    //console.log('🔐 Token cargado desde localStorage:', token);
 
     if (!token) {
       console.error('No hay token disponible');
       return throwError(() => new Error('No autorizado'));
     }
-    return this.http.get<ProductionLineResource[]>(`${this.apiUrl}/1`, { headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    } }).pipe(
+
+    return this.http.get<ProductionLineResource[]>(`${environment.serverBaseUrl}/production-lines/plant/${plantId}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }).pipe(
       map(resources => ProductionLineAssembler.resourcesToEntities(resources)),
       catchError(this.handleError)
     );
@@ -52,7 +54,18 @@ export class ProductionLineService {
    * Obtiene una línea de producción por su ID
    */
   getProductionLineById(id: number): Observable<ProductionLineEntity> {
-    return this.http.get<ProductionLineResource>(`${this.apiUrl}/${id}`).pipe(
+    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
+
+    if (!token) {
+      return throwError(() => new Error('No autorizado'));
+    }
+
+    return this.http.get<ProductionLineResource>(`${this.apiUrl}/${id}`, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }).pipe(
       map(resource => ProductionLineAssembler.resourceToEntity(resource)),
       catchError(this.handleError)
     );
@@ -62,8 +75,20 @@ export class ProductionLineService {
    * Crea una nueva línea de producción
    */
   createProductionLine(productionLine: ProductionLineEntity): Observable<ProductionLineEntity> {
+    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
+
+    if (!token) {
+      console.error('No hay token disponible');
+      return throwError(() => new Error('No autorizado'));
+    }
+
     const resource = ProductionLineAssembler.entityToCreateResource(productionLine);
-    return this.http.post<ProductionLineResource>(this.apiUrl, resource).pipe(
+    return this.http.post<ProductionLineResource>(this.apiUrl, resource, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    }).pipe(
       map(newResource => ProductionLineAssembler.resourceToEntity(newResource)),
       catchError(this.handleError)
     );
@@ -73,10 +98,23 @@ export class ProductionLineService {
    * Actualiza una línea de producción existente
    */
   updateProductionLine(productionLine: ProductionLineEntity): Observable<ProductionLineEntity> {
+    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
+
+    if (!token) {
+      console.error('No hay token disponible');
+      return throwError(() => new Error('No autorizado'));
+    }
+
     const resource = ProductionLineAssembler.entityToUpdateResource(productionLine);
     return this.http.patch<ProductionLineResource>(
       `${this.apiUrl}/${productionLine.id}`,
-      resource
+      resource,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
     ).pipe(
       map(updatedResource => ProductionLineAssembler.resourceToEntity(updatedResource)),
       catchError(this.handleError)
@@ -87,9 +125,22 @@ export class ProductionLineService {
    * Cambia el estado de una línea de producción
    */
   changeProductionLineStatus(id: number, status: string): Observable<ProductionLineEntity> {
+    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
+
+    if (!token) {
+      console.error('No hay token disponible');
+      return throwError(() => new Error('No autorizado'));
+    }
+
     return this.http.patch<ProductionLineResource>(
       `${this.apiUrl}/${id}`,
-      { status }
+      { status },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
     ).pipe(
       map(resource => ProductionLineAssembler.resourceToEntity(resource)),
       catchError(this.handleError)
@@ -104,15 +155,17 @@ export class ProductionLineService {
     return throwError(() => new Error('Ocurrió un error al procesar la solicitud. Por favor intente nuevamente.'));
   }
 
-  getProductionLineIdAndName(): Observable<{ id: number; name: string }[]> { return this.getAllProductionLines().pipe( map((lines: ProductionLineEntity[]) => lines.map(line => ({ id: line.id, name: line.name })) ), catchError(this.handleError) ); }
-
-  /**
+   /**
    * Obtiene las maquinarias asociadas a una línea de producción específica
    * @param productionLineId ID de la línea de producción
    * @returns Observable con array de objetos que contienen id y nombre de las maquinarias
    */
+/*
+  getProductionLineIdAndName(): Observable<{ id: number; name: string }[]> { return this.getAllProductionLines(0).pipe( map((lines: ProductionLineEntity[]) => lines.map(line => ({ id: line.id, name: line.name })) ), catchError(this.handleError) ); }
+
+
   getMachineriesByProductionLine(productionLineId: number): Observable<{ id: number, name: string }[]> {
-    return this.getAllProductionLines().pipe(
+    return this.getAllProductionLines(0).pipe(
       map((lines) => {
         const selected = lines.find(line => line.id === productionLineId);
         return selected?.machineries?.map(m => ({
@@ -122,6 +175,6 @@ export class ProductionLineService {
       }),
       catchError(this.handleError)
     );
-  }
+  }*/
 
 }

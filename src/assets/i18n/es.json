@@ -495,14 +495,36 @@
                 }
             },
             "productionLine": {
-                "title": "Información de Línea de Producción",
+                "title": {
+                    "new": "Nueva Línea de Producción",
+                    "edit": "Editar Línea de Producción"
+                },
                 "fields": {
-                    "name": "Nombre",
-                    "plant": "Planta",
-                    "capacity": "Capacidad",
-                    "description": "Descripción",
-                    "status": "Estado",
-                    "machineries": "Maquinarias"
+                    "name": {
+                        "label": "Nombre",
+                        "placeholder": "Ingrese nombre de la línea",
+                        "required": "El nombre es requerido"
+                    },
+                    "code": {
+                        "label": "Código",
+                        "placeholder": "Ingrese código de la línea",
+                        "required": "El código es requerido"
+                    },
+                    "maxUnitsPerHour": {
+                        "label": "Unidades Máximas por Hora",
+                        "placeholder": "Ingrese unidades máximas por hora",
+                        "required": "Las unidades máximas por hora son requeridas"
+                    },
+                    "unit": {
+                        "label": "Unidad",
+                        "placeholder": "Ingrese unidad (ej: piezas, unidades)",
+                        "required": "La unidad es requerida"
+                    },
+                    "plant": {
+                        "label": "Planta",
+                        "placeholder": "Seleccione una planta",
+                        "required": "La planta es requerida"
+                    }
                 },
                 "placeholders": {
                     "name": "Ingrese nombre de la línea",
@@ -516,7 +538,11 @@
                 "save": "Guardar",
                 "cancel": "Cancelar"
             }
-        }
+        },
+        "selectPlant": "Seleccionar una Planta",
+        "allPlants": "Todas las Plantas",
+        "plantName": "Nombre de Planta",
+        "plantLocation": "Ubicación"
     },
     "pageNotFound": {
         "title": "Página no encontrada",
