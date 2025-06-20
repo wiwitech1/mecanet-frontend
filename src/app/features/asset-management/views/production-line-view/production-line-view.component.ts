@@ -94,7 +94,7 @@ export class ProductionLineViewComponent implements OnInit {
   techData: {subtitle: string, info: string}[] = [];
 
   // Maquinarias asignadas a la línea
-  assignedMachines: {name: string, model: string, brand: string}[] = [];
+  assignedMachines: {name: string, model: string, manufacturer: string}[] = [];
 
   constructor(
     private productionLineService: ProductionLineService,
@@ -192,8 +192,9 @@ export class ProductionLineViewComponent implements OnInit {
     this.assignedMachines = line.machineries?.map(machine => ({
       name: machine.name,
       model: machine.model,
-      brand: machine.brand
-    })) ?? [];
+      manufacturer: machine.manufacturer
+    }));
+
   }
 
   onCtaClick(event: {row: any, column: any}) {

@@ -34,332 +34,250 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   animations: [
     trigger('panelAnimation', [
       transition(':enter', [
-        style({ transform: 'translateX(100%)', opacity: 0 }),
-        animate('300ms ease-out', style({ transform: 'translateX(0)', opacity: 1 }))
+        style({ transform: 'translateX(100%)' }),
+        animate('300ms ease-out', style({ transform: 'translateX(0)' }))
       ]),
       transition(':leave', [
-        animate('300ms ease-in', style({ transform: 'translateX(100%)', opacity: 0 }))
-      ])
-    ]),
-    trigger('modalAnimation', [
-      transition(':enter', [
-        style({ opacity: 0, transform: 'scale(0.95)' }),
-        animate('200ms ease-out', style({ opacity: 1, transform: 'scale(1)' }))
-      ]),
-      transition(':leave', [
-        animate('150ms ease-in', style({ opacity: 0, transform: 'scale(0.95)' }))
+        animate('300ms ease-in', style({ transform: 'translateX(100%)' }))
       ])
     ]),
     trigger('overlayAnimation', [
       transition(':enter', [
         style({ opacity: 0 }),
-        animate('200ms ease-out', style({ opacity: 1 }))
+        animate('300ms ease-out', style({ opacity: 1 }))
       ]),
       transition(':leave', [
-        animate('150ms ease-in', style({ opacity: 0 }))
+        animate('300ms ease-in', style({ opacity: 0 }))
+      ])
+    ]),
+    trigger('modalAnimation', [
+      transition(':enter', [
+        style({ transform: 'scale(0.7)', opacity: 0 }),
+        animate('300ms ease-out', style({ transform: 'scale(1)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ transform: 'scale(0.7)', opacity: 0 }))
       ])
     ])
   ]
 })
 export class MachineryAssetViewComponent implements OnInit {
-  selectedMachineId: number | null = null;
+  machines: MachineryEntity[] = [];
+  displayMachines: any[] = [];
   selectedMachine: MachineryEntity | null = null;
+  selectedMachineId: number | null = null;
+  loading = false;
+  error: string | null = null;
   showDetailPanel = false;
   showMachineryModal = false;
   isEditMode = false;
 
-  // Datos reales que vendrán del servicio
-  machineries: MachineryEntity[] = [];
-  loading = false;
-  error: string | null = null;
-
-  // Columnas para la tabla
-  columns = [
-    { key: 'id', label: 'assetManagement.columns.id', type: 'texto' as 'texto' },
-    { key: 'name', label: 'assetManagement.columns.name', type: 'texto' as 'texto' },
-    { key: 'model', label: 'assetManagement.columns.model', type: 'texto' as 'texto' },
-    { key: 'brand', label: 'assetManagement.columns.brand', type: 'texto' as 'texto' },
-    { key: 'status', label: 'assetManagement.columns.status', type: 'texto' as 'texto' },
-    { key: 'lastMaintenance', label: 'assetManagement.columns.lastMaintenance', type: 'texto' as 'texto' },
-    { key: 'details', label: 'assetManagement.columns.details', type: 'cta' as 'cta', ctaLabel: 'assetManagement.columns.detailsButton' }
+  infoData: any[] = [];
+  techData: any[] = [];
+  measurementData = [
+    { subtitle: 'Temperatura', info: '75°C' },
+    { subtitle: 'Presión', info: '2.5 bar' },
+    { subtitle: 'Velocidad', info: '1200 rpm' },
+    { subtitle: 'Consumo Energético', info: '450 kW/h' }
   ];
 
-  // Datos adaptados para la tabla
-  machines: any[] = [];
+  maintenanceItems = [
+    { 
+      title: 'Mantenimiento Preventivo',
+      date: '2024-01-15',
+      description: 'Cambio de aceite y filtros',
+      status: 'Completado'
+    },
+    {
+      title: 'Reparación de Emergencia',
+      date: '2023-12-10',
+      description: 'Reemplazo de sensor de presión',
+      status: 'Completado'
+    },
+    {
+      title: 'Inspección Rutinaria',
+      date: '2023-11-20',
+      description: 'Verificación de componentes',
+      status: 'Completado'
+    }
+  ];
 
-  // Datos técnicos para mostrar en el panel de información
-  infoData: {subtitle: string, info: string}[] = [];
-
-  // Especificaciones técnicas
-  techData: {subtitle: string, info: string}[] = [];
-
-  // Historial de mantenimiento
-  maintenanceItems: {date: string, type: string, responsible: string}[] = [];
-
-  // Medidas
-  measurementData: {subtitle: string, info: string}[] = [];
+  columns = [
+    { key: 'name', label: 'Nombre', type: 'texto' as const },
+    { key: 'serialNumber', label: 'Número de Serie', type: 'texto' as const },
+    { key: 'manufacturer', label: 'Fabricante', type: 'texto' as const },
+    { key: 'model', label: 'Modelo', type: 'texto' as const },
+    { key: 'status', label: 'Estado', type: 'texto' as const },
+    { 
+      key: 'actions', 
+      label: 'Acciones', 
+      type: 'cta' as const,
+      ctaLabel: 'Ver Detalles',
+      ctaVariant: 'primary' as const
+    }
+  ];
 
   constructor(
     private machineryService: MachineryService,
     private translate: TranslateService
-  ) {}
+  ) {
+    this.newMachineAction = this.newMachineAction.bind(this);
+  }
 
   ngOnInit() {
     this.loadMachineries();
   }
 
+  getStatusText(status: number): string {
+    switch (status) {
+      case MachineryStatus.INACTIVE: return 'Inactiva';
+      case MachineryStatus.ACTIVE: return 'Activa';
+      case MachineryStatus.MAINTENANCE: return 'Mantenimiento';
+      case MachineryStatus.REPAIR: return 'Reparación';
+      default: return 'Desconocido';
+    }
+  }
+
   loadMachineries() {
     this.loading = true;
     this.error = null;
-
-    this.machineryService.getAllMachineries()
-      .pipe(finalize(() => this.loading = false))
-      .subscribe({
-        next: (data) => {
-          this.machineries = data;
-          this.prepareTableData();
-          console.log(this.machineries);
-          // No seleccionamos ninguna maquinaria por defecto ahora
-        },
-        error: (err) => {
-          this.error = 'Error al cargar las maquinarias. Por favor, intente de nuevo.';
-          console.error('Error loading machineries:', err);
-        }
-      });
-  }
-
-  prepareTableData() {
-    this.machines = this.machineries.map(machinery => ({
-      id: machinery.id,
-      name: machinery.name,
-      model: machinery.model,
-      brand: machinery.brand,
-      status: this.getStatusLabel(machinery.status),
-      lastMaintenance: this.formatDate(machinery.updatedAt),
-      details: machinery.id, // Pasamos el ID como valor para el botón CTA
-      // Guardamos el objeto original para tenerlo accesible
-      original: machinery
-    }));
-  }
-
-  getStatusLabel(status: number): string {
-    return status === 1 ?
-      this.translate.instant('assetManagement.status.active') :
-      this.translate.instant('assetManagement.status.inactive');
-  }
-
-  formatDate(date: Date): string {
-    return date ? new Date(date).toLocaleDateString('es-ES') : '';
-  }
-
-  selectMachinery(id: number) {
-    this.loading = true;
-    this.machineryService.getMachineryById(id)
-      .pipe(finalize(() => this.loading = false))
-      .subscribe({
-        next: (machinery) => {
-          this.selectedMachine = machinery;
-          this.selectedMachineId = machinery.id;
-          this.updateInfoPanel(machinery);
-          this.showDetailPanel = true; // Mostramos el panel al seleccionar una maquinaria
-        },
-        error: (err) => {
-          this.error = `Error al cargar la maquinaria con ID ${id}.`;
-          console.error('Error loading machinery details:', err);
-          this.showDetailPanel = false; // Ocultamos el panel si hay error
-        }
-      });
-  }
-
-  updateInfoPanel(machinery: MachineryEntity) {
-    // Información básica
-    this.infoData = [
-      { subtitle: 'Nombre', info: machinery.name },
-      { subtitle: 'Modelo', info: machinery.model },
-      { subtitle: 'Estado actual', info: this.getStatusLabel(machinery.status) },
-      { subtitle: 'Marca', info: machinery.brand },
-      { subtitle: 'Número de serie', info: machinery.serialNumber },
-      { subtitle: 'Fecha actualización', info: this.formatDate(machinery.updatedAt) }
-    ];
-
-    // Especificaciones técnicas
-    this.techData = [
-      { subtitle: 'Capacidad de producción', info: `${machinery.productionCapacity} unidades/hora` },
-      { subtitle: 'Recomendaciones', info: machinery.recommendations }
-    ];
-
-    // Historial de mantenimiento
-    this.maintenanceItems = [
-      {
-        date: this.formatDate(new Date(machinery.createdAt)),
-        type: 'Preventivo',
-        responsible: 'Técnico Asignado'
+    this.machineryService.getAllMachineries().subscribe({
+      next: (machines) => {
+        this.machines = machines;
+        this.displayMachines = this.machines.map(m => ({
+          ...m,
+          status: this.getStatusText(m.status)
+        }));
+        this.loading = false;
       },
-      {
-        date: this.formatDate(machinery.updatedAt),
-        type: 'Correctivo',
-        responsible: 'Supervisor'
+      error: (error) => {
+        this.error = 'Error al cargar las maquinarias';
+        this.loading = false;
+        console.error('Error loading machineries:', error);
       }
-    ];
-
-    // Medidas
-    this.measurementData = machinery.measurements.map(measurement => ({
-      subtitle: measurement.name,
-      info: `${measurement.value} ${measurement.unit}`
-    }));
+    });
   }
 
-  onCtaClick(event: {row: any, column: any}) {
-    if (event.column.key === 'details' && event.row && event.row.id) {
-      this.selectMachinery(event.row.id);
+    updateSelectedMachineData() {
+    if (!this.selectedMachine) return;
+
+    // Actualizar infoData - usando subtitle e info como espera el componente
+    this.infoData = [
+      { subtitle: 'Estado', info: this.getStatusText(this.selectedMachine.status) },
+      { subtitle: 'Línea de Producción', info: `Línea ${this.selectedMachine.productionLineId}` },
+      { subtitle: 'Última Mantención', info: new Date(this.selectedMachine.lastMaintenanceDate).toLocaleDateString('es-ES') },
+      { subtitle: 'Próxima Mantención', info: new Date(this.selectedMachine.nextMaintenanceDate).toLocaleDateString('es-ES') }
+    ];
+
+    // Actualizar techData - usando subtitle e info como espera el componente
+    this.techData = [
+      { subtitle: 'Número de Serie', info: this.selectedMachine.serialNumber },
+      { subtitle: 'Fabricante', info: this.selectedMachine.manufacturer },
+      { subtitle: 'Modelo', info: this.selectedMachine.model },
+      { subtitle: 'Tipo', info: this.selectedMachine.type },
+      { subtitle: 'Consumo de Energía', info: `${this.selectedMachine.powerConsumption} kW` }
+    ];
+  }
+  
+
+  onCtaClick(event: { row: any; column: any }) {
+    const machine = this.machines.find(m => m.id === event.row.id);
+    if (machine) {
+      this.selectedMachine = machine;
+      this.selectedMachineId = machine.id;
+      this.updateSelectedMachineData();
+      console.log(this.infoData);
+      this.showDetailPanel = true;
     }
   }
+  
 
   closeDetailPanel() {
     this.showDetailPanel = false;
     this.selectedMachine = null;
     this.selectedMachineId = null;
+    this.infoData = [];
+    this.techData = [];
   }
 
-  // Para el botón Nueva Máquina
-  newMachineAction = () => {
+  newMachineAction() {
     this.isEditMode = false;
     this.showMachineryModal = true;
-  };
-
-  // Para editar maquinaria existente
-  editMachine() {
-    this.isEditMode = true;
-    this.showMachineryModal = true;
   }
 
-  // Cerrar el modal
+  editMachine() {
+    if (this.selectedMachine) {
+      this.isEditMode = true;
+      this.showMachineryModal = true;
+    }
+  }
+
   closeModal() {
     this.showMachineryModal = false;
   }
 
-  // Guardar maquinaria (nueva o editada)
-  saveMachinery(machineryData: any) {
-    this.loading = true;
-
+  saveMachinery(machinery: MachineryEntity) {
     if (this.isEditMode && this.selectedMachine) {
-      const updatedMachinery: MachineryEntity = {
-        ...this.selectedMachine,
-        name: machineryData.name,
-        model: machineryData.model,
-        brand: machineryData.brand,
-        serialNumber: machineryData.serial_number,
-        productionCapacity: machineryData.production_capacity,
-        recommendations: machineryData.recommendations,
-        measurements: (machineryData.measurements || []).map((m: any) => ({
-          id: m.id ?? 0,
-          name: m.name,
-          unit: m.unit,
-          value: m.value ?? 0,
-          lastUpdated: m.lastUpdated ? new Date(m.lastUpdated) : new Date()
-        })),
-        userUpdater: 1, // o el usuario real
-        updatedAt: new Date()
-      };
-
-      this.machineryService.updateMachinery(updatedMachinery)
-        .pipe(finalize(() => {
-          this.loading = false;
-          this.showMachineryModal = false;
-        }))
-        .subscribe({
-          next: (updated) => {
-            // Actualiza la lista y el panel de detalles
-            const index = this.machineries.findIndex(m => m.id === updated.id);
-            if (index >= 0) {
-              this.machineries[index] = updated;
-              this.prepareTableData();
-            }
-            if (this.selectedMachineId === updated.id) {
-              this.selectedMachine = updated;
-              this.updateInfoPanel(updated);
-            }
-          },
-          error: (err) => {
-            this.error = 'Error al actualizar la maquinaria.';
-            console.error('Error updating machinery:', err);
+      this.machineryService.updateMachinery(machinery).subscribe({
+        next: (updated) => {
+          const index = this.machines.findIndex(m => m.id === updated.id);
+          if (index !== -1) {
+            this.machines[index] = updated;
+            this.displayMachines[index] = {
+              ...updated,
+              status: this.getStatusText(updated.status)
+            };
           }
-        });
+          this.closeModal();
+          if (this.selectedMachine?.id === updated.id) {
+            this.selectedMachine = updated;
+            this.updateSelectedMachineData();
+          }
+        },
+        error: (error) => {
+          console.error('Error updating machinery:', error);
+        }
+      });
     } else {
-      // Lógica para crear una nueva maquinaria
-      // Construir la entidad completa
-      const newMachinery: MachineryEntity = {
-        id: 0, // o null, el backend lo asigna
-        name: machineryData.name,
-        model: machineryData.model,
-        brand: machineryData.brand,
-        serialNumber: machineryData.serial_number,
-        productionCapacity: machineryData.production_capacity,
-        recommendations: machineryData.recommendations,
-        status: 1,
-        userCreator: 1,
-        userUpdater: 1,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        measurements: (machineryData.measurements || []).map((m: any) => ({
-          id: 0,
-          name: m.name,
-          unit: m.unit,
-          value: m.value ?? 0,
-          lastUpdated: new Date()
-        }))
-      };
-
-      this.machineryService.createMachinery(newMachinery)
-        .pipe(finalize(() => {
-          this.loading = false;
-          this.showMachineryModal = false;
-        }))
-        .subscribe({
-          next: (created) => {
-            this.machineries.push(created);
-            this.prepareTableData();
-          },
-          error: (err) => {
-            this.error = 'Error al crear la maquinaria.';
-            console.error('Error creating machinery:', err);
-          }
-        });
+      this.machineryService.createMachinery(machinery).subscribe({
+        next: (created) => {
+          this.machines.push(created);
+          this.displayMachines.push({
+            ...created,
+            status: this.getStatusText(created.status)
+          });
+          this.closeModal();
+        },
+        error: (error) => {
+          console.error('Error creating machinery:', error);
+        }
+      });
     }
   }
 
-  // Activar/Desactivar máquina
   toggleMachineryStatus() {
-    if (!this.selectedMachine) return;
-
-    const newStatus = this.selectedMachine.status === MachineryStatus.ACTIVE
-      ? MachineryStatus.INACTIVE
-      : MachineryStatus.ACTIVE;
-
-    this.loading = true;
-    this.machineryService.changeMachineryStatus(
-      this.selectedMachine.id,
-      newStatus,
-      1 // Hardcoded userUpdaterId por ahora
-    )
-    .pipe(finalize(() => this.loading = false))
-    .subscribe({
-      next: (updatedMachinery) => {
-        // Actualizar la máquina en la lista
-        const index = this.machineries.findIndex(m => m.id === updatedMachinery.id);
-        if (index >= 0) {
-          this.machineries[index] = updatedMachinery;
-          this.prepareTableData();
+    if (this.selectedMachine && this.selectedMachineId) {
+      const newStatus = this.selectedMachine.status === MachineryStatus.ACTIVE ? 
+        MachineryStatus.INACTIVE : 
+        MachineryStatus.ACTIVE;
+      
+      this.machineryService.changeMachineryStatus(this.selectedMachineId, newStatus, 1).subscribe({
+        next: (updated) => {
+          const index = this.machines.findIndex(m => m.id === updated.id);
+          if (index !== -1) {
+            this.machines[index] = updated;
+            this.displayMachines[index] = {
+              ...updated,
+              status: this.getStatusText(updated.status)
+            };
+          }
+          this.selectedMachine = updated;
+          this.updateSelectedMachineData();
+        },
+        error: (error) => {
+          console.error('Error toggling machinery status:', error);
         }
-
-        // Actualizar la máquina seleccionada
-        this.selectedMachine = updatedMachinery;
-        this.updateInfoPanel(updatedMachinery);
-      },
-      error: (err) => {
-        this.error = 'Error al cambiar el estado de la maquinaria.';
-        console.error('Error toggling machinery status:', err);
-      }
-    });
+      });
+    }
   }
 }
