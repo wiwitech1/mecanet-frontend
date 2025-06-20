@@ -1,0 +1,55 @@
+<div class="header">
+  <header class="breadcrumb-header">
+    <app-title-view [text]="'maintenanceCalendar.title' | translate"/>
+  </header>
+</div>
+
+<div class="hero">
+  <div class="calendar-controls">
+    <div class="view-toggle">
+      <button
+        class="toggle-option"
+        [class.active]="isWeeklyView"
+        (click)="setWeeklyView()">
+        {{ 'maintenanceCalendar.viewToggle.weekly' | translate }}
+      </button>
+      <button
+        class="toggle-option"
+        [class.active]="!isWeeklyView"
+        (click)="setMonthlyView()">
+        {{ 'maintenanceCalendar.viewToggle.monthly' | translate }}
+      </button>
+    </div>
+  </div>
+  <app-search
+    class="search"
+    [placeholder]="'maintenanceCalendar.search.placeholder' | translate"
+    (search)="onSearch($event)">
+  </app-search>
+</div>
+
+<div class="main-container">
+  <div class="calendar-container">
+    <app-calendar-weekly
+      *ngIf="isWeeklyView"
+      [currentDate]="currentDate">
+    </app-calendar-weekly>
+    <app-calendar-monthly
+      *ngIf="!isWeeklyView"
+      [currentDate]="currentDate">
+    </app-calendar-monthly>
+  </div>
+
+  <div class="panel-container">
+    <app-information-panel
+      [headerText]="'maintenanceCalendar.activityDetails.title' | translate">
+      <div class="content">
+        <div><strong>{{ 'maintenanceCalendar.activityDetails.activityName' | translate }}:</strong> {{ activityDetails.nombre || ('maintenanceCalendar.activityDetails.notAvailable' | translate) }}</div>
+        <div><strong>{{ 'maintenanceCalendar.activityDetails.date' | translate }}:</strong> {{ activityDetails.fecha || ('maintenanceCalendar.activityDetails.notAvailable' | translate) }}</div>
+        <div><strong>{{ 'maintenanceCalendar.activityDetails.time' | translate }}:</strong> {{ activityDetails.hora || ('maintenanceCalendar.activityDetails.notAvailable' | translate) }}</div>
+        <div><strong>{{ 'maintenanceCalendar.activityDetails.assignedStaff' | translate }}:</strong> {{ activityDetails.personal || ('maintenanceCalendar.activityDetails.notAvailable' | translate) }}</div>
+        <div><strong>{{ 'maintenanceCalendar.activityDetails.notes' | translate }}:</strong> {{ activityDetails.anotaciones || ('maintenanceCalendar.activityDetails.notAvailable' | translate) }}</div>
+      </div>
+    </app-information-panel>
+  </div>
+</div>

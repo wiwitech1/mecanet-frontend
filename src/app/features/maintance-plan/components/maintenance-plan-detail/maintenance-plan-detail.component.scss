@@ -1,0 +1,108 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .title-section {
+    display: flex;
+    align-items: center;
+    
+    h2 {
+      margin: 0 0 0 8px;
+      font-size: 24px;
+      font-weight: 500;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+.detail-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.loading-indicator, .error-message, .no-data {
+  padding: 20px;
+  text-align: center;
+  
+  p {
+    margin-bottom: 16px;
+  }
+}
+
+.error-message {
+  color: #f44336;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  
+  strong {
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+  }
+  
+  span {
+    font-size: 16px;
+  }
+}
+
+.tasks-card {
+  margin-top: 24px;
+}
+
+.task-item {
+  width: 100%;
+  padding: 16px 0;
+  
+  .task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    
+    h3 {
+      margin: 0;
+      font-size: 18px;
+      font-weight: 500;
+    }
+    
+    .task-id {
+      color: rgba(0, 0, 0, 0.6);
+      font-size: 14px;
+    }
+  }
+  
+  .task-description {
+    margin: 8px 0 16px;
+    color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .machines-list {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+} 

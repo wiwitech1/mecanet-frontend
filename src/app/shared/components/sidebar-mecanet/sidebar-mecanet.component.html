@@ -11,36 +11,35 @@
       <span class="sidebar-title" *ngIf="isExpanded">Mecanet</span>
     </div>
   </div>
-  
+
   <div class="menu">
     <ul>
-      <!-- El problema está en esta línea - no se pueden tener *ngIf y [class] juntos -->
       <ng-container *ngFor="let item of menuItems">
         <li *ngIf="hasPermission(item)" [class.has-submenu]="item.children?.length">
           <a [routerLink]="item.route" routerLinkActive="active">
             <mat-icon>{{item.icon}}</mat-icon>
             <span *ngIf="isExpanded">
-              {{item.title}}
+              {{item.title | translate}}
               <span class="badge" *ngIf="item.badge" [ngClass]="'badge-' + item.badge.color">
                 {{item.badge.text}}
               </span>
             </span>
           </a>
-          
+
           <!-- Renderizado dinámico de submenús -->
           <div class="submenu" *ngIf="isExpanded && item.children?.length">
-            <a *ngFor="let child of item.children" 
-               [routerLink]="child.route" 
+            <a *ngFor="let child of item.children"
+               [routerLink]="child.route"
                routerLinkActive="active">
               <mat-icon *ngIf="child.icon">{{child.icon}}</mat-icon>
-              <span>• {{child.title}}</span>
+              <span>• {{child.title | translate}}</span>
             </a>
           </div>
         </li>
       </ng-container>
     </ul>
   </div>
-  
+
   <!-- Rediseño de la sección de personalización -->
   <div class="customize-section">
     <div class="separator">
@@ -48,28 +47,28 @@
       <mat-icon *ngIf="isExpanded">settings</mat-icon>
       <div class="line"></div>
     </div>
-    
+
     <div class="customize-controls" [class.expanded]="isExpanded">
       <div class="control-wrapper">
-        <span class="control-label" *ngIf="isExpanded">Idioma</span>
+        <span class="control-label" *ngIf="isExpanded">{{ 'sidebar.customization.language' | translate }}</span>
         <div class="control-item">
           <app-language-switcher></app-language-switcher>
         </div>
       </div>
-      
+
       <div class="control-wrapper">
-        <span class="control-label" *ngIf="isExpanded">Tema</span>
+        <span class="control-label" *ngIf="isExpanded">{{ 'sidebar.customization.theme' | translate }}</span>
         <div class="control-item">
           <app-theme-toggle></app-theme-toggle>
         </div>
       </div>
     </div>
   </div>
-  
+
   <div class="sidebar-footer">
     <a [routerLink]="currentUser.route" routerLinkActive="active">
       <mat-icon>person</mat-icon>
-      <span *ngIf="isExpanded">{{currentUser.name}}<br><small>{{currentUser.role}}</small></span>
+      <span *ngIf="isExpanded">{{currentUser.name}}<br><small>{{currentUser.role | translate}}</small></span>
     </a>
     <a (click)="logout()" *ngIf="isExpanded">
       <mat-icon>logout</mat-icon>

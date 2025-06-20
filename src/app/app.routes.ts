@@ -14,12 +14,24 @@ import { DeleteAccountComponent} from './features/configuration/views/delete-acc
 import {ConfigurationPanelComponent} from './shared/components/configuration-panel/configuration-panel.component';
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 
+
 const MachineryAssetViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-asset-view/machinery-asset-view.component').then(m => m.MachineryAssetViewComponent);
+
 const MaintancePlanComponent = (): Promise<any> => import('./features/maintance-plan/views/maintance-plan.component').then(m => m.MaintancePlanComponent);
+const MaintenancePlanDetailComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-detail/maintenance-plan-detail.component').then(m => m.MaintenancePlanDetailComponent);
+const MaintenancePlanCreateComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create/maintenance-plan-create.component').then(m => m.MaintenancePlanCreateComponent);
+const MaintenancePlanCreateSelectComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-select/maintenance-plan-create-select.component').then(m => m.MaintenancePlanCreateSelectComponent);
+const MaintenancePlanCreateDynamicComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-dynamic/maintenance-plan-create-dynamic.component').then(m => m.MaintenancePlanCreateDynamicComponent);
 
 //const PropruebaComponent = (): Promise<any> => import('./features/shared/production-lines/proprueba/proprueba.component').then(m => m.PropruebaComponent);
 const InventoryPartsViewComponent = (): Promise<any> => import('./features/inventory-parts/views/inventory-parts/inventory-parts.component').then(m => m.InventoryPartsComponent);
 const PurchaseOrdersViewComponent = (): Promise<any> => import('./features/purchase-orders/view/purchase-orders/purchase-orders.component').then(m => m.PurchaseOrdersComponent);
+
+const MaintenanceCalendarComponent = (): Promise<any> => import('./features/maintenance-calendar/view/maintenance-calendar/maintenance-calendar.component').then(m => m.MaintenanceCalendarComponent);
+const MachineryMetricsViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-metrics-view/machinery-metrics-view.component').then(m => m.MachineryMetricsViewComponent);
+
+const WorkOrderComponent = (): Promise<any> => import('./features/work-order/views/work-order/work-order.component').then(m => m.WorkOrderComponent);
+const ExecutionViewComponent = (): Promise<any> => import('./features/execution/views/execution-view/execution-view.component').then(m => m.ExecutionViewComponent);
 
 export const routes: Routes = [
     // Rutas públicas o de autenticación - solo accesibles si NO hay sesión
@@ -33,11 +45,17 @@ export const routes: Routes = [
     { path: 'activos/plantas', component: PlantViewComponent, canActivate: [authGuard] },
     { path: 'activos/lineas-produccion', component: ProductionLineViewComponent, canActivate: [authGuard] },
     { path: 'activos/maquinarias', loadComponent: MachineryAssetViewComponent, canActivate: [authGuard] },
+    { path: 'activos/metricas', loadComponent: MachineryMetricsViewComponent, canActivate: [authGuard] },
     {
         path: 'plan-mantenimiento',
         canActivate: [authGuard],
         children: [
             { path: '', loadComponent: MaintancePlanComponent },
+            { path: 'detalle/:id', loadComponent: MaintenancePlanDetailComponent },
+            { path: 'crear', loadComponent: MaintenancePlanCreateSelectComponent },
+            { path: 'crear-estatico', loadComponent: MaintenancePlanCreateComponent },
+            { path: 'crear-dinamico', loadComponent: MaintenancePlanCreateDynamicComponent },
+            { path: 'editar/:id', loadComponent: MaintenancePlanCreateComponent },
         ]
     },
     //{ path: 'ajustes/cuenta', component: AccountInfoComponent, canActivate: [authGuard] },
@@ -53,11 +71,18 @@ export const routes: Routes = [
         { path: 'eliminar', component: DeleteAccountComponent },
       ]
     },
-   // { path: '**',              loadComponent: PageNotFoundComponent },
+    {
+        path: 'calendario',
+        canActivate: [authGuard],
+        children: [
+            { path: '', loadComponent: MaintenanceCalendarComponent },
+        ]
+    },
     //{ path: 'proprueba', loadComponent: PropruebaComponent, canActivate: [authGuard] },
     { path: 'inventario/repuestos', loadComponent: InventoryPartsViewComponent, canActivate: [authGuard] },
     { path: 'inventario/ordenes-compra', loadComponent: PurchaseOrdersViewComponent, canActivate: [authGuard] },
-
+    { path: 'ordenes-trabajo', loadComponent: WorkOrderComponent, canActivate: [authGuard] },
+    { path: 'ejecucion', loadComponent: ExecutionViewComponent, canActivate: [authGuard] },
     // Ruta de redirección por defecto
     { path: '', redirectTo: '/components-demo', pathMatch: 'full' },
 
@@ -65,4 +90,3 @@ export const routes: Routes = [
     // Página no encontrada
     { path: '**', redirectTo: '/404' }
 ];
-

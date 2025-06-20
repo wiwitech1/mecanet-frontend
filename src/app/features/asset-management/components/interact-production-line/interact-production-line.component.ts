@@ -4,11 +4,12 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { ProductionLineEntity } from '../../models/production-line.entity';
 import { MachineryEntity } from '../../models/machinery.entity';
 import { MachineryService } from '../../services/machinery.service';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-interact-production-line',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './interact-production-line.component.html',
   styleUrl: './interact-production-line.component.scss'
 })
@@ -22,7 +23,7 @@ export class InteractProductionLineComponent implements OnInit {
   isEditMode = false;
   availableMachineries: MachineryEntity[] = [];
   selectedMachineries: number[] = [];
-  
+
   constructor(
     private fb: FormBuilder,
     private machineryService: MachineryService
@@ -39,7 +40,7 @@ export class InteractProductionLineComponent implements OnInit {
   ngOnInit(): void {
     this.isEditMode = !!this.productionLine;
     this.loadAvailableMachineries();
-    
+
     if (this.isEditMode && this.productionLine) {
       // Si estamos en modo edición, rellenamos el formulario
       this.productionLineForm.patchValue({
@@ -49,12 +50,12 @@ export class InteractProductionLineComponent implements OnInit {
         description: this.productionLine.description,
         status: this.productionLine.status
       });
-      
+
       // Seleccionamos las maquinarias actuales
       this.selectedMachineries = this.productionLine.machineries.map(m => m.id);
     }
   }
-  
+
   loadAvailableMachineries() {
     this.machineryService.getAllMachineries().subscribe({
       next: (machineries) => {
@@ -65,7 +66,7 @@ export class InteractProductionLineComponent implements OnInit {
       }
     });
   }
-  
+
   toggleMachinerySelection(machineryId: number) {
     const index = this.selectedMachineries.indexOf(machineryId);
     if (index > -1) {

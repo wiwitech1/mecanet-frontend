@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, FormArray, ReactiveFormsModule, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { MachineryEntity } from '../../models/machinery.entity';
 import { MachineryMeasurementEntity } from '../../models/measurement.entity';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-interact-machinery',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,TranslateModule],
   templateUrl: './interact-machinery.component.html',
   styleUrl: './interact-machinery.component.scss'
 })
@@ -19,7 +20,7 @@ export class InteractMachineryComponent implements OnInit {
 
   machineryForm: FormGroup;
   isEditMode = false;
-  
+
   constructor(private fb: FormBuilder) {
     // Validador personalizado
     function atLeastOneValidMeasurement(): ValidatorFn {
@@ -46,7 +47,7 @@ export class InteractMachineryComponent implements OnInit {
 
   ngOnInit(): void {
     this.isEditMode = !!this.machinery;
-    
+
     if (this.isEditMode && this.machinery) {
       // Si estamos en modo edición, rellenamos el formulario
       this.machineryForm.patchValue({
@@ -57,10 +58,10 @@ export class InteractMachineryComponent implements OnInit {
         production_capacity: this.machinery.productionCapacity,
         recommendations: this.machinery.recommendations,
       });
-      
+
       // Limpiar el array de medidas existente
       this.measurementsArray.clear();
-      
+
       // Agregar las medidas del objeto machinery
       if (this.machinery.measurements && this.machinery.measurements.length > 0) {
         this.machinery.measurements.forEach(measurement => {
@@ -72,11 +73,11 @@ export class InteractMachineryComponent implements OnInit {
       this.addMeasurement();
     }
   }
-  
+
   get measurementsArray() {
     return this.machineryForm.get('measurements') as FormArray;
   }
-  
+
   createMeasurementGroup(measurement?: MachineryMeasurementEntity) {
     return this.fb.group({
       id: [measurement?.id || null],
@@ -92,7 +93,7 @@ export class InteractMachineryComponent implements OnInit {
       this.measurementsArray.push(this.createMeasurementGroup());
     }
   }
-  
+
   removeMeasurement(index: number): void {
     if (!this.isEditMode) {
       this.measurementsArray.removeAt(index);

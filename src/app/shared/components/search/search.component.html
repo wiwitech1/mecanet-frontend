@@ -7,14 +7,14 @@
       </span>
       <input
         type="text"
-        [placeholder]="placeholder"
+        [placeholder]="placeholder | translate"
         [(ngModel)]="searchText"
         (input)="onSearchChange()"
       />
     </div>
 
     <button class="toggle-filters-btn" type="button" (click)="showFilters = !showFilters">
-      <mat-icon>filter_list</mat-icon> Filtros
+      <mat-icon>filter_list</mat-icon> {{ 'search.filters' | translate }}
     </button>
 
     <div class="search-action">
@@ -23,7 +23,7 @@
         [variant]="'primary'"
         (clicked)="onActionClick()"
       >
-        {{ newLabel }}
+        {{ newLabel | translate }}
       </app-button>
     </div>
   </div>

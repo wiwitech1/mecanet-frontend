@@ -1,0 +1,52 @@
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 500;
+  }
+}
+
+.plan-list-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.loading-indicator, .error-message, .no-data {
+  padding: 20px;
+  text-align: center;
+  
+  p {
+    margin-bottom: 16px;
+  }
+}
+
+.error-message {
+  color: #f44336;
+}
+
+.plan-table {
+  width: 100%;
+  
+  th.mat-header-cell {
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.7);
+  }
+
+  .mat-column-actions {
+    width: 150px;
+    text-align: center;
+  }
+} 

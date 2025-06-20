@@ -1,14 +1,14 @@
 <div class="modal-overlay">
     <div class="modal-container">
         <div class="modal-header">
-            <h2>{{ isEdit ? 'Editar Repuesto' : 'Nuevo Repuesto' }}</h2>
-            <button class="close-button" (click)="handleCancel()">×</button>
+            <h2>{{ (isEdit ? 'inventoryParts.form.title.edit' : 'inventoryParts.form.title.new') | translate }}</h2>
+            <button class="close-button" (click)="handleCancel()" [attr.aria-label]="'inventoryParts.form.actions.cancel' | translate">×</button>
         </div>
 
         <div class="modal-content">
             <form (ngSubmit)="handleSubmit()" #form="ngForm" class="form-container">
                 <div class="form-group">
-                    <label for="code">Código</label>
+                    <label for="code">{{ 'inventoryParts.form.fields.code.label' | translate }}</label>
                     <input
                         id="code"
                         [(ngModel)]="formData.code"
@@ -16,11 +16,11 @@
                         type="text"
                         required
                         [disabled]="isEdit"
-                        placeholder="Ingrese el código"
+                        [placeholder]="'inventoryParts.form.fields.code.placeholder' | translate"
                     />
                 </div>
                 <div class="form-group">
-                    <label for="name">Nombre</label>
+                    <label for="name">{{ 'inventoryParts.form.fields.name.label' | translate }}</label>
                     <input
                         id="name"
                         [(ngModel)]="formData.name"
@@ -28,22 +28,22 @@
                         type="text"
                         required
                         [disabled]="isEdit"
-                        placeholder="Ingrese el nombre"
+                        [placeholder]="'inventoryParts.form.fields.name.placeholder' | translate"
                     />
                 </div>
                 <div class="form-group">
-                    <label for="description">Descripción</label>
+                    <label for="description">{{ 'inventoryParts.form.fields.description.label' | translate }}</label>
                     <textarea
                         id="description"
                         [(ngModel)]="formData.description"
                         name="description"
                         rows="3"
-                        placeholder="Ingrese la descripción"
+                        [placeholder]="'inventoryParts.form.fields.description.placeholder' | translate"
                     ></textarea>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="currentStock">Stock Actual</label>
+                        <label for="currentStock">{{ 'inventoryParts.form.fields.currentStock.label' | translate }}</label>
                         <input
                             id="currentStock"
                             [(ngModel)]="formData.current_stock"
@@ -51,10 +51,11 @@
                             type="number"
                             required
                             min="0"
+                            (ngModelChange)="onStockChange()"
                         />
                     </div>
                     <div class="form-group">
-                        <label for="minStock">Stock Mínimo</label>
+                        <label for="minStock">{{ 'inventoryParts.form.fields.minStock.label' | translate }}</label>
                         <input
                             id="minStock"
                             [(ngModel)]="formData.min_stock"
@@ -62,11 +63,12 @@
                             type="number"
                             required
                             min="0"
+                            (ngModelChange)="onStockChange()"
                         />
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="unitPrice">Precio Unitario</label>
+                    <label for="unitPrice">{{ 'inventoryParts.form.fields.unitPrice.label' | translate }}</label>
                     <input
                         id="unit_price"
                         [(ngModel)]="formData.unit_price"
@@ -85,22 +87,23 @@
                 variant="outline"
                 (clicked)="handleCancel()"
             >
-                Cancelar
+                {{ 'inventoryParts.form.actions.cancel' | translate }}
             </app-button>
             <app-button
                 *ngIf="isEdit"
                 variant="danger"
-                (click)="handleDelete()"
+                (clicked)="handleDelete()"
                 style="background-color: var(--clr-danger);"
+                [attr.aria-label]="'inventoryParts.form.actions.delete' | translate"
             >
-                Eliminar
+                {{ 'inventoryParts.form.actions.delete' | translate }}
             </app-button>
             <app-button
                 variant="primary"
                 (clicked)="handleSubmit()"
                 [disabled]="!form.valid"
             >
-                {{ isEdit ? 'Guardar Cambios' : 'Crear' }}
+                {{ (isEdit ? 'inventoryParts.form.actions.save' : 'inventoryParts.form.actions.create') | translate }}
             </app-button>
         </div>
     </div>

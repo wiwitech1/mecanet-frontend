@@ -1,4 +1,4 @@
-import { MaintenanceTask } from "./maintenance-plan.entity";
+import { MaintenanceTask } from './maintenance-plan.model';
 
 export interface MaintenanceDynamicPlan {
   dynamicPlanId: number;

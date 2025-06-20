@@ -1,0 +1,144 @@
+<div class="container">
+  <header class="page-header">
+    <div class="title-section">
+      <button mat-icon-button [routerLink]="['/plan-mantenimiento']" [attr.aria-label]="'maintenancePlanCreate.staticPlan.backButton' | translate" class="custom-back-button">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h2>{{ isEditMode ? ('maintenancePlanCreate.staticPlan.title.edit' | translate) : ('maintenancePlanCreate.staticPlan.title.create' | translate) }}</h2>
+    </div>
+  </header>
+
+  <mat-card class="form-card custom-card">
+    <mat-card-content>
+      <form [formGroup]="mainForm" (ngSubmit)="onSubmit()" class="maintenance-plan-form">
+        
+        <!-- Sección de Información General -->
+        <section class="form-section">
+          <h3 class="section-title">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.title' | translate }}</h3>
+          
+          <div class="form-fields-container">
+            <mat-form-field appearance="outline" class="full-width custom-field">
+              <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.productionLine.label' | translate }}</mat-label>
+              <mat-select formControlName="productionLineId" required>
+                <mat-option *ngFor="let line of productionLines" [value]="line.id">
+                  {{ line.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="mainForm.get('productionLineId')?.invalid">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.productionLine.error' | translate }}</mat-error>
+            </mat-form-field>
+            
+            <div class="form-row">
+              <mat-form-field appearance="outline" class="full-width custom-field">
+                <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.startDate.label' | translate }}</mat-label>
+                <input matInput [matDatepicker]="picker" formControlName="startDate" required>
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+                <mat-error *ngIf="mainForm.get('startDate')?.invalid">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.startDate.error' | translate }}</mat-error>
+              </mat-form-field>
+              
+              <mat-form-field appearance="outline" class="full-width custom-field" style="display: none;">
+                <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.duration.label' | translate }}</mat-label>
+                <input matInput type="number" formControlName="durationDays" min="1" max="30" required>
+                <mat-error *ngIf="mainForm.get('durationDays')?.hasError('required')">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.duration.error.required' | translate }}</mat-error>
+                <mat-error *ngIf="mainForm.get('durationDays')?.hasError('min')">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.duration.error.min' | translate }}</mat-error>
+                <mat-error *ngIf="mainForm.get('durationDays')?.hasError('max')">{{ 'maintenancePlanCreate.staticPlan.sections.generalInfo.duration.error.max' | translate }}</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </section>
+        
+        <mat-divider class="section-divider"></mat-divider>
+        
+        <!-- Sección de Programación de Tareas -->
+        <section class="form-section">
+          <div class="section-header">
+            <h3 class="section-title">{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.title' | translate }}</h3>
+            <button type="button" mat-flat-button color="primary" (click)="addItem()" class="custom-add-button">
+              <mat-icon>add</mat-icon> {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.addDay' | translate }}
+            </button>
+          </div>
+          
+          <div formArrayName="items" class="days-container">
+            <div *ngFor="let itemGroup of itemsArray.controls; let i = index" class="day-container">
+              <mat-expansion-panel [formGroupName]="i" class="custom-panel">
+                <mat-expansion-panel-header class="custom-panel-header">
+                  <mat-panel-title>
+                    {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.day' | translate }} {{ itemGroup.get('dayNumber')?.value }}
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{ getTasksArray(i).length }} {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.tasks' | translate }}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                
+                <div class="panel-content">
+                  <div class="tasks-header">
+                    <h4>{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.tasksForDay' | translate }} {{ itemGroup.get('dayNumber')?.value }}</h4>
+                    
+                    <button type="button" mat-mini-fab color="primary" (click)="addTask(i)" [matTooltip]="'maintenancePlanCreate.staticPlan.sections.taskScheduling.addTask' | translate" class="custom-add-task-button">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </div>
+                  
+                  <div formArrayName="tasks" class="tasks-list">
+                    <div *ngIf="getTasksArray(i).length === 0" class="no-tasks-message">
+                      {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.noTasksMessage' | translate }}
+                    </div>
+                    
+                    <div *ngFor="let taskGroup of getTasksArray(i).controls; let j = index" [formGroupName]="j" class="task-item">
+                      <div class="task-header">
+                        <h5 class="task-title">{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.task' | translate }} {{ j + 1 }}</h5>
+                        <button type="button" mat-icon-button color="warn" (click)="removeTask(i, j)" [matTooltip]="'maintenancePlanCreate.staticPlan.sections.taskScheduling.removeTask' | translate" class="custom-delete-button">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                      
+                      <div class="task-content">
+                        <mat-form-field appearance="outline" class="full-width custom-field">
+                          <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.taskName.label' | translate }}</mat-label>
+                          <input matInput formControlName="taskName" required>
+                          <mat-error *ngIf="taskGroup.get('taskName')?.invalid">{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.taskName.error' | translate }}</mat-error>
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline" class="full-width custom-field">
+                          <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.taskDescription.label' | translate }}</mat-label>
+                          <textarea matInput formControlName="taskDescription" rows="2"></textarea>
+                        </mat-form-field>
+                        
+                        <mat-form-field appearance="outline" class="full-width custom-field">
+                          <mat-label>{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.machineIds.label' | translate }}</mat-label>
+                          <mat-select formControlName="machineIds" multiple required>
+                            <mat-option *ngFor="let machine of machines" [value]="machine.id">
+                              {{ machine.name }}
+                            </mat-option>
+                          </mat-select>
+                          <mat-error *ngIf="taskGroup.get('machineIds')?.invalid">{{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.taskFields.machineIds.error' | translate }}</mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <mat-action-row>
+                  <button type="button" mat-button color="warn" (click)="removeItem(i)" [disabled]="itemsArray.length <= 1" class="custom-remove-button">
+                    <mat-icon>remove_circle</mat-icon> {{ 'maintenancePlanCreate.staticPlan.sections.taskScheduling.removeDay' | translate }}
+                  </button>
+                </mat-action-row>
+              </mat-expansion-panel>
+            </div>
+          </div>
+        </section>
+        
+        <div class="form-actions">
+          <button type="button" mat-button routerLink="/plan-mantenimiento" class="custom-cancel-button">{{ 'maintenancePlanCreate.staticPlan.actions.cancel' | translate }}</button>
+          <button type="submit" mat-flat-button color="primary" [disabled]="mainForm.invalid || isSubmitting" class="custom-submit-button">
+            {{ isSubmitting ? ('maintenancePlanCreate.staticPlan.actions.saving' | translate) : (isEditMode ? ('maintenancePlanCreate.staticPlan.actions.update' | translate) : ('maintenancePlanCreate.staticPlan.actions.save' | translate)) }}
+          </button>
+        </div>
+        
+        <div *ngIf="submitError" class="error-message mat-body-2">
+          {{ submitError }}
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div> 

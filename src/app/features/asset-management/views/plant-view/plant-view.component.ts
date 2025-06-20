@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { TitleViewComponent } from '../../../../shared/components/title-view/title-view.component';
 import { SearchComponent } from '../../../../shared/components/search/search.component';
@@ -23,6 +24,7 @@ import { ProductionLineEntity } from '../../models/production-line.entity';
   standalone: true,
   imports: [
     CommonModule,
+    TranslateModule,
     TitleViewComponent,
     SearchComponent,
     RecordTableComponent,
@@ -88,12 +90,12 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   // Configuración tabla
   tableColumns: RecordTableColumn[] = [
-    { key: 'id', label: 'ID', type: 'texto' },
-    { key: 'name', label: 'Nombre', type: 'texto' },
-    { key: 'location', label: 'Ubicación', type: 'texto' },
-    { key: 'capacity', label: 'Capacidad', type: 'texto' },
-    { key: 'status', label: 'Estado', type: 'texto' },
-    { key: 'actions', label: 'Acciones', type: 'cta', ctaLabel: 'Ver', ctaVariant: 'primary' }
+    { key: 'id', label: 'assetManagement.columns.id', type: 'texto' },
+    { key: 'name', label: 'assetManagement.columns.name', type: 'texto' },
+    { key: 'location', label: 'assetManagement.columns.location', type: 'texto' },
+    { key: 'capacity', label: 'assetManagement.columns.capacity', type: 'texto' },
+    { key: 'status', label: 'assetManagement.columns.status', type: 'texto' },
+    { key: 'actions', label: 'assetManagement.columns.details', type: 'cta', ctaLabel: 'assetManagement.columns.detailsButton', ctaVariant: 'primary' }
   ];
 
   tableActions = [
@@ -115,7 +117,8 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   constructor(
     private plantService: PlantService,
     private router: Router,
-    private productionLineService: ProductionLineService
+    private productionLineService: ProductionLineService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -333,21 +336,15 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   // Utilidades
   getStatusLabel(status: number): string {
-    switch (status) {
-      case 1: return 'Activa';
-      case 0: return 'Inactiva';
-      case 2: return 'En mantenimiento';
-      default: return 'Desconocido';
-    }
+    return status === 1 ?
+      this.translate.instant('assetManagement.status.active') :
+      this.translate.instant('assetManagement.status.inactive');
   }
 
   getProductionLineStatusLabel(status: number): string {
-    switch (status) {
-      case 1: return 'Activa';
-      case 0: return 'Inactiva';
-      case 2: return 'En mantenimiento';
-      default: return 'Desconocido';
-    }
+    return status === 1 ?
+      this.translate.instant('assetManagement.status.active') :
+      this.translate.instant('assetManagement.status.inactive');
   }
 
   // Para el botón Nueva Planta

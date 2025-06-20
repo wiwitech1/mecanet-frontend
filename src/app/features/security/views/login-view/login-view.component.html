@@ -12,19 +12,19 @@
       <h1 class="title">Iniciar Sesión</h1>
       <p class="subtitle">¡Nos alegra tenerte de vuelta!</p>
 
-      <!-- Correo -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Correo electrónico</mat-label>
-        <input
-          matInput
-          placeholder="admin@company.com"
-          formControlName="email"
-          type="email"
-        />
-        <mat-error *ngIf="email.invalid && (email.dirty || email.touched)"
-          >Ingresa un correo válido</mat-error
-        >
-      </mat-form-field>
+      <!-- Usuario -->
+<mat-form-field appearance="outline" class="full-width">
+  <mat-label>Usuario</mat-label>
+  <input
+    matInput
+    placeholder="Nombre de usuario"
+    formControlName="username"
+    type="text"
+  />
+  <mat-error *ngIf="username.invalid && (username.dirty || username.touched)">
+    El usuario es obligatorio
+  </mat-error>
+</mat-form-field>
 
       <!-- Contraseña -->
       <mat-form-field appearance="outline" class="full-width">
@@ -72,5 +72,5 @@
     </form>
   </div>
 
- 
+
 </div>

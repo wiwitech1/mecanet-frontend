@@ -1,5 +1,5 @@
 import { MachineryResource } from './machinery.resource';
- 
+
 /**
  * Representa la estructura de datos tal como llega de la API
  */

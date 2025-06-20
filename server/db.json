@@ -254,21 +254,21 @@
       "name": "Filtro de Aceite Industrial",
       "description": "Filtro de aceite de alta resistencia para maquinaria pesada",
       "current_stock": 15,
-      "min_stock": 11,
+      "min_stock": 24,
       "unit_price": 89.99,
+      "stock_status": "LOW",
       "id": 1,
-      "stock_status": "OK",
       "last_restock": "2024-03-15T10:30:00.000Z"
     },
     {
-      "id": 2,
       "code": "RPT-2024-002",
       "name": "Correa de Distribución Premium",
       "description": "Correa de distribución reforzada para motores industriales",
       "current_stock": 8,
-      "min_stock": 12,
+      "min_stock": 2,
       "unit_price": 145.5,
-      "stock_status": "LOW",
+      "stock_status": "OK",
+      "id": 2,
       "last_restock": "2024-02-28T14:15:00.000Z"
     },
     {
@@ -340,6 +340,20 @@
       "order_date": "2025-05-16",
       "expected_date": "2025-05-22",
       "id": "RLvnJz5"
+    },
+    {
+      "orderNumber": "",
+      "supplier": "",
+      "status": "PENDING",
+      "orderDate": "2025-06-18",
+      "expectedDate": "",
+      "totalAmount": 0,
+      "quantity": 1,
+      "price": 0,
+      "notes": "",
+      "order_date": "2025-06-18",
+      "expected_date": "",
+      "id": "ez0wMik"
     }
   ],
   "users": [
@@ -444,156 +458,29 @@
       "updatedAt": "2025-05-15T10:22:12.958Z"
     }
   ],
-    "maintenance-plan-data": {
-    "info": [
+  "maintenance-plan-data": {
+    "planId": 1,
+    "productionLineId": 2,
+    "startDate": "2025-06-18T23:10:58.315Z",
+    "durationDays": 1,
+    "userCreator": 1,
+    "items": [
       {
-        "registers": 4
+        "dayNumber": 1,
+        "tasks": [
+          {
+            "taskId": 1,
+            "taskName": "Mimi",
+            "taskDescription": "sa",
+            "machineIds": [
+              101,
+              102
+            ]
+          }
+        ]
       }
     ],
-    "data": [
-      {
-        "planId": 1,
-        "planName": "Plan de Mantenimiento 1",
-        "productionLineId": 2,
-        "startDate": "2025-05-13T23:41:36.137Z",
-        "durationDays": 3,
-        "userCreator": 1,
-        "items": [
-          {
-            "dayNumber": 1,
-            "tasks": [
-              {
-                "taskId": 1,
-                "taskName": "Verificación de niveles",
-                "taskDescription": "Revisar niveles de aceite",
-                "machineIds": [
-                  1,
-                  2
-                ]
-              },
-              {
-                "taskId": 2,
-                "taskName": "Limpieza general",
-                "taskDescription": "Limpiar los filtros",
-                "machineIds": [
-                  3
-                ]
-              }
-            ]
-          },
-          {
-            "dayNumber": 2,
-            "tasks": [
-              {
-                "taskId": 3,
-                "taskName": "Chequeo de seguridad",
-                "taskDescription": "Revisar los sistemas de seguridad",
-                "machineIds": [
-                  2,
-                  4
-                ]
-              }
-            ]
-          },
-          {
-            "dayNumber": 3,
-            "tasks": [
-              {
-                "taskId": 4,
-                "taskName": "Inspección de equipos",
-                "taskDescription": "Inspeccionar la maquinaria de la línea",
-                "machineIds": [
-                  1,
-                  4
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "id": 2,
-        "planId": 2,
-        "planName": "Hola",
-        "productionLineId": 1,
-        "startDate": "2025-04-30",
-        "durationDays": 1,
-        "userCreator": 1,
-        "items": [
-          {
-            "dayNumber": 1,
-            "tasks": [
-              {
-                "taskId": 5,
-                "taskName": "cuy",
-                "taskDescription": "cuyo",
-                "machineIds": []
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "planId": 3,
-        "planName": "Plan prueba",
-        "productionLineId": 2,
-        "startDate": "2025-05-14T00:00:00.000Z",
-        "durationDays": 2,
-        "userCreator": 1,
-        "items": [
-          {
-            "dayNumber": 1,
-            "tasks": [
-              {
-                "taskId": 6,
-                "taskName": "qwe",
-                "taskDescription": "qwe",
-                "machineIds": []
-              }
-            ]
-          },
-          {
-            "dayNumber": 2,
-            "tasks": [
-              {
-                "taskId": 7,
-                "taskName": "qwe",
-                "taskDescription": "qwe",
-                "machineIds": [
-                  4,
-                  3
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      {
-        "planId": 4,
-        "planName": "funciono?",
-        "repeatCycle": 1,
-        "productionLineId": "1",
-        "startDate": "2025-05-14",
-        "durationDays": 1,
-        "userCreator": 1,
-        "items": [
-          {
-            "dayNumber": 1,
-            "itemName": "Item 1",
-            "tasks": [
-              {
-                "taskId": 8,
-                "taskName": "qweqweqw",
-                "taskDescription": "qwewe",
-                "machineIds": [
-                  2
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
+    "id": 1
   },
   "maintenance-dynamic-plans": [
     {
@@ -735,6 +622,26 @@
         }
       ],
       "id": "6"
+    },
+    {
+      "dynamicPlanId": 7,
+      "userCreator": 1,
+      "parameter": "nuevo",
+      "startDate": "2025-06-18T22:46:16.008Z",
+      "machineIds": [
+        102
+      ],
+      "tasks": [
+        {
+          "taskId": 1,
+          "taskName": "jhhjb",
+          "taskDescription": "m m ",
+          "machineIds": [
+            102
+          ]
+        }
+      ],
+      "id": 7
     }
   ]
 }

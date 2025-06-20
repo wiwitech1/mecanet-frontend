@@ -1,6 +1,7 @@
 <div class="not-found-container">
   <div class="error-code">404</div>
-  <h1>Página No Encontrada</h1>
-  <p>La ruta <code>{{ invalidPath }}</code> no es válida.</p>
-  <button mat-raised-button color="primary" (click)="onNavigateHome()">Volver al Inicio</button>
+  <h1>{{ 'pageNotFound.title' | translate }}</h1>
+  <p>{{ 'pageNotFound.description' | translate }}</p>
+  <p>{{ 'pageNotFound.invalidPath' | translate }} <code>{{ invalidPath }}</code></p>
+  <button mat-raised-button color="primary" (click)="onNavigateHome()">{{ 'pageNotFound.backHome' | translate }}</button>
 </div>

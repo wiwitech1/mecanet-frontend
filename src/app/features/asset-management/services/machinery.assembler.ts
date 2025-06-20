@@ -1,7 +1,7 @@
 import { MachineryEntity } from '../models/machinery.entity';
-import { 
-  MachineryResource, 
-  CreateMachineryResource, 
+import {
+  MachineryResource,
+  CreateMachineryResource,
   UpdateMachineryResource,
   MachineryMeasurementResource
 } from './machinery.resource';
