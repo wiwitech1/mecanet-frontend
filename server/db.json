@@ -254,21 +254,21 @@
       "name": "Filtro de Aceite Industrial",
       "description": "Filtro de aceite de alta resistencia para maquinaria pesada",
       "current_stock": 15,
-      "min_stock": 11,
+      "min_stock": 24,
       "unit_price": 89.99,
+      "stock_status": "LOW",
       "id": 1,
-      "stock_status": "OK",
       "last_restock": "2024-03-15T10:30:00.000Z"
     },
     {
-      "id": 2,
       "code": "RPT-2024-002",
       "name": "Correa de Distribución Premium",
       "description": "Correa de distribución reforzada para motores industriales",
       "current_stock": 8,
-      "min_stock": 12,
+      "min_stock": 2,
       "unit_price": 145.5,
-      "stock_status": "LOW",
+      "stock_status": "OK",
+      "id": 2,
       "last_restock": "2024-02-28T14:15:00.000Z"
     },
     {
