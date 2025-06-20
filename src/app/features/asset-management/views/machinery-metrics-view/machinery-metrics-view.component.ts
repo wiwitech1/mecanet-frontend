@@ -3,9 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { MachineryService } from '../../services/machinery.service';
-import { MachineryEntity } from '../../models/machinery.entity';
+import { MachineryEntity, MachineryStatus } from '../../models/machinery.entity';
 import { MachineryMeasurementEntity } from '../../models/measurement.entity';
-import { MachineMetricService } from '../../services/machine-metric.service';
 import { TitleViewComponent } from '../../../../shared/components/title-view/title-view.component';
 import { SearchComponent } from '../../../../shared/components/search/search.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
@@ -44,89 +43,32 @@ export class MachineryMetricsViewComponent implements OnInit {
   // Valores temporales para los inputs de measurements
   measurementValues: { [machineryId: number]: { [measurementId: number]: number } } = {};
 
-  // Función para el componente de búsqueda
+  // Función para el botón de recargar
   loadMachineriesFunction = () => {
     this.loadMachineries();
   };
 
-  constructor(
-    private machineryService: MachineryService,
-    private machineMetricService: MachineMetricService
-  ) {}
+  constructor(private machineryService: MachineryService) {}
 
   ngOnInit() {
     this.loadMachineries();
-    this.loadMachineMetrics();
   }
 
-  loadMachineMetrics() {
-    console.log('Cargando métricas de maquinaria...');
-    
-    this.machineMetricService.getMetricsForMachine().subscribe({
-      next: (metrics) => {
-        console.log('Métricas obtenidas:', metrics);
-      },
-      error: (error) => {
-        console.error('Error al obtener métricas:', error);
-      }
-    });
-  }
-
-  async loadMachineries() {
+  loadMachineries() {
     this.loading = true;
     this.error = null;
-    
-    try {
-      this.machineryService.getAllMachineriesWithMeasurements().subscribe({
-        next: (machineries) => {
-          this.machineries = machineries;
-          this.filteredMachineries = machineries;
-          this.initializeMeasurementValues();
-          this.loading = false;
-        },
-        error: (error) => {
-          this.error = 'Error al cargar las maquinarias';
-          console.error('Error loading machineries:', error);
-          this.loading = false;
-        }
-      });
-    } catch (error) {
-      this.error = 'Error al cargar las maquinarias';
-      console.error('Error loading machineries:', error);
-      this.loading = false;
-    }
-  }
-
-  initializeMeasurementValues() {
-    this.machineries.forEach(machinery => {
-      this.measurementValues[machinery.id] = {};
-      machinery.measurements?.forEach(measurement => {
-        this.measurementValues[machinery.id][measurement.id] = 0;
-      });
+    this.machineryService.getAllMachineriesWithMeasurements().subscribe({
+      next: (machineries) => {
+        this.machineries = machineries;
+        this.filteredMachineries = machineries;
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = 'Error al cargar las maquinarias';
+        this.loading = false;
+        console.error('Error loading machineries:', error);
+      }
     });
-  }
-
-  handleSearch(term: string) {
-    this.searchTerm = term;
-    this.filterMachineries();
-  }
-
-  handleFilterChange(filters: Record<string, string>) {
-    // Por ahora no se implementan filtros adicionales
-    this.filterMachineries();
-  }
-
-  private filterMachineries() {
-    if (!this.searchTerm.trim()) {
-      this.filteredMachineries = [...this.machineries];
-    } else {
-      const searchLower = this.searchTerm.toLowerCase();
-      this.filteredMachineries = this.machineries.filter(machinery =>
-        machinery.name.toLowerCase().includes(searchLower) ||
-        machinery.model.toLowerCase().includes(searchLower) ||
-        machinery.brand.toLowerCase().includes(searchLower)
-      );
-    }
   }
 
   getInputValue(event: Event): string {
@@ -146,56 +88,22 @@ export class MachineryMetricsViewComponent implements OnInit {
     this.measurementValues[machineryId][measurementId] = numericValue;
   }
 
-  onUpdateMeasurement(machineryId: number, measurementId: number) {
-    const machinery = this.machineries.find(m => m.id === machineryId);
-    const measurement = machinery?.measurements?.find(m => m.id === measurementId);
-    
-    if (!machinery || !measurement) {
-      console.error('Maquinaria o measurement no encontrado');
-      return;
-    }
-
-    const newValue = this.measurementValues[machineryId]?.[measurementId];
-    
-    if (newValue === undefined || newValue === null || newValue <= 0) {
-      console.error('Valor no válido');
-      return;
-    }
-
-    // Por ahora solo mostramos en consola, la funcionalidad real se implementará después
-    console.log('Actualizando measurement:', {
-      machineryId,
-      machineryName: machinery.name,
-      measurementId,
-      measurementName: measurement.name,
-      currentValue: measurement.value,
-      newValue: newValue
-    });
-
-    // Aquí se llamaría al servicio para actualizar el measurement
-    // this.machineryService.updateMachineryMeasurement(machineryId, measurementId, newValue)
-    //   .subscribe({...});
-    
-    // Resetear el valor del input
-    this.measurementValues[machineryId][measurementId] = 0;
-  }
-
   getStatusText(status: number): string {
     switch (status) {
-      case 0: return 'Inactiva';
-      case 1: return 'Activa';
-      case 2: return 'Mantenimiento';
-      case 3: return 'Reparación';
+      case MachineryStatus.INACTIVE: return 'Inactiva';
+      case MachineryStatus.ACTIVE: return 'Activa';
+      case MachineryStatus.MAINTENANCE: return 'Mantenimiento';
+      case MachineryStatus.REPAIR: return 'Reparación';
       default: return 'Desconocido';
     }
   }
 
   getStatusClass(status: number): string {
     switch (status) {
-      case 0: return 'status-inactive';
-      case 1: return 'status-active';
-      case 2: return 'status-maintenance';
-      case 3: return 'status-repair';
+      case MachineryStatus.INACTIVE: return 'status-inactive';
+      case MachineryStatus.ACTIVE: return 'status-active';
+      case MachineryStatus.MAINTENANCE: return 'status-maintenance';
+      case MachineryStatus.REPAIR: return 'status-repair';
       default: return 'status-unknown';
     }
   }
@@ -215,5 +123,47 @@ export class MachineryMetricsViewComponent implements OnInit {
     } catch (error) {
       return 'Fecha inválida';
     }
+  }
+
+  onUpdateMeasurement(machineryId: number, measurementId: number) {
+    const newValue = this.measurementValues[machineryId]?.[measurementId];
+    if (newValue === undefined) return;
+
+    const machinery = this.machineries.find(m => m.id === machineryId);
+    const measurement = machinery?.measurements?.find(m => m.id === measurementId);
+
+    if (!machinery || !measurement) return;
+
+    this.machineryService.updateMachineryMeasurement(machineryId, measurementId, newValue).subscribe({
+      next: (updatedMachinery) => {
+        // Actualizar la maquinaria en la lista
+        const index = this.machineries.findIndex(m => m.id === machineryId);
+        if (index !== -1) {
+          this.machineries[index] = updatedMachinery;
+          this.filteredMachineries = [...this.machineries];
+        }
+        // Limpiar el valor temporal
+        if (this.measurementValues[machineryId]) {
+          delete this.measurementValues[machineryId][measurementId];
+        }
+      },
+      error: (error) => {
+        console.error('Error updating measurement:', error);
+      }
+    });
+  }
+
+  handleSearch(term: string) {
+    this.searchTerm = term.toLowerCase();
+    this.filteredMachineries = this.machineries.filter(machinery =>
+      machinery.name.toLowerCase().includes(this.searchTerm) ||
+      machinery.model.toLowerCase().includes(this.searchTerm) ||
+      machinery.serialNumber.toLowerCase().includes(this.searchTerm)
+    );
+  }
+
+  handleFilterChange(filters: any) {
+    // Por ahora no implementamos filtros adicionales
+    console.log('Filters changed:', filters);
   }
 } 

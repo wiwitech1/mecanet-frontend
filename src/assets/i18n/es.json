@@ -363,6 +363,7 @@
                 "new": "Nueva Maquinaria"
             },
             "details": {
+                "general": "Especificaciones generales:",
                 "specifications": "Especificaciones técnicas:",
                 "maintenanceHistory": "Historial de mantenimiento",
                 "currentMeasurements": "Mediciones actuales:"
@@ -420,25 +421,20 @@
             "machinery": {
                 "title": "Información de Maquinaria",
                 "fields": {
-                    "name": "Nombre",
-                    "model": "Modelo",
-                    "brand": "Marca",
-                    "serialNumber": "N° de Serie",
-                    "productionCapacity": "Capacidad de Producción",
-                    "recommendations": "Recomendaciones",
-                    "status": "Estado",
-                    "measurements": "Mediciones",
-                    "measurementName": "Nombre",
-                    "measurementValue": "Valor",
-                    "measurementUnit": "Unidad"
+                    "serialNumber": "Número de Serie",
+          "name": "Nombre",
+          "manufacturer": "Fabricante *",
+          "model": "Modelo",
+          "type": "Tipo *",
+          "powerConsumption": "Consumo de Energía *"
                 },
                 "placeholders": {
-                    "name": "Ingrese nombre de la maquinaria",
-                    "model": "Ingrese modelo",
-                    "brand": "Ingrese marca",
-                    "serialNumber": "Ingrese número de serie",
-                    "productionCapacity": "Ingrese capacidad de producción",
-                    "recommendations": "Ingrese recomendaciones"
+                    "serialNumber": "Ingrese el número de serie",
+          "name": "Ingrese el nombre",
+          "manufacturer": "Ingrese el fabricante",
+          "model": "Ingrese el modelo",
+          "type": "Ingrese el tipo",
+          "powerConsumption": "Ingrese el consumo de energía"
                 },
                 "errors": {
                     "atLeastOneMeasurement": "Debe agregar al menos una medida válida."

@@ -363,6 +363,7 @@
                 "new": "New Machinery"
             },
             "details": {
+                "general": "General specifications:",
                 "specifications": "Technical specifications:",
                 "maintenanceHistory": "Maintenance history",
                 "currentMeasurements": "Current measurements:"
@@ -420,28 +421,23 @@
             "machinery": {
                 "title": "Machinery Information",
                 "fields": {
-                    "name": "Name",
-                    "model": "Model",
-                    "brand": "Brand",
                     "serialNumber": "Serial Number",
-                    "productionCapacity": "Production Capacity",
-                    "recommendations": "Recommendations",
-                    "status": "Status",
-                    "measurements": "Measurements",
-                    "measurementName": "Name",
-                    "measurementValue": "Value",
-                    "measurementUnit": "Unit"
+                    "name": "Name",
+                    "manufacturer": "Manufacturer",
+                    "model": "Model",
+                    "type": "Type",
+                    "powerConsumption": "Power Consumption"
                 },
                 "placeholders": {
-                    "name": "Enter machinery name",
-                    "model": "Enter model",
-                    "brand": "Enter brand",
                     "serialNumber": "Enter serial number",
-                    "productionCapacity": "Enter production capacity",
-                    "recommendations": "Enter recommendations"
+                    "name": "Enter name",
+                    "manufacturer": "Enter manufacturer",
+                    "model": "Enter model",
+                    "type": "Enter type",
+                    "powerConsumption": "Enter power consumption"
                 },
                 "errors": {
-                    "atLeastOneMeasurement": "You must add at least one valid measurement."
+                    "atLeastOneMeasurement": "At least one valid measurement must be added."
                 },
                 "buttons": {
                     "addMeasurement": "Add Measurement"
