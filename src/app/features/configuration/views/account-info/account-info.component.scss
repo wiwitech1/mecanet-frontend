@@ -1,0 +1,101 @@
+.settings-container {
+  font-family: 'Montserrat', sans-serif;
+  display: flex;
+  justify-content: center;
+  font-size: 0.9rem;
+
+  .settings-content {
+    display: flex;
+    gap: 8rem;
+    align-items: flex-start;
+    max-width: 1200px;
+    width: 70%;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    //gap: 1.5rem;
+    flex: 1;
+
+    h3 {
+      color: #5e4b8b;
+      font-size: 1.2rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-section {
+      background-color: #f2f0f7;
+      padding: 1rem;
+      border-radius: 10px;
+      width: 100%;
+      box-sizing: border-box;
+
+      label {
+        display: block;
+        margin-bottom: 1rem;
+
+        input, select {
+          width: 100%;
+          padding: 0.5rem;
+          border-radius: 5px;
+          border: 1px solid #ccc;
+          margin-top: 0.3rem;
+        }
+      }
+
+      .password-input {
+        display: flex;
+        align-items: center;
+
+        input {
+          flex: 1;
+        }
+
+        .icon-eye {
+          background: none;
+          border: none;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .save-btn {
+      align-self: center;
+      padding: 0.7rem 2rem;
+      background-color: #7e6ab9;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      margin-top: 1rem;
+
+    }
+  }
+
+  .profile-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 2rem;
+
+    .image-placeholder {
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background-color: white;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .edit-btn {
+      margin-top: 0.5rem;
+      background-color: #5e4b8b;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 5px;
+      font-size: 0.9rem;
+    }
+  }
+}

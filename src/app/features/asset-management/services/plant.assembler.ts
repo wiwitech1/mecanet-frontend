@@ -23,14 +23,12 @@ export class PlantAssembler {
     return {
       id: resource.id,
       name: resource.name,
-      location: resource.location,
-      capacity: resource.capacity,
-      status: resource.status,
-      description: resource.description,
-      createdAt: new Date(resource.created_at),
-      updatedAt: new Date(resource.updated_at),
-      productionLines: resource.production_lines ? 
-        resource.production_lines.map(line => ProductionLineAssembler.resourceToEntity(line)) : []
+      address: resource.address,
+      city: resource.city,
+      country: resource.country,
+      contactPhone: resource.contactPhone,
+      contactEmail: resource.contactEmail,
+      active: resource.active
     };
   }
 
@@ -45,13 +43,12 @@ export class PlantAssembler {
     return {
       id: entity.id,
       name: entity.name,
-      location: entity.location,
-      capacity: entity.capacity,
-      status: entity.status,
-      description: entity.description,
-      created_at: entity.createdAt.toISOString(),
-      updated_at: entity.updatedAt.toISOString(),
-      production_lines: [] // En la práctica, se haría una llamada adicional para obtener estas entidades completas
+      address: entity.address,
+      city: entity.city,
+      country: entity.country,
+      contactPhone: entity.contactPhone,
+      contactEmail: entity.contactEmail,
+      active: entity.active
     };
   }
 
@@ -63,11 +60,11 @@ export class PlantAssembler {
   createEntityToResource(entity: Partial<PlantEntity>): CreatePlantResource {
     return {
       name: entity.name!,
-      location: entity.location!,
-      capacity: entity.capacity!,
-      status: entity.status!,
-      description: entity.description!,
-      production_lines: entity.productionLines ? entity.productionLines.map(line => line.id) : []
+      address: entity.address!,
+      city: entity.city!,
+      country: entity.country!,
+      contactPhone: entity.contactPhone!,
+      contactEmail: entity.contactEmail!
     };
   }
 
@@ -78,16 +75,12 @@ export class PlantAssembler {
    */
   updateEntityToResource(entity: Partial<PlantEntity>): UpdatePlantResource {
     const resource: UpdatePlantResource = {};
-    
     if (entity.name !== undefined) resource.name = entity.name;
-    if (entity.location !== undefined) resource.location = entity.location;
-    if (entity.capacity !== undefined) resource.capacity = entity.capacity;
-    if (entity.status !== undefined) resource.status = entity.status;
-    if (entity.description !== undefined) resource.description = entity.description;
-    if (entity.productionLines !== undefined) {
-      resource.production_lines = entity.productionLines.map(line => line.id);
-    }
-    
+    if (entity.address !== undefined) resource.address = entity.address;
+    if (entity.city !== undefined) resource.city = entity.city;
+    if (entity.country !== undefined) resource.country = entity.country;
+    if (entity.contactPhone !== undefined) resource.contactPhone = entity.contactPhone;
+    if (entity.contactEmail !== undefined) resource.contactEmail = entity.contactEmail;
     return resource;
   }
-} 
+}

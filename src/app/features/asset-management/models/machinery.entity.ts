@@ -5,20 +5,18 @@ import { MachineryMeasurementEntity } from './measurement.entity';
  */
 export interface MachineryEntity {
     id: number;
-    name: string;
-    model: string;
-    brand: string;
     serialNumber: string;
-    productionCapacity: number;
-    recommendations: string;
+    name: string;
+    manufacturer: string;
+    model: string;
+    type: string;
+    powerConsumption: number;
     status: number;
-    userCreator: number;
-    userUpdater: number;
-    createdAt: Date;
-    updatedAt: Date;
-    measurements: MachineryMeasurementEntity[];
+    productionLineId: number;
+    lastMaintenanceDate: Date;
+    nextMaintenanceDate: Date;
+    measurements?: MachineryMeasurementEntity[];
 }
-  
 
 /**
  * Enumeración para los posibles estados de una máquina

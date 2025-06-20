@@ -1,0 +1,52 @@
+<div class="container-main">
+  <section class="calendar">
+    <header class="calendar__header">
+      <div class="header__container">
+        <button class="calendar__button--previous" (click)="prevMonth()">
+          <i class="pi pi-chevron-left"></i>
+        </button>
+        <div class="container__heading">
+          <h2 id="calendar__month">{{ monthName }}</h2>
+          <h3 id="calendar__year">{{ yearName }}</h3>
+        </div>
+        <button class="calendar__button--next" (click)="nextMonth()">
+          <i class="pi pi-chevron-right"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Días de la semana -->
+    <section class="calendar__weekdays">
+      <div class="calendar__weekday"><h4>Lunes</h4><abbr>Lun</abbr></div>
+      <div class="calendar__weekday"><h4>Martes</h4><abbr>Mar</abbr></div>
+      <div class="calendar__weekday"><h4>Miércoles</h4><abbr>Mié</abbr></div>
+      <div class="calendar__weekday"><h4>Jueves</h4><abbr>Jue</abbr></div>
+      <div class="calendar__weekday"><h4>Viernes</h4><abbr>Vie</abbr></div>
+      <div class="calendar__weekday"><h4>Sábado</h4><abbr>Sáb</abbr></div>
+      <div class="calendar__weekday"><h4>Domingo</h4><abbr>Dom</abbr></div>
+    </section>
+
+    <!-- Días del mes -->
+    <ol class="calendar__days">
+      <li *ngFor="let day of daysArray; let i = index"
+          class="calendar__day"
+          [class.empty]="!day"
+          [attr.data-day]="day">
+        <div class="day__info">
+          <h5 *ngIf="day">{{ day }}</h5>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <footer>
+    <div class="plan">
+      <i class="pi pi-calendar" id="icon-calendar"></i>
+      <p>Plan de mantenimiento</p>
+    </div>
+    <div class="order">
+      <i class="pi pi-bell" id="icon-bell"></i>
+      <p>Orden de trabajo</p>
+    </div>
+  </footer>
+</div>

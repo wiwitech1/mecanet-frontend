@@ -1,0 +1,56 @@
+<div class="settings-container">
+  <div class="settings-content">
+
+    <!-- Columna izquierda: Formulario -->
+    <form class="form">
+      <h3>Información de la empresa</h3>
+      <section class="form-section">
+        <label>Nombre
+          <input type="text" placeholder="CompanyName" />
+        </label>
+        <label>RUC
+          <input type="text" placeholder="1234568778" />
+        </label>
+      </section>
+
+      <h3>Información de la cuenta administrativa</h3>
+      <section class="form-section">
+        <label>Correo
+          <input type="email" placeholder="admin@company.com" />
+        </label>
+        <label>Contraseña
+          <div class="password-input">
+            <input type="password" placeholder="password" />
+            <button type="button" class="icon-eye"></button>
+          </div>
+        </label>
+      </section>
+
+      <h3>Idiomas</h3>
+      <section class="form-section">
+        <label>Idioma
+          <select>
+            <option>Español</option>
+            <option>Inglés</option>
+          </select>
+        </label>
+        <label>Zona horaria
+          <select>
+            <option>(UTC-05:00)</option>
+            <option>(UTC-07:00)</option>
+          </select>
+        </label>
+      </section>
+
+      <button class="save-btn">Guardar</button>
+    </form>
+
+    <!-- Columna derecha: Imagen de perfil -->
+    <div class="profile-image">
+      <div class="image-placeholder"></div>
+      <button class="edit-btn"><i class="icon-edit"></i> Editar</button>
+    </div>
+
+  </div>
+</div>
+

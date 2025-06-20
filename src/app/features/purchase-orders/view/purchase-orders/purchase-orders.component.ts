@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PurchaseOrderEntity } from '../../../shared/models/purchase-orders.entity';
@@ -11,6 +12,7 @@ import { SearchComponent } from '../../../../shared/components/search/search.com
 import { TitleViewComponent } from '../../../../shared/components/title-view/title-view.component';
 import { PurchaseOrderFormModalComponent } from '../../components/purchase-order-form-modal/purchase-order-form-modal.component';
 import { InventoryPartEntity } from '../../../shared/models/inventory-part.entity';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 interface TableColumn {
   key: string;
@@ -34,7 +36,8 @@ interface TableColumn {
     InfoContainerComponent,
     ButtonComponent,
     SearchComponent,
-    PurchaseOrderFormModalComponent
+    PurchaseOrderFormModalComponent,
+    TranslateModule
   ]
 })
 export class PurchaseOrdersComponent implements OnInit {
@@ -48,17 +51,18 @@ export class PurchaseOrdersComponent implements OnInit {
   orderData: { subtitle: string; info: any }[] = [];
 
   columns: TableColumn[] = [
-    { key: 'id', label: 'ID', type: 'texto' },
-    { key: 'inventory_part_id', label: 'Repuesto', type: 'texto' },
-    { key: 'price', label: 'Precio', type: 'numero' },
-    { key: 'order_date', label: 'Fecha Solicitada', type: 'texto' },
-    { key: 'status', label: 'Estado', type: 'texto' },
-    { key: 'actions', label: '', type: 'cta', ctaLabel: 'Detalles', ctaVariant: 'primary' }
+    { key: 'id', label: 'purchaseOrders.table.id', type: 'texto' },
+    { key: 'inventory_part_id', label: 'purchaseOrders.table.part', type: 'texto' },
+    { key: 'price', label: 'purchaseOrders.table.price', type: 'numero' },
+    { key: 'order_date', label: 'purchaseOrders.table.orderDate', type: 'texto' },
+    { key: 'status', label: 'purchaseOrders.table.status', type: 'texto' },
+    { key: 'actions', label: '', type: 'cta', ctaLabel: 'purchaseOrders.table.details', ctaVariant: 'primary' }
   ];
 
-
-
-  constructor(private purchaseOrdersService: PurchaseOrdersApiService) {}
+  constructor(
+    private purchaseOrdersService: PurchaseOrdersApiService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit() {
     this.loadPurchaseOrders();
@@ -75,7 +79,7 @@ export class PurchaseOrdersComponent implements OnInit {
 
   handleInfoClick(event: { row: any; column: any }) {
     const order = event.row as PurchaseOrderEntity;
-    console.log('Original order data:', order);
+    //console.log('Original order data:', order);
     this.selectedOrder = order;
     this.updateInfoPanel(order);
     this.showInfoPanel = true;
@@ -88,15 +92,17 @@ export class PurchaseOrdersComponent implements OnInit {
 
   updateInfoPanel(order: PurchaseOrderEntity & { inventoryPart?: InventoryPartEntity }) {
     this.infoData = [
-      { subtitle: 'ID', info: order.id },
-      { subtitle: 'Repuesto', info: order.inventoryPart?.name || 'No disponible' },
-      { subtitle: 'Fecha Solicitada', info: order.orderDate }
+      { subtitle: this.translate.instant('purchaseOrders.infoPanel.sections.generalInfo.id'), info: order.id },
+      { subtitle: this.translate.instant('purchaseOrders.infoPanel.sections.generalInfo.part'),
+        info: order.inventoryPart?.name || this.translate.instant('purchaseOrders.infoPanel.sections.generalInfo.notAvailable') },
+      { subtitle: this.translate.instant('purchaseOrders.infoPanel.sections.generalInfo.orderDate'), info: order.orderDate }
     ];
 
     this.orderData = [
-      { subtitle: 'Precio', info: `$${order.price}` },
-      { subtitle: 'Estado', info: order.status },
-      { subtitle: 'Notas', info: order.notes || 'Sin notas' }
+      { subtitle: this.translate.instant('purchaseOrders.infoPanel.sections.orderDetails.price'), info: `$${order.price}` },
+      { subtitle: this.translate.instant('purchaseOrders.infoPanel.sections.orderDetails.status'), info: order.status },
+      { subtitle: this.translate.instant('purchaseOrders.infoPanel.sections.orderDetails.notes'),
+        info: order.notes || this.translate.instant('purchaseOrders.infoPanel.sections.orderDetails.noNotes') }
     ];
   }
 
@@ -130,8 +136,16 @@ export class PurchaseOrdersComponent implements OnInit {
     }
   }
 
-  handleDelete(id: string | number): void {
-    const numericId = typeof id === 'string' ? parseInt(id, 10) : id;
-    console.log('Eliminando orden de compra con ID:', numericId);
+
+  async handleDelete(id: string | number) {
+    try {
+      await this.purchaseOrdersService.deleteOrder(Number(id));
+      this.showEditModal = false;
+      this.selectedOrder = null;
+      await this.loadPurchaseOrders();
+    } catch (error) {
+      console.error('Error al eliminar:', error);
+    }
+
   }
 }

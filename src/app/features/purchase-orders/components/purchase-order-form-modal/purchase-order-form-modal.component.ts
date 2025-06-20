@@ -5,11 +5,12 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 import { PurchaseOrderEntity } from '../../../shared/models/purchase-orders.entity';
 import { InventoryPartEntitysApiService } from '../../../inventory-parts/services/inventory-parts-api.service';
 import { InventoryPartEntity } from '../../../shared/models/inventory-part.entity';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-purchase-order-form-modal',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent],
+  imports: [CommonModule, FormsModule, ButtonComponent, TranslateModule],
   templateUrl: './purchase-order-form-modal.component.html',
   styleUrls: ['./purchase-order-form-modal.component.scss']
 })
@@ -37,25 +38,27 @@ export class PurchaseOrderFormModalComponent implements OnInit {
     notes: ''
   };
 
-  statusOptions = [
-    { value: 'PENDING', label: 'Pendiente' },
-    { value: 'APPROVED', label: 'Aprobada' },
-    { value: 'RECEIVED', label: 'Recibida' },
-    { value: 'CANCELLED', label: 'Cancelada' }
+  readonly statusOptions = [
+    { value: 'PENDING', label: 'purchaseOrders.form.fields.status.options.pending' },
+    { value: 'APPROVED', label: 'purchaseOrders.form.fields.status.options.approved' },
+    { value: 'RECEIVED', label: 'purchaseOrders.form.fields.status.options.received' },
+    { value: 'CANCELLED', label: 'purchaseOrders.form.fields.status.options.cancelled' }
   ];
 
-  constructor(private inventoryPartsService: InventoryPartEntitysApiService) {}
+  constructor(
+    private inventoryPartsService: InventoryPartEntitysApiService,
+    private translate: TranslateService
+  ) {}
 
   async ngOnInit() {
-    // Cargar todos los repuestos disponibles
     try {
       this.inventoryParts = await this.inventoryPartsService.getParts();
     } catch (error) {
-      console.error('Error al cargar repuestos:', error);
+      console.error(this.translate.instant('errors.loadingParts'), error);
     }
 
     if (this.orderData) {
-      this.originalData = this.orderData;
+      this.originalData = { ...this.orderData };
       this.formData = {
         ...this.formData,
         ...this.orderData
@@ -63,7 +66,6 @@ export class PurchaseOrderFormModalComponent implements OnInit {
     }
   }
 
-  // Calcular automáticamente el monto total
   updateTotalAmount() {
     if (this.formData.quantity && this.formData.price) {
       this.formData.totalAmount = this.formData.quantity * this.formData.price;
@@ -76,8 +78,9 @@ export class PurchaseOrderFormModalComponent implements OnInit {
       id: this.originalData?.id,
       inventory_part_id: this.formData.inventoryPartId,
       order_date: this.formData.orderDate,
-      expected_date: this.formData.expectedDate
-    } as any; // Usar 'as any' para evitar errores de tipo
+      expected_date: this.formData.expectedDate,
+      total_amount: this.formData.totalAmount
+    };
 
     this.submit.emit(formDataForBackend);
   }
@@ -87,7 +90,7 @@ export class PurchaseOrderFormModalComponent implements OnInit {
   }
 
   handleDelete() {
-    if (confirm('¿Está seguro de eliminar esta orden de compra?')) {
+    if (confirm(this.translate.instant('purchaseOrders.form.confirmDelete'))) {
       if (this.originalData?.id) {
         this.delete.emit(this.originalData.id);
       }

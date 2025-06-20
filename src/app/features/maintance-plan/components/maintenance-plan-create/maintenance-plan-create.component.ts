@@ -15,6 +15,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { MaintenancePlanService } from '../../services/maintenance-plan.service';
 import { MaintenancePlanData, MaintenancePlanItem, MaintenanceTask } from '../../model/maintenance-plan.model';
@@ -40,7 +41,8 @@ import { MaintenancePlanData, MaintenancePlanItem, MaintenanceTask } from '../..
     MatDividerModule,
     MatExpansionModule,
     MatStepperModule,
-    MatTooltipModule
+    MatTooltipModule,
+    TranslateModule
   ]
 })
 export class MaintenancePlanCreateComponent implements OnInit {
@@ -70,7 +72,8 @@ export class MaintenancePlanCreateComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private maintenancePlanService: MaintenancePlanService
+    private maintenancePlanService: MaintenancePlanService,
+    private translateService: TranslateService
   ) {
     this.mainForm = this.createForm();
   }
@@ -139,7 +142,7 @@ export class MaintenancePlanCreateComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al cargar el plan para editar', error);
-        this.submitError = 'Error al cargar el plan. Por favor, inténtelo de nuevo más tarde.';
+        this.submitError = this.translateService.instant('maintenancePlanCreate.staticPlan.errors.loadError');
         this.router.navigate(['/plan-mantenimiento']);
       }
     });
@@ -237,7 +240,7 @@ export class MaintenancePlanCreateComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al crear el plan de mantenimiento', error);
-        this.submitError = 'Error al crear el plan. Por favor, inténtelo de nuevo más tarde.';
+        this.submitError = this.translateService.instant('maintenancePlanCreate.staticPlan.errors.createError');
         this.isSubmitting = false;
       }
     });
@@ -251,7 +254,7 @@ export class MaintenancePlanCreateComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al actualizar el plan de mantenimiento', error);
-        this.submitError = 'Error al actualizar el plan. Por favor, inténtelo de nuevo más tarde.';
+        this.submitError = this.translateService.instant('maintenancePlanCreate.staticPlan.errors.updateError');
         this.isSubmitting = false;
       }
     });

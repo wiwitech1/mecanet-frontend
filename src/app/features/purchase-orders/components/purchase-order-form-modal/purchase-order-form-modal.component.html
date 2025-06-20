@@ -1,55 +1,60 @@
 <div class="modal-overlay">
     <div class="modal-container">
         <div class="modal-header">
-            <h2>{{ isEdit ? 'Editar Orden de Compra' : 'Nueva Orden de Compra' }}</h2>
-            <button class="close-button" (click)="handleCancel()">×</button>
+            <h2>{{ (isEdit ? 'purchaseOrders.form.title.edit' : 'purchaseOrders.form.title.new') | translate }}</h2>
+            <button class="close-button" (click)="handleCancel()" [attr.aria-label]="'purchaseOrders.form.actions.cancel' | translate">×</button>
         </div>
 
         <div class="modal-content">
             <form (ngSubmit)="handleSubmit()" #form="ngForm" class="form-container">
-                <div class="form-group">
-                    <label for="orderNumber">Número de Orden</label>
-                    <input
-                        id="orderNumber"
-                        [(ngModel)]="formData.orderNumber"
-                        name="orderNumber"
-                        type="text"
-                        required
-                        [disabled]="isEdit"
-                        placeholder="Ingrese el número de orden"
-                    />
+                <!-- Información básica -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="orderNumber">{{ 'purchaseOrders.form.fields.orderNumber.label' | translate }}</label>
+                        <input
+                            id="orderNumber"
+                            [(ngModel)]="formData.orderNumber"
+                            name="orderNumber"
+                            type="text"
+                            required
+                            [disabled]="isEdit"
+                            [placeholder]="'purchaseOrders.form.fields.orderNumber.placeholder' | translate"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="supplier">{{ 'purchaseOrders.form.fields.supplier.label' | translate }}</label>
+                        <input
+                            id="supplier"
+                            [(ngModel)]="formData.supplier"
+                            name="supplier"
+                            type="text"
+                            required
+                            [placeholder]="'purchaseOrders.form.fields.supplier.placeholder' | translate"
+                        />
+                    </div>
                 </div>
 
+                <!-- Selección de repuesto -->
                 <div class="form-group">
-                    <label for="supplier">Proveedor</label>
-                    <input
-                        id="supplier"
-                        [(ngModel)]="formData.supplier"
-                        name="supplier"
-                        type="text"
-                        required
-                        placeholder="Ingrese el nombre del proveedor"
-                    />
-                </div>
-
-                <div class="form-group">
-                    <label for="inventoryPartId">Repuesto</label>
+                    <label for="inventoryPartId">{{ 'purchaseOrders.form.fields.part.label' | translate }}</label>
                     <select
                         id="inventoryPartId"
                         [(ngModel)]="formData.inventoryPartId"
                         name="inventoryPartId"
                         required
                     >
-                        <option [ngValue]="undefined" disabled>Seleccione un repuesto</option>
+                        <option [ngValue]="undefined" disabled selected>{{ 'purchaseOrders.form.fields.part.placeholder' | translate }}</option>
                         <option *ngFor="let part of inventoryParts" [ngValue]="part.id">
                             {{ part.name }} ({{ part.code }})
                         </option>
                     </select>
                 </div>
 
+                <!-- Cantidad y precio -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="quantity">Cantidad</label>
+                        <label for="quantity">{{ 'purchaseOrders.form.fields.quantity.label' | translate }}</label>
                         <input
                             id="quantity"
                             [(ngModel)]="formData.quantity"
@@ -62,7 +67,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="price">Precio Unitario</label>
+                        <label for="price">{{ 'purchaseOrders.form.fields.unitPrice.label' | translate }}</label>
                         <input
                             id="price"
                             [(ngModel)]="formData.price"
@@ -76,9 +81,10 @@
                     </div>
                 </div>
 
+                <!-- Fechas -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="orderDate">Fecha de Orden</label>
+                        <label for="orderDate">{{ 'purchaseOrders.form.fields.orderDate.label' | translate }}</label>
                         <input
                             id="orderDate"
                             [(ngModel)]="formData.orderDate"
@@ -89,7 +95,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="expectedDate">Fecha Esperada</label>
+                        <label for="expectedDate">{{ 'purchaseOrders.form.fields.expectedDate.label' | translate }}</label>
                         <input
                             id="expectedDate"
                             [(ngModel)]="formData.expectedDate"
@@ -100,9 +106,10 @@
                     </div>
                 </div>
 
+                <!-- Estado y monto total -->
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="status">Estado</label>
+                        <label for="status">{{ 'purchaseOrders.form.fields.status.label' | translate }}</label>
                         <select
                             id="status"
                             [(ngModel)]="formData.status"
@@ -110,13 +117,13 @@
                             required
                         >
                             <option *ngFor="let option of statusOptions" [value]="option.value">
-                                {{ option.label }}
+                                {{ option.label | translate }}
                             </option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="totalAmount">Monto Total</label>
+                        <label for="totalAmount">{{ 'purchaseOrders.form.fields.totalAmount.label' | translate }}</label>
                         <input
                             id="totalAmount"
                             [(ngModel)]="formData.totalAmount"
@@ -130,14 +137,15 @@
                     </div>
                 </div>
 
+                <!-- Notas -->
                 <div class="form-group">
-                    <label for="notes">Notas</label>
+                    <label for="notes">{{ 'purchaseOrders.form.fields.notes.label' | translate }}</label>
                     <textarea
                         id="notes"
                         [(ngModel)]="formData.notes"
                         name="notes"
                         rows="3"
-                        placeholder="Ingrese notas adicionales"
+                        [placeholder]="'purchaseOrders.form.fields.notes.placeholder' | translate"
                     ></textarea>
                 </div>
             </form>
@@ -148,22 +156,23 @@
                 variant="outline"
                 (click)="handleCancel()"
             >
-                Cancelar
+                {{ 'purchaseOrders.form.actions.cancel' | translate }}
             </app-button>
             <app-button
                 *ngIf="isEdit"
                 variant="danger"
                 (click)="handleDelete()"
                 style="background-color: var(--clr-danger);"
+                [attr.aria-label]="'purchaseOrders.form.actions.delete' | translate"
             >
-                Eliminar
+                {{ 'purchaseOrders.form.actions.delete' | translate }}
             </app-button>
             <app-button
                 variant="primary"
                 (click)="handleSubmit()"
                 [disabled]="!form.valid"
             >
-                {{ isEdit ? 'Guardar Cambios' : 'Crear' }}
+                {{ (isEdit ? 'purchaseOrders.form.actions.save' : 'purchaseOrders.form.actions.create') | translate }}
             </app-button>
         </div>
     </div>

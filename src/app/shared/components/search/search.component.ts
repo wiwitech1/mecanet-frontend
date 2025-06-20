@@ -3,18 +3,19 @@ import { ButtonComponent } from '../button/button.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent, MatIconModule]
+  imports: [CommonModule, FormsModule, ButtonComponent, MatIconModule, TranslateModule]
 })
 export class SearchComponent {
-  @Input() placeholder: string = 'Buscar...';
+  @Input() placeholder: string = 'search.placeholder';
   @Input() filters: { label: string; value: string; options: { label: string; value: string }[] }[] = [ ];
-  @Input() newLabel: string = '';
+  @Input() newLabel: string = 'search.defaultNewLabel';
   @Input() actionFunction: () => void = () => {}; // Función que se ejecutará al hacer clic
 
   @Output() search = new EventEmitter<string>();
@@ -24,6 +25,8 @@ export class SearchComponent {
   selectedFilters: { [key: string]: string } = {};
 
   showFilters: boolean = false;
+
+  constructor(private translate: TranslateService) {}
 
   onSearchChange() {
     this.search.emit(this.searchText);

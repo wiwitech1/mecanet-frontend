@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterModule } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+
 interface Plant {
   id: number;
   name: string;
@@ -74,16 +76,17 @@ interface Task {
     MatButtonModule,
     MatFormFieldModule,
     MatSelectModule,
-    RouterModule
+    RouterModule,
+    TranslateModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   // Usuario actual
-  userName: string = 'Carlos Rodríguez';
-  userRole: string = 'Gerente de Mantenimiento';
-  
+  userName: string = '';
+  userRole: string = '';
+
   // Plantas
   selectedPlant: number = 1;
   plants: Plant[] = [
@@ -91,7 +94,7 @@ export class HomeComponent {
     { id: 2, name: 'Planta Norte' },
     { id: 3, name: 'Planta Sur' }
   ];
-  
+
   // Enlaces rápidos
   quickLinks: QuickLink[] = [
     { name: 'Usuarios', icon: 'people', route: '/usuarios' },
@@ -99,10 +102,10 @@ export class HomeComponent {
     { name: 'Inventario', icon: 'inventory_2', route: '/inventario/repuestos' },
     { name: 'Órdenes', icon: 'receipt', route: '/inventario/ordenes-compra' },
     { name: 'Reportes', icon: 'bar_chart', route: '/reportes' },
-    { name: 'Ajustes', icon: 'settings', route: '/ajustes' },
-    {name : "Activos", icon: "build", route: "/activos/maquinarias"}
+    { name: 'Ajustes', icon: 'settings', route: '/ajustes/cuenta' },
+    { name: "Activos", icon: "build", route: "/activos/maquinarias"}
   ];
-  
+
   // Notificaciones recientes
   recentNotifications: Notification[] = [
     {
@@ -136,7 +139,7 @@ export class HomeComponent {
       time: 'Hace 1 día'
     }
   ];
-  
+
   // Mantenimientos programados
   scheduledMaintenance: MaintenanceSchedule[] = [
     {
@@ -170,7 +173,7 @@ export class HomeComponent {
       status: 'in-progress'
     }
   ];
-  
+
   // Estado de equipos
   equipmentStatus: Equipment[] = [
     {
@@ -202,7 +205,7 @@ export class HomeComponent {
       icon: 'check_circle'
     }
   ];
-  
+
   // Salud del inventario
   inventoryHealth: InventoryItem[] = [
     {
@@ -248,7 +251,7 @@ export class HomeComponent {
       status: 'critical'
     }
   ];
-  
+
   // Actividad reciente
   recentActivity: ActivityItem[] = [
     {
@@ -288,7 +291,7 @@ export class HomeComponent {
       equipment: 'Reactor R5'
     }
   ];
-  
+
   // Tareas próximas
   upcomingTasks: Task[] = [
     {
@@ -307,4 +310,32 @@ export class HomeComponent {
       priority: 'low'
     }
   ];
+
+  ngOnInit() {
+    this.loadUserFromLocalStorage();
+  }
+
+  loadUserFromLocalStorage() {
+    try {
+      const userData = localStorage.getItem('userSession');
+      if (userData) {
+        const user = JSON.parse(userData);
+        this.userName = user.name || 'Usuario';
+
+        // Determinar el rol basado en los roles del usuario
+        if (user.roles && user.roles.includes('ROLE_ADMIN')) {
+          this.userRole = 'Administrador';
+        } else {
+          this.userRole = 'Técnico';
+        }
+      } else {
+        this.userName = 'Usuario';
+        this.userRole = 'Técnico';
+      }
+    } catch (error) {
+      console.error('Error al cargar datos del usuario desde localStorage:', error);
+      this.userName = 'Usuario';
+      this.userRole = 'Técnico';
+    }
+  }
 }

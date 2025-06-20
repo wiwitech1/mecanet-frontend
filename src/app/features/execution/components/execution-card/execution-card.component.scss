@@ -1,0 +1,104 @@
+.execution-card {
+  background: #fff;
+  border: 1px solid #cfcbe7;
+  border-radius: 12px;
+  padding: 1.5rem;
+  min-width: 320px;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  height: 100%;
+  overflow-x: auto;
+}
+.machinery-name {
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: #f3f0fa;
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+.section-title {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.observations-section textarea {
+  width: 100%;
+  border-radius: 6px;
+  border: 1px solid #cfcbe7;
+  padding: 0.5rem;
+  resize: vertical;
+}
+.products-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.products-table th, .products-table td {
+  border: 1px solid #e0d9f5;
+  padding: 0.3rem 0.6rem;
+  text-align: left;
+}
+.products-table th {
+  background: #f3f0fa;
+}
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.6rem;
+  font-size: 1rem;
+  user-select: none;
+}
+.checkbox-label input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  accent-color: #6c5ce7;
+  margin-right: 0.3rem;
+}
+.custom-checkbox {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+}
+.products-table input[type="text"],
+.products-table input[type="number"] {
+  width: 100%;
+  border: 1px solid #cfcbe7;
+  border-radius: 4px;
+  padding: 0.2rem 0.4rem;
+  font-size: 1rem;
+}
+.products-table button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: #d63031;
+  transition: color 0.2s;
+}
+.products-table button:hover {
+  color: #b71c1c;
+}
+.add-product-btn {
+  margin-top: 0.7rem;
+  background: #a18cd1;
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 0.4rem 1.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.add-product-btn:hover {
+  background: #6c5ce7;
+}

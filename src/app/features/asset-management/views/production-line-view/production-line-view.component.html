@@ -1,27 +1,27 @@
 <div class="container">
     <header class="breadcrumb-header">
-        <app-title-view text="Gestión de Activos > Líneas de Producción"/>
+        <app-title-view [text]="'assetManagement.breadcrumb.productionLines' | translate"/>
     </header>
 
     <main class="main-container">
         <div class="search-container" [ngClass]="{'full-width': !showDetailPanel}">
             <div class="search-actions">
-                <app-search 
-                  [placeholder]="'Buscar'"
-                  [newLabel]="'+ Nueva Línea'"
+                <app-search
+                  [placeholder]="'assetManagement.search.productionLines.placeholder' | translate"
+                  [newLabel]="'assetManagement.search.productionLines.newButton' | translate"
                   [actionFunction]="newLineAction">
                 </app-search>
             </div>
-            
+
             <div *ngIf="loading && !showDetailPanel" class="loading-indicator">
-                Cargando datos...
+                {{ 'assetManagement.loading.data' | translate }}
             </div>
-            
+
             <div *ngIf="error && !showDetailPanel" class="error-message">
                 {{ error }}
-                <button (click)="loadProductionLines()">Reintentar</button>
+                <button (click)="loadProductionLines()">{{ 'assetManagement.error.retry' | translate }}</button>
             </div>
-            
+
             <div *ngIf="!loading && !error" class="table-container">
                 <app-record-table
                   [columns]="columns"
@@ -30,46 +30,46 @@
                 </app-record-table>
             </div>
         </div>
-        
+
         <!-- Panel de información (solo visible cuando se hace clic en "Detalles") -->
         <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
             <div class="panel-header">
-                <button class="close-button" (click)="closeDetailPanel()">
+                <button class="close-button" (click)="closeDetailPanel()" [attr.aria-label]="'assetManagement.buttons.close' | translate">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            
+
             <div *ngIf="loading" class="loading-indicator">
-                Cargando información de la línea...
+                {{ 'assetManagement.loading.productionLines' | translate }}
             </div>
-            
+
             <div *ngIf="!loading && selectedLine">
                 <app-information-panel
                   [headerText]="'ID: ' + selectedLineId + ' | ' + selectedLine.name"
                   [showHeader]="true"
                   [showPrimaryButton]="true"
-                  [primaryButtonText]="'Editar'"
+                  [primaryButtonText]="'assetManagement.buttons.edit' | translate"
                   [showSecondaryButton]="true"
-                  [secondaryButtonText]="selectedLine.status === 1 ? 'Desactivar' : 'Activar'"
+                  [secondaryButtonText]="(selectedLine.status === 1 ? 'assetManagement.buttons.deactivate' : 'assetManagement.buttons.activate') | translate"
                   (primaryButtonClick)="editLine()"
                   (secondaryButtonClick)="toggleLineStatus()">
-                  
-                  <app-info-section 
-                    [infoType]="2" 
+
+                  <app-info-section
+                    [infoType]="2"
                     [data]="infoData">
                   </app-info-section>
-                  
-                  <app-info-container 
-                    [title]="'Especificaciones:'" 
+
+                  <app-info-container
+                    [title]="'assetManagement.productionLines.details.specifications' | translate"
                     [titleType]="2">
-                    <app-info-section 
+                    <app-info-section
                       [infoType]="2"
                       [data]="techData">
                     </app-info-section>
                   </app-info-container>
-                  
-                  <app-info-container 
-                    [title]="'Maquinarias asignadas'" 
+
+                  <app-info-container
+                    [title]="'assetManagement.productionLines.details.assignedMachinery' | translate"
                     [titleType]="2">
                     <div class="machinery-list" *ngIf="assignedMachines.length > 0">
                       <div class="machinery-item" *ngFor="let machine of assignedMachines">
@@ -77,13 +77,13 @@
                           <span class="machinery-name">{{ machine.name }}</span>
                           <div class="machinery-details">
                             <span class="machinery-model">{{ machine.model }}</span>
-                            <span class="machinery-brand">{{ machine.brand }}</span>
+                            <span class="machinery-brand">{{ machine.manufacturer }}</span>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div *ngIf="assignedMachines.length === 0" class="empty-machinery-list">
-                      No hay maquinarias asignadas a esta línea.
+                      {{ 'assetManagement.productionLines.details.noMachinery' | translate }}
                     </div>
                   </app-info-container>
                 </app-information-panel>
@@ -94,9 +94,9 @@
     <!-- Modal para crear/editar líneas de producción -->
     <div *ngIf="showLineModal" class="modal-overlay" [@overlayAnimation] (click)="closeModal()">
         <div class="modal-container" [@modalAnimation] (click)="$event.stopPropagation()">
-            <app-interact-production-line 
+            <app-interact-production-line
                 [productionLine]="isEditMode ? selectedLine : null"
-                [title]="isEditMode ? 'Editar Línea de Producción' : 'Nueva Línea de Producción'"
+                [title]="(isEditMode ? 'assetManagement.productionLines.modal.edit' : 'assetManagement.productionLines.modal.new') | translate"
                 (save)="saveLine($event)"
                 (cancel)="closeModal()">
             </app-interact-production-line>

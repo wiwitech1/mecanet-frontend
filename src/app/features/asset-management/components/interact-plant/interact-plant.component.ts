@@ -3,55 +3,62 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlantEntity, PlantStatus } from '../../models/plant.entity';
 import { ProductionLineEntity } from '../../models/production-line.entity';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-interact-plant',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule],
   templateUrl: './interact-plant.component.html',
   styleUrl: './interact-plant.component.scss'
 })
 export class InteractPlantComponent implements OnInit {
   @Input() showModal = false;
   @Input() plantToEdit: PlantEntity | null = null;
-  @Input() title: string = 'Nueva Planta';
+  @Input() title: string = '';
   @Input() availableProductionLines: ProductionLineEntity[] = [];
-  @Output() save = new EventEmitter<any>();
+  @Output() save = new EventEmitter<Partial<PlantEntity>>();
   @Output() cancel = new EventEmitter<void>();
 
   plantForm: FormGroup;
   isEditMode = false;
   selectedProductionLines: number[] = [];
-  
-  // Enums para el template
+
   plantStatuses = [
-    { value: PlantStatus.ACTIVE, label: 'Activo' },
-    { value: PlantStatus.INACTIVE, label: 'Inactivo' },
-    { value: PlantStatus.MAINTENANCE, label: 'En mantenimiento' }
+    { value: PlantStatus.ACTIVE, label: 'assetManagement.status.active' },
+    { value: PlantStatus.INACTIVE, label: 'assetManagement.status.inactive' },
+    { value: PlantStatus.MAINTENANCE, label: 'assetManagement.status.maintenance' }
   ];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private translate: TranslateService
+  ) {
     this.plantForm = this.fb.group({
-      name: ['', Validators.required],
-      location: ['', Validators.required],
-      capacity: ['', [Validators.required, Validators.min(1)]],
-      description: [''],
-      status: [PlantStatus.ACTIVE, Validators.required]
+      name: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      contactPhone: ['', [Validators.required]],
+      contactEmail: ['', [Validators.required, Validators.email]]
     });
   }
 
   ngOnInit(): void {
     this.isEditMode = !!this.plantToEdit;
-    
+    this.title = this.translate.instant(this.isEditMode ?
+      'assetManagement.forms.plant.title.edit' :
+      'assetManagement.forms.plant.title.new');
+
     if (this.isEditMode && this.plantToEdit) {
       this.plantForm.patchValue({
         name: this.plantToEdit.name,
-        location: this.plantToEdit.location,
-        capacity: this.plantToEdit.capacity,
-        description: this.plantToEdit.description,
-        status: this.plantToEdit.status
+        address: this.plantToEdit.address,
+        city: this.plantToEdit.city,
+        country: this.plantToEdit.country,
+        contactPhone: this.plantToEdit.contactPhone,
+        contactEmail: this.plantToEdit.contactEmail
       });
-      this.selectedProductionLines = this.plantToEdit.productionLines?.map(l => l.id) || [];
     }
   }
 
@@ -72,7 +79,7 @@ export class InteractPlantComponent implements OnInit {
     if (this.plantForm.valid) {
       const formData = {
         ...this.plantForm.value,
-        productionLines: this.selectedProductionLines
+        //productionLines: this.selectedProductionLines
       };
 
       if (this.isEditMode && this.plantToEdit) {
@@ -89,21 +96,21 @@ export class InteractPlantComponent implements OnInit {
     this.cancel.emit();
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const control = this.plantForm.get(fieldName);
-    return !!control && control.invalid && (control.dirty || control.touched);
+  isFieldInvalid(field: string): boolean {
+    const control = this.plantForm.get(field);
+    return control ? control.invalid && (control.dirty || control.touched) : false;
   }
 
-  getErrorMessage(fieldName: string): string {
-    const control = this.plantForm.get(fieldName);
+  getErrorMessage(field: string): string {
+    const control = this.plantForm.get(field);
     if (!control) return '';
 
     if (control.hasError('required')) {
-      return 'Este campo es requerido';
+      return `assetManagement.forms.plant.fields.${field}.required`;
     }
-    if (control.hasError('min')) {
-      return 'El valor mínimo es 1';
+    if (field === 'contactEmail' && control.hasError('email')) {
+      return 'assetManagement.forms.plant.fields.contactEmail.invalid';
     }
     return '';
   }
-} 
+}

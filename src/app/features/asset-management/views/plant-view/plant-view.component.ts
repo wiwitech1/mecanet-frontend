@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 import { TitleViewComponent } from '../../../../shared/components/title-view/title-view.component';
 import { SearchComponent } from '../../../../shared/components/search/search.component';
@@ -23,6 +24,7 @@ import { ProductionLineEntity } from '../../models/production-line.entity';
   standalone: true,
   imports: [
     CommonModule,
+    TranslateModule,
     TitleViewComponent,
     SearchComponent,
     RecordTableComponent,
@@ -88,12 +90,13 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   // Configuración tabla
   tableColumns: RecordTableColumn[] = [
-    { key: 'id', label: 'ID', type: 'texto' },
-    { key: 'name', label: 'Nombre', type: 'texto' },
-    { key: 'location', label: 'Ubicación', type: 'texto' },
-    { key: 'capacity', label: 'Capacidad', type: 'texto' },
-    { key: 'status', label: 'Estado', type: 'texto' },
-    { key: 'actions', label: 'Acciones', type: 'cta', ctaLabel: 'Ver', ctaVariant: 'primary' }
+    { key: 'name', label: 'assetManagement.plants.columns.name', type: 'texto' },
+    { key: 'address', label: 'assetManagement.plants.columns.address', type: 'texto' },
+    { key: 'city', label: 'assetManagement.plants.columns.city', type: 'texto' },
+    { key: 'country', label: 'assetManagement.plants.columns.country', type: 'texto' },
+    { key: 'contactPhone', label: 'assetManagement.plants.columns.contactPhone', type: 'texto' },
+    { key: 'contactEmail', label: 'assetManagement.plants.columns.contactEmail', type: 'texto' },
+    { key: 'active', label: 'assetManagement.plants.columns.status', type: 'texto' }
   ];
 
   tableActions = [
@@ -115,7 +118,8 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   constructor(
     private plantService: PlantService,
     private router: Router,
-    private productionLineService: ProductionLineService
+    private productionLineService: ProductionLineService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -204,21 +208,16 @@ export class PlantViewComponent implements OnInit, OnDestroy {
     this.infoData = [
       { label: 'ID', value: this.selectedPlant.id },
       { label: 'Nombre', value: this.selectedPlant.name },
-      { label: 'Ubicación', value: this.selectedPlant.location },
-      { label: 'Capacidad', value: `${this.selectedPlant.capacity} unidades` },
-      { label: 'Estado', value: this.getStatusLabel(this.selectedPlant.status) },
-      { label: 'Creado', value: this.selectedPlant.createdAt.toLocaleDateString() },
-      { label: 'Última actualización', value: this.selectedPlant.updatedAt.toLocaleDateString() }
+      { label: 'Dirección', value: this.selectedPlant.address },
+      { label: 'Ciudad', value: this.selectedPlant.city },
+      { label: 'País', value: this.selectedPlant.country },
+      { label: 'Teléfono', value: this.selectedPlant.contactPhone },
+      { label: 'Email', value: this.selectedPlant.contactEmail },
+      { label: 'Estado', value: this.getStatusLabel(this.selectedPlant.active ? 1 : 0) }
     ];
 
     // Preparamos los datos de las líneas de producción para el panel
-    this.productionLinesItems = this.selectedPlant.productionLines.map(line => ({
-      id: line.id,
-      title: line.name,
-      subtitle: `Capacidad: ${line.capacity} unidades`,
-      status: this.getProductionLineStatusLabel(line.status),
-      date: new Date(line.updatedAt).toLocaleDateString()
-    }));
+    this.productionLinesItems = [];
   }
 
   // Gestión de modales
@@ -319,13 +318,11 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   togglePlantStatus(): void {
     if (!this.selectedPlant || this.selectedPlantId === null) return;
 
-    const newStatus = this.selectedPlant.status === PlantStatus.ACTIVE
-      ? PlantStatus.INACTIVE
-      : PlantStatus.ACTIVE;
+    const newStatus = !this.selectedPlant.active;
 
     const plantToUpdate: Partial<PlantEntity> = {
       id: this.selectedPlantId,
-      status: newStatus
+      active: newStatus
     };
 
     this.updatePlant(plantToUpdate);
@@ -333,21 +330,15 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   // Utilidades
   getStatusLabel(status: number): string {
-    switch (status) {
-      case 1: return 'Activa';
-      case 0: return 'Inactiva';
-      case 2: return 'En mantenimiento';
-      default: return 'Desconocido';
-    }
+    return status === 1 ?
+      this.translate.instant('assetManagement.status.active') :
+      this.translate.instant('assetManagement.status.inactive');
   }
 
   getProductionLineStatusLabel(status: number): string {
-    switch (status) {
-      case 1: return 'Activa';
-      case 0: return 'Inactiva';
-      case 2: return 'En mantenimiento';
-      default: return 'Desconocido';
-    }
+    return status === 1 ?
+      this.translate.instant('assetManagement.status.active') :
+      this.translate.instant('assetManagement.status.inactive');
   }
 
   // Para el botón Nueva Planta

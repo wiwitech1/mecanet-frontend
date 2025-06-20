@@ -8,13 +8,21 @@
   --clr-primary-400:#{$primary-400};
   --clr-primary-500:#{$primary-500};
 
+  /* NEUTRALS */
+  --clr-grey-050:  #{$grey-050};
+  --clr-grey-100:  #{$grey-100};
+  --clr-grey-200:  #{$grey-200};
+  /* NEUTRALS */
+
+  /* DANGER */
+  --clr-danger-500: #{$danger-500};
+  --clr-danger-050: #{$danger-050};
+  /* DANGER */
+
   --clr-bg:        #{$white};
   --clr-surface:   #{$grey-050};
   --clr-text:      #{$text-color};
   --clr-shadow:    #{rgba($grey-200, 0.5)};
-
-  --clr-danger:    #{$danger-500};
-  --clr-danger-050:#{$danger-050};
 
   --radius-md:     #{$radius-md};
 }
