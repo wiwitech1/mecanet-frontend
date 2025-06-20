@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MachineryService } from '../../services/machinery.service';
 import { MachineryEntity } from '../../models/machinery.entity';
 import { MachineryMeasurementEntity } from '../../models/measurement.entity';
+import { MachineMetricService } from '../../services/machine-metric.service';
 import { TitleViewComponent } from '../../../../shared/components/title-view/title-view.component';
 import { SearchComponent } from '../../../../shared/components/search/search.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
@@ -48,10 +49,27 @@ export class MachineryMetricsViewComponent implements OnInit {
     this.loadMachineries();
   };
 
-  constructor(private machineryService: MachineryService) {}
+  constructor(
+    private machineryService: MachineryService,
+    private machineMetricService: MachineMetricService
+  ) {}
 
   ngOnInit() {
     this.loadMachineries();
+    this.loadMachineMetrics();
+  }
+
+  loadMachineMetrics() {
+    console.log('Cargando métricas de maquinaria...');
+    
+    this.machineMetricService.getMetricsForMachine().subscribe({
+      next: (metrics) => {
+        console.log('Métricas obtenidas:', metrics);
+      },
+      error: (error) => {
+        console.error('Error al obtener métricas:', error);
+      }
+    });
   }
 
   async loadMachineries() {

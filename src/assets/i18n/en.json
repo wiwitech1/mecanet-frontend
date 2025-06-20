@@ -720,5 +720,112 @@
             "title": "No machineries found",
             "message": "No machineries available or none match the search criteria"
         }
+    },
+    "workOrder": {
+        "breadcrumb": "Work Orders",
+        "search": {
+            "placeholder": "Search by code...",
+            "newOrder": "New Work Order",
+            "filters": {
+                "title": "Filters",
+                "type": {
+                    "label": "Type",
+                    "options": {
+                        "all": "All",
+                        "preventive": "Preventive",
+                        "corrective": "Corrective"
+                    }
+                },
+                "status": {
+                    "label": "Status",
+                    "options": {
+                        "all": "All",
+                        "pending": "Pending",
+                        "inProgress": "In Progress",
+                        "completed": "Completed",
+                        "cancelled": "Cancelled"
+                    }
+                },
+                "date": {
+                    "label": "Date",
+                    "options": {
+                        "all": "All",
+                        "today": "Today",
+                        "thisWeek": "This Week",
+                        "thisMonth": "This Month",
+                        "custom": "Custom"
+                    }
+                }
+            }
+        },
+        "table": {
+            "code": "Code",
+            "date": "Date",
+            "type": "Type",
+            "assign": "Assign Technicians",
+            "details": "Details"
+        },
+        "infoPanel": {
+            "orderPrefix": "Order: ",
+            "edit": "Edit",
+            "close": "Close",
+            "sections": {
+                "generalInfo": {
+                    "title": "General Information",
+                    "code": "Code",
+                    "date": "Date",
+                    "type": "Type",
+                    "productionLine": "Production Line"
+                },
+                "technicians": {
+                    "title": "Assigned Technicians",
+                    "noTechnicians": "No technicians assigned"
+                }
+            }
+        },
+        "form": {
+            "title": {
+                "edit": "Edit Work Order",
+                "new": "New Work Order"
+            },
+            "fields": {
+                "code": {
+                    "label": "Code",
+                    "placeholder": "Enter code"
+                },
+                "date": {
+                    "label": "Date"
+                },
+                "productionLine": {
+                    "label": "Production Line",
+                    "placeholder": "Select a line"
+                },
+                "type": {
+                    "label": "Type",
+                    "options": {
+                        "preventive": "Preventive",
+                        "corrective": "Corrective"
+                    }
+                },
+                "technicians": {
+                    "label": "Technician Assignment",
+                    "select": "Select technician",
+                    "selectPlaceholder": "Choose a technician",
+                    "add": "Add technician",
+                    "remove": "Remove technician",
+                    "technician": "Technician",
+                    "machines": "Machinery",
+                    "machinesHint": "Select the machinery you will assign to this technician",
+                    "emptyState": "No technicians assigned. Click 'Add technician' to get started."
+                }
+            },
+            "actions": {
+                "cancel": "Cancel",
+                "delete": "Delete",
+                "save": "Save Changes",
+                "create": "Create"
+            },
+            "confirmDelete": "Are you sure you want to delete this work order?"
+        }
     }
 }
