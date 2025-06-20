@@ -20,13 +20,12 @@ export class ProductionLineAssembler {
 
     return {
       id: resource.id,
-      plantId: resource.plant_id,
       name: resource.name,
-      capacity: resource.capacity,
+      code: resource.code,
+      maxUnitsPerHour: resource.max_units_per_hour,
+      unit: resource.unit,
       status: resource.status,
-      description: resource.description,
-      createdAt: new Date(resource.created_at),
-      updatedAt: new Date(resource.updated_at),
+      plantId: resource.plant_id,
       machineries: resource.machineries
         ? resource.machineries.map(MachineryAssembler.resourceToEntity)
         : []
@@ -50,10 +49,11 @@ export class ProductionLineAssembler {
   static entityToCreateResource(entity: ProductionLineEntity): CreateProductionLineResource {
     return {
       name: entity.name,
-      plant_id: entity.plantId,
-      capacity: entity.capacity,
+      code: entity.code,
+      max_units_per_hour: entity.maxUnitsPerHour,
+      unit: entity.unit,
       status: entity.status,
-      description: entity.description,
+      plant_id: entity.plantId,
       machineries: entity.machineries?.map(m => m.id)
     };
   }
@@ -66,10 +66,11 @@ export class ProductionLineAssembler {
   static entityToUpdateResource(entity: ProductionLineEntity): UpdateProductionLineResource {
     return {
       name: entity.name,
-      plant_id: entity.plantId,
-      capacity: entity.capacity,
+      code: entity.code,
+      max_units_per_hour: entity.maxUnitsPerHour,
+      unit: entity.unit,
       status: entity.status,
-      description: entity.description,
+      plant_id: entity.plantId,
       machineries: entity.machineries?.map(m => m.id)
     };
   }

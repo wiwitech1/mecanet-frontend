@@ -1,27 +1,55 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
 
 import { PlantEntity } from '../models/plant.entity';
 import { PlantAssembler } from './plant.assembler';
+import { environment } from '../../../../environments/environment';
+import { UserService } from '../../../core/services/user.service';
+import { MachineMetricResource } from './machine-metric.resource';
+import { PlantResource } from './plant.resource';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PlantService {
-  private apiUrl = 'http://localhost:3000/plants';
+  private apiUrl = environment.serverBaseUrl + '/plants';
 
   constructor(
     private http: HttpClient,
-    private assembler: PlantAssembler
+    private assembler: PlantAssembler,
+    private userService: UserService
   ) {}
+
+  private getHeaders(): HttpHeaders {
+    const session = this.userService.getSession();
+    return new HttpHeaders({
+      Authorization: `Bearer ${session?.token}`
+    });
+  }
 
   /**
    * Obtiene todas las plantas
    * @returns Lista de plantas
    */
   getAll(): Observable<PlantEntity[]> {
-    return this.http.get<any[]>(this.apiUrl).pipe(
+    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
+    console.log('🔐 Token cargado desde localStorage:', token);
+
+    if (!token) {
+      console.error('No hay token disponible');
+      return throwError(() => new Error('No autorizado'));
+    }
+
+    return this.http.get<PlantResource[]>(
+      `${this.apiUrl}`,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }
+    ).pipe(
       map(resources => resources.map(resource => this.assembler.resourceToEntity(resource))),
       catchError(this.handleError)
     );
@@ -34,7 +62,7 @@ export class PlantService {
    */
   getById(id: number): Observable<PlantEntity> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<any>(url).pipe(
+    return this.http.get<any>(url, { headers: this.getHeaders() }).pipe(
       map(resource => this.assembler.resourceToEntity(resource)),
       catchError(this.handleError)
     );
@@ -47,7 +75,7 @@ export class PlantService {
    */
   create(plant: Partial<PlantEntity>): Observable<PlantEntity> {
     const resource = this.assembler.createEntityToResource(plant);
-    return this.http.post<any>(this.apiUrl, resource).pipe(
+    return this.http.post<any>(this.apiUrl, resource, { headers: this.getHeaders() }).pipe(
       map(newResource => this.assembler.resourceToEntity(newResource)),
       catchError(this.handleError)
     );
@@ -62,7 +90,7 @@ export class PlantService {
   update(id: number, plant: Partial<PlantEntity>): Observable<PlantEntity> {
     const url = `${this.apiUrl}/${id}`;
     const resource = this.assembler.updateEntityToResource(plant);
-    return this.http.put<any>(url, resource).pipe(
+    return this.http.put<any>(url, resource, { headers: this.getHeaders() }).pipe(
       map(updatedResource => this.assembler.resourceToEntity(updatedResource)),
       catchError(this.handleError)
     );
@@ -75,7 +103,7 @@ export class PlantService {
    */
   delete(id: number): Observable<void> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.delete<void>(url).pipe(
+    return this.http.delete<void>(url, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );
   }

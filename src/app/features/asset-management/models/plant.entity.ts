@@ -6,13 +6,12 @@ import { ProductionLineEntity } from './production-line.entity';
 export interface PlantEntity {
     id: number;
     name: string;
-    location: string;
-    capacity: number;
-    status: number;
-    description: string;
-    createdAt: Date;
-    updatedAt: Date;
-    productionLines: ProductionLineEntity[];
+    address: string;
+    city: string;
+    country: string;
+    contactPhone: string;
+    contactEmail: string;
+    active: boolean;
 }
 
 /**
@@ -22,4 +21,4 @@ export enum PlantStatus {
     INACTIVE = 0,
     ACTIVE = 1,
     MAINTENANCE = 2
-} 
+}

@@ -5,21 +5,20 @@ import { MachineryEntity } from './machinery.entity';
  */
 export interface ProductionLineEntity {
   id: number;
-  plantId: number;
   name: string;
-  capacity: number;
-  status: number;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
-  machineries: MachineryEntity[];
+  code: string;
+  maxUnitsPerHour: number;
+  unit: string;
+  status: string;
+  plantId: number;
+  machineries?: MachineryEntity[];
 }
 
 /**
  * Enumeración para los posibles estados de una línea de producción
  */
 export enum ProductionLineStatus {
-  INACTIVE = 0,
-  ACTIVE = 1,
-  MAINTENANCE = 2
+  INACTIVE = 'INACTIVE',
+  ACTIVE = 'ACTIVE',
+  MAINTENANCE = 'MAINTENANCE'
 }

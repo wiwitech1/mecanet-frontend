@@ -5,19 +5,19 @@ import { environment } from '../../../../environments/environment';
 import { MachineMetricEntity } from '../models/machine-metric.entity';
 import { MachineMetricResource } from './machine-metric.resource';
 import { MachineMetricAssembler } from './machine-metric.assembler';
- 
+
 @Injectable({
   providedIn: 'root'
 })
 export class MachineMetricService {
-  
+
   private baseUrl = environment.serverBaseUrl;
 
   constructor(private http: HttpClient) {}
 
   getMetricsForMachine(): Observable<MachineMetricEntity[]> {
     const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
-    console.log('🔐 Token cargado desde localStorage:', token);
+    //console.log('🔐 Token cargado desde localStorage:', token);
     return this.http.get<MachineMetricResource[]>(
       `${this.baseUrl}/machines/1/metrics`,
       {
@@ -29,4 +29,4 @@ export class MachineMetricService {
       map(resources => MachineMetricAssembler.resourcesToEntities(resources))
     );
   }
-} 
+}

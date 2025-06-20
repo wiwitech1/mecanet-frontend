@@ -5,14 +5,13 @@ import { MachineryResource } from './machinery.resource';
  */
 export interface ProductionLineResource {
   id: number;
-  plant_id: number;
   name: string;
-  capacity: number;
-  status: number;
-  description: string;
-  created_at: string;
-  updated_at: string;
-  machineries: MachineryResource[];
+  code: string;
+  max_units_per_hour: number;
+  unit: string;
+  status: string;
+  plant_id: number;
+  machineries?: MachineryResource[];
 }
 
 /**
@@ -20,11 +19,12 @@ export interface ProductionLineResource {
  */
 export interface CreateProductionLineResource {
   name: string;
+  code: string;
+  max_units_per_hour: number;
+  unit: string;
+  status: string;
   plant_id: number;
-  capacity: number;
-  status: number;
-  description: string;
-  machineries?: number[]; // IDs de maquinarias
+  machineries?: number[];
 }
 
 /**
@@ -32,9 +32,10 @@ export interface CreateProductionLineResource {
  */
 export interface UpdateProductionLineResource {
   name?: string;
+  code?: string;
+  max_units_per_hour?: number;
+  unit?: string;
+  status?: string;
   plant_id?: number;
-  capacity?: number;
-  status?: number;
-  description?: string;
-  machineries?: number[]; // IDs de maquinarias
+  machineries?: number[];
 }

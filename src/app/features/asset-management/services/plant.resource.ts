@@ -6,13 +6,12 @@ import { ProductionLineResource } from './production-line.resource';
 export interface PlantResource {
     id: number;
     name: string;
-    location: string;
-    capacity: number;
-    status: number;
-    description: string;
-    created_at: string; // Fecha en formato string desde la API
-    updated_at: string; // Fecha en formato string desde la API
-    production_lines: ProductionLineResource[];
+    address: string;
+    city: string;
+    country: string;
+    contactPhone: string;
+    contactEmail: string;
+    active: boolean;
 }
 
 /**
@@ -20,11 +19,11 @@ export interface PlantResource {
  */
 export interface CreatePlantResource {
     name: string;
-    location: string;
-    capacity: number;
-    status: number;
-    description: string;
-    production_lines?: number[]; // IDs de líneas de producción si se quieren asociar inicialmente
+    address: string;
+    city: string;
+    country: string;
+    contactPhone: string;
+    contactEmail: string;
 }
 
 /**
@@ -32,9 +31,9 @@ export interface CreatePlantResource {
  */
 export interface UpdatePlantResource {
     name?: string;
-    location?: string;
-    capacity?: number;
-    status?: number;
-    description?: string;
-    production_lines?: number[]; // IDs de líneas de producción
+    address?: string;
+    city?: string;
+    country?: string;
+    contactPhone?: string;
+    contactEmail?: string;
 }

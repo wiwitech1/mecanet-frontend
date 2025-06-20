@@ -90,12 +90,13 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   // Configuración tabla
   tableColumns: RecordTableColumn[] = [
-    { key: 'id', label: 'assetManagement.columns.id', type: 'texto' },
-    { key: 'name', label: 'assetManagement.columns.name', type: 'texto' },
-    { key: 'location', label: 'assetManagement.columns.location', type: 'texto' },
-    { key: 'capacity', label: 'assetManagement.columns.capacity', type: 'texto' },
-    { key: 'status', label: 'assetManagement.columns.status', type: 'texto' },
-    { key: 'actions', label: 'assetManagement.columns.details', type: 'cta', ctaLabel: 'assetManagement.columns.detailsButton', ctaVariant: 'primary' }
+    { key: 'name', label: 'assetManagement.plants.columns.name', type: 'texto' },
+    { key: 'address', label: 'assetManagement.plants.columns.address', type: 'texto' },
+    { key: 'city', label: 'assetManagement.plants.columns.city', type: 'texto' },
+    { key: 'country', label: 'assetManagement.plants.columns.country', type: 'texto' },
+    { key: 'contactPhone', label: 'assetManagement.plants.columns.contactPhone', type: 'texto' },
+    { key: 'contactEmail', label: 'assetManagement.plants.columns.contactEmail', type: 'texto' },
+    { key: 'active', label: 'assetManagement.plants.columns.status', type: 'texto' }
   ];
 
   tableActions = [
@@ -207,21 +208,16 @@ export class PlantViewComponent implements OnInit, OnDestroy {
     this.infoData = [
       { label: 'ID', value: this.selectedPlant.id },
       { label: 'Nombre', value: this.selectedPlant.name },
-      { label: 'Ubicación', value: this.selectedPlant.location },
-      { label: 'Capacidad', value: `${this.selectedPlant.capacity} unidades` },
-      { label: 'Estado', value: this.getStatusLabel(this.selectedPlant.status) },
-      { label: 'Creado', value: this.selectedPlant.createdAt.toLocaleDateString() },
-      { label: 'Última actualización', value: this.selectedPlant.updatedAt.toLocaleDateString() }
+      { label: 'Dirección', value: this.selectedPlant.address },
+      { label: 'Ciudad', value: this.selectedPlant.city },
+      { label: 'País', value: this.selectedPlant.country },
+      { label: 'Teléfono', value: this.selectedPlant.contactPhone },
+      { label: 'Email', value: this.selectedPlant.contactEmail },
+      { label: 'Estado', value: this.getStatusLabel(this.selectedPlant.active ? 1 : 0) }
     ];
 
     // Preparamos los datos de las líneas de producción para el panel
-    this.productionLinesItems = this.selectedPlant.productionLines.map(line => ({
-      id: line.id,
-      title: line.name,
-      subtitle: `Capacidad: ${line.capacity} unidades`,
-      status: this.getProductionLineStatusLabel(line.status),
-      date: new Date(line.updatedAt).toLocaleDateString()
-    }));
+    this.productionLinesItems = [];
   }
 
   // Gestión de modales
@@ -322,13 +318,11 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   togglePlantStatus(): void {
     if (!this.selectedPlant || this.selectedPlantId === null) return;
 
-    const newStatus = this.selectedPlant.status === PlantStatus.ACTIVE
-      ? PlantStatus.INACTIVE
-      : PlantStatus.ACTIVE;
+    const newStatus = !this.selectedPlant.active;
 
     const plantToUpdate: Partial<PlantEntity> = {
       id: this.selectedPlantId,
-      status: newStatus
+      active: newStatus
     };
 
     this.updatePlant(plantToUpdate);

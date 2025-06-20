@@ -50,7 +50,7 @@
                     [showPrimaryButton]="true"
                     [primaryButtonText]="'assetManagement.buttons.edit' | translate"
                     [showSecondaryButton]="true"
-                    [secondaryButtonText]="(selectedPlant.status === 1 ? 'assetManagement.buttons.deactivate' : 'assetManagement.buttons.activate') | translate"
+                    [secondaryButtonText]="(selectedPlant.active ? 'assetManagement.buttons.deactivate' : 'assetManagement.buttons.activate') | translate"
                     (primaryButtonClick)="editPlant()"
                     (secondaryButtonClick)="togglePlantStatus()"
                     (closePanel)="closeDetailPanel()">
@@ -60,12 +60,12 @@
                         [infoType]="2"
                         [data]="[
                             { subtitle: ('assetManagement.plants.details.name' | translate), info: selectedPlant.name },
-                            { subtitle: ('assetManagement.plants.details.location' | translate), info: selectedPlant.location },
-                            { subtitle: ('assetManagement.plants.details.status' | translate), info: getStatusLabel(selectedPlant.status) },
-                            { subtitle: ('assetManagement.plants.details.capacity' | translate), info: selectedPlant.capacity + ' ' + ('assetManagement.plants.details.capacityUnits' | translate) },
-                            { subtitle: ('assetManagement.plants.details.createdAt' | translate), info: selectedPlant.createdAt ? (selectedPlant.createdAt | date:'shortDate') : '' },
-                            { subtitle: ('assetManagement.plants.details.updatedAt' | translate), info: selectedPlant.updatedAt ? (selectedPlant.updatedAt | date:'shortDate') : '' },
-                            { subtitle: ('assetManagement.plants.details.description' | translate), info: selectedPlant.description }
+                            { subtitle: ('assetManagement.plants.details.address' | translate), info: selectedPlant.address },
+                            { subtitle: ('assetManagement.plants.details.city' | translate), info: selectedPlant.city },
+                            { subtitle: ('assetManagement.plants.details.country' | translate), info: selectedPlant.country },
+                            { subtitle: ('assetManagement.plants.details.contactPhone' | translate), info: selectedPlant.contactPhone },
+                            { subtitle: ('assetManagement.plants.details.contactEmail' | translate), info: selectedPlant.contactEmail },
+                            { subtitle: ('assetManagement.plants.details.status' | translate), info: getStatusLabel(selectedPlant.active ? 1 : 0) }
                         ]">
                     </app-info-section>
 
@@ -74,20 +74,7 @@
                         [title]="'assetManagement.plants.details.productionLines' | translate"
                         [titleType]="2">
                         <ng-container *ngIf="selectedPlant as plant">
-                            <div class="machinery-list" *ngIf="(plant.productionLines ?? []).length > 0">
-                                <div class="machinery-item" *ngFor="let line of plant.productionLines">
-                                    <div class="machinery-info">
-                                        <span class="machinery-name">{{ line.name }}</span>
-                                        <div class="machinery-details">
-                                            <span class="machinery-model">{{ 'assetManagement.plants.details.lineCapacity' | translate }}: {{ line.capacity }}</span>
-                                            <span class="machinery-status">{{ getProductionLineStatusLabel(line.status) }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div *ngIf="!plant.productionLines?.length" class="empty-machinery-list">
-                                {{ 'assetManagement.plants.details.noLines' | translate }}
-                            </div>
+
                         </ng-container>
                     </app-info-container>
                 </app-information-panel>
