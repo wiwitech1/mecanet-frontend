@@ -24,8 +24,8 @@ export class PurchaseOrdersApiService {
           await this.inventoryPartsService.getPartById(Number(order.inventoryPartId)) :
           undefined;
 
-        console.log('Order:', order); // Debug
-        console.log('InventoryPart found:', inventoryPart); // Debug
+       // console.log('Order:', order); // Debug
+       // console.log('InventoryPart found:', inventoryPart); // Debug
 
         return {
           ...order,

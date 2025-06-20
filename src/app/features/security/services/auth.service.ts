@@ -32,7 +32,7 @@ export class AuthService {
           const userId = authResponse.id;
           const username = authResponse.username; // Obtener username de la primera respuesta
 
-          console.log('Respuesta de autenticación:', authResponse);
+        //  console.log('Respuesta de autenticación:', authResponse);
 
           return this.http.get<UserResponse>(`${this.baseUrl}/users/${userId}`, {
             headers: {
@@ -40,7 +40,7 @@ export class AuthService {
             }
           }).pipe(
             map(userDetails => {
-              console.log('Detalles del usuario:', userDetails);
+             // console.log('Detalles del usuario:', userDetails);
 
               const userEntity: UserEntity = {
                 id: userDetails.id.toString(),
@@ -67,13 +67,13 @@ export class AuthService {
               this.userService.setUser(userEntity);
 
               // Verificar que los datos se guardaron correctamente
-              console.log('Datos guardados en sesión:', {
+             /* console.log('Datos guardados en sesión:', {
                 username: userSession.username,
                 name: userSession.name,
                 roles: userSession.roles,
                 userId: userSession.userId,
                 token: userSession.token ? 'Token presente' : 'Sin token'
-              });
+              });*/
 
               return userEntity;
             })

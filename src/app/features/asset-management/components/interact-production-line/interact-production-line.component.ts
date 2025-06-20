@@ -46,13 +46,13 @@ export class InteractProductionLineComponent implements OnInit {
       this.productionLineForm.patchValue({
         name: this.productionLine.name,
         plant_id: this.productionLine.plantId,
-        capacity: this.productionLine.capacity,
-        description: this.productionLine.description,
+        maxUnitsPerHour: this.productionLine.maxUnitsPerHour,
+        unit: this.productionLine.unit,
         status: this.productionLine.status
       });
 
       // Seleccionamos las maquinarias actuales
-      this.selectedMachineries = this.productionLine.machineries.map(m => m.id);
+      this.selectedMachineries = this.productionLine.machineries?.map(m => m.id) || [];
     }
   }
 

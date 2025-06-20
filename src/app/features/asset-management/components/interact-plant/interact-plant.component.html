@@ -14,10 +14,80 @@
             [class.invalid]="isFieldInvalid('name')"
           >
           <div class="error-message" *ngIf="isFieldInvalid('name')">
-            {{ getErrorMessage('name') }}
+            {{ getErrorMessage('name') | translate }}
           </div>
         </div>
 
+        <div class="form-row">
+          <label for="address">{{ 'assetManagement.forms.plant.fields.address.label' | translate }} <span class="required">*</span></label>
+          <input
+            type="text"
+            id="address"
+            formControlName="address"
+            class="form-input"
+            [class.invalid]="isFieldInvalid('address')"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('address')">
+            {{ getErrorMessage('address') | translate }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="city">{{ 'assetManagement.forms.plant.fields.city.label' | translate }} <span class="required">*</span></label>
+          <input
+            type="text"
+            id="city"
+            formControlName="city"
+            class="form-input"
+            [class.invalid]="isFieldInvalid('city')"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('city')">
+            {{ getErrorMessage('city') | translate }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="country">{{ 'assetManagement.forms.plant.fields.country.label' | translate }} <span class="required">*</span></label>
+          <input
+            type="text"
+            id="country"
+            formControlName="country"
+            class="form-input"
+            [class.invalid]="isFieldInvalid('country')"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('country')">
+            {{ getErrorMessage('country') | translate }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="contactPhone">{{ 'assetManagement.forms.plant.fields.contactPhone.label' | translate }} <span class="required">*</span></label>
+          <input
+            type="tel"
+            id="contactPhone"
+            formControlName="contactPhone"
+            class="form-input"
+            [class.invalid]="isFieldInvalid('contactPhone')"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('contactPhone')">
+            {{ getErrorMessage('contactPhone') | translate }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label for="contactEmail">{{ 'assetManagement.forms.plant.fields.contactEmail.label' | translate }} <span class="required">*</span></label>
+          <input
+            type="email"
+            id="contactEmail"
+            formControlName="contactEmail"
+            class="form-input"
+            [class.invalid]="isFieldInvalid('contactEmail')"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('contactEmail')">
+            {{ getErrorMessage('contactEmail') | translate }}
+          </div>
+        </div>
+<!--
         <div class="form-row">
           <label for="location">{{ 'assetManagement.forms.plant.fields.location.label' | translate }} <span class="required">*</span></label>
           <input
@@ -100,7 +170,7 @@
           <div class="selected-count">
             {{ selectedProductionLines.length }} {{ 'assetManagement.forms.plant.fields.productionLines.selectedCount' | translate }}
           </div>
-        </div>
+        </div>-->
 
         <div class="form-actions">
           <button type="button" class="btn-cancel" (click)="onCancel()">{{ 'assetManagement.forms.buttons.cancel' | translate }}</button>
