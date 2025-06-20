@@ -8,6 +8,10 @@ import { nonAuthGuard } from './core/guards/non-auth.guard';
 import { PageNotFoundComponent } from './public/pages/page-not-found/page-not-found.component';
 import { LoginViewComponent } from './features/security/views/login-view/login-view.component';
 import { ComponentsDemoComponent } from './shared/views/components-demo/components-demo.component';
+import { AccountInfoComponent} from './features/configuration/views/account-info/account-info.component';
+import { BillingComponent} from './features/configuration/views/billing/billing.component';
+import { DeleteAccountComponent} from './features/configuration/views/delete-account/delete-account.component';
+import {ConfigurationPanelComponent} from './shared/components/configuration-panel/configuration-panel.component';
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 
 
@@ -53,6 +57,19 @@ export const routes: Routes = [
             { path: 'crear-dinamico', loadComponent: MaintenancePlanCreateDynamicComponent },
             { path: 'editar/:id', loadComponent: MaintenancePlanCreateComponent },
         ]
+    },
+    //{ path: 'ajustes/cuenta', component: AccountInfoComponent, canActivate: [authGuard] },
+    //{ path: 'ajustes/facturacion', component: BillingComponent, canActivate: [authGuard] },
+    //{ path: 'ajustes/eliminar', component: DeleteAccountComponent, canActivate: [authGuard] },
+    {
+      path: 'ajustes',
+      component: ConfigurationPanelComponent,
+      canActivate: [authGuard],
+      children: [
+        { path: 'cuenta', component: AccountInfoComponent },
+        { path: 'facturacion', component: BillingComponent },
+        { path: 'eliminar', component: DeleteAccountComponent },
+      ]
     },
     {
         path: 'calendario',

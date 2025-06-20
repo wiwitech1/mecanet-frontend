@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PurchaseOrderEntity } from '../../../shared/models/purchase-orders.entity';
@@ -135,9 +136,9 @@ export class PurchaseOrdersComponent implements OnInit {
     }
   }
 
-  async handleDelete(id: number) {
+  async handleDelete(id: string | number) {
     try {
-      await this.purchaseOrdersService.deleteOrder(id);
+      await this.purchaseOrdersService.deleteOrder(Number(id));
       this.showEditModal = false;
       this.selectedOrder = null;
       await this.loadPurchaseOrders();

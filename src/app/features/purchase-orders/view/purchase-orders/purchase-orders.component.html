@@ -53,11 +53,11 @@
 
   <!-- Modales -->
   <app-purchase-order-form-modal
-      *ngIf="showCreateModal"
-      [isEdit]="false"
-      [orderData]="null"
-      (submit)="handleCreate($event)"
-      (cancel)="showCreateModal = false"
+    *ngIf="showCreateModal"
+    [isEdit]="false"
+    [orderData]="null"
+    (submit)="handleCreate($event)"
+    (cancel)="showCreateModal = false"
   ></app-purchase-order-form-modal>
 
   <app-purchase-order-form-modal

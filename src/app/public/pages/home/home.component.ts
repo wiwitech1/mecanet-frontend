@@ -102,8 +102,8 @@ export class HomeComponent implements OnInit {
     { name: 'Inventario', icon: 'inventory_2', route: '/inventario/repuestos' },
     { name: 'Órdenes', icon: 'receipt', route: '/inventario/ordenes-compra' },
     { name: 'Reportes', icon: 'bar_chart', route: '/reportes' },
-    { name: 'Ajustes', icon: 'settings', route: '/ajustes' },
-    {name : "Activos", icon: "build", route: "/activos/maquinarias"}
+    { name: 'Ajustes', icon: 'settings', route: '/ajustes/cuenta' },
+    { name: "Activos", icon: "build", route: "/activos/maquinarias"}
   ];
 
   // Notificaciones recientes

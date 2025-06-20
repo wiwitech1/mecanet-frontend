@@ -1,0 +1,31 @@
+<div class="settings-container">
+  <header class="breadcrumb-header">
+    <app-title-view text="Configuración"></app-title-view>
+  </header>
+  <div class="tabs">
+    <div
+      class="tab"
+      [ngClass]="{ 'active': currentTab === 'cuenta' }"
+      (click)="navigateTo('cuenta')"
+    >
+      Información de la cuenta
+    </div>
+
+    <div
+      class="tab"
+      [ngClass]="{ 'active': currentTab === 'facturacion' }"
+      (click)="navigateTo('facturacion')"
+    >
+      Facturación
+    </div>
+
+    <div
+      class="tab"
+      [ngClass]="{ 'active': currentTab === 'eliminar' }"
+      (click)="navigateTo('eliminar')"
+    >
+      Eliminar cuenta
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>
