@@ -125,11 +125,11 @@ export class SidebarMecanetComponent implements OnInit {
       route: '/ajustes/cuenta',
       roles: ['admin'],
     },
-    {
+    /*{
       title: 'sidebar.menu.demo',
       icon: 'settings',
       route: '/components-demo',
-    },
+    },*/
   ];
 
   // Usuario actual (leído desde localStorage)
