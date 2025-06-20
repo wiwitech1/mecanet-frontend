@@ -2,9 +2,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProductionLineEntity } from '../../models/production-line.entity';
-import { MachineryEntity } from '../../models/machinery.entity';
-import { MachineryService } from '../../services/machinery.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { PlantEntity } from '../../models/plant.entity';
+import { PlantService } from '../../services/plant.service';
 
 @Component({
   selector: 'app-interact-production-line',
@@ -14,82 +14,52 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
   styleUrl: './interact-production-line.component.scss'
 })
 export class InteractProductionLineComponent implements OnInit {
-  @Input() productionLine: ProductionLineEntity | null = null;
-  @Input() title: string = 'Nueva Línea de Producción';
+  @Input() title: string = '';
+  @Input() plants: PlantEntity[] = [];
+  @Input() productionLine?: ProductionLineEntity;
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
 
+  selectedPlantId: number | null = null;
   productionLineForm: FormGroup;
   isEditMode = false;
-  availableMachineries: MachineryEntity[] = [];
-  selectedMachineries: number[] = [];
 
   constructor(
     private fb: FormBuilder,
-    private machineryService: MachineryService
+    private plantService: PlantService
   ) {
     this.productionLineForm = this.fb.group({
       name: ['', Validators.required],
-      plant_id: [1, Validators.required], // Valor por defecto
-      capacity: ['', [Validators.required, Validators.min(0)]],
-      description: ['', Validators.required],
-      status: [1] // Por defecto activo
+      code: ['', Validators.required],
+      maxUnitsPerHour: ['', [Validators.required, Validators.min(1)]],
+      unit: ['', Validators.required],
+      plantId: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
     this.isEditMode = !!this.productionLine;
-    this.loadAvailableMachineries();
+    this.loadPlants();
 
     if (this.isEditMode && this.productionLine) {
-      // Si estamos en modo edición, rellenamos el formulario
+      this.selectedPlantId = this.productionLine.plantId;
       this.productionLineForm.patchValue({
         name: this.productionLine.name,
-        plant_id: this.productionLine.plantId,
+        code: this.productionLine.code,
         maxUnitsPerHour: this.productionLine.maxUnitsPerHour,
         unit: this.productionLine.unit,
-        status: this.productionLine.status
+        plantId: this.productionLine.plantId
       });
-
-      // Seleccionamos las maquinarias actuales
-      this.selectedMachineries = this.productionLine.machineries?.map(m => m.id) || [];
     }
   }
 
-  loadAvailableMachineries() {
-    this.machineryService.getAllMachineries().subscribe({
-      next: (machineries) => {
-        this.availableMachineries = machineries;
-      },
-      error: (err) => {
-        console.error('Error al cargar maquinarias disponibles:', err);
-      }
-    });
-  }
-
-  toggleMachinerySelection(machineryId: number) {
-    const index = this.selectedMachineries.indexOf(machineryId);
-    if (index > -1) {
-      // Si ya está seleccionada, la quitamos
-      this.selectedMachineries.splice(index, 1);
-    } else {
-      // Si no está seleccionada, la añadimos
-      this.selectedMachineries.push(machineryId);
-    }
-  }
-
-  isMachinerySelected(machineryId: number): boolean {
-    return this.selectedMachineries.includes(machineryId);
+  onPlantChange(event: any) {
+    console.log('Plant ID seleccionado:', this.productionLineForm.get('plantId')?.value);
   }
 
   onSubmit(): void {
     if (this.productionLineForm.valid) {
-      // Añadimos las maquinarias seleccionadas al objeto que emitimos
-      const formData = {
-        ...this.productionLineForm.value,
-        machineries: this.selectedMachineries
-      };
-      this.save.emit(formData);
+      this.save.emit(this.productionLineForm.value);
     } else {
       this.productionLineForm.markAllAsTouched();
     }
@@ -97,5 +67,18 @@ export class InteractProductionLineComponent implements OnInit {
 
   onCancel(): void {
     this.cancel.emit();
+  }
+
+  loadPlants() {
+    this.plantService.getAll().subscribe({
+      next: (plants) => {
+        this.plants = plants;
+        if (plants.length > 0 && !this.productionLine) {
+          this.selectedPlantId = plants[0].id;
+          this.productionLineForm.patchValue({ plantId: plants[0].id });
+        }
+      },
+      error: (err) => console.error('Error loading plants:', err)
+    });
   }
 }

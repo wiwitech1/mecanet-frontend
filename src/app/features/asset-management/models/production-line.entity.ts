@@ -11,7 +11,6 @@ export interface ProductionLineEntity {
   unit: string;
   status: string;
   plantId: number;
-  machineries?: MachineryEntity[];
 }
 
 /**

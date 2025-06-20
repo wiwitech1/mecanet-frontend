@@ -124,7 +124,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadPlants();
-    this.loadProductionLines();
+    //this.loadProductionLines();
   }
 
   ngOnDestroy(): void {
@@ -152,7 +152,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
         }
       });
   }
-
+/*
   loadProductionLines() {
     this.productionLineService.getAllProductionLines().subscribe({
       next: (lines) => {
@@ -162,7 +162,7 @@ export class PlantViewComponent implements OnInit, OnDestroy {
         console.error('Error al cargar líneas de producción:', err);
       }
     });
-  }
+  }*/
 
   // Acciones del usuario
   onSearch(event: string): void {

@@ -34,7 +34,6 @@ export class PlantService {
    */
   getAll(): Observable<PlantEntity[]> {
     const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
-    console.log('🔐 Token cargado desde localStorage:', token);
 
     if (!token) {
       console.error('No hay token disponible');
