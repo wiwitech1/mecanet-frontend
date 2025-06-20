@@ -79,7 +79,7 @@ export class PurchaseOrdersComponent implements OnInit {
 
   handleInfoClick(event: { row: any; column: any }) {
     const order = event.row as PurchaseOrderEntity;
-    console.log('Original order data:', order);
+    //console.log('Original order data:', order);
     this.selectedOrder = order;
     this.updateInfoPanel(order);
     this.showInfoPanel = true;

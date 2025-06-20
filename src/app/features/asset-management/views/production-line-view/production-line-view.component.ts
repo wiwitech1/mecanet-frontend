@@ -128,7 +128,7 @@ export class ProductionLineViewComponent implements OnInit {
       id: line.id,
       name: line.name,
       plantName: this.getPlantName(line.plantId),
-      capacity: `${line.capacity} unidades/hora`,
+      capacity: `${line.maxUnitsPerHour} unidades/hora`,
       status: this.getStatusText(line.status),
       machineryCount: line.machineries?.length || 0,
       details: line.id, // Pasamos el ID como valor para el botón CTA
@@ -142,7 +142,7 @@ export class ProductionLineViewComponent implements OnInit {
     return plantId === 1 ? 'Planta Principal' : 'Planta Secundaria';
   }
 
-  getStatusText(status: number): string {
+  getStatusText(status: string): string {
     switch(status) {
       case ProductionLineStatus.ACTIVE: return 'Activa';
       case ProductionLineStatus.INACTIVE: return 'Inactiva';
@@ -180,22 +180,21 @@ export class ProductionLineViewComponent implements OnInit {
       { subtitle: 'Nombre', info: line.name },
       { subtitle: 'Planta', info: this.getPlantName(line.plantId) },
       { subtitle: 'Estado actual', info: this.getStatusText(line.status) },
-      { subtitle: 'Capacidad', info: `${line.capacity} unidades/hora` },
-      { subtitle: 'Fecha creación', info: this.formatDate(line.createdAt) },
-      { subtitle: 'Última actualización', info: this.formatDate(line.updatedAt) }
+      { subtitle: 'Capacidad', info: `${line.maxUnitsPerHour} unidades/hora` }
     ];
 
     // Especificaciones técnicas
     this.techData = [
-      { subtitle: 'Descripción', info: line.description }
+      { subtitle: 'Descripción', info: line.code }
     ];
 
     // Maquinarias asignadas
-    this.assignedMachines = line.machineries.map(machine => ({
+    this.assignedMachines = line.machineries?.map(machine => ({
       name: machine.name,
       model: machine.model,
       manufacturer: machine.manufacturer
     }));
+
   }
 
   onCtaClick(event: {row: any, column: any}) {
@@ -237,8 +236,8 @@ export class ProductionLineViewComponent implements OnInit {
         ...this.selectedLine,
         name: lineData.name,
         plantId: lineData.plant_id,
-        capacity: lineData.capacity,
-        description: lineData.description,
+        maxUnitsPerHour: lineData.maxUnitsPerHour,
+        unit: lineData.unit,
         status: lineData.status,
         // No actualizamos machineries directamente aquí, se maneja a través de IDs
       };
@@ -271,12 +270,11 @@ export class ProductionLineViewComponent implements OnInit {
       const newLine: ProductionLineEntity = {
         id: 0,
         name: lineData.name,
+        code: lineData.code,
         plantId: lineData.plant_id,
-        capacity: lineData.capacity,
-        description: lineData.description,
-        status: 1, // Activa por defecto
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        maxUnitsPerHour: lineData.maxUnitsPerHour,
+        unit: lineData.unit,
+        status: 'ACTIVE', // Activa por defecto
         machineries: [] // Se asignarán después
       };
 

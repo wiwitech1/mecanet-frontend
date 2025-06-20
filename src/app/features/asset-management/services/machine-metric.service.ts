@@ -10,6 +10,7 @@ import {
 } from './machinery.resource';
 import { environment } from '../../../../environments/environment';
 
+
 @Injectable({
   providedIn: 'root'
 })

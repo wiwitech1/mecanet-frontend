@@ -329,7 +329,7 @@
             },
             "plants": {
                 "placeholder": "Search plants...",
-                "newButton": "+ New Plant"
+                "newButton": "New Plant"
             },
             "productionLines": {
                 "placeholder": "Search",
@@ -386,6 +386,15 @@
                 "productionLines": "Production lines:",
                 "noLines": "No production lines in this plant.",
                 "lineCapacity": "Capacity"
+            },
+            "columns": {
+                "name": "Name",
+                "address": "Address",
+                "city": "City",
+                "country": "Country",
+                "contactPhone": "Phone",
+                "contactEmail": "Email",
+                "status": "Status"
             }
         },
         "productionLines": {
@@ -451,22 +460,28 @@
                 "fields": {
                     "name": {
                         "label": "Name",
-                        "required": "Name is required",
-                        "minLength": "Name must be at least 3 characters long"
+                        "required": "Name is required"
                     },
-                    "location": {
-                        "label": "Location",
-                        "required": "Location is required"
+                    "address": {
+                        "label": "Address",
+                        "required": "Address is required"
                     },
-                    "capacity": {
-                        "label": "Capacity",
-                        "required": "Capacity is required",
-                        "min": "Capacity must be greater than 0",
-                        "unit": "units"
+                    "city": {
+                        "label": "City",
+                        "required": "City is required"
                     },
-                    "description": {
-                        "label": "Description",
-                        "optional": "optional"
+                    "country": {
+                        "label": "Country",
+                        "required": "Country is required"
+                    },
+                    "contactPhone": {
+                        "label": "Contact Phone",
+                        "required": "Phone is required"
+                    },
+                    "contactEmail": {
+                        "label": "Email",
+                        "required": "Email is required",
+                        "invalid": "Email format is invalid"
                     },
                     "status": {
                         "label": "Status",

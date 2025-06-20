@@ -17,7 +17,7 @@ export class InteractPlantComponent implements OnInit {
   @Input() plantToEdit: PlantEntity | null = null;
   @Input() title: string = '';
   @Input() availableProductionLines: ProductionLineEntity[] = [];
-  @Output() save = new EventEmitter<any>();
+  @Output() save = new EventEmitter<Partial<PlantEntity>>();
   @Output() cancel = new EventEmitter<void>();
 
   plantForm: FormGroup;
@@ -35,11 +35,12 @@ export class InteractPlantComponent implements OnInit {
     private translate: TranslateService
   ) {
     this.plantForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-      location: ['', Validators.required],
-      capacity: ['', [Validators.required, Validators.min(1)]],
-      description: [''],
-      status: [PlantStatus.ACTIVE, Validators.required]
+      name: ['', [Validators.required]],
+      address: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      country: ['', [Validators.required]],
+      contactPhone: ['', [Validators.required]],
+      contactEmail: ['', [Validators.required, Validators.email]]
     });
   }
 
@@ -52,12 +53,12 @@ export class InteractPlantComponent implements OnInit {
     if (this.isEditMode && this.plantToEdit) {
       this.plantForm.patchValue({
         name: this.plantToEdit.name,
-        location: this.plantToEdit.location,
-        capacity: this.plantToEdit.capacity,
-        description: this.plantToEdit.description,
-        status: this.plantToEdit.status
+        address: this.plantToEdit.address,
+        city: this.plantToEdit.city,
+        country: this.plantToEdit.country,
+        contactPhone: this.plantToEdit.contactPhone,
+        contactEmail: this.plantToEdit.contactEmail
       });
-      this.selectedProductionLines = this.plantToEdit.productionLines?.map(l => l.id) || [];
     }
   }
 
@@ -78,7 +79,7 @@ export class InteractPlantComponent implements OnInit {
     if (this.plantForm.valid) {
       const formData = {
         ...this.plantForm.value,
-        productionLines: this.selectedProductionLines
+        //productionLines: this.selectedProductionLines
       };
 
       if (this.isEditMode && this.plantToEdit) {
@@ -95,23 +96,20 @@ export class InteractPlantComponent implements OnInit {
     this.cancel.emit();
   }
 
-  isFieldInvalid(fieldName: string): boolean {
-    const control = this.plantForm.get(fieldName);
-    return !!control && control.invalid && (control.dirty || control.touched);
+  isFieldInvalid(field: string): boolean {
+    const control = this.plantForm.get(field);
+    return control ? control.invalid && (control.dirty || control.touched) : false;
   }
 
-  getErrorMessage(fieldName: string): string {
-    const control = this.plantForm.get(fieldName);
+  getErrorMessage(field: string): string {
+    const control = this.plantForm.get(field);
     if (!control) return '';
 
     if (control.hasError('required')) {
-      return this.translate.instant(`assetManagement.forms.plant.fields.${fieldName}.required`);
+      return `assetManagement.forms.plant.fields.${field}.required`;
     }
-    if (control.hasError('min')) {
-      return this.translate.instant(`assetManagement.forms.plant.fields.${fieldName}.min`);
-    }
-    if (control.hasError('minlength')) {
-      return this.translate.instant(`assetManagement.forms.plant.fields.${fieldName}.minLength`);
+    if (field === 'contactEmail' && control.hasError('email')) {
+      return 'assetManagement.forms.plant.fields.contactEmail.invalid';
     }
     return '';
   }

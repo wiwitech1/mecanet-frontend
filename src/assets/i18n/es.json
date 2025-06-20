@@ -329,7 +329,7 @@
             },
             "plants": {
                 "placeholder": "Buscar plantas...",
-                "newButton": "+ Nueva Planta"
+                "newButton": "Nueva Planta"
             },
             "productionLines": {
                 "placeholder": "Buscar",
@@ -370,22 +370,27 @@
             }
         },
         "plants": {
-            "modal": {
-                "edit": "Editar Planta",
-                "new": "Nueva Planta"
+            "columns": {
+                "name": "Nombre",
+                "address": "Dirección",
+                "city": "Ciudad",
+                "country": "País",
+                "contactPhone": "Teléfono",
+                "contactEmail": "Correo",
+                "status": "Estado"
             },
             "details": {
                 "name": "Nombre",
-                "location": "Ubicación",
-                "status": "Estado",
-                "capacity": "Capacidad",
-                "capacityUnits": "unidades",
-                "createdAt": "Fecha creación",
-                "updatedAt": "Última actualización",
-                "description": "Descripción",
-                "productionLines": "Líneas de producción:",
-                "noLines": "No hay líneas de producción en esta planta.",
-                "lineCapacity": "Capacidad"
+                "address": "Dirección",
+                "city": "Ciudad",
+                "country": "País",
+                "contactPhone": "Teléfono de contacto",
+                "contactEmail": "Correo electrónico",
+                "status": "Estado"
+            },
+            "modal": {
+                "new": "Nueva Planta",
+                "edit": "Editar Planta"
             }
         },
         "productionLines": {
@@ -451,22 +456,28 @@
                 "fields": {
                     "name": {
                         "label": "Nombre",
-                        "required": "El nombre es requerido",
-                        "minLength": "El nombre debe tener al menos 3 caracteres"
+                        "required": "El nombre es requerido"
                     },
-                    "location": {
-                        "label": "Ubicación",
-                        "required": "La ubicación es requerida"
+                    "address": {
+                        "label": "Dirección",
+                        "required": "La dirección es requerida"
                     },
-                    "capacity": {
-                        "label": "Capacidad",
-                        "required": "La capacidad es requerida",
-                        "min": "La capacidad debe ser mayor que 0",
-                        "unit": "unidades"
+                    "city": {
+                        "label": "Ciudad",
+                        "required": "La ciudad es requerida"
                     },
-                    "description": {
-                        "label": "Descripción",
-                        "optional": "opcional"
+                    "country": {
+                        "label": "País",
+                        "required": "El país es requerido"
+                    },
+                    "contactPhone": {
+                        "label": "Teléfono de contacto",
+                        "required": "El teléfono es requerido"
+                    },
+                    "contactEmail": {
+                        "label": "Correo electrónico",
+                        "required": "El correo electrónico es requerido",
+                        "invalid": "El formato del correo electrónico no es válido"
                     },
                     "status": {
                         "label": "Estado",
