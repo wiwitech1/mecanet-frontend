@@ -26,68 +26,74 @@
             <div *ngIf="!loading && !error" class="table-container">
                 <app-record-table
                   [columns]="columns"
-                  [data]="machines"
+                  [data]="displayMachines"
                   (ctaClick)="onCtaClick($event)">
                 </app-record-table>
             </div>
         </div>
 
-        <!-- Panel de información (solo visible cuando showDetailPanel es true) -->
-        <div *ngIf="showDetailPanel" class="information-panel-container" [@panelAnimation]>
+        <!-- Panel de información -->
+        <div *ngIf="showDetailPanel && selectedMachine" class="information-panel-container" [@panelAnimation]>
             <div class="panel-header">
                 <button class="close-button" (click)="closeDetailPanel()" [attr.aria-label]="'assetManagement.buttons.close' | translate">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
 
-            <div *ngIf="loading" class="loading-indicator">
-                {{ 'assetManagement.loading.machinery' | translate }}
-            </div>
+            <app-information-panel
+  [headerText]="'ID: ' + selectedMachineId + ' | ' + selectedMachine.name"
+  [showHeader]="true"
+  [showPrimaryButton]="true"
+  [primaryButtonText]="'assetManagement.buttons.edit' | translate"
+  [showSecondaryButton]="true"
+  [secondaryButtonText]="(selectedMachine.status === 1 ? 'assetManagement.buttons.deactivate' : 'assetManagement.buttons.activate') | translate"
+  (primaryButtonClick)="editMachine()"
+  (secondaryButtonClick)="toggleMachineryStatus()">
 
-            <div *ngIf="!loading && selectedMachine">
-                <app-information-panel
-                  [headerText]="'ID: ' + selectedMachineId + ' | ' + selectedMachine.name"
-                  [showHeader]="true"
-                  [showPrimaryButton]="true"
-                  [primaryButtonText]="'assetManagement.buttons.edit' | translate"
-                  [showSecondaryButton]="true"
-                  [secondaryButtonText]="(selectedMachine.status === 1 ? 'assetManagement.buttons.deactivate' : 'assetManagement.buttons.activate') | translate"
-                  (primaryButtonClick)="editMachine()"
-                  (secondaryButtonClick)="toggleMachineryStatus()">
+                <!-- Información General -->
+              <app-info-container
+                [title]="'assetManagement.machinery.details.general' | translate"
+                [titleType]="2">
+                <app-info-section
+                  [infoType]="2"
+                  [data]="infoData">
+                </app-info-section>
+              </app-info-container>
 
-                  <app-info-section
-                    [infoType]="2"
-                    [data]="infoData">
-                  </app-info-section>
+  <!-- Especificaciones Técnicas -->
+  <app-info-container
+    [title]="'assetManagement.machinery.details.specifications' | translate"
+    [titleType]="2">
+    <app-info-section
+      [infoType]="2"
+      [data]="techData">  <!-- Aquí se están pasando los datos -->
+    </app-info-section>
+  </app-info-container>
 
-                  <app-info-container
-                    [title]="'assetManagement.machinery.details.specifications' | translate"
-                    [titleType]="2">
-                    <app-info-section
-                      [infoType]="2"
-                      [data]="techData">
-                    </app-info-section>
-                  </app-info-container>
+  <!-- Historial de Mantenimiento -->
+  <app-info-container
+    [title]="'assetManagement.machinery.details.maintenanceHistory' | translate"
+    [titleType]="2">
+    <app-info-list-items
+      [type]="'maintenance'"
+      [items]="maintenanceItems">
+    </app-info-list-items>
+  </app-info-container>
 
-                  <app-info-container
-                    [title]="'assetManagement.machinery.details.maintenanceHistory' | translate"
-                    [titleType]="2">
-                    <app-info-list-items
-                      [type]="'maintenance'"
-                      [items]="maintenanceItems">
-                    </app-info-list-items>
-                  </app-info-container>
+  <!-- Mediciones Actuales -->
+  <!-- Comentado temporalmente
+  <app-info-container
+    [title]="'assetManagement.machinery.details.currentMeasurements' | translate"
+    [titleType]="2">
+    <app-info-section
+      [infoType]="2"
+      [data]="measurementData">
+    </app-info-section>
+  </app-info-container>
+  -->
 
-                  <app-info-container
-                    [title]="'assetManagement.machinery.details.currentMeasurements' | translate"
-                    [titleType]="2">
-                    <app-info-section
-                      [infoType]="2"
-                      [data]="measurementData">
-                    </app-info-section>
-                  </app-info-container>
-                </app-information-panel>
-            </div>
+</app-information-panel>
+
         </div>
     </main>
 
