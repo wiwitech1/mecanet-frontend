@@ -2,7 +2,7 @@
   <app-title-view [text]="'Ejecución'"></app-title-view>
   <div class="order-selector">
     <label for="orderSelect">Orden de Trabajo</label>
-    <select id="orderSelect" [(ngModel)]="selectedOrder">
+    <select id="orderSelect" [(ngModel)]="selectedOrder" (change)="onWorkOrderChange($event)">
       <option *ngFor="let order of workOrders" [value]="order.id">{{ order.name }}</option>
     </select>
   </div>

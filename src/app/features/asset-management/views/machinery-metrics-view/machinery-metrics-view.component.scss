@@ -1,0 +1,345 @@
+:host {
+  * {
+    font-family: var(--font-family-base);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    height: 100%;
+  }
+
+  .breadcrumb-header {
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: calc(100% - 80px);
+  }
+
+  .search-section {
+    width: 100%;
+  }
+
+  // Estados de carga y error
+  .loading-section, .error-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  .loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    color: var(--clr-primary);
+
+    i {
+      font-size: 2rem;
+    }
+  }
+
+  .error-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    color: var(--clr-danger);
+
+    i {
+      font-size: 1.5rem;
+    }
+
+    .retry-button {
+      padding: 8px 16px;
+      background: var(--clr-primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background: var(--clr-primary-600);
+      }
+    }
+  }
+
+  // Grid de maquinarias
+  .machineries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    gap: 3em;
+    overflow-y: auto;
+  }
+
+  .machinery-card {
+    background: var(--clr-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+    padding: 20px;
+    transition: box-shadow 0.2s ease;
+
+    &:hover {
+      box-shadow: 0 6px 32px rgba(0, 0, 0, 0.15);
+    }
+  }
+
+  .machinery-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--clr-border);
+  }
+
+  .machinery-info {
+    flex: 1;
+
+    .machinery-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--clr-text);
+      margin: 0 0 8px 0;
+    }
+
+    .machinery-details {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+
+      .machinery-model, .machinery-serial {
+        font-size: 0.9rem;
+        color: var(--clr-text-secondary);
+      }
+    }
+  }
+
+  .machinery-status {
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+
+      &.status-inactive {
+        background: var(--clr-neutral-100);
+        color: var(--clr-neutral-600);
+      }
+
+      &.status-active {
+        background: var(--clr-success-100);
+        color: var(--clr-success-700);
+      }
+
+      &.status-maintenance {
+        background: var(--clr-warning-100);
+        color: var(--clr-warning-700);
+      }
+
+      &.status-repair {
+        background: var(--clr-danger-100);
+        color: var(--clr-danger-700);
+      }
+
+      &.status-unknown {
+        background: var(--clr-neutral-100);
+        color: var(--clr-neutral-600);
+      }
+    }
+  }
+
+  // Measurements
+  .machinery-measurements {
+    .measurements-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--clr-text);
+      margin: 0 0 15px 0;
+    }
+  }
+
+  .measurements-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .measurement-item {
+    background: var(--clr-background);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius-md);
+    padding: 15px;
+    transition: border-color 0.2s ease;
+
+    &:hover {
+      border-color: var(--clr-primary-200);
+    }
+  }
+
+  .measurement-info {
+    margin-bottom: 12px;
+
+    .measurement-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+
+      .measurement-name {
+        font-weight: 600;
+        color: var(--clr-text);
+      }
+
+      .measurement-unit {
+        font-size: 0.9rem;
+        color: var(--clr-text-secondary);
+      }
+    }
+
+    .measurement-current, .measurement-updated {
+      display: flex;
+      gap: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+
+      .current-label, .updated-label {
+        color: var(--clr-text-secondary);
+      }
+
+      .current-value {
+        font-weight: 600;
+        color: var(--clr-primary);
+      }
+
+      .updated-value {
+        color: var(--clr-text);
+      }
+    }
+  }
+
+  .measurement-actions {
+    .input-group {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+
+      .measurement-input {
+        flex: 1;
+        padding: 8px 12px;
+        border: 1px solid var(--clr-border);
+        border-radius: var(--radius-md);
+        font-size: 0.9rem;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: var(--clr-primary);
+          box-shadow: 0 0 0 3px var(--clr-primary-100);
+        }
+
+        &::placeholder {
+          color: var(--clr-text-placeholder);
+        }
+      }
+    }
+  }
+
+  // No measurements state
+  .no-measurements {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+
+    .no-measurements-message {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      color: var(--clr-text-secondary);
+      text-align: center;
+
+      i {
+        font-size: 1.5rem;
+        color: var(--clr-neutral-400);
+      }
+    }
+  }
+
+  // Empty state
+  .empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+
+    .empty-state-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      text-align: center;
+      color: var(--clr-text-secondary);
+
+      i {
+        font-size: 3rem;
+        color: var(--clr-neutral-300);
+      }
+
+      h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--clr-text);
+      }
+
+      p {
+        margin: 0;
+        font-size: 0.95rem;
+        max-width: 400px;
+      }
+    }
+  }
+
+  // Responsive design
+  @media (max-width: 768px) {
+    .container {
+      padding: 15px;
+    }
+
+    .machineries-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .machinery-card {
+      padding: 15px;
+    }
+
+    .machinery-header {
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+
+    .measurement-actions .input-group {
+      flex-direction: column;
+      align-items: stretch;
+
+      .measurement-input {
+        margin-bottom: 8px;
+      }
+    }
+  }
+} 

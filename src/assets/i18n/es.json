@@ -118,7 +118,8 @@
                 "title": "Gestión de Activos",
                 "plants": "Plantas",
                 "productionLines": "Líneas de Producción",
-                "machinery": "Maquinarias"
+                "machinery": "Maquinarias",
+                "machineryMetrics": "Métricas de Maquinarias"
             },
             "workOrder": "Orden de Trabajo",
             "maintenancePlan": "Plan de Mantenimiento",
@@ -669,6 +670,28 @@
             "errors": {
                 "createError": "Error al crear el plan. Por favor, inténtelo de nuevo más tarde."
             }
+        }
+    },
+    "machineryMetrics": {
+        "breadcrumb": "Gestión de Activos > Métricas de Maquinarias",
+        "loading": "Cargando maquinarias...",
+        "retry": "Reintentar",
+        "serialNumber": "N° Serie",
+        "search": {
+            "placeholder": "Buscar por nombre, modelo o marca...",
+            "refresh": "Actualizar"
+        },
+        "measurements": {
+            "title": "Mediciones",
+            "currentValue": "Valor Actual",
+            "lastUpdated": "Última Actualización",
+            "newValue": "Nuevo valor",
+            "update": "Subir",
+            "noMeasurements": "No hay mediciones disponibles para esta maquinaria"
+        },
+        "emptyState": {
+            "title": "No se encontraron maquinarias",
+            "message": "No hay maquinarias disponibles o no coinciden con los criterios de búsqueda"
         }
     },
     "workOrder": {

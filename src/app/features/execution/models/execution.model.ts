@@ -10,7 +10,14 @@ export interface ExecutionProduct {
 
 export interface ExecutionCardData {
   machineryName: string;
+  workOrderId: string;
   tasks: ExecutionTask[];
   observations: string;
   products: ExecutionProduct[];
 }
+
+export interface WorkOrderExecution {
+  id: string;
+  name: string;
+}
+

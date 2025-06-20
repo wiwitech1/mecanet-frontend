@@ -80,6 +80,11 @@ export class SidebarMecanetComponent implements OnInit {
           route: '/activos/maquinarias',
           icon: 'precision_manufacturing',
         },
+        {
+          title: 'sidebar.menu.assetManagement.machineryMetrics',
+          route: '/activos/metricas',
+          icon: 'precision_manufacturing',
+        }
       ],
     },
     {

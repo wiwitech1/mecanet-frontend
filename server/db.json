@@ -461,7 +461,7 @@
   "maintenance-plan-data": {
     "planId": 1,
     "productionLineId": 2,
-    "startDate": "2025-06-18T22:52:30.823Z",
+    "startDate": "2025-06-18T23:10:58.315Z",
     "durationDays": 1,
     "userCreator": 1,
     "items": [
@@ -470,10 +470,11 @@
         "tasks": [
           {
             "taskId": 1,
-            "taskName": "New task",
-            "taskDescription": "desscription",
+            "taskName": "Mimi",
+            "taskDescription": "sa",
             "machineIds": [
-              202
+              101,
+              102
             ]
           }
         ]
