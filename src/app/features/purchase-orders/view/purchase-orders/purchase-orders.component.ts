@@ -136,6 +136,7 @@ export class PurchaseOrdersComponent implements OnInit {
     }
   }
 
+
   async handleDelete(id: string | number) {
     try {
       await this.purchaseOrdersService.deleteOrder(Number(id));
@@ -145,5 +146,6 @@ export class PurchaseOrdersComponent implements OnInit {
     } catch (error) {
       console.error('Error al eliminar:', error);
     }
+
   }
 }
