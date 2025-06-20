@@ -22,13 +22,10 @@ export class ProductionLineAssembler {
       id: resource.id,
       name: resource.name,
       code: resource.code,
-      maxUnitsPerHour: resource.max_units_per_hour,
+      maxUnitsPerHour: resource.maxUnitsPerHour,
       unit: resource.unit,
       status: resource.status,
-      plantId: resource.plant_id,
-      machineries: resource.machineries
-        ? resource.machineries.map(MachineryAssembler.resourceToEntity)
-        : []
+      plantId: resource.plantId
     };
   }
 
@@ -50,11 +47,9 @@ export class ProductionLineAssembler {
     return {
       name: entity.name,
       code: entity.code,
-      max_units_per_hour: entity.maxUnitsPerHour,
+      maxUnitsPerHour: entity.maxUnitsPerHour,
       unit: entity.unit,
-      status: entity.status,
-      plant_id: entity.plantId,
-      machineries: entity.machineries?.map(m => m.id)
+      plantId: entity.plantId
     };
   }
 
@@ -67,11 +62,9 @@ export class ProductionLineAssembler {
     return {
       name: entity.name,
       code: entity.code,
-      max_units_per_hour: entity.maxUnitsPerHour,
+      maxUnitsPerHour: entity.maxUnitsPerHour,
       unit: entity.unit,
-      status: entity.status,
-      plant_id: entity.plantId,
-      machineries: entity.machineries?.map(m => m.id)
+      plantId: entity.plantId
     };
   }
 

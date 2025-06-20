@@ -7,11 +7,10 @@ export interface ProductionLineResource {
   id: number;
   name: string;
   code: string;
-  max_units_per_hour: number;
+  maxUnitsPerHour: number;
   unit: string;
   status: string;
-  plant_id: number;
-  machineries?: MachineryResource[];
+  plantId: number;
 }
 
 /**
@@ -20,11 +19,9 @@ export interface ProductionLineResource {
 export interface CreateProductionLineResource {
   name: string;
   code: string;
-  max_units_per_hour: number;
+  maxUnitsPerHour: number;
   unit: string;
-  status: string;
-  plant_id: number;
-  machineries?: number[];
+  plantId: number;
 }
 
 /**
@@ -33,9 +30,7 @@ export interface CreateProductionLineResource {
 export interface UpdateProductionLineResource {
   name?: string;
   code?: string;
-  max_units_per_hour?: number;
+  maxUnitsPerHour?: number;
   unit?: string;
-  status?: string;
-  plant_id?: number;
-  machineries?: number[];
+  plantId?: number;
 }

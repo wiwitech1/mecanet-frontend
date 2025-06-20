@@ -13,12 +13,27 @@ import { ProductionLineEntity, ProductionLineStatus } from '../../models/product
 import { finalize } from 'rxjs';
 import { InteractProductionLineComponent } from '../../components/interact-production-line/interact-production-line.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { PlantService } from '../../services/plant.service';
+import { PlantEntity } from '../../models/plant.entity';
+import { Pipe, PipeTransform } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+@Pipe({
+    name: 'plantName',
+    standalone: true
+})
+export class PlantNamePipe implements PipeTransform {
+    transform(plants: PlantEntity[], plantId: number): PlantEntity | undefined {
+        return plants.find(plant => plant.id === +plantId);
+    }
+}
 
 @Component({
   selector: 'app-production-line-view',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     TranslateModule,
     InformationPanelComponent,
     SearchComponent,
@@ -27,7 +42,8 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
     InfoSectionComponent,
     InfoListItemsComponent,
     InfoContainerComponent,
-    InteractProductionLineComponent
+    InteractProductionLineComponent,
+    PlantNamePipe
   ],
   templateUrl: './production-line-view.component.html',
   styleUrl: './production-line-view.component.scss',
@@ -80,7 +96,6 @@ export class ProductionLineViewComponent implements OnInit {
     { key: 'plantName', label: 'assetManagement.columns.plant', type: 'texto' as 'texto' },
     { key: 'capacity', label: 'assetManagement.columns.capacity', type: 'texto' as 'texto' },
     { key: 'status', label: 'assetManagement.columns.status', type: 'texto' as 'texto' },
-    { key: 'machineryCount', label: 'assetManagement.columns.machines', type: 'texto' as 'texto' },
     { key: 'details', label: 'assetManagement.columns.details', type: 'cta' as 'cta', ctaLabel: 'assetManagement.columns.detailsButton' }
   ];
 
@@ -93,28 +108,33 @@ export class ProductionLineViewComponent implements OnInit {
   // Especificaciones técnicas
   techData: {subtitle: string, info: string}[] = [];
 
-  // Maquinarias asignadas a la línea
-  assignedMachines: {name: string, model: string, brand: string}[] = [];
+  // Agregar estas propiedades después de las propiedades existentes
+  plants: PlantEntity[] = [];
+  selectedPlantId: number | null = null;
 
   constructor(
     private productionLineService: ProductionLineService,
+    private plantService: PlantService,
     private translate: TranslateService
   ) {}
 
   ngOnInit() {
     this.loadProductionLines();
+    this.loadPlants();
   }
 
   loadProductionLines() {
+    console.log('selectedPlantId', this.selectedPlantId)
+    if (!this.selectedPlantId) return;
     this.loading = true;
     this.error = null;
 
-    this.productionLineService.getAllProductionLines()
+    this.productionLineService.getAllProductionLines(this.selectedPlantId)
       .pipe(finalize(() => this.loading = false))
       .subscribe({
         next: (data) => {
           this.productionLines = data;
-          this.prepareTableData();
+          this.prepareTableData(this.productionLines);
         },
         error: (err) => {
           this.error = 'Error al cargar las líneas de producción. Por favor, intente de nuevo.';
@@ -123,16 +143,26 @@ export class ProductionLineViewComponent implements OnInit {
       });
   }
 
-  prepareTableData() {
-    this.lines = this.productionLines.map(line => ({
+  filterProductionLines() {
+    let filteredLines = [...this.productionLines];
+
+    if (this.selectedPlantId) {
+      filteredLines = this.productionLines.filter(
+        line => this.selectedPlantId ? line.plantId === +this.selectedPlantId : true
+      );
+    }
+
+    this.prepareTableData(filteredLines);
+  }
+
+  prepareTableData(lines = this.productionLines) {
+    this.lines = lines.map(line => ({
       id: line.id,
       name: line.name,
       plantName: this.getPlantName(line.plantId),
-      capacity: `${line.maxUnitsPerHour} unidades/hora`,
+      capacity: `${line.maxUnitsPerHour} ${line.unit}/hora`,
       status: this.getStatusText(line.status),
-      machineryCount: line.machineries?.length || 0,
-      details: line.id, // Pasamos el ID como valor para el botón CTA
-      // Guardamos el objeto original para tenerlo accesible
+      details: line.id,
       original: line
     }));
   }
@@ -180,20 +210,13 @@ export class ProductionLineViewComponent implements OnInit {
       { subtitle: 'Nombre', info: line.name },
       { subtitle: 'Planta', info: this.getPlantName(line.plantId) },
       { subtitle: 'Estado actual', info: this.getStatusText(line.status) },
-      { subtitle: 'Capacidad', info: `${line.maxUnitsPerHour} unidades/hora` }
+      { subtitle: 'Capacidad', info: `${line.maxUnitsPerHour} ${line.unit}/hora` }
     ];
 
     // Especificaciones técnicas
     this.techData = [
       { subtitle: 'Descripción', info: line.code }
     ];
-
-    // Maquinarias asignadas
-    this.assignedMachines = line.machineries?.map(machine => ({
-      name: machine.name,
-      model: machine.model,
-      brand: machine.brand
-    })) ?? [];
   }
 
   onCtaClick(event: {row: any, column: any}) {
@@ -234,11 +257,10 @@ export class ProductionLineViewComponent implements OnInit {
       const updatedLine: ProductionLineEntity = {
         ...this.selectedLine,
         name: lineData.name,
-        plantId: lineData.plant_id,
+        plantId: lineData.plantId,
         maxUnitsPerHour: lineData.maxUnitsPerHour,
         unit: lineData.unit,
         status: lineData.status,
-        // No actualizamos machineries directamente aquí, se maneja a través de IDs
       };
 
       this.productionLineService.updateProductionLine(updatedLine)
@@ -267,14 +289,13 @@ export class ProductionLineViewComponent implements OnInit {
     } else {
       // Lógica para crear una nueva línea de producción
       const newLine: ProductionLineEntity = {
-        id: 0,
+        id: 0, // El backend asignará el ID real
         name: lineData.name,
         code: lineData.code,
-        plantId: lineData.plant_id,
+        plantId: lineData.plantId, // Corregido de plant_id a plantId
         maxUnitsPerHour: lineData.maxUnitsPerHour,
         unit: lineData.unit,
         status: 'ACTIVE', // Activa por defecto
-        machineries: [] // Se asignarán después
       };
 
       this.productionLineService.createProductionLine(newLine)
@@ -333,5 +354,25 @@ export class ProductionLineViewComponent implements OnInit {
     return status === 1 ?
       this.translate.instant('assetManagement.status.active') :
       this.translate.instant('assetManagement.status.inactive');
+  }
+
+  loadPlants() {
+    this.plantService.getAll().subscribe({
+      next: (plants) => {
+        this.plants = plants;
+        if (plants.length > 0) {
+          this.selectedPlantId = plants[0].id;
+          this.loadProductionLines();
+        }
+      },
+      error: (err) => {
+        console.error('Error al cargar las plantas:', err);
+        this.error = 'Error al cargar las plantas';
+      }
+    });
+  }
+
+  onPlantChange(event: any) {
+    this.loadProductionLines();
   }
 }

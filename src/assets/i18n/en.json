@@ -510,27 +510,29 @@
                 "fields": {
                     "name": {
                         "label": "Name",
-                        "required": "Name is required",
-                        "minLength": "Name must be at least 3 characters long"
+                        "placeholder": "Enter production line name",
+                        "required": "Name is required"
+                    },
+                    "code": {
+                        "label": "Code",
+                        "placeholder": "Enter production line code",
+                        "required": "Code is required"
+                    },
+                    "maxUnitsPerHour": {
+                        "label": "Maximum Units per Hour",
+                        "placeholder": "Enter maximum units per hour",
+                        "required": "Maximum units per hour is required"
+                    },
+                    "unit": {
+                        "label": "Unit",
+                        "placeholder": "Enter unit (e.g., pieces, units)",
+                        "required": "Unit is required"
                     },
                     "plant": {
                         "label": "Plant",
+                        "placeholder": "Select a plant",
                         "required": "Plant is required"
-                    },
-                    "capacity": {
-                        "label": "Capacity",
-                        "required": "Capacity is required",
-                        "min": "Capacity must be greater than 0"
-                    },
-                    "description": {
-                        "label": "Description",
-                        "required": "Description is required"
-                    },
-                    "machineries": {
-                        "label": "Available Machineries",
-                        "required": "At least one machinery must be selected"
-                    },
-                    "capacityUnit": "units/hour"
+                    }
                 },
                 "plants": {
                     "main": "Main Plant",
@@ -551,7 +553,11 @@
                 "save": "Save",
                 "cancel": "Cancel"
             }
-        }
+        },
+        "selectPlant": "Select a Plant",
+        "allPlants": "All Plants",
+        "plantName": "Plant Name",
+        "plantLocation": "Location"
     },
     "pageNotFound": {
         "title": "Page Not Found",
