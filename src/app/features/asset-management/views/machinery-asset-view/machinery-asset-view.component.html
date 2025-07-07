@@ -2,6 +2,39 @@
 
     <header class="breadcrumb-header">
         <app-title-view [text]="'assetManagement.breadcrumb.machinery' | translate"/>
+
+        <!-- Selectores de planta y línea de producción -->
+        <div class="selectors-container">
+            <!-- Selector de planta -->
+            <div class="selector-group">
+                <label class="selector-label">{{ 'assetManagement.selectPlant' | translate }}</label>
+                <div class="selector-wrapper">
+                    <select [(ngModel)]="selectedPlantId" (change)="onPlantChange()" class="selector-input">
+                        <option [ngValue]="null" disabled>
+                            {{ 'assetManagement.selectPlantPlaceholder' | translate }}
+                        </option>
+                        <option *ngFor="let plant of plants" [ngValue]="plant.id">
+                            {{ plant.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Selector de línea de producción -->
+            <div class="selector-group">
+                <label class="selector-label">{{ 'assetManagement.selectProductionLine' | translate }}</label>
+                <div class="selector-wrapper">
+                    <select [(ngModel)]="selectedLineId" (change)="onLineChange()" class="selector-input" [disabled]="!selectedPlantId">
+                        <option [ngValue]="null" disabled>
+                            {{ 'assetManagement.selectProductionLinePlaceholder' | translate }}
+                        </option>
+                        <option *ngFor="let line of productionLines" [ngValue]="line.id">
+                            {{ line.name }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main class="main-container">
@@ -46,7 +79,7 @@
   [showPrimaryButton]="true"
   [primaryButtonText]="'assetManagement.buttons.edit' | translate"
   [showSecondaryButton]="true"
-  [secondaryButtonText]="(selectedMachine.status === 1 ? 'assetManagement.buttons.deactivate' : 'assetManagement.buttons.activate') | translate"
+  [secondaryButtonText]="(selectedMachine.status === 'OPERATIONAL' ? 'assetManagement.buttons.deactivate' : 'assetManagement.buttons.activate') | translate"
   (primaryButtonClick)="editMachine()"
   (secondaryButtonClick)="toggleMachineryStatus()">
 
@@ -70,7 +103,7 @@
     </app-info-section>
   </app-info-container>
 
-  <!-- Historial de Mantenimiento -->
+  <!-- Historial de Mantenimiento
   <app-info-container
     [title]="'assetManagement.machinery.details.maintenanceHistory' | translate"
     [titleType]="2">
@@ -78,7 +111,7 @@
       [type]="'maintenance'"
       [items]="maintenanceItems">
     </app-info-list-items>
-  </app-info-container>
+  </app-info-container>-->
 
   <!-- Mediciones Actuales -->
   <!-- Comentado temporalmente

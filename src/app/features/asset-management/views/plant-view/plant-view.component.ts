@@ -11,13 +11,10 @@ import { RecordTableComponent, RecordTableColumn } from '../../../../shared/comp
 import { InformationPanelComponent } from '../../../../shared/components/information-panel/information-panel.component';
 import { InfoSectionComponent } from '../../../../shared/components/information-panel/info-section/info-section.component';
 import { InfoContainerComponent } from '../../../../shared/components/information-panel/info-container/info-container.component';
-import { InfoListItemsComponent } from '../../../../shared/components/information-panel/info-list-items/info-list-items.component';
 import { InteractPlantComponent } from '../../components/interact-plant/interact-plant.component';
 
 import { PlantService } from '../../services/plant.service';
-import { PlantEntity, PlantStatus } from '../../models/plant.entity';
-import { ProductionLineService } from '../../services/production-line.service';
-import { ProductionLineEntity } from '../../models/production-line.entity';
+import { PlantEntity } from '../../models/plant.entity';
 
 @Component({
   selector: 'app-plant-view',
@@ -31,7 +28,6 @@ import { ProductionLineEntity } from '../../models/production-line.entity';
     InformationPanelComponent,
     InfoSectionComponent,
     InfoContainerComponent,
-    InfoListItemsComponent,
     InteractPlantComponent
   ],
   templateUrl: './plant-view.component.html',
@@ -85,8 +81,8 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
   // Estado de la interfaz
   showDetailPanel = false;
-  showCreateModal = false;
-  showEditModal = false;
+  showPlantModal = false;
+  isEditMode = false;
 
   // Configuración tabla
   tableColumns: RecordTableColumn[] = [
@@ -99,32 +95,16 @@ export class PlantViewComponent implements OnInit, OnDestroy {
     { key: 'active', label: 'assetManagement.plants.columns.status', type: 'texto' }
   ];
 
-  tableActions = [
-    { name: 'Ver detalles', icon: 'visibility' },
-    { name: 'Editar', icon: 'edit' }
-  ];
-
-  // Datos del panel de información
-  infoData: any[] = [];
-  productionLinesItems: any[] = [];
-
   private destroy$ = new Subject<void>();
-
-  showPlantModal = false;
-  isEditMode = false;
-
-  allProductionLines: ProductionLineEntity[] = [];
 
   constructor(
     private plantService: PlantService,
     private router: Router,
-    private productionLineService: ProductionLineService,
     private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
     this.loadPlants();
-    //this.loadProductionLines();
   }
 
   ngOnDestroy(): void {
@@ -152,17 +132,6 @@ export class PlantViewComponent implements OnInit, OnDestroy {
         }
       });
   }
-/*
-  loadProductionLines() {
-    this.productionLineService.getAllProductionLines().subscribe({
-      next: (lines) => {
-        this.allProductionLines = lines;
-      },
-      error: (err) => {
-        console.error('Error al cargar líneas de producción:', err);
-      }
-    });
-  }*/
 
   // Acciones del usuario
   onSearch(event: string): void {
@@ -190,7 +159,6 @@ export class PlantViewComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (plant) => {
           this.selectedPlant = plant;
-          this.prepareInfoPanelData();
           this.showDetailPanel = true;
           this.loading = false;
         },
@@ -200,57 +168,6 @@ export class PlantViewComponent implements OnInit, OnDestroy {
           this.error = 'Error al cargar la planta';
         }
       });
-  }
-
-  prepareInfoPanelData(): void {
-    if (!this.selectedPlant) return;
-
-    this.infoData = [
-      { label: 'ID', value: this.selectedPlant.id },
-      { label: 'Nombre', value: this.selectedPlant.name },
-      { label: 'Dirección', value: this.selectedPlant.address },
-      { label: 'Ciudad', value: this.selectedPlant.city },
-      { label: 'País', value: this.selectedPlant.country },
-      { label: 'Teléfono', value: this.selectedPlant.contactPhone },
-      { label: 'Email', value: this.selectedPlant.contactEmail },
-      { label: 'Estado', value: this.getStatusLabel(this.selectedPlant.active ? 1 : 0) }
-    ];
-
-    // Preparamos los datos de las líneas de producción para el panel
-    this.productionLinesItems = [];
-  }
-
-  // Gestión de modales
-  showCreatePlantModal = () => {
-    this.showCreateModal = true;
-  }
-
-  showEditPlantModal(plantId: number): void {
-    this.plantService.getById(plantId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (plant) => {
-          this.selectedPlant = plant;
-          this.showEditModal = true;
-        },
-        error: (err) => {
-          console.error(`Error al cargar la planta ${plantId} para editar:`, err);
-        }
-      });
-  }
-
-  closeCreateModal(): void {
-    this.showCreateModal = false;
-  }
-
-  closeEditModal(): void {
-    this.showEditModal = false;
-  }
-
-  closeDetailPanel(): void {
-    this.showDetailPanel = false;
-    this.selectedPlant = null;
-    this.selectedPlantId = null;
   }
 
   // Método para manejar el guardado de la planta
@@ -302,7 +219,6 @@ export class PlantViewComponent implements OnInit, OnDestroy {
 
           if (this.selectedPlantId === updatedPlant.id) {
             this.selectedPlant = updatedPlant;
-            this.prepareInfoPanelData();
           }
 
           this.loading = false;
@@ -329,14 +245,8 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   }
 
   // Utilidades
-  getStatusLabel(status: number): string {
-    return status === 1 ?
-      this.translate.instant('assetManagement.status.active') :
-      this.translate.instant('assetManagement.status.inactive');
-  }
-
-  getProductionLineStatusLabel(status: number): string {
-    return status === 1 ?
+  getStatusLabel(status: boolean): string {
+    return status ?
       this.translate.instant('assetManagement.status.active') :
       this.translate.instant('assetManagement.status.inactive');
   }
@@ -356,5 +266,11 @@ export class PlantViewComponent implements OnInit, OnDestroy {
   // Cerrar el modal
   closeModal() {
     this.showPlantModal = false;
+  }
+
+  closeDetailPanel(): void {
+    this.showDetailPanel = false;
+    this.selectedPlant = null;
+    this.selectedPlantId = null;
   }
 }

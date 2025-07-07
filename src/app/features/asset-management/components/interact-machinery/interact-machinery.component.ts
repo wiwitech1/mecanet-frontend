@@ -14,11 +14,10 @@ import { TranslateModule } from '@ngx-translate/core';
 export class InteractMachineryComponent implements OnInit {
   @Input() machinery: MachineryEntity | null = null;
   @Input() title: string = 'Nueva Maquinaria';
-  @Output() save = new EventEmitter<any>();
+  @Output() save = new EventEmitter<Partial<MachineryEntity>>();
   @Output() cancel = new EventEmitter<void>();
 
   machineryForm: FormGroup;
-  isEditMode = false;
 
   constructor(private fb: FormBuilder) {
     this.machineryForm = this.fb.group({
@@ -32,9 +31,7 @@ export class InteractMachineryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isEditMode = !!this.machinery;
-
-    if (this.isEditMode && this.machinery) {
+    if (this.machinery) {
       this.machineryForm.patchValue({
         serialNumber: this.machinery.serialNumber,
         name: this.machinery.name,

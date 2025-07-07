@@ -833,5 +833,52 @@
             },
             "confirmDelete": "¿Está seguro de eliminar esta orden de trabajo?"
         }
+    },
+    "personal": {
+        "title": "Administración del Personal",
+        "search": {
+            "placeholder": "Buscar por nombre o correo..."
+        },
+        "table": {
+            "username": "Usuario",
+            "fullName": "Nombre Completo",
+            "email": "Correo",
+            "role": "Rol",
+            "details": "Ver Detalles"
+        },
+        "infoPanel": {
+            "title": "Detalles del Personal",
+            "details": "Información del Personal",
+            "generalInfo": "Información General",
+            "username": "Usuario",
+            "fullName": "Nombre Completo",
+            "email": "Correo",
+            "role": "Rol"
+        },
+        "roles": {
+            "technical": "Técnico",
+            "admin": "Administrador"
+        },
+        "actions": {
+            "close": "Cerrar",
+            "new": "Nuevo Personal"
+        },
+        "form": {
+            "title": "Nuevo Personal",
+            "username": "Usuario",
+            "usernamePlaceholder": "Ingrese nombre de usuario",
+            "firstName": "Nombre",
+            "firstNamePlaceholder": "Ingrese nombre",
+            "lastName": "Apellido",
+            "lastNamePlaceholder": "Ingrese apellido",
+            "email": "Correo",
+            "emailPlaceholder": "Ingrese correo electrónico",
+            "password": "Contraseña",
+            "passwordPlaceholder": "Ingrese contraseña",
+            "role": "Rol",
+            "selectRole": "Seleccione un rol",
+            "cancel": "Cancelar",
+            "create": "Crear"
+        }
     }
 }

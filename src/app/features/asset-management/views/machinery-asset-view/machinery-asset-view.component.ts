@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { InformationPanelComponent } from '../../../../shared/components/information-panel/information-panel.component';
 import { SearchComponent } from '../../../../shared/components/search/search.component';
@@ -13,12 +14,17 @@ import { MachineryEntity, MachineryStatus } from '../../models/machinery.entity'
 import { finalize } from 'rxjs';
 import { InteractMachineryComponent } from '../../components/interact-machinery/interact-machinery.component';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { PlantService } from '../../services/plant.service';
+import { ProductionLineService } from '../../services/production-line.service';
+import { PlantEntity } from '../../models/plant.entity';
+import { ProductionLineEntity } from '../../models/production-line.entity';
 
 @Component({
   selector: 'app-machinery-asset-view',
   standalone: true,
   imports: [
     CommonModule,
+    FormsModule,
     TranslateModule,
     InformationPanelComponent,
     SearchComponent,
@@ -82,7 +88,7 @@ export class MachineryAssetViewComponent implements OnInit {
   ];
 
   maintenanceItems = [
-    { 
+    {
       title: 'Mantenimiento Preventivo',
       date: '2024-01-15',
       description: 'Cambio de aceite y filtros',
@@ -108,30 +114,93 @@ export class MachineryAssetViewComponent implements OnInit {
     { key: 'manufacturer', label: 'Fabricante', type: 'texto' as const },
     { key: 'model', label: 'Modelo', type: 'texto' as const },
     { key: 'status', label: 'Estado', type: 'texto' as const },
-    { 
-      key: 'actions', 
-      label: 'Acciones', 
+    {
+      key: 'actions',
+      label: 'Acciones',
       type: 'cta' as const,
       ctaLabel: 'Ver Detalles',
       ctaVariant: 'primary' as const
     }
   ];
 
+  plants: PlantEntity[] = [];
+  productionLines: ProductionLineEntity[] = [];
+  selectedPlantId: number | null = null;
+  selectedLineId: number | null = null;
+
   constructor(
     private machineryService: MachineryService,
+    private plantService: PlantService,
+    private productionLineService: ProductionLineService,
     private translate: TranslateService
   ) {
     this.newMachineAction = this.newMachineAction.bind(this);
   }
 
   ngOnInit() {
+    this.loadPlants();
+  }
+
+  loadPlants() {
+    this.loading = true;
+    this.error = null;
+    this.plantService.getAll().subscribe({
+      next: (plants) => {
+        this.plants = plants;
+        if (plants.length > 0) {
+          this.selectedPlantId = plants[0].id;
+          this.loadProductionLines();
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = 'Error al cargar las plantas';
+        this.loading = false;
+        console.error('Error loading plants:', error);
+      }
+    });
+  }
+
+  loadProductionLines() {
+    if (!this.selectedPlantId) return;
+
+    this.loading = true;
+    this.error = null;
+    this.productionLineService.getAllProductionLines(this.selectedPlantId).subscribe({
+      next: (lines) => {
+        this.productionLines = lines;
+        if (lines.length > 0) {
+          this.selectedLineId = lines[0].id;
+          this.loadMachineries();
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = 'Error al cargar las líneas de producción';
+        this.loading = false;
+        console.error('Error loading production lines:', error);
+      }
+    });
+  }
+
+  onPlantChange() {
+    this.selectedLineId = null;
+    this.productionLines = [];
+    this.machines = [];
+    this.displayMachines = [];
+    this.loadProductionLines();
+  }
+
+  onLineChange() {
+    this.machines = [];
+    this.displayMachines = [];
     this.loadMachineries();
   }
 
-  getStatusText(status: number): string {
+  getStatusText(status: string): string {
     switch (status) {
       case MachineryStatus.INACTIVE: return 'Inactiva';
-      case MachineryStatus.ACTIVE: return 'Activa';
+      case MachineryStatus.OPERATIONAL: return 'Operativa';
       case MachineryStatus.MAINTENANCE: return 'Mantenimiento';
       case MachineryStatus.REPAIR: return 'Reparación';
       default: return 'Desconocido';
@@ -139,14 +208,16 @@ export class MachineryAssetViewComponent implements OnInit {
   }
 
   loadMachineries() {
+    if (!this.selectedLineId) return;
+
     this.loading = true;
     this.error = null;
-    this.machineryService.getAllMachineries().subscribe({
+    this.machineryService.getAllMachineries(this.selectedLineId).subscribe({
       next: (machines) => {
         this.machines = machines;
-        this.displayMachines = this.machines.map(m => ({
+        this.displayMachines = machines.map(m => ({
           ...m,
-          status: this.getStatusText(m.status)
+          status: m.status
         }));
         this.loading = false;
       },
@@ -158,18 +229,18 @@ export class MachineryAssetViewComponent implements OnInit {
     });
   }
 
-    updateSelectedMachineData() {
+  updateSelectedMachineData() {
     if (!this.selectedMachine) return;
 
-    // Actualizar infoData - usando subtitle e info como espera el componente
     this.infoData = [
       { subtitle: 'Estado', info: this.getStatusText(this.selectedMachine.status) },
-      { subtitle: 'Línea de Producción', info: `Línea ${this.selectedMachine.productionLineId}` },
-      { subtitle: 'Última Mantención', info: new Date(this.selectedMachine.lastMaintenanceDate).toLocaleDateString('es-ES') },
-      { subtitle: 'Próxima Mantención', info: new Date(this.selectedMachine.nextMaintenanceDate).toLocaleDateString('es-ES') }
+      { subtitle: 'Línea de Producción', info: `Línea ${this.selectedMachine.productionLineId || 'No asignada'}` },
+      { subtitle: 'Última Mantención', info: this.selectedMachine.lastMaintenanceDate ?
+          new Date(this.selectedMachine.lastMaintenanceDate).toLocaleDateString('es-ES') : 'No disponible' },
+      { subtitle: 'Próxima Mantención', info: this.selectedMachine.nextMaintenanceDate ?
+          new Date(this.selectedMachine.nextMaintenanceDate).toLocaleDateString('es-ES') : 'No disponible' }
     ];
 
-    // Actualizar techData - usando subtitle e info como espera el componente
     this.techData = [
       { subtitle: 'Número de Serie', info: this.selectedMachine.serialNumber },
       { subtitle: 'Fabricante', info: this.selectedMachine.manufacturer },
@@ -178,7 +249,6 @@ export class MachineryAssetViewComponent implements OnInit {
       { subtitle: 'Consumo de Energía', info: `${this.selectedMachine.powerConsumption} kW` }
     ];
   }
-  
 
   onCtaClick(event: { row: any; column: any }) {
     const machine = this.machines.find(m => m.id === event.row.id);
@@ -190,7 +260,6 @@ export class MachineryAssetViewComponent implements OnInit {
       this.showDetailPanel = true;
     }
   }
-  
 
   closeDetailPanel() {
     this.showDetailPanel = false;
@@ -216,68 +285,55 @@ export class MachineryAssetViewComponent implements OnInit {
     this.showMachineryModal = false;
   }
 
-  saveMachinery(machinery: MachineryEntity) {
-    if (this.isEditMode && this.selectedMachine) {
-      this.machineryService.updateMachinery(machinery).subscribe({
-        next: (updated) => {
-          const index = this.machines.findIndex(m => m.id === updated.id);
-          if (index !== -1) {
-            this.machines[index] = updated;
-            this.displayMachines[index] = {
-              ...updated,
-              status: this.getStatusText(updated.status)
-            };
-          }
-          this.closeModal();
-          if (this.selectedMachine?.id === updated.id) {
-            this.selectedMachine = updated;
-            this.updateSelectedMachineData();
-          }
-        },
-        error: (error) => {
-          console.error('Error updating machinery:', error);
-        }
-      });
-    } else {
-      this.machineryService.createMachinery(machinery).subscribe({
-        next: (created) => {
+  saveMachinery(machinery: Partial<MachineryEntity>) {
+    this.loading = true;
+
+    // Crear la maquinaria
+    this.machineryService.createMachinery(machinery).pipe(
+      finalize(() => {
+        this.loading = false;
+        this.showMachineryModal = false;
+      })
+    ).subscribe({
+      next: (created) => {
+        // Si hay una línea de producción seleccionada, asignar la maquinaria
+        if (this.selectedLineId) {
+          this.machineryService.assignToProductionLine(created.id, this.selectedLineId)
+            .subscribe({
+              next: (assigned) => {
+                this.machines.push(assigned);
+                this.displayMachines.push({
+                  ...assigned,
+                  status: assigned.status
+                });
+              },
+              error: (error) => {
+                console.error('Error assigning machinery:', error);
+                // Aún así mostramos la maquinaria creada
+                this.machines.push(created);
+                this.displayMachines.push({
+                  ...created,
+                  status: created.status
+                });
+              }
+            });
+        } else {
           this.machines.push(created);
           this.displayMachines.push({
             ...created,
-            status: this.getStatusText(created.status)
+            status: created.status
           });
-          this.closeModal();
-        },
-        error: (error) => {
-          console.error('Error creating machinery:', error);
         }
-      });
-    }
+      },
+      error: (error) => {
+        console.error('Error creating machinery:', error);
+        this.error = 'Error al crear la maquinaria';
+      }
+    });
   }
 
   toggleMachineryStatus() {
-    if (this.selectedMachine && this.selectedMachineId) {
-      const newStatus = this.selectedMachine.status === MachineryStatus.ACTIVE ? 
-        MachineryStatus.INACTIVE : 
-        MachineryStatus.ACTIVE;
-      
-      this.machineryService.changeMachineryStatus(this.selectedMachineId, newStatus, 1).subscribe({
-        next: (updated) => {
-          const index = this.machines.findIndex(m => m.id === updated.id);
-          if (index !== -1) {
-            this.machines[index] = updated;
-            this.displayMachines[index] = {
-              ...updated,
-              status: this.getStatusText(updated.status)
-            };
-          }
-          this.selectedMachine = updated;
-          this.updateSelectedMachineData();
-        },
-        error: (error) => {
-          console.error('Error toggling machinery status:', error);
-        }
-      });
-    }
+    // Eliminado ya que no está disponible en el API
+    console.warn('Función toggleMachineryStatus no implementada en el API');
   }
 }

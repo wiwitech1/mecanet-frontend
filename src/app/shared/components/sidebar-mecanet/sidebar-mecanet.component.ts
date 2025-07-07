@@ -108,11 +108,12 @@ export class SidebarMecanetComponent implements OnInit {
       icon: 'play_circle',
       route: '/ejecucion',
     },
+    /*
     {
       title: 'sidebar.menu.dashboard',
       icon: 'dashboard',
       route: '/dashboard',
-    },
+    },*/
     {
       title: 'sidebar.menu.staffManagement',
       icon: 'people',

@@ -2,7 +2,7 @@
   <header class="breadcrumb-header">
     <app-title-view [text]="'machineryMetrics.breadcrumb' | translate"/>
   </header>
-  
+
   <div class="main-content">
     <div class="search-section">
       <app-search
@@ -43,15 +43,15 @@
             </div>
           </div>
           <div class="machinery-status">
-            <span class="status-badge" [ngClass]="getStatusClass(machinery.status)">
-              {{ getStatusText(machinery.status) }}
+            <span class="status-badge" [ngClass]="getStatusClass(machinery.status.toString())">
+              {{ getStatusText(machinery.status.toString()) }}
             </span>
           </div>
         </div>
 
         <div class="machinery-measurements" *ngIf="machinery.measurements && machinery.measurements.length > 0">
           <h4 class="measurements-title">{{ 'machineryMetrics.measurements.title' | translate }}</h4>
-          
+
           <div class="measurements-list">
             <div class="measurement-item" *ngFor="let measurement of machinery.measurements" [attr.data-measurement-id]="measurement.id">
               <div class="measurement-info">
@@ -68,11 +68,11 @@
                   <span class="updated-value">{{ formatDate(measurement.lastUpdated) }}</span>
                 </div>
               </div>
-              
+
               <div class="measurement-actions">
                 <div class="input-group">
-                  <input 
-                    type="number" 
+                  <input
+                    type="number"
                     class="measurement-input"
                     [placeholder]="'machineryMetrics.measurements.newValue' | translate"
                     [value]="measurementValues[machinery.id]?.[measurement.id] || ''"
@@ -112,4 +112,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div>

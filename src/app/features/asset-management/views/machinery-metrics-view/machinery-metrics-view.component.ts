@@ -88,20 +88,20 @@ export class MachineryMetricsViewComponent implements OnInit {
     this.measurementValues[machineryId][measurementId] = numericValue;
   }
 
-  getStatusText(status: number): string {
+  getStatusText(status: string): string {
     switch (status) {
       case MachineryStatus.INACTIVE: return 'Inactiva';
-      case MachineryStatus.ACTIVE: return 'Activa';
+      case MachineryStatus.OPERATIONAL: return 'Operativa';
       case MachineryStatus.MAINTENANCE: return 'Mantenimiento';
       case MachineryStatus.REPAIR: return 'Reparación';
       default: return 'Desconocido';
     }
   }
 
-  getStatusClass(status: number): string {
+  getStatusClass(status: string): string {
     switch (status) {
       case MachineryStatus.INACTIVE: return 'status-inactive';
-      case MachineryStatus.ACTIVE: return 'status-active';
+      case MachineryStatus.OPERATIONAL: return 'status-active';
       case MachineryStatus.MAINTENANCE: return 'status-maintenance';
       case MachineryStatus.REPAIR: return 'status-repair';
       default: return 'status-unknown';
@@ -110,7 +110,7 @@ export class MachineryMetricsViewComponent implements OnInit {
 
   formatDate(date: Date | string): string {
     if (!date) return 'N/A';
-    
+
     try {
       const dateObj = typeof date === 'string' ? new Date(date) : date;
       return dateObj.toLocaleDateString('es-ES', {
@@ -166,4 +166,4 @@ export class MachineryMetricsViewComponent implements OnInit {
     // Por ahora no implementamos filtros adicionales
     console.log('Filters changed:', filters);
   }
-} 
+}

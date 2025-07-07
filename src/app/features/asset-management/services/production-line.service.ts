@@ -1,11 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, map, catchError, throwError } from 'rxjs';
-import { ProductionLineEntity, ProductionLineStatus } from '../models/production-line.entity';
-import { ProductionLineAssembler } from './production-line.assembler';
-import { ProductionLineResource, CreateProductionLineResource, UpdateProductionLineResource } from './production-line.resource';
+import { ProductionLineEntity } from '../models/production-line.entity';
 import { environment } from '../../../../environments/environment';
-import { PlantAssembler } from './plant.assembler';
 import { UserService } from '../../../core/services/user.service';
 
 @Injectable({
@@ -16,143 +13,91 @@ export class ProductionLineService {
 
   constructor(
     private http: HttpClient,
-    private assembler: PlantAssembler,
     private userService: UserService
   ) {}
 
   private getHeaders(): HttpHeaders {
     const session = this.userService.getSession();
     return new HttpHeaders({
-      Authorization: `Bearer ${session?.token}`
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session?.token}`
     });
   }
 
-
   /**
-   * Obtiene todas las líneas de producción del servidor
+   * Obtiene todas las líneas de producción de una planta
+   * @param plantId ID de la planta
+   * @returns Observable con la lista de líneas de producción
    */
   getAllProductionLines(plantId: number): Observable<ProductionLineEntity[]> {
-    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
-
-    if (!token) {
-      console.error('No hay token disponible');
-      return throwError(() => new Error('No autorizado'));
-    }
-
-    return this.http.get<ProductionLineResource[]>(`${environment.serverBaseUrl}/production-lines/plant/${plantId}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    }).pipe(
-      map(resources => ProductionLineAssembler.resourcesToEntities(resources)),
-      catchError(this.handleError)
-    );
+    const url = `${this.apiUrl}/plant/${plantId}`;
+    return this.http.get<ProductionLineEntity[]>(url, { headers: this.getHeaders() })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   /**
    * Obtiene una línea de producción por su ID
+   * @param id ID de la línea de producción
+   * @returns Observable con la línea de producción
    */
   getProductionLineById(id: number): Observable<ProductionLineEntity> {
-    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
-
-    if (!token) {
-      return throwError(() => new Error('No autorizado'));
-    }
-
-    return this.http.get<ProductionLineResource>(`${this.apiUrl}/${id}`, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    }).pipe(
-      map(resource => ProductionLineAssembler.resourceToEntity(resource)),
-      catchError(this.handleError)
-    );
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<ProductionLineEntity>(url, { headers: this.getHeaders() })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   /**
    * Crea una nueva línea de producción
+   * @param productionLine Datos de la línea de producción a crear
+   * @returns Observable con la línea de producción creada
    */
-  createProductionLine(productionLine: ProductionLineEntity): Observable<ProductionLineEntity> {
-    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
-
-    if (!token) {
-      console.error('No hay token disponible');
-      return throwError(() => new Error('No autorizado'));
-    }
-
-    const resource = ProductionLineAssembler.entityToCreateResource(productionLine);
-    return this.http.post<ProductionLineResource>(this.apiUrl, resource, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    }).pipe(
-      map(newResource => ProductionLineAssembler.resourceToEntity(newResource)),
-      catchError(this.handleError)
-    );
+  createProductionLine(productionLine: Partial<ProductionLineEntity>): Observable<ProductionLineEntity> {
+    return this.http.post<ProductionLineEntity>(this.apiUrl, productionLine, { headers: this.getHeaders() })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   /**
    * Actualiza una línea de producción existente
+   * @param id ID de la línea de producción
+   * @param productionLine Datos a actualizar
+   * @returns Observable con la línea de producción actualizada
    */
-  updateProductionLine(productionLine: ProductionLineEntity): Observable<ProductionLineEntity> {
-    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
-
-    if (!token) {
-      console.error('No hay token disponible');
-      return throwError(() => new Error('No autorizado'));
-    }
-
-    const resource = ProductionLineAssembler.entityToUpdateResource(productionLine);
-    return this.http.patch<ProductionLineResource>(
-      `${this.apiUrl}/${productionLine.id}`,
-      resource,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    ).pipe(
-      map(updatedResource => ProductionLineAssembler.resourceToEntity(updatedResource)),
-      catchError(this.handleError)
-    );
+  updateProductionLine(id: number, productionLine: Partial<ProductionLineEntity>): Observable<ProductionLineEntity> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.put<ProductionLineEntity>(url, productionLine, { headers: this.getHeaders() })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   /**
    * Cambia el estado de una línea de producción
+   * @param id ID de la línea de producción
+   * @param status Nuevo estado
+   * @returns Observable con la línea de producción actualizada
    */
   changeProductionLineStatus(id: number, status: string): Observable<ProductionLineEntity> {
-    const token = JSON.parse(localStorage.getItem('userSession') || '{}').token;
-
-    if (!token) {
-      console.error('No hay token disponible');
-      return throwError(() => new Error('No autorizado'));
-    }
-
-    return this.http.patch<ProductionLineResource>(
-      `${this.apiUrl}/${id}`,
-      { status },
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
-    ).pipe(
-      map(resource => ProductionLineAssembler.resourceToEntity(resource)),
-      catchError(this.handleError)
-    );
+    const url = `${this.apiUrl}/${id}/status`;
+    return this.http.patch<ProductionLineEntity>(url, { status }, { headers: this.getHeaders() })
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   /**
-   * Método para manejar errores de las llamadas HTTP
+   * Maneja los errores de las llamadas HTTP
+   * @param error Error HTTP
+   * @returns Observable con error
    */
   private handleError(error: any) {
     console.error('Error en ProductionLineService:', error);
-    return throwError(() => new Error('Ocurrió un error al procesar la solicitud. Por favor intente nuevamente.'));
+    return throwError(() => new Error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.'));
   }
 
    /**
