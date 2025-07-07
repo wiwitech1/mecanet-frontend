@@ -65,35 +65,22 @@
                           { subtitle: ('assetManagement.plants.details.country' | translate), info: selectedPlant.country },
                           { subtitle: ('assetManagement.plants.details.contactPhone' | translate), info: selectedPlant.contactPhone },
                           { subtitle: ('assetManagement.plants.details.contactEmail' | translate), info: selectedPlant.contactEmail },
-                          { subtitle: ('assetManagement.plants.details.status' | translate), info: getStatusLabel(selectedPlant.active ? 1 : 0) }
+                          { subtitle: ('assetManagement.plants.details.status' | translate), info: getStatusLabel(selectedPlant.active) }
                       ]">
                   </app-info-section>
-
-                  <!-- Líneas de producción -->
-                  <app-info-container
-                      [title]="'assetManagement.plants.details.productionLines' | translate"
-                      [titleType]="2">
-                      <ng-container *ngIf="selectedPlant as plant">
-
-                      </ng-container>
-                  </app-info-container>
               </app-information-panel>
           </div>
       </div>
   </main>
 
   <!-- Modal para crear/editar plantas -->
-  <div *ngIf="showPlantModal" class="modal-overlay" [@overlayAnimation] (click)="closeModal()">
-      <div class="modal-container" [@modalAnimation] (click)="$event.stopPropagation()">
-          <app-interact-plant
-              [showModal]="showPlantModal"
-              [plantToEdit]="isEditMode ? selectedPlant : null"
-              [title]="(isEditMode ? 'assetManagement.plants.modal.edit' : 'assetManagement.plants.modal.new') | translate"
-              [availableProductionLines]="allProductionLines"
-              (save)="onSavePlant($event)"
-              (cancel)="closeModal()">
-          </app-interact-plant>
-      </div>
-  </div>
+  <app-interact-plant
+      *ngIf="showPlantModal"
+      [showModal]="showPlantModal"
+      [plantToEdit]="isEditMode ? selectedPlant : null"
+      [title]="(isEditMode ? 'assetManagement.plants.modal.edit' : 'assetManagement.plants.modal.new') | translate"
+      (save)="onSavePlant($event)"
+      (cancel)="closeModal()">
+  </app-interact-plant>
 </div>
 

@@ -1,0 +1,96 @@
+<div class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <h2>{{ 'personal.actions.new' | translate }}</h2>
+      <button class="close-button" (click)="handleCancel()">×</button>
+    </div>
+
+    <div class="modal-content">
+      <form (ngSubmit)="handleSubmit()" class="form-container">
+        <div class="form-group">
+          <label for="username">{{ 'personal.form.username' | translate }} *</label>
+          <input
+            id="username"
+            [(ngModel)]="formData.username"
+            name="username"
+            type="text"
+            required
+            [placeholder]="'personal.form.usernamePlaceholder' | translate"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="firstName">{{ 'personal.form.firstName' | translate }} *</label>
+          <input
+            id="firstName"
+            [(ngModel)]="formData.firstName"
+            name="firstName"
+            type="text"
+            required
+            [placeholder]="'personal.form.firstNamePlaceholder' | translate"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="lastName">{{ 'personal.form.lastName' | translate }} *</label>
+          <input
+            id="lastName"
+            [(ngModel)]="formData.lastName"
+            name="lastName"
+            type="text"
+            required
+            [placeholder]="'personal.form.lastNamePlaceholder' | translate"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">{{ 'personal.form.email' | translate }} *</label>
+          <input
+            id="email"
+            [(ngModel)]="formData.email"
+            name="email"
+            type="email"
+            required
+            [placeholder]="'personal.form.emailPlaceholder' | translate"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="password">{{ 'personal.form.password' | translate }} *</label>
+          <input
+            id="password"
+            [(ngModel)]="formData.password"
+            name="password"
+            type="password"
+            required
+            [placeholder]="'personal.form.passwordPlaceholder' | translate"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="role">{{ 'personal.form.role' | translate }} *</label>
+          <select
+            id="role"
+            [(ngModel)]="currentRole"
+            name="role"
+            required
+          >
+            <option [ngValue]="null" disabled>{{ 'personal.form.selectRole' | translate }}</option>
+            <option *ngFor="let role of roles" [value]="role.value">
+              {{ role.label | translate }}
+            </option>
+          </select>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal-footer">
+      <app-button variant="outline" (clicked)="handleCancel()">
+        {{ 'personal.form.cancel' | translate }}
+      </app-button>
+      <app-button variant="primary" (clicked)="handleSubmit()">
+        {{ 'personal.form.create' | translate }}
+      </app-button>
+    </div>
+  </div>
+</div>

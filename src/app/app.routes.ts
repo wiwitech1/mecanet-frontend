@@ -13,6 +13,7 @@ import { BillingComponent} from './features/configuration/views/billing/billing.
 import { DeleteAccountComponent} from './features/configuration/views/delete-account/delete-account.component';
 import {ConfigurationPanelComponent} from './shared/components/configuration-panel/configuration-panel.component';
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
+const PersonalViewComponent = (): Promise<any> => import('./features/personal/views/personal-view/personal-view.component').then(m => m.PersonalViewComponent);
 
 
 const MachineryAssetViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-asset-view/machinery-asset-view.component').then(m => m.MachineryAssetViewComponent);
@@ -83,6 +84,7 @@ export const routes: Routes = [
     { path: 'inventario/ordenes-compra', loadComponent: PurchaseOrdersViewComponent, canActivate: [authGuard] },
     { path: 'ordenes-trabajo', loadComponent: WorkOrderComponent, canActivate: [authGuard] },
     { path: 'ejecucion', loadComponent: ExecutionViewComponent, canActivate: [authGuard] },
+    { path: 'personal', loadComponent: PersonalViewComponent, canActivate: [authGuard] },
     // Ruta de redirección por defecto
     { path: '', redirectTo: '/components-demo', pathMatch: 'full' },
 

@@ -1,7 +1,7 @@
 import { MachineryMeasurementEntity } from './measurement.entity';
 
 /**
- * Representa una máquina en el sistema
+ * Representa una maquinaria en el sistema
  */
 export interface MachineryEntity {
     id: number;
@@ -11,19 +11,19 @@ export interface MachineryEntity {
     model: string;
     type: string;
     powerConsumption: number;
-    status: number;
-    productionLineId: number;
-    lastMaintenanceDate: Date;
-    nextMaintenanceDate: Date;
+    status: string;
+    productionLineId: number | null;
+    lastMaintenanceDate: string | null;
+    nextMaintenanceDate: string | null;
     measurements?: MachineryMeasurementEntity[];
 }
 
 /**
- * Enumeración para los posibles estados de una máquina
+ * Estados posibles de una maquinaria
  */
 export enum MachineryStatus {
-    INACTIVE = 0,
-    ACTIVE = 1,
-    MAINTENANCE = 2,
-    REPAIR = 3
+    OPERATIONAL = 'OPERATIONAL',
+    MAINTENANCE = 'MAINTENANCE',
+    REPAIR = 'REPAIR',
+    INACTIVE = 'INACTIVE'
 }

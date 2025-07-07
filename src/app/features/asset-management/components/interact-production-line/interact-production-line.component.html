@@ -47,10 +47,14 @@
             type="number"
             class="form-input"
             formControlName="maxUnitsPerHour"
+            min="1"
             [placeholder]="'assetManagement.forms.productionLine.fields.maxUnitsPerHour.placeholder' | translate"
           >
           <span class="form-error" *ngIf="productionLineForm.get('maxUnitsPerHour')?.errors?.['required'] && productionLineForm.get('maxUnitsPerHour')?.touched">
             {{ 'assetManagement.forms.productionLine.fields.maxUnitsPerHour.required' | translate }}
+          </span>
+          <span class="form-error" *ngIf="productionLineForm.get('maxUnitsPerHour')?.errors?.['min'] && productionLineForm.get('maxUnitsPerHour')?.touched">
+            {{ 'assetManagement.forms.productionLine.fields.maxUnitsPerHour.min' | translate }}
           </span>
         </div>
 
@@ -79,12 +83,17 @@
         <select
           class="form-select"
           formControlName="plantId"
-          (change)="onPlantChange($event)"
         >
-          <option *ngFor="let plant of plants" [value]="plant.id">
+          <option [ngValue]="null" disabled>
+            {{ 'assetManagement.forms.productionLine.fields.plant.placeholder' | translate }}
+          </option>
+          <option *ngFor="let plant of plants" [ngValue]="plant.id">
             {{ plant.name }}
           </option>
         </select>
+        <span class="form-error" *ngIf="productionLineForm.get('plantId')?.errors?.['required'] && productionLineForm.get('plantId')?.touched">
+          {{ 'assetManagement.forms.productionLine.fields.plant.required' | translate }}
+        </span>
       </div>
     </div>
 

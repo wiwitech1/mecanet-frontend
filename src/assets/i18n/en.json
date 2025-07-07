@@ -844,5 +844,52 @@
             },
             "confirmDelete": "Are you sure you want to delete this work order?"
         }
+    },
+    "personal": {
+        "title": "Staff Management",
+        "search": {
+            "placeholder": "Search by name or email..."
+        },
+        "table": {
+            "username": "Username",
+            "fullName": "Full Name",
+            "email": "Email",
+            "role": "Role",
+            "details": "View Details"
+        },
+        "infoPanel": {
+            "title": "Staff Details",
+            "details": "Staff Information",
+            "generalInfo": "General Information",
+            "username": "Username",
+            "fullName": "Full Name",
+            "email": "Email",
+            "role": "Role"
+        },
+        "roles": {
+            "technical": "Technical",
+            "admin": "Administrator"
+        },
+        "actions": {
+            "close": "Close",
+            "new": "New Staff"
+        },
+        "form": {
+            "title": "New Staff Member",
+            "username": "Username",
+            "usernamePlaceholder": "Enter username",
+            "firstName": "First Name",
+            "firstNamePlaceholder": "Enter first name",
+            "lastName": "Last Name",
+            "lastNamePlaceholder": "Enter last name",
+            "email": "Email",
+            "emailPlaceholder": "Enter email",
+            "password": "Password",
+            "passwordPlaceholder": "Enter password",
+            "role": "Role",
+            "selectRole": "Select a role",
+            "cancel": "Cancel",
+            "create": "Create"
+        }
     }
 }

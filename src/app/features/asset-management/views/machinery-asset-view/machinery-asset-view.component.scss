@@ -10,6 +10,77 @@
     margin-bottom: 2em;
 }
 
+/* Estilos para los selectores */
+.selectors-container {
+    margin: 1.5rem 0;
+    width: 100%;
+    background: var(--surface-card);
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    gap: 2rem;
+}
+
+.selector-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.selector-label {
+    font-size: 0.875rem;
+    color: var(--text-color-secondary);
+    font-weight: 500;
+}
+
+.selector-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+}
+
+.selector-input {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 6px;
+    border: 1px solid var(--clr-primary-200);
+    background-color: var(--surface-section);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.2);
+    }
+
+    &:hover:not(:disabled) {
+        border-color: var(--primary-color);
+    }
+
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        background-color: var(--surface-hover);
+    }
+}
+
+/* Media queries para los selectores */
+@media (max-width: 768px) {
+    .selectors-container {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .selector-group {
+        width: 100%;
+    }
+}
+
 .main-container {
     display: flex;
     align-items: flex-start;
@@ -27,7 +98,7 @@
     width: 72%;
     height: 100%;
     transition: width 0.3s ease;
-    
+
     &.full-width {
         width: 100% !important;
     }
@@ -54,13 +125,13 @@
     overflow: hidden;
     position: relative;
     transition: all 0.3s ease;
-    
+
     .panel-header {
         position: absolute;
         top: 0.5em;
         right: 0.5em;
         z-index: 2;
-        
+
         .close-button {
             background: transparent;
             border: none;
@@ -69,7 +140,7 @@
             cursor: pointer;
             opacity: 0.6;
             transition: opacity 0.2s;
-            
+
             &:hover {
                 opacity: 1;
             }
@@ -82,12 +153,12 @@
         background-color: var(--clr-bg-secondary);
         border-radius: var(--radius-md);
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        
+
         .subtitle {
             font-weight: bold;
             color: var(--clr-primary-500);
         }
-        
+
         .info {
             color: var(--clr-text-secondary);
         }
@@ -100,19 +171,19 @@
         width: 100%;
         border-collapse: collapse;
     }
-    
+
     .record-table th {
         background-color: var(--clr-primary-400);
         color: white;
         padding: 1em;
         text-align: left;
     }
-    
+
     .record-table tr:hover {
         background-color: var(--clr-primary-100);
         cursor: pointer;
     }
-    
+
     .record-table td {
         padding: 1em;
         border-bottom: 1px solid var(--clr-shadow);
@@ -172,7 +243,7 @@
         font-size: 0.8em;
         cursor: pointer;
         transition: background-color 0.2s;
-        
+
         &:hover {
             background-color: var(--clr-primary-400);
         }
@@ -205,16 +276,16 @@
   border-radius: var(--radius-md);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
   transform-origin: center center;
-  
+
   // Personalización de la barra de desplazamiento
   &::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   &::-webkit-scrollbar-track {
     background: transparent;
   }
-  
+
   &::-webkit-scrollbar-thumb {
     background-color: var(--clr-primary-200);
     border-radius: 4px;
@@ -234,7 +305,7 @@
   .modal-overlay {
     background-color: rgba(0, 0, 0, 0.7);
   }
-  
+
   .modal-container {
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
   }
