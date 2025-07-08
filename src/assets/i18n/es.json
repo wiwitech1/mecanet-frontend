@@ -160,9 +160,11 @@
             "name": "Nombre",
             "currentStock": "Stock Actual",
             "stockStatus": "Estado del Stock",
+            "category": "Categoría",
             "details": "Detalles"
         },
         "infoPanel": {
+            "addStock": "Agregar Stock",
             "partPrefix": "Repuesto: ",
             "edit": "Editar",
             "close": "Cerrar",
@@ -211,6 +213,21 @@
                 },
                 "unitPrice": {
                     "label": "Precio Unitario"
+                },
+                "category": {
+                    "label": "Categoría"
+                },
+                "unit": {
+                    "label": "Unidad",
+                    "placeholder": "Ingrese la unidad"
+                },
+                "location": {
+                    "label": "Ubicación",
+                    "placeholder": "Ingrese la ubicación"
+                },
+                "sku": {
+                    "label": "SKU",
+                    "placeholder": "Ingrese SKU"
                 }
             },
             "actions": {
@@ -220,6 +237,19 @@
                 "create": "Crear"
             },
             "confirmDelete": "¿Está seguro de eliminar este repuesto?"
+        },
+        "addStock": {
+            "title": "Agregar Stock",
+            "fields": {
+                "quantity": "Cantidad",
+                "reason": "Motivo",
+                "unitCost": "Costo Unitario",
+                "reference": "Referencia"
+            },
+            "actions": {
+                "cancel": "Cancelar",
+                "add": "Agregar"
+            }
         }
     },
     "purchaseOrders": {

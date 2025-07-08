@@ -160,9 +160,11 @@
             "name": "Name",
             "currentStock": "Current Stock",
             "stockStatus": "Stock Status",
+            "category": "Category",
             "details": "Details"
         },
         "infoPanel": {
+            "addStock": "Add Stock",
             "partPrefix": "Part: ",
             "edit": "Edit",
             "close": "Close",
@@ -211,6 +213,21 @@
                 },
                 "unitPrice": {
                     "label": "Unit Price"
+                },
+                "category": {
+                    "label": "Category"
+                },
+                "unit": {
+                    "label": "Unit",
+                    "placeholder": "Enter unit"
+                },
+                "location": {
+                    "label": "Location",
+                    "placeholder": "Enter location"
+                },
+                "sku": {
+                    "label": "SKU",
+                    "placeholder": "Enter SKU"
                 }
             },
             "actions": {
@@ -220,6 +237,19 @@
                 "create": "Create"
             },
             "confirmDelete": "Are you sure you want to delete this part?"
+        },
+        "addStock": {
+            "title": "Add Stock",
+            "fields": {
+                "quantity": "Quantity",
+                "reason": "Reason",
+                "unitCost": "Unit Cost",
+                "reference": "Reference"
+            },
+            "actions": {
+                "cancel": "Cancel",
+                "add": "Add"
+            }
         }
     },
     "purchaseOrders": {

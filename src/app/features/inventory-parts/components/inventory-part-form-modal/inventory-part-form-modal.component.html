@@ -8,15 +8,15 @@
         <div class="modal-content">
             <form (ngSubmit)="handleSubmit()" #form="ngForm" class="form-container">
                 <div class="form-group">
-                    <label for="code">{{ 'inventoryParts.form.fields.code.label' | translate }}</label>
+                    <label for="sku">{{ 'inventoryParts.form.fields.sku.label' | translate }}</label>
                     <input
-                        id="code"
-                        [(ngModel)]="formData.code"
-                        name="code"
+                        id="sku"
+                        [(ngModel)]="formData.sku"
+                        name="sku"
                         type="text"
                         required
                         [disabled]="isEdit"
-                        [placeholder]="'inventoryParts.form.fields.code.placeholder' | translate"
+                        [placeholder]="'inventoryParts.form.fields.sku.placeholder' | translate"
                     />
                 </div>
                 <div class="form-group">
@@ -41,12 +41,71 @@
                         [placeholder]="'inventoryParts.form.fields.description.placeholder' | translate"
                     ></textarea>
                 </div>
+
+                <!-- Categoría -->
+                <div class="form-group">
+                    <label for="category">{{ 'inventoryParts.form.fields.category.label' | translate }}</label>
+                    <select
+                        id="category"
+                        [(ngModel)]="formData.category"
+                        name="category"
+                        required>
+                        <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+                    </select>
+                </div>
+
+                <!-- Unidad -->
+                <div class="form-group">
+                    <label for="unit">{{ 'inventoryParts.form.fields.unit.label' | translate }}</label>
+                    <input
+                        id="unit"
+                        [(ngModel)]="formData.unit"
+                        name="unit"
+                        type="text"
+                        required/>
+                </div>
+
+                <!-- Ubicación -->
+                <div class="form-group">
+                    <label for="location">{{ 'inventoryParts.form.fields.location.label' | translate }}</label>
+                    <input
+                        id="location"
+                        [(ngModel)]="formData.location"
+                        name="location"
+                        type="text"/>
+                </div>
+
+                <!-- Planta -->
+                <div class="form-group">
+                    <label for="plant">{{ 'inventoryParts.form.fields.plant.label' | translate }}</label>
+                    <select
+                        id="plant"
+                        [(ngModel)]="formData.plantId"
+                        name="plantId"
+                        required>
+                        <option *ngFor="let plant of plants" [value]="plant.id">{{ plant.name }}</option>
+                    </select>
+                </div>
+
+                <!-- Maquinarias compatibles -->
+                <div class="form-group">
+                    <label>{{ 'inventoryParts.form.fields.machines.label' | translate }}</label>
+                    <div class="machines-list">
+                        <label *ngFor="let mach of machineries" class="machine-option">
+                            <input type="checkbox"
+                                   [value]="mach.id"
+                                   (change)="toggleMachine(mach.id, $any($event.target).checked)"
+                                   [checked]="formData.compatibleMachineIds.includes(mach.id)" />
+                            {{ mach.name }} ({{ mach.serialNumber }})
+                        </label>
+                    </div>
+                </div>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="currentStock">{{ 'inventoryParts.form.fields.currentStock.label' | translate }}</label>
                         <input
                             id="currentStock"
-                            [(ngModel)]="formData.current_stock"
+                            [(ngModel)]="formData.currentStock"
                             name="currentStock"
                             type="number"
                             required
@@ -58,8 +117,8 @@
                         <label for="minStock">{{ 'inventoryParts.form.fields.minStock.label' | translate }}</label>
                         <input
                             id="minStock"
-                            [(ngModel)]="formData.min_stock"
-                            name="minStock"
+                            [(ngModel)]="formData.minimumStock"
+                            name="minimumStock"
                             type="number"
                             required
                             min="0"
@@ -70,9 +129,9 @@
                 <div class="form-group">
                     <label for="unitPrice">{{ 'inventoryParts.form.fields.unitPrice.label' | translate }}</label>
                     <input
-                        id="unit_price"
-                        [(ngModel)]="formData.unit_price"
-                        name="unit_price"
+                        id="unitPrice"
+                        [(ngModel)]="formData.unitPrice"
+                        name="unitPrice"
                         type="number"
                         required
                         min="0"

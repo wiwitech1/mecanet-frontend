@@ -2,7 +2,7 @@
   <header class="demo-header">
     <h1>Galería de Componentes</h1>
     <p>Componentes compartidos reutilizables para la aplicación Mecanet</p>
-  </header> 
+  </header>
 
 
   <main class="demo-content">
@@ -180,80 +180,80 @@
         <h2>Panel de Información</h2>
         <p>Componente para mostrar información estructurada</p>
       </div>
-      
+
       <!-- Ejemplo de contenedores con listas -->
       <div class="demo-card">
         <h3>Paneles con contenedores personalizados</h3>
-        
+
         <app-information-panel [headerText]="'Panel de Información Completo'">
 
                     <!-- Sección de especificaciones técnicas (Tipo 1 con subtítulo) -->
-                    <app-info-section 
-                    [infoType]="1" 
+                    <app-info-section
+                    [infoType]="1"
                     [showSubtitle]="true"
-                    [subtitleText]="'Subtítulo:'" 
+                    [subtitleText]="'Subtítulo:'"
                     [data]="especificacionesData">
                   </app-info-section>
-        
-                  <app-info-section 
-                    [infoType]="2" 
+
+                  <app-info-section
+                    [infoType]="2"
                     [showSubtitle]="true"
-                    [subtitleText]="'Subtítulo:'" 
+                    [subtitleText]="'Subtítulo:'"
                     [data]="actividadData">
                   </app-info-section>
-        
-                  <app-info-section 
-                    [infoType]="3" 
+
+                  <app-info-section
+                    [infoType]="3"
                     [statisticsData]="statisticsData">
                   </app-info-section>
-                  
 
-                  
+
+
           <!-- Historial de mantenimiento -->
-          <app-info-container 
-            [title]="'Historial de mantenimiento'" 
+          <app-info-container
+            [title]="'Historial de mantenimiento'"
             [titleType]="1">
-            <app-info-list-items 
-              [type]="'maintenance'" 
+            <app-info-list-items
+              [type]="'maintenance'"
               [items]="mantenimientoItems">
             </app-info-list-items>
           </app-info-container>
-          
+
           <!-- Maquinarias asociadas -->
-          <app-info-container 
-            [title]="'Lista Simple de maquinarias'" 
+          <app-info-container
+            [title]="'Lista Simple de maquinarias'"
             [titleType]="1">
-            <app-info-list-items 
-              [type]="'simpleList'" 
+            <app-info-list-items
+              [type]="'simpleList'"
               [items]="maquinariasItems">
             </app-info-list-items>
 
           </app-info-container>
 
           <!-- Historial de movimientos -->
-          <app-info-container 
-            [title]="'Historial de movimientos'" 
+          <app-info-container
+            [title]="'Historial de movimientos'"
             [titleType]="1">
-            <app-info-list-items 
-              [type]="'movements'" 
+            <app-info-list-items
+              [type]="'movements'"
               [items]="movimientosItems">
             </app-info-list-items>
           </app-info-container>
-          
+
           <!-- Anotaciones (campo de texto) -->
-          <app-info-container 
-            [title]="'Anotaciones'" 
+          <app-info-container
+            [title]="'Anotaciones'"
             [titleType]="2">
-            <app-info-list-items 
-              [type]="'default'" 
+            <app-info-list-items
+              [type]="'default'"
               [items]="[{text: 'Muestra texto de forma simple'}]">
             </app-info-list-items>
           </app-info-container>
         </app-information-panel>
       </div>
-      
-      
-      
+
+
+
     </section>
 
     <!-- Sección de Notificaciones -->
@@ -262,15 +262,15 @@
         <h2>Notificaciones</h2>
         <p>Componente para mostrar notificaciones con iconos dinámicos</p>
       </div>
-      
+
       <div class="demo-card">
         <h3>Notificaciones con diferentes iconos</h3>
-        <app-notifications-container 
-          [title]="'Notificaciones'" 
+        <!-- <app-notifications-container
+          [title]="'Notificaciones'"
           [notifications]="notificationItems">
-        </app-notifications-container>
+        </app-notifications-container> -->
       </div>
-      
+
     </section>
 
 
