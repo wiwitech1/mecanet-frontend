@@ -1,4 +1,12 @@
 <div class="container">
+  <!-- Overlay de carga -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <p class="loading-message">{{ loadingMessage }}</p>
+    </div>
+  </div>
+
   <div class="header-main">
     <app-title-view [text]="'sidebar.menu.staffManagement' | translate"></app-title-view>
   </div>

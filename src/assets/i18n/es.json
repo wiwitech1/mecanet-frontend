@@ -876,7 +876,16 @@
             "role": "Rol",
             "selectRole": "Seleccione un rol",
             "cancel": "Cancelar",
-            "create": "Crear"
+            "create": "Crear",
+            "firstName": "Nombre",
+            "lastName": "Apellido"
         }
+    },
+    "billing": {
+        "loading": "Cargando planes...",
+        "currentPlan": "Plan Actual",
+        "changePlan": "Cambiar a este Plan",
+        "perMonth": "/mes",
+        "unlimited": "∞"
     }
 }
