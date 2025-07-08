@@ -577,24 +577,34 @@
     },
     "machineryMetrics": {
         "breadcrumb": "Gestión de Activos > Métricas de Maquinarias",
-        "loading": "Cargando maquinarias...",
-        "retry": "Reintentar",
-        "serialNumber": "N° Serie",
         "search": {
             "placeholder": "Buscar por nombre, modelo o marca...",
             "refresh": "Actualizar"
         },
+        "loading": "Cargando maquinarias...",
+        "retry": "Reintentar",
+        "serialNumber": "Número de Serie",
         "measurements": {
             "title": "Mediciones",
             "currentValue": "Valor Actual",
             "lastUpdated": "Última Actualización",
             "newValue": "Nuevo valor",
-            "update": "Subir",
-            "noMeasurements": "No hay mediciones disponibles para esta maquinaria"
+            "update": "Actualizar",
+            "noMeasurements": "No hay mediciones disponibles"
         },
         "emptyState": {
             "title": "No se encontraron maquinarias",
-            "message": "No hay maquinarias disponibles o no coinciden con los criterios de búsqueda"
+            "message": "Intenta ajustar tu búsqueda o actualiza la lista"
+        },
+        "selectMachinery": "Seleccionar Maquinaria",
+        "selectMachinery.placeholder": "Selecciona una maquinaria",
+        "metricRegistration": {
+            "title": "Registro de Nueva Lectura",
+            "placeholder": "Ingresa el valor",
+            "submit": "Registrar Lectura"
+        },
+        "selectMetric": {
+            "placeholder": "Selecciona una métrica"
         }
     },
     "workOrder": {
@@ -746,8 +756,17 @@
             "role": "Rol",
             "selectRole": "Seleccione un rol",
             "cancel": "Cancelar",
-            "create": "Crear"
+            "create": "Crear",
+            "firstName": "Nombre",
+            "lastName": "Apellido"
         }
+    },
+    "billing": {
+        "loading": "Cargando planes...",
+        "currentPlan": "Plan Actual",
+        "changePlan": "Cambiar a este Plan",
+        "perMonth": "/mes",
+        "unlimited": "∞"
     },
     "maintenancePlan": {
         "forms": {

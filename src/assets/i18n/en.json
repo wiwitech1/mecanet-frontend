@@ -588,24 +588,34 @@
     },
     "machineryMetrics": {
         "breadcrumb": "Asset Management > Machinery Metrics",
-        "loading": "Loading machineries...",
-        "retry": "Retry",
-        "serialNumber": "Serial No.",
         "search": {
             "placeholder": "Search by name, model or brand...",
             "refresh": "Refresh"
         },
+        "loading": "Loading machinery...",
+        "retry": "Retry",
+        "serialNumber": "Serial Number",
         "measurements": {
             "title": "Measurements",
             "currentValue": "Current Value",
             "lastUpdated": "Last Updated",
             "newValue": "New value",
-            "update": "Upload",
-            "noMeasurements": "No measurements available for this machinery"
+            "update": "Update",
+            "noMeasurements": "No measurements available"
         },
         "emptyState": {
-            "title": "No machineries found",
-            "message": "No machineries available or none match the search criteria"
+            "title": "No machinery found",
+            "message": "Try adjusting your search or refresh the list"
+        },
+        "selectMachinery": "Select Machinery",
+        "selectMachinery.placeholder": "Select a machinery",
+        "metricRegistration": {
+            "title": "New Reading Registration",
+            "placeholder": "Enter value",
+            "submit": "Register Reading"
+        },
+        "selectMetric": {
+            "placeholder": "Select a metric"
         }
     },
     "workOrder": {

@@ -4,341 +4,372 @@
   }
 
   .container {
+    padding: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    padding: 20px;
+    gap: 1rem;
     height: 100%;
   }
 
   .breadcrumb-header {
-    align-items: center;
-    width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 1rem;
   }
 
   .main-content {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    height: calc(100% - 80px);
-  }
-
-  .search-section {
-    width: 100%;
-  }
-
-  // Estados de carga y error
-  .loading-section, .error-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-  }
-
-  .loading-spinner {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    color: var(--clr-primary);
-
-    i {
-      font-size: 2rem;
-    }
-  }
-
-  .error-message {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    color: var(--clr-danger);
-
-    i {
-      font-size: 1.5rem;
-    }
-
-    .retry-button {
-      padding: 8px 16px;
-      background: var(--clr-primary);
-      color: white;
-      border: none;
-      border-radius: var(--radius-md);
-      cursor: pointer;
-      transition: background-color 0.2s ease;
-
-      &:hover {
-        background: var(--clr-primary-600);
-      }
-    }
-  }
-
-  // Grid de maquinarias
-  .machineries-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
-    gap: 3em;
-    overflow-y: auto;
-  }
-
-  .machinery-card {
-    background: var(--clr-surface);
-    border-radius: var(--radius-lg);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
-    padding: 20px;
-    transition: box-shadow 0.2s ease;
-
-    &:hover {
-      box-shadow: 0 6px 32px rgba(0, 0, 0, 0.15);
-    }
-  }
-
-  .machinery-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid var(--clr-border);
-  }
-
-  .machinery-info {
+    gap: 1.5rem;
     flex: 1;
-
-    .machinery-name {
-      font-size: 1.2rem;
-      font-weight: 600;
-      color: var(--clr-text);
-      margin: 0 0 8px 0;
-    }
-
-    .machinery-details {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-
-      .machinery-model, .machinery-serial {
-        font-size: 0.9rem;
-        color: var(--clr-text-secondary);
-      }
-    }
   }
 
-  .machinery-status {
-    .status-badge {
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      font-size: 0.8rem;
+  // Estilos para la sección de selección
+  .selection-section {
+    background-color: #5560ab; /* Morado principal */
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    color: #ffffff;
+
+    .selection-label {
+      display: block;
       font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-
-      &.status-inactive {
-        background: var(--clr-neutral-100);
-        color: var(--clr-neutral-600);
-      }
-
-      &.status-active {
-        background: var(--clr-success-100);
-        color: var(--clr-success-700);
-      }
-
-      &.status-maintenance {
-        background: var(--clr-warning-100);
-        color: var(--clr-warning-700);
-      }
-
-      &.status-repair {
-        background: var(--clr-danger-100);
-        color: var(--clr-danger-700);
-      }
-
-      &.status-unknown {
-        background: var(--clr-neutral-100);
-        color: var(--clr-neutral-600);
-      }
+      margin-bottom: 0.5rem;
+      color: #ffffff;
     }
-  }
 
-  // Measurements
-  .machinery-measurements {
-    .measurements-title {
+    .machinery-select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #a692c1;
+      border-radius: 4px;
+      background-color: #ffffff;
+      color: #323232;
       font-size: 1rem;
-      font-weight: 600;
-      color: var(--clr-text);
-      margin: 0 0 15px 0;
+
+      &:focus {
+        outline: none;
+        border-color: #a692c1;
+      }
     }
   }
 
-  .measurements-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
+  // Estilos para el formulario de registro de métricas
+  .metric-registration {
+    background-color: #846bae; /* Morado claro */
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+    color: #ffffff;
 
-  .measurement-item {
-    background: var(--clr-background);
-    border: 1px solid var(--clr-border);
-    border-radius: var(--radius-md);
-    padding: 15px;
-    transition: border-color 0.2s ease;
-
-    &:hover {
-      border-color: var(--clr-primary-200);
+    h4 {
+      margin: 0 0 1rem 0;
+      color: #ffffff;
+      font-weight: 500;
     }
-  }
 
-  .measurement-info {
-    margin-bottom: 12px;
-
-    .measurement-header {
+    .metric-form {
       display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
+      gap: 1rem;
+      align-items: flex-start;
 
-      .measurement-name {
-        font-weight: 600;
-        color: var(--clr-text);
-      }
-
-      .measurement-unit {
-        font-size: 0.9rem;
-        color: var(--clr-text-secondary);
-      }
-    }
-
-    .measurement-current, .measurement-updated {
-      display: flex;
-      gap: 8px;
-      font-size: 0.9rem;
-      margin-bottom: 4px;
-
-      .current-label, .updated-label {
-        color: var(--clr-text-secondary);
-      }
-
-      .current-value {
-        font-weight: 600;
-        color: var(--clr-primary);
-      }
-
-      .updated-value {
-        color: var(--clr-text);
-      }
-    }
-  }
-
-  .measurement-actions {
-    .input-group {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-
-      .measurement-input {
-        flex: 1;
-        padding: 8px 12px;
-        border: 1px solid var(--clr-border);
-        border-radius: var(--radius-md);
-        font-size: 0.9rem;
-        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      .metric-select {
+        flex: 2;
+        padding: 0.5rem;
+        border: 1px solid #a692c1;
+        border-radius: 4px;
+        background-color: #ffffff;
+        color: #323232;
+        font-size: 1rem;
 
         &:focus {
           outline: none;
-          border-color: var(--clr-primary);
-          box-shadow: 0 0 0 3px var(--clr-primary-100);
+          border-color: #a692c1;
         }
+      }
 
-        &::placeholder {
-          color: var(--clr-text-placeholder);
+      .metric-input {
+        flex: 1;
+        padding: 0.5rem;
+        border: 1px solid #a692c1;
+        border-radius: 4px;
+        background-color: #ffffff;
+        color: #323232;
+        font-size: 1rem;
+
+        &:focus {
+          outline: none;
+          border-color: #a692c1;
         }
       }
     }
   }
 
-  // No measurements state
-  .no-measurements {
+  .section-divider {
+    border: none;
+    height: 2px;
+    background-image: linear-gradient(to right, transparent, #5560ab, transparent);
+    margin: 2rem 0;
+  }
+
+  // Estilos existentes para la sección de búsqueda
+  .search-section {
+    margin-top: 1rem;
+  }
+
+  // Estilos existentes para la sección de carga
+  .loading-section {
     display: flex;
     justify-content: center;
-    padding: 20px;
+    align-items: center;
+    padding: 2rem;
 
-    .no-measurements-message {
+    .loading-spinner {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      gap: 10px;
-      color: var(--clr-text-secondary);
-      text-align: center;
+      gap: 0.5rem;
+      color: var(--text-color-secondary);
 
       i {
         font-size: 1.5rem;
-        color: var(--clr-neutral-400);
       }
     }
   }
 
-  // Empty state
+  // Estilos existentes para la sección de error
+  .error-section {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+
+    .error-message {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--red-500);
+
+      i {
+        font-size: 1.5rem;
+      }
+
+      .retry-button {
+        margin-left: 1rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        background-color: var(--primary-color);
+        color: var(--primary-color-text);
+        cursor: pointer;
+
+        &:hover {
+          background-color: var(--primary-600);
+        }
+      }
+    }
+  }
+
+  // Estilos existentes para la cuadrícula de maquinarias
+  .machineries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .machinery-card {
+    background-color: var(--surface-card);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--card-shadow);
+
+    .machinery-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+
+      .machinery-info {
+        .machinery-name {
+          margin: 0;
+          font-size: 1.25rem;
+          color: var(--text-color);
+        }
+
+        .machinery-details {
+          margin-top: 0.5rem;
+          font-size: 0.875rem;
+          color: var(--text-color-secondary);
+
+          .machinery-model {
+            display: block;
+          }
+
+          .machinery-serial {
+            display: block;
+            margin-top: 0.25rem;
+          }
+        }
+      }
+
+      .machinery-status {
+        .status-badge {
+          padding: 0.25rem 0.75rem;
+          border-radius: 12px;
+          font-size: 0.875rem;
+          font-weight: 500;
+        }
+
+        .status-active {
+          background-color: var(--green-100);
+          color: var(--green-700);
+        }
+
+        .status-inactive {
+          background-color: var(--red-100);
+          color: var(--red-700);
+        }
+
+        .status-maintenance {
+          background-color: var(--yellow-100);
+          color: var(--yellow-700);
+        }
+
+        .status-repair {
+          background-color: var(--orange-100);
+          color: var(--orange-700);
+        }
+      }
+    }
+
+    .machinery-measurements {
+      .measurements-title {
+        margin: 1rem 0;
+        font-size: 1rem;
+        color: var(--text-color);
+      }
+
+      .measurements-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .measurement-item {
+        border: 1px solid var(--surface-border);
+        border-radius: 6px;
+        padding: 1rem;
+
+        .measurement-info {
+          margin-bottom: 1rem;
+
+          .measurement-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+
+            .measurement-name {
+              font-weight: 500;
+              color: var(--text-color);
+            }
+
+            .measurement-unit {
+              color: var(--text-color-secondary);
+            }
+          }
+
+          .measurement-current,
+          .measurement-updated {
+            font-size: 0.875rem;
+            color: var(--text-color-secondary);
+
+            .current-value,
+            .updated-value {
+              margin-left: 0.25rem;
+              color: var(--text-color);
+            }
+          }
+        }
+
+        .measurement-actions {
+          .input-group {
+            display: flex;
+            gap: 0.5rem;
+
+            .measurement-input {
+              flex: 1;
+              padding: 0.5rem;
+              border: 1px solid var(--surface-border);
+              border-radius: 4px;
+              font-size: 0.875rem;
+
+              &:focus {
+                outline: none;
+                border-color: var(--primary-color);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Estilos existentes para el estado vacío
   .empty-state {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 60px 20px;
+    padding: 3rem;
+    background-color: var(--surface-ground);
+    border-radius: 8px;
 
     .empty-state-content {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 15px;
       text-align: center;
-      color: var(--clr-text-secondary);
+      color: var(--text-color-secondary);
 
       i {
-        font-size: 3rem;
-        color: var(--clr-neutral-300);
+        font-size: 2rem;
+        margin-bottom: 1rem;
       }
 
       h3 {
-        margin: 0;
-        font-size: 1.2rem;
-        font-weight: 600;
-        color: var(--clr-text);
+        margin: 0 0 0.5rem 0;
+        color: var(--text-color);
       }
 
       p {
         margin: 0;
-        font-size: 0.95rem;
-        max-width: 400px;
+      }
+    }
+  }
+
+  // Estilos para el estado sin mediciones
+  .no-measurements {
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--text-color-secondary);
+    border: 1px dashed var(--surface-border);
+    border-radius: 6px;
+
+    .no-measurements-message {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+
+      i {
+        font-size: 1.25rem;
       }
     }
   }
 
   // Responsive design
-  @media (max-width: 768px) {
-    .container {
-      padding: 15px;
-    }
-
-    .machineries-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .machinery-card {
-      padding: 15px;
-    }
-
-    .machinery-header {
+  @media screen and (max-width: 768px) {
+    .metric-form {
       flex-direction: column;
-      gap: 10px;
-      align-items: flex-start;
-    }
 
-    .measurement-actions .input-group {
-      flex-direction: column;
-      align-items: stretch;
-
-      .measurement-input {
-        margin-bottom: 8px;
+      .metric-select,
+      .metric-input {
+        width: 100%;
       }
     }
   }

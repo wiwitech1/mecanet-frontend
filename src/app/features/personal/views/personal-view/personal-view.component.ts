@@ -44,6 +44,8 @@ export class PersonalViewComponent implements OnInit {
   showInfoPanel = false;
   showCreateModal = false;
   searchTerm = '';
+  isLoading = false;
+  loadingMessage = '';
 
   columns: TableColumn[] = [
     { key: 'username', label: 'personal.table.username', type: 'texto' },
@@ -79,7 +81,7 @@ export class PersonalViewComponent implements OnInit {
       console.log('Datos recibidos del API:', data);
       this.personalList = data.map(p => ({
         ...p,
-        name: `${p.firstName} ${p.lastName}`,
+        name: p.name,
         role: p.roles[0] === 'ROLE_TECHNICAL'
           ? this.translate.instant('personal.roles.technical')
           : this.translate.instant('personal.roles.admin')
@@ -99,13 +101,13 @@ export class PersonalViewComponent implements OnInit {
       const person = await this.personalService.getPersonalById(event.row.id);
       this.selectedPerson = {
         ...person,
-        name: `${person.firstName} ${person.lastName}`,
+        name: person.name,
         role: person.roles[0] === 'ROLE_TECHNICAL'
           ? this.translate.instant('personal.roles.technical')
           : this.translate.instant('personal.roles.admin'),
         generalInfo: [
           { subtitle: this.translate.instant('personal.infoPanel.username'), info: person.username },
-          { subtitle: this.translate.instant('personal.infoPanel.name'), info: `${person.firstName} ${person.lastName}` },
+          { subtitle: this.translate.instant('personal.infoPanel.name'), info: person.name },
           { subtitle: this.translate.instant('personal.infoPanel.email'), info: person.email },
           { subtitle: this.translate.instant('personal.infoPanel.role'), info: person.roles[0] === 'ROLE_TECHNICAL'
             ? this.translate.instant('personal.roles.technical')
@@ -131,12 +133,19 @@ export class PersonalViewComponent implements OnInit {
   }
 
   async handleCreate(formData: Partial<PersonalEntity>) {
+    this.isLoading = true;
+    this.loadingMessage = 'Creando usuario...';
+
     try {
       await this.personalService.createPersonal(formData);
+      this.loadingMessage = 'Usuario creado. Enviando correo de bienvenida...';
       this.showCreateModal = false;
       await this.loadPersonal();
     } catch (error) {
       console.error('Error creating person:', error);
+    } finally {
+      this.isLoading = false;
+      this.loadingMessage = '';
     }
   }
 }

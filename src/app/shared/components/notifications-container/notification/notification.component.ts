@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatRippleModule } from '@angular/material/core';
 
-export type NotificationType = 'error' | 'notification'; 
+export type NotificationType = 'error' | 'success' | 'warning' | 'info';
 
 @Component({
   selector: 'app-notification',
@@ -13,17 +13,17 @@ export type NotificationType = 'error' | 'notification';
   styleUrls: ['./notification.component.scss']
 })
 export class NotificationComponent {
-  @Input() title: string = '';  // Título de la notificación
-  @Input() message: string = ''; // Mensaje de la notificación
-  @Input() type: NotificationType = 'notification';  // Tipo de notificación
-  @Input() icon: string = 'notification'; // Icono por defecto
-  
-  rippleColor = 'rgba(0, 0, 0, 0.1)'; 
-  
+  @Input() title: string = '';
+  @Input() message: string = '';
+  @Input() type: NotificationType = 'info';
+  @Input() icon: string = 'info';
+
+  rippleColor = 'rgba(0, 0, 0, 0.1)';
+
   getNotificationClass(): string {
     return `notification-${this.type}`;
   }
-  
+
   getIconClass(): string {
     return `icon-${this.type}`;
   }

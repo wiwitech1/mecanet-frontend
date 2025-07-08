@@ -12,6 +12,7 @@ import { AccountInfoComponent} from './features/configuration/views/account-info
 import { BillingComponent} from './features/configuration/views/billing/billing.component';
 import { DeleteAccountComponent} from './features/configuration/views/delete-account/delete-account.component';
 import {ConfigurationPanelComponent} from './shared/components/configuration-panel/configuration-panel.component';
+
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 const PersonalViewComponent = (): Promise<any> => import('./features/personal/views/personal-view/personal-view.component').then(m => m.PersonalViewComponent);
 
@@ -30,9 +31,6 @@ const MachineryMetricsViewComponent = (): Promise<any> => import('./features/ass
 
 const WorkOrderComponent = (): Promise<any> => import('./features/work-order/views/work-order/work-order.component').then(m => m.WorkOrderComponent);
 const ExecutionViewComponent = (): Promise<any> => import('./features/execution/views/execution-view/execution-view.component').then(m => m.ExecutionViewComponent);
-
-
-const MetricsComponent = (): Promise<any> => import('./features/metrics/views/metrics.component').then(m => m.MetricsComponent);
 
 
 

@@ -1,0 +1,16 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2>Confirmar Cambio de Plan</h2>
+  </div>
+  <div class="dialog-content">
+    <p>¿Estás seguro que deseas cambiar al plan <strong>{{ data.planName }}</strong>?</p>
+    <div class="plan-details">
+      <span class="cost">${{ data.planCost }}/mes</span>
+    </div>
+    <p class="note">Este cambio se aplicará inmediatamente a tu suscripción.</p>
+  </div>
+  <div class="dialog-actions">
+    <button class="btn-cancel" (click)="onNoClick()">Cancelar</button>
+    <button class="btn-confirm" (click)="onConfirm()">Confirmar Cambio</button>
+  </div>
+</div>
