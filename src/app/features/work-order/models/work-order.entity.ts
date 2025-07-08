@@ -1,23 +1,32 @@
-export interface WorkOrderTechnician {
-  id?: number;
-  name: string;
-  email?: string;
-  machines: string[];
-  assignedAt?: Date;
-}
+import { WorkOrderStatus } from './work-order-status.entity';
+import { WorkOrderSchedule } from './work-order-schedule.entity';
+import { WorkOrderTechnician } from './work-order-technician.entity';
+import { WorkOrderMaterial } from './work-order-material.entity';
+import { WorkOrderComment } from './work-order-comment.entity';
+import { WorkOrderPhoto } from './work-order-photo.entity';
 
+/**
+ * Representa una orden de trabajo en el sistema
+ */
 export interface WorkOrderEntity {
-  id?: number;
-  code: string;
-  date: string;
-  productionLine: string;
-  type: string;
-  status?: string;
-  description?: string;
-  priority?: string;
-  technicians: WorkOrderTechnician[];
-  createdAt?: Date;
-  updatedAt?: Date;
-  createdBy?: number;
-  updatedBy?: number;
-}
+    id: number;
+    planId: number;
+    taskId: number;
+    machineId: number;
+    title: string;
+    description: string;
+    status: WorkOrderStatus;
+    maxTechnicians: number;
+    requiredSkillIds: number[];
+    schedule: WorkOrderSchedule | null;
+    conclusions: string | null;
+    tenantId: number;
+    createdAt: Date;
+    updatedAt: Date;
+    technicians: WorkOrderTechnician[];
+    materials: WorkOrderMaterial[];
+    comments: WorkOrderComment[];
+    photos: WorkOrderPhoto[];
+    executionWindow?: any;
+    executionSummary?: any;
+} 

@@ -31,8 +31,10 @@ const PurchaseOrdersViewComponent = (): Promise<any> => import('./features/purch
 const MaintenanceCalendarComponent = (): Promise<any> => import('./features/maintenance-calendar/view/maintenance-calendar/maintenance-calendar.component').then(m => m.MaintenanceCalendarComponent);
 const MachineryMetricsViewComponent = (): Promise<any> => import('./features/asset-management/views/machinery-metrics-view/machinery-metrics-view.component').then(m => m.MachineryMetricsViewComponent);
 
-const WorkOrderComponent = (): Promise<any> => import('./features/work-order/views/work-order/work-order.component').then(m => m.WorkOrderComponent);
 const ExecutionViewComponent = (): Promise<any> => import('./features/execution/views/execution-view/execution-view.component').then(m => m.ExecutionViewComponent);
+const WorkOrderAdminViewComponent = (): Promise<any> => import('./features/work-order/views/work-order-admin-view/work-order-admin-view.component').then(m => m.WorkOrderAdminViewComponent);
+const WorkOrderTechnicianViewComponent = (): Promise<any> => import('./features/work-order/views/work-order-technician-view/work-order-technician-view.component').then(m => m.WorkOrderTechnicianViewComponent);
+const WorkOrderDetailViewComponent = (): Promise<any> => import('./features/work-order/views/work-order-detail-view/work-order-detail-view.component').then(m => m.WorkOrderDetailViewComponent);
 
 export const routes: Routes = [
     // Rutas públicas o de autenticación - solo accesibles si NO hay sesión
@@ -82,8 +84,17 @@ export const routes: Routes = [
     //{ path: 'proprueba', loadComponent: PropruebaComponent, canActivate: [authGuard] },
     { path: 'inventario/repuestos', loadComponent: InventoryPartsViewComponent, canActivate: [authGuard] },
     { path: 'inventario/ordenes-compra', loadComponent: PurchaseOrdersViewComponent, canActivate: [authGuard] },
-    { path: 'ordenes-trabajo', loadComponent: WorkOrderComponent, canActivate: [authGuard] },
     { path: 'ejecucion', loadComponent: ExecutionViewComponent, canActivate: [authGuard] },
+    {
+        path: 'ordenes-trabajo',
+        canActivate: [authGuard],
+        children: [
+            { path: 'admin', loadComponent: WorkOrderAdminViewComponent },
+            { path: 'tecnico', loadComponent: WorkOrderTechnicianViewComponent },
+            { path: ':id', loadComponent: WorkOrderDetailViewComponent },
+            { path: '', redirectTo: 'admin', pathMatch: 'full' }
+        ]
+    },
     { path: 'personal', loadComponent: PersonalViewComponent, canActivate: [authGuard] },
     // Ruta de redirección por defecto
     { path: '', redirectTo: '/components-demo', pathMatch: 'full' },

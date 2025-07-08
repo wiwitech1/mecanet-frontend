@@ -1,117 +1,163 @@
-import { WorkOrderEntity, WorkOrderTechnician } from '../models/work-order.entity';
+import { WorkOrderEntity } from '../models/work-order.entity';
+import { WorkOrderSchedule } from '../models/work-order-schedule.entity';
+import { WorkOrderTechnician } from '../models/work-order-technician.entity';
+import { WorkOrderMaterial } from '../models/work-order-material.entity';
+import { WorkOrderComment } from '../models/work-order-comment.entity';
+import { WorkOrderPhoto } from '../models/work-order-photo.entity';
+import { WorkOrderStatus } from '../models/work-order-status.entity';
+import { TechnicianRole, TechnicianStatus } from '../models/technician-role.entity';
 import {
   WorkOrderResource,
-  CreateWorkOrderResource,
-  UpdateWorkOrderResource,
-  WorkOrderTechnicianResource,
-  CreateWorkOrderTechnicianResource
+  TechnicianResource,
+  MaterialResource,
+  CommentResource,
+  PhotoResource
 } from './work-order.resource';
+import {
+  ScheduleRequest,
+  MaterialsRequest
+} from './work-order.request';
 
 /**
  * Clase responsable de transformar entre entidades de órdenes de trabajo y recursos de la API
  */
 export class WorkOrderAssembler {
+
+  /**
+   * Convierte un schedule JSON string a una entidad de programación
+   */
+  private static parseSchedule(scheduleJson: string): WorkOrderSchedule | null {
+    if (!scheduleJson) return null;
+    
+    try {
+      const parsed = JSON.parse(scheduleJson);
+      return {
+        date: parsed.date,
+        startTime: parsed.startTime,
+        endTime: parsed.endTime,
+        durationHours: parsed.durationHours
+      };
+    } catch (error) {
+      console.error('Error parsing schedule JSON:', error);
+      return null;
+    }
+  }
+
+  /**
+   * Convierte un recurso de técnico a una entidad
+   */
+  private static technicianResourceToEntity(resource: TechnicianResource): WorkOrderTechnician {
+    return {
+      technicianId: resource.technicianId,
+      fullName: resource.fullName,
+      role: resource.role as TechnicianRole,
+      status: resource.status as TechnicianStatus,
+      joinedAt: new Date(resource.joinedAt),
+      withdrawnAt: null,
+      withdrawalReason: resource.withdrawalReason
+    };
+  }
+
+  /**
+   * Convierte un recurso de material a una entidad
+   */
+  private static materialResourceToEntity(resource: MaterialResource): WorkOrderMaterial {
+    return {
+      itemId: resource.itemId,
+      itemSku: resource.itemSku,
+      itemName: resource.itemName,
+      requestedQty: resource.requestedQty,
+      finalQty: resource.finalQty
+    };
+  }
+
+  /**
+   * Convierte un recurso de comentario a una entidad
+   */
+  private static commentResourceToEntity(resource: CommentResource): WorkOrderComment {
+    return {
+      id: resource.id,
+      authorUserId: resource.authorUserId,
+      text: resource.text,
+      createdAt: resource.createdAt ? new Date(resource.createdAt) : undefined
+    };
+  }
+
+  /**
+   * Convierte un recurso de foto a una entidad
+   */
+  private static photoResourceToEntity(resource: PhotoResource): WorkOrderPhoto {
+    return {
+      id: resource.id,
+      authorUserId: resource.authorUserId,
+      url: resource.url,
+      uploadedAt: resource.uploadedAt ? new Date(resource.uploadedAt) : undefined
+    };
+  }
+
   /**
    * Convierte un recurso de la API a una entidad
-   * @param resource El recurso recibido de la API
-   * @returns La entidad de orden de trabajo
    */
   static resourceToEntity(resource: WorkOrderResource): WorkOrderEntity {
     return {
       id: resource.id,
-      code: resource.code,
-      date: resource.date,
-      productionLine: resource.production_line,
-      type: resource.type,
-      status: resource.status,
+      planId: resource.planId,
+      taskId: resource.taskId,
+      machineId: resource.machineId,
+      title: resource.title,
       description: resource.description,
-      priority: resource.priority,
-      technicians: resource.assigned_technicians
-        ? resource.assigned_technicians.map(this.technicianResourceToEntity)
-        : [],
-      createdAt: new Date(resource.created_at),
-      updatedAt: new Date(resource.updated_at),
-      createdBy: resource.created_by,
-      updatedBy: resource.updated_by
+      status: resource.status as WorkOrderStatus,
+      maxTechnicians: resource.maxTechnicians,
+      requiredSkillIds: resource.requiredSkillIds,
+      schedule: this.parseSchedule(resource.schedule),
+      conclusions: resource.conclusions,
+      tenantId: resource.tenantId,
+      createdAt: new Date(resource.createdAt),
+      updatedAt: new Date(resource.updatedAt),
+      technicians: resource.technicians?.map(t => this.technicianResourceToEntity(t)) || [],
+      materials: resource.materials?.map(m => this.materialResourceToEntity(m)) || [],
+      comments: resource.comments?.map(c => this.commentResourceToEntity(c)) || [],
+      photos: resource.photos?.map(p => this.photoResourceToEntity(p)) || [],
+      executionWindow: resource.executionWindow,
+      executionSummary: resource.executionSummary
     };
   }
 
   /**
    * Convierte múltiples recursos a entidades
-   * @param resources Los recursos recibidos de la API
-   * @returns Lista de entidades de orden de trabajo
    */
   static resourcesToEntities(resources: WorkOrderResource[]): WorkOrderEntity[] {
     return resources.map(resource => this.resourceToEntity(resource));
   }
 
   /**
-   * Convierte una entidad a un recurso para enviar a la API (para crear)
-   * @param entity La entidad de orden de trabajo
-   * @returns El recurso para crear en la API
+   * Convierte una entidad y datos de programación a un request de schedule
    */
-  static entityToCreateResource(entity: WorkOrderEntity): CreateWorkOrderResource {
+  static entityToScheduleRequest(
+    schedule: WorkOrderSchedule,
+    maxTechnicians: number
+  ): ScheduleRequest {
     return {
-      code: entity.code,
-      date: entity.date,
-      production_line: entity.productionLine,
-      type: entity.type,
-      status: entity.status || 'pending',
-      description: entity.description,
-      priority: entity.priority || 'medium',
-      assigned_technicians: entity.technicians
-        ? entity.technicians.map(this.technicianEntityToCreateResource)
-        : [],
-      created_by: entity.createdBy || 1 // Default user ID
+      schedule: {
+        date: schedule.date,
+        startTime: schedule.startTime,
+        endTime: schedule.endTime || '17:00'
+      },
+      maxTechnicians: maxTechnicians
     };
   }
 
   /**
-   * Convierte una entidad a un recurso para enviar a la API (para actualizar)
-   * @param entity La entidad de orden de trabajo
-   * @returns El recurso para actualizar en la API
+   * Convierte materiales a un request de materials
    */
-  static entityToUpdateResource(entity: WorkOrderEntity): UpdateWorkOrderResource {
+  static materialsToRequest(materials: WorkOrderMaterial[]): MaterialsRequest {
     return {
-      code: entity.code,
-      date: entity.date,
-      production_line: entity.productionLine,
-      type: entity.type,
-      status: entity.status,
-      description: entity.description,
-      priority: entity.priority,
-      assigned_technicians: entity.technicians
-        ? entity.technicians.map(this.technicianEntityToCreateResource)
-        : [],
-      updated_by: entity.updatedBy || 1 // Default user ID
+      materials: materials.map(material => ({
+        itemId: material.itemId,
+        sku: material.itemSku,
+        name: material.itemName,
+        quantity: material.requestedQty
+      }))
     };
   }
-
-  /**
-   * Convierte un recurso de técnico a una entidad
-   * @param resource El recurso de técnico recibido de la API
-   * @returns La entidad de técnico
-   */
-  static technicianResourceToEntity(resource: WorkOrderTechnicianResource): WorkOrderTechnician {
-    return {
-      id: resource.id,
-      name: resource.name,
-      email: resource.email,
-      machines: resource.assigned_machines,
-      assignedAt: new Date(resource.assigned_at)
-    };
-  }
-
-  /**
-   * Convierte una entidad de técnico a un recurso para crear/actualizar
-   * @param entity La entidad de técnico
-   * @returns El recurso de técnico para la API
-   */
-  static technicianEntityToCreateResource(entity: WorkOrderTechnician): CreateWorkOrderTechnicianResource {
-    return {
-      name: entity.name,
-      email: entity.email || '',
-      assigned_machines: entity.machines
-    };
-  }
-}
+} 

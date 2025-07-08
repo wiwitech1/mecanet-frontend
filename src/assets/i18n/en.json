@@ -122,6 +122,7 @@
                 "machineryMetrics": "Machinery Metrics"
             },
             "workOrder": "Work Order",
+            "technicianWorkOrder": "Technician Panel",
             "maintenancePlan": "Maintenance Plan",
             "execution": "Execution",
             "dashboard": "Dashboard",
@@ -798,6 +799,47 @@
                     "title": "Assigned Technicians",
                     "noTechnicians": "No technicians assigned"
                 }
+            }
+        },
+        "admin": {
+            "title": "Work Order Management",
+            "subtitle": "Administrative control panel"
+        },
+        "technician": {
+            "title": "Technician Panel",
+            "subtitle": "Work management for technicians"
+        },
+        "detail": {
+            "title": "Work Order Detail",
+            "subtitle": "Smart contextual view",
+            "sections": {
+                "overview": "Overview",
+                "materials": "Materials",
+                "team": "Team",
+                "schedule": "Schedule",
+                "activity": "Activity",
+                "photos": "Evidence",
+                "completion": "Completion"
+            },
+            "actions": {
+                "schedule": "Schedule",
+                "publish": "Publish",
+                "review": "Review",
+                "approve": "Approve",
+                "join": "Join",
+                "leave": "Leave",
+                "start": "Start",
+                "complete": "Complete",
+                "comment": "Comment",
+                "upload_photo": "Upload Photo"
+            },
+            "status": {
+                "new": "New",
+                "published": "Published",
+                "review": "Under Review",
+                "pending_execution": "Pending Execution",
+                "in_execution": "In Execution",
+                "completed": "Completed"
             }
         },
         "form": {

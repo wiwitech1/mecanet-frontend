@@ -122,6 +122,7 @@
                 "machineryMetrics": "Métricas de Maquinarias"
             },
             "workOrder": "Orden de Trabajo",
+            "technicianWorkOrder": "Panel Técnico",
             "maintenancePlan": "Plan de Mantenimiento",
             "execution": "Ejecución",
             "dashboard": "Dashboard",
@@ -787,6 +788,47 @@
                     "title": "Técnicos Asignados",
                     "noTechnicians": "No hay técnicos asignados"
                 }
+            }
+        },
+        "admin": {
+            "title": "Gestión de Órdenes de Trabajo",
+            "subtitle": "Panel de control administrativo"
+        },
+        "technician": {
+            "title": "Panel Técnico",
+            "subtitle": "Gestión de trabajo para técnicos"
+        },
+        "detail": {
+            "title": "Detalle de Orden de Trabajo",
+            "subtitle": "Vista contextual inteligente",
+            "sections": {
+                "overview": "Resumen",
+                "materials": "Materiales",
+                "team": "Equipo",
+                "schedule": "Programación",
+                "activity": "Actividad",
+                "photos": "Evidencias",
+                "completion": "Finalización"
+            },
+            "actions": {
+                "schedule": "Programar",
+                "publish": "Publicar",
+                "review": "Revisar",
+                "approve": "Aprobar",
+                "join": "Unirse",
+                "leave": "Abandonar",
+                "start": "Iniciar",
+                "complete": "Completar",
+                "comment": "Comentar",
+                "upload_photo": "Subir Foto"
+            },
+            "status": {
+                "new": "Nueva",
+                "published": "Publicada",
+                "review": "En Revisión",
+                "pending_execution": "Pendiente de Ejecución",
+                "in_execution": "En Ejecución",
+                "completed": "Completada"
             }
         },
         "form": {
