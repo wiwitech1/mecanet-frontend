@@ -841,7 +841,7 @@
         },
         "table": {
             "username": "Usuario",
-            "fullName": "Nombre Completo",
+            "name": "Nombre",
             "email": "Correo",
             "role": "Rol",
             "details": "Ver Detalles"
@@ -851,7 +851,7 @@
             "details": "Información del Personal",
             "generalInfo": "Información General",
             "username": "Usuario",
-            "fullName": "Nombre Completo",
+            "name": "Nombre",
             "email": "Correo",
             "role": "Rol"
         },
@@ -867,10 +867,8 @@
             "title": "Nuevo Personal",
             "username": "Usuario",
             "usernamePlaceholder": "Ingrese nombre de usuario",
-            "firstName": "Nombre",
-            "firstNamePlaceholder": "Ingrese nombre",
-            "lastName": "Apellido",
-            "lastNamePlaceholder": "Ingrese apellido",
+            "name": "Nombre",
+            "namePlaceholder": "Ingrese nombre",
             "email": "Correo",
             "emailPlaceholder": "Ingrese correo electrónico",
             "password": "Contraseña",

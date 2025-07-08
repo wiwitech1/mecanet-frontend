@@ -19,6 +19,10 @@
         [data]="filteredPersonalList"
         (ctaClick)="handleCtaClick($event)"
       ></app-record-table>
+
+      <div *ngIf="filteredPersonalList.length === 0" class="no-results">
+        {{ 'recordTable.emptyState' | translate }}
+      </div>
     </div>
 
     <div class="right-container" [class.show-panel]="showInfoPanel">
