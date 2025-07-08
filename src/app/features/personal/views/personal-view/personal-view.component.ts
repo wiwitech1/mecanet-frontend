@@ -47,7 +47,7 @@ export class PersonalViewComponent implements OnInit {
 
   columns: TableColumn[] = [
     { key: 'username', label: 'personal.table.username', type: 'texto' },
-    { key: 'name', label: 'personal.table.fullName', type: 'texto' },
+    { key: 'name', label: 'personal.table.name', type: 'texto' },
     { key: 'email', label: 'personal.table.email', type: 'texto' },
     { key: 'role', label: 'personal.table.role', type: 'texto', filterable: true },
     { key: 'actions', label: '', type: 'cta', ctaLabel: 'personal.table.details', ctaVariant: 'primary' }
@@ -76,6 +76,7 @@ export class PersonalViewComponent implements OnInit {
   async loadPersonal() {
     try {
       const data = await this.personalService.getPersonals();
+      console.log('Datos recibidos del API:', data);
       this.personalList = data.map(p => ({
         ...p,
         name: `${p.firstName} ${p.lastName}`,
@@ -83,6 +84,7 @@ export class PersonalViewComponent implements OnInit {
           ? this.translate.instant('personal.roles.technical')
           : this.translate.instant('personal.roles.admin')
       }));
+      console.log('Datos mapeados:', this.personalList);
     } catch (error) {
       console.error('Error loading personal:', error);
     }
@@ -103,7 +105,7 @@ export class PersonalViewComponent implements OnInit {
           : this.translate.instant('personal.roles.admin'),
         generalInfo: [
           { subtitle: this.translate.instant('personal.infoPanel.username'), info: person.username },
-          { subtitle: this.translate.instant('personal.infoPanel.fullName'), info: `${person.firstName} ${person.lastName}` },
+          { subtitle: this.translate.instant('personal.infoPanel.name'), info: `${person.firstName} ${person.lastName}` },
           { subtitle: this.translate.instant('personal.infoPanel.email'), info: person.email },
           { subtitle: this.translate.instant('personal.infoPanel.role'), info: person.roles[0] === 'ROLE_TECHNICAL'
             ? this.translate.instant('personal.roles.technical')

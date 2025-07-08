@@ -56,6 +56,7 @@ export class ProductionLineService {
    * @returns Observable con la línea de producción creada
    */
   createProductionLine(productionLine: Partial<ProductionLineEntity>): Observable<ProductionLineEntity> {
+    console.log('productionLine', productionLine);
     return this.http.post<ProductionLineEntity>(this.apiUrl, productionLine, { headers: this.getHeaders() })
       .pipe(
         catchError(this.handleError)

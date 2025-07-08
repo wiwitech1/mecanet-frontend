@@ -63,6 +63,7 @@ export class PlantService {
    * @returns La planta creada
    */
   create(plant: Partial<PlantEntity>): Observable<PlantEntity> {
+    console.log('plant', plant);
     return this.http.post<PlantEntity>(this.apiUrl, plant, { headers: this.getHeaders() }).pipe(
       catchError(this.handleError)
     );

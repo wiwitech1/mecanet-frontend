@@ -73,3 +73,13 @@
   gap: 0.5rem;
   border-top: 1px solid var(--clr-border);
 }
+
+.no-results {
+  text-align: center;
+  padding: 2rem;
+  color: var(--clr-text-secondary);
+  font-style: italic;
+  background: var(--clr-background-secondary);
+  border-radius: 8px;
+  margin: 1rem 0;
+}

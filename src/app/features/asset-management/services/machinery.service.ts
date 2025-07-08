@@ -91,6 +91,7 @@ export class MachineryService {
    * @returns Observable con la maquinaria creada
    */
   createMachinery(machinery: Partial<MachineryEntity>): Observable<MachineryEntity> {
+    console.log('machinery', machinery);
     return this.http.post<MachineryEntity>(
       this.apiUrl,
       machinery,
