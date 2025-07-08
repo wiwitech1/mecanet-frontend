@@ -767,7 +767,9 @@
             "role": "Role",
             "selectRole": "Select a role",
             "cancel": "Cancel",
-            "create": "Create"
+            "create": "Create",
+            "firstName": "First Name",
+            "lastName": "Last Name"
         }
     },
     "maintenancePlan": {
@@ -828,6 +830,12 @@
                     "save": "Save"
                 }
             }
-        }
+        },
+    "billing": {
+        "loading": "Loading plans...",
+        "currentPlan": "Current Plan",
+        "changePlan": "Switch to this Plan",
+        "perMonth": "/month",
+        "unlimited": "∞"
     }
 }

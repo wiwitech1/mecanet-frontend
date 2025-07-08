@@ -827,5 +827,12 @@
                 }
             }
         }
+    },
+    "billing": {
+        "loading": "Cargando planes...",
+        "currentPlan": "Plan Actual",
+        "changePlan": "Cambiar a este Plan",
+        "perMonth": "/mes",
+        "unlimited": "∞"
     }
 }
