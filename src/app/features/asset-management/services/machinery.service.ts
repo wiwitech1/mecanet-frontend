@@ -131,6 +131,18 @@ export class MachineryService {
   }
 
   /**
+   * Obtiene todas las maquinarias (sin filtrar por línea)
+   */
+  getAllMachines(): Observable<MachineryEntity[]> {
+    return this.http.get<MachineryEntity[]>(
+      `${this.apiUrl}`,
+      { headers: this.getHeaders() }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  /**
    * Obtiene todas las maquinarias con sus measurements para las métricas
    */
   getAllMachineriesWithMeasurements(id: number): Observable<MachineMetricEntity[]> {

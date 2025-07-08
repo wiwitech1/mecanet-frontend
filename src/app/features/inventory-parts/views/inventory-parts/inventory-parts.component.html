@@ -63,6 +63,13 @@
                       (click)="showEditModal = true">
                       {{ 'inventoryParts.infoPanel.edit' | translate }}
                   </app-button>
+                  <app-button
+                      [variant]="'primary'"
+                      [size]="'sm'"
+                      [iconLeft]="'pi pi-plus'"
+                      (click)="showAddStockModal = true">
+                      {{ 'inventoryParts.infoPanel.addStock' | translate }}
+                  </app-button>
               </div>
 
           </app-information-panel>
@@ -86,5 +93,12 @@
       (delete)="handleDelete($event)"
       (cancel)="showEditModal = false"
   ></app-inventory-part-form-modal>
+
+  <app-add-stock-modal
+      *ngIf="showAddStockModal && selectedPart"
+      [partId]="selectedPart.id"
+      (submitted)="handleAddStock($event)"
+      (cancel)="showAddStockModal = false">
+  </app-add-stock-modal>
 </div>
 

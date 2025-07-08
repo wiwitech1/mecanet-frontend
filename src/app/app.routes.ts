@@ -10,7 +10,7 @@ import { LoginViewComponent } from './features/security/views/login-view/login-v
 import { ComponentsDemoComponent } from './shared/views/components-demo/components-demo.component';
 import { AccountInfoComponent} from './features/configuration/views/account-info/account-info.component';
 import { BillingComponent} from './features/configuration/views/billing/billing.component';
-import { DeleteAccountComponent} from './features/configuration/views/delete-account/delete-account.component';
+//import { DeleteAccountComponent} from './features/configuration/views/delete-account/delete-account.component';
 import {ConfigurationPanelComponent} from './shared/components/configuration-panel/configuration-panel.component';
 
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
@@ -65,7 +65,7 @@ export const routes: Routes = [
       children: [
         { path: 'cuenta', component: AccountInfoComponent },
         { path: 'facturacion', component: BillingComponent },
-        { path: 'eliminar', component: DeleteAccountComponent },
+        //{ path: 'eliminar', component: DeleteAccountComponent },
       ]
     },
     {

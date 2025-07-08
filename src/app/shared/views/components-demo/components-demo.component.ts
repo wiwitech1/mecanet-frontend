@@ -21,7 +21,7 @@ import { SidebarMecanetComponent } from '../../components/sidebar-mecanet/sideba
     InfoSectionComponent,
     InfoContainerComponent,
     InfoListItemsComponent,
-    NotificationsContainerComponent,
+    //NotificationsContainerComponent,
     SearchComponent,
     RecordTableComponent,
     SidebarMecanetComponent
@@ -34,14 +34,14 @@ export class ComponentsDemoComponent {
   buttonSizes: ButtonSize[] = ['xs', 'sm', 'md', 'lg', 'xl'];
   buttonRadiuses: ButtonRadius[] = ['none', 'sm', 'md', 'lg', 'full'];
 
-  
-  // Datos de ejemplo para el info-list 
+
+  // Datos de ejemplo para el info-list
   infoListData = [
     { subtitle: 'Nombre', info: 'Juan Pérez' },
     { subtitle: 'Cargo', info: 'Técnico Especialista' },
     { subtitle: 'Departamento', info: 'Mantenimiento' }
   ];
-  
+
   // Datos para info-list tipo 1 con máquina
   maquinaData = [
     { subtitle: 'Tipo', info: 'vista de datos 1' },
@@ -54,39 +54,39 @@ export class ComponentsDemoComponent {
     { subtitle: 'Tipo', info: 'vista de datos 1' },
     { subtitle: '[showSubtitle]', info: 'true' },
   ];
-  
+
   // Datos para info-list tipo 2 con actividad
   actividadData = [
     { subtitle: 'Tipo', info: 'vista de datos 2' },
     { subtitle: 'Campos', info: 'subtitle/info' }
   ];
 
-  
+
   // Añade estos datos para las estadísticas
   statisticsData = [
-    { 
-      stadistic: 'Tipo:', 
-      percentage: 'Vista 3', 
-      description: 'Estadisticas' 
+    {
+      stadistic: 'Tipo:',
+      percentage: 'Vista 3',
+      description: 'Estadisticas'
     },
-    { 
-      stadistic: 'stadistic', 
-      percentage: 'percentage', 
-      description: 'description' 
+    {
+      stadistic: 'stadistic',
+      percentage: 'percentage',
+      description: 'description'
     }
   ];
-  
+
   // Datos para el historial de mantenimiento
   mantenimientoItems = [
-    { 
-      date: '01/10/2024', 
-      type: 'Preventivo', 
-      responsible: 'María López' 
+    {
+      date: '01/10/2024',
+      type: 'Preventivo',
+      responsible: 'María López'
     },
-    { 
-      date: '15/04/2025', 
-      type: 'Correctivo', 
-      responsible: 'Luis Ramírez' 
+    {
+      date: '15/04/2025',
+      type: 'Correctivo',
+      responsible: 'Luis Ramírez'
     }
   ];
 
@@ -100,20 +100,21 @@ export class ComponentsDemoComponent {
 
   // Datos para historial de movimientos
   movimientosItems = [
-    { 
-      date: '12/04/2025', 
-      action: 'Entrada 50 uds.', 
-      order: 'OC-456' 
+    {
+      date: '12/04/2025',
+      action: 'Entrada 50 uds.',
+      order: 'OC-456'
     },
-    { 
-      date: '01/04/2025', 
-      action: 'Salida 10 uds.', 
-      order: 'Orden #123' 
+    {
+      date: '01/04/2025',
+      action: 'Salida 10 uds.',
+      order: 'Orden #123'
     }
   ];
-  
+
   /*
   // Datos de ejemplo para notificaciones
+  /*
   notificationItems: Notification[] = [
     {
       title: 'Alerta de Mantenimiento',
@@ -135,7 +136,7 @@ export class ComponentsDemoComponent {
     }
   ];
   */
-  
+
 
 
   userFilters = [
@@ -176,7 +177,7 @@ export class ComponentsDemoComponent {
   }
 
 
-  handlePrimaryButtonClick(): void { 
+  handlePrimaryButtonClick(): void {
     console.log('Botón primario clickeado');
     // Puedes hacer lo que necesites aquí
   }
