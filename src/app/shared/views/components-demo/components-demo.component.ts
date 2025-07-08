@@ -7,7 +7,6 @@ import { InfoSectionComponent } from '../../components/information-panel/info-se
 import { InfoContainerComponent } from '../../components/information-panel/info-container/info-container.component';
 import { InfoListItemsComponent } from '../../components/information-panel/info-list-items/info-list-items.component';
 import { NotificationsContainerComponent } from '../../components/notifications-container/notifications-container.component';
-//import { Notification } from '../../components/notifications-container/notification/notification.component';
 import { SearchComponent } from '../../components/search/search.component';
 import { RecordTableComponent, RecordTableColumn } from '../../components/record-table/record-table.component';
 import { SidebarMecanetComponent } from '../../components/sidebar-mecanet/sidebar-mecanet.component';
@@ -113,6 +112,7 @@ export class ComponentsDemoComponent {
     }
   ];
 
+  /*
   // Datos de ejemplo para notificaciones
   /*
   notificationItems: Notification[] = [
@@ -134,8 +134,8 @@ export class ComponentsDemoComponent {
       type: 'notification',
       icon: 'event_note' // icono de mantenimiento
     }
-  ];*/
-
+  ];
+  */
 
 
 

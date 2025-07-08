@@ -124,7 +124,7 @@
             "workOrder": "Orden de Trabajo",
             "maintenancePlan": "Plan de Mantenimiento",
             "execution": "Ejecución",
-            "dashboard": "Dashboard",
+            "readMetrics": "Lectura de Métricas",
             "staffManagement": "Administración del Personal",
             "settings": "Configuración",
             "demo": "Demo"
@@ -604,157 +604,37 @@
         ]
     },
     "maintenancePlanCreate": {
-        "title": "Crear Plan de Mantenimiento",
-        "backButton": "Volver",
-        "selector": {
-            "title": "Seleccione el tipo de plan a crear",
-            "staticPlan": {
-                "title": "Plan Estático",
-                "subtitle": "Organización por días",
-                "description": "Cree un plan de mantenimiento organizado por días, con tareas específicas para cada uno.",
-                "selectButton": "SELECCIONAR"
-            },
-            "dynamicPlan": {
-                "title": "Plan Dinámico",
-                "subtitle": "Organización por tareas",
-                "description": "Cree un plan de mantenimiento más flexible, enfocado en tareas específicas sin estructura de días.",
-                "selectButton": "SELECCIONAR"
-            }
-        },
-        "staticPlan": {
-            "title": {
-                "create": "Crear Plan de Mantenimiento",
-                "edit": "Editar Plan de Mantenimiento"
-            },
-            "backButton": "Volver",
-            "sections": {
-                "generalInfo": {
-                    "title": "Información General",
-                    "productionLine": {
-                        "label": "Línea de Producción*",
-                        "error": "Este campo es requerido"
-                    },
-                    "startDate": {
-                        "label": "Fecha de Inicio*",
-                        "error": "Este campo es requerido"
-                    },
-                    "duration": {
-                        "label": "Duración (días)*",
-                        "error": {
-                            "required": "Este campo es requerido",
-                            "min": "El mínimo es 1 día",
-                            "max": "El máximo es 30 días"
-                        }
-                    }
-                },
-                "taskScheduling": {
-                    "title": "Programación de Tareas",
-                    "addDay": "Agregar Día",
-                    "day": "Día",
-                    "tasks": "tarea(s)",
-                    "tasksForDay": "Tareas para el día",
-                    "addTask": "Agregar Tarea",
-                    "noTasksMessage": "No hay tareas programadas para este día. Haga clic en \"Agregar Tarea\" para comenzar.",
-                    "task": "Tarea",
-                    "removeTask": "Eliminar Tarea",
-                    "removeDay": "Eliminar Día",
-                    "taskFields": {
-                        "taskName": {
-                            "label": "Nombre de la Tarea*",
-                            "error": "Este campo es requerido"
-                        },
-                        "taskDescription": {
-                            "label": "Descripción"
-                        },
-                        "machineIds": {
-                            "label": "Máquinas Involucradas*",
-                            "error": "Este campo es requerido"
-                        }
-                    }
-                }
-            },
-            "actions": {
-                "cancel": "Cancelar",
-                "save": "Guardar Plan",
-                "update": "Actualizar Plan",
-                "saving": "Guardando..."
-            },
-            "errors": {
-                "createError": "Error al crear el plan. Por favor, inténtelo de nuevo más tarde.",
-                "updateError": "Error al actualizar el plan. Por favor, inténtelo de nuevo más tarde.",
-                "loadError": "Error al cargar el plan. Por favor, inténtelo de nuevo más tarde."
-            }
-        },
-        "dynamicPlan": {
-            "title": "Crear Plan de Mantenimiento Dinámico",
-            "backButton": "Volver",
-            "sections": {
-                "generalInfo": {
-                    "title": "Información General",
-                    "parameter": {
-                        "label": "Parámetro*",
-                        "error": "Este campo es requerido"
-                    },
-                    "startDate": {
-                        "label": "Fecha de Inicio*",
-                        "error": "Este campo es requerido"
-                    },
-                    "machineIds": {
-                        "label": "Máquinas Asignadas*",
-                        "error": "Seleccione al menos una máquina"
-                    }
-                },
-                "tasks": {
-                    "title": "Tareas",
-                    "addTask": "Agregar Tarea",
-                    "task": "Tarea",
-                    "removeTask": "Eliminar Tarea",
-                    "emptyState": "No hay tareas programadas. Haga clic en \"Agregar Tarea\" para comenzar.",
-                    "taskFields": {
-                        "taskName": {
-                            "label": "Nombre de la Tarea*",
-                            "error": "Este campo es requerido"
-                        },
-                        "taskDescription": {
-                            "label": "Descripción"
-                        },
-                        "machineIds": {
-                            "label": "Máquinas específicas (opcional)",
-                            "hint": "Si no selecciona, se usarán las máquinas generales del plan"
-                        }
-                    }
-                }
-            },
-            "actions": {
-                "cancel": "Cancelar",
-                "save": "Guardar Plan Dinámico",
-                "saving": "Guardando..."
-            },
-            "errors": {
-                "createError": "Error al crear el plan. Por favor, inténtelo de nuevo más tarde."
-            }
-        }
     },
     "machineryMetrics": {
         "breadcrumb": "Gestión de Activos > Métricas de Maquinarias",
-        "loading": "Cargando maquinarias...",
-        "retry": "Reintentar",
-        "serialNumber": "N° Serie",
         "search": {
             "placeholder": "Buscar por nombre, modelo o marca...",
             "refresh": "Actualizar"
         },
+        "loading": "Cargando maquinarias...",
+        "retry": "Reintentar",
+        "serialNumber": "Número de Serie",
         "measurements": {
             "title": "Mediciones",
             "currentValue": "Valor Actual",
             "lastUpdated": "Última Actualización",
             "newValue": "Nuevo valor",
-            "update": "Subir",
-            "noMeasurements": "No hay mediciones disponibles para esta maquinaria"
+            "update": "Actualizar",
+            "noMeasurements": "No hay mediciones disponibles"
         },
         "emptyState": {
             "title": "No se encontraron maquinarias",
-            "message": "No hay maquinarias disponibles o no coinciden con los criterios de búsqueda"
+            "message": "Intenta ajustar tu búsqueda o actualiza la lista"
+        },
+        "selectMachinery": "Seleccionar Maquinaria",
+        "selectMachinery.placeholder": "Selecciona una maquinaria",
+        "metricRegistration": {
+            "title": "Registro de Nueva Lectura",
+            "placeholder": "Ingresa el valor",
+            "submit": "Registrar Lectura"
+        },
+        "selectMetric": {
+            "placeholder": "Selecciona una métrica"
         }
     },
     "workOrder": {
@@ -909,6 +789,73 @@
             "create": "Crear",
             "firstName": "Nombre",
             "lastName": "Apellido"
+        }
+    },
+    "billing": {
+        "loading": "Cargando planes...",
+        "currentPlan": "Plan Actual",
+        "changePlan": "Cambiar a este Plan",
+        "perMonth": "/mes",
+        "unlimited": "∞"
+    },
+    "maintenancePlan": {
+        "forms": {
+            "dynamic": {
+                "title": "Nuevo Plan de Mantenimiento",
+                "sections": {
+                    "planInfo": "Información del Plan",
+                    "tasks": "Tareas"
+                },
+                "fields": {
+                    "name": {
+                        "label": "Nombre",
+                        "required": "El nombre es requerido"
+                    },
+                    "startDate": {
+                        "label": "Fecha de Inicio",
+                        "required": "La fecha de inicio es requerida"
+                    },
+                    "endDate": {
+                        "label": "Fecha de Fin",
+                        "required": "La fecha de fin es requerida"
+                    },
+                    "metricDefinition": {
+                        "label": "Definición de Métrica",
+                        "placeholder": "Seleccione una métrica",
+                        "required": "La definición de métrica es requerida"
+                    },
+                    "threshold": {
+                        "label": "Umbral",
+                        "required": "El umbral es requerido"
+                    },
+                    "task": {
+                        "title": "Tarea",
+                        "machine": {
+                            "label": "Máquina",
+                            "placeholder": "Seleccione una máquina",
+                            "required": "La máquina es requerida"
+                        },
+                        "name": {
+                            "label": "Nombre de la Tarea",
+                            "required": "El nombre de la tarea es requerido"
+                        },
+                        "description": {
+                            "label": "Descripción",
+                            "required": "La descripción es requerida"
+                        },
+                        "skills": {
+                            "label": "Habilidades Requeridas",
+                            "required": "Debe seleccionar al menos una habilidad"
+                        }
+                    }
+                },
+                "buttons": {
+                    "addTask": "Agregar Tarea",
+                    "removeTask": "Eliminar Tarea",
+                    "cancel": "Cancelar",
+                    "save": "Guardar"
+                }
+            }
         }
     },
     "billing": {

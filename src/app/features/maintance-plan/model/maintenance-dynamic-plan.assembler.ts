@@ -1,47 +1,22 @@
-import { MaintenanceDynamicPlan } from './maintenance-dynamic-plan.model';
+import { MaintenanceDynamicPlanResource } from "../services/maintenance-dynamic-plan.resource";
+import { MaintenanceDynamicPlan } from "./maintenance-dynamic-plan.model";
 
+// MaintenanceDynamicPlanAssembler.ts
 export class MaintenanceDynamicPlanAssembler {
-
-  static toModel(apiData: any): MaintenanceDynamicPlan {
-    if (!apiData) return {
-      dynamicPlanId: 0,
-      userCreator: 0,
-      parameter: '',
-      startDate: new Date(),
-      machineIds: [],
-      tasks: []
-    };
-    
+  static toEntity(dto: MaintenanceDynamicPlanResource): MaintenanceDynamicPlan {
     return {
-      dynamicPlanId: apiData.dynamicPlanId,
-      id: apiData.id,
-      userCreator: apiData.userCreator,
-      parameter: apiData.parameter,
-      startDate: new Date(apiData.startDate),
-      machineIds: Array.isArray(apiData.machineIds) ? apiData.machineIds : [],
-      tasks: Array.isArray(apiData.tasks) ? apiData.tasks.map((task: any) => ({
-        taskId: task.taskId || 0,
-        taskName: task.taskName || '',
-        taskDescription: task.taskDescription || '',
-        machineIds: Array.isArray(task.machineIds) ? task.machineIds : []
-      })) : []
-    };
-  }
-
-  static toApiFormat(model: MaintenanceDynamicPlan): any {
-    return {
-      dynamicPlanId: model.dynamicPlanId,
-      userCreator: model.userCreator,
-      parameter: model.parameter,
-      startDate: model.startDate instanceof Date ? model.startDate.toISOString() : model.startDate,
-      machineIds: model.machineIds,
-      tasks: model.tasks.map(task => ({
-        taskId: task.taskId,
+      name: dto.name,
+      startDate: new Date(dto.startDate),
+      endDate: new Date(dto.endDate),
+      metricDefinitionId: dto.metricDefinitionId,
+      threshold: dto.threshold,
+      tasks: dto.tasks.map(task => ({
+        machineId: task.machineId,
         taskName: task.taskName,
-        taskDescription: task.taskDescription,
-        machineIds: task.machineIds
-      })),
-      id: model.dynamicPlanId // Para json-server, usamos el mismo valor que dynamicPlanId
+        description: task.description,
+        skillIds: task.skillIds
+      }))
     };
   }
-} 
+}
+
