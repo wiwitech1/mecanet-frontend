@@ -1,0 +1,813 @@
+<!-- CONTAINER PRINCIPAL -->
+<div class="technician-container">
+  
+  <!-- HEADER HERO -->
+  <div class="technician-hero">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <i class="icon-wrench"></i>
+        Panel de Técnico
+      </h1>
+      <p class="hero-subtitle">Gestiona tus órdenes de trabajo y colabora con tu equipo</p>
+    </div>
+  </div>
+
+  <!-- NAVEGACIÓN DE TABS -->
+  <div class="tab-navigation">
+    <div class="tab-container">
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'dashboard'"
+        (click)="setActiveTab('dashboard')">
+        <i class="icon-bar-chart"></i>
+        <span>Dashboard</span>
+        <div class="tab-indicator"></div>
+      </button>
+      
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'available'"
+        (click)="setActiveTab('available')">
+        <i class="icon-megaphone"></i>
+        <span>Disponibles</span>
+        <div class="tab-badge" *ngIf="stats.availableOrders > 0">{{stats.availableOrders}}</div>
+        <div class="tab-indicator"></div>
+      </button>
+      
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'pending'"
+        (click)="setActiveTab('pending')">
+        <i class="icon-clock"></i>
+        <span>Mis Pendientes</span>
+        <div class="tab-badge" *ngIf="stats.myPendingOrders > 0">{{stats.myPendingOrders}}</div>
+        <div class="tab-indicator"></div>
+      </button>
+      
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'execution'"
+        (click)="setActiveTab('execution')">
+        <i class="icon-gear"></i>
+        <span>En Ejecución</span>
+        <div class="tab-badge" *ngIf="stats.inExecution > 0">{{stats.inExecution}}</div>
+        <div class="tab-indicator"></div>
+      </button>
+      
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'completed'"
+        (click)="setActiveTab('completed')">
+        <i class="icon-check-circle"></i>
+        <span>Completadas</span>
+        <div class="tab-indicator"></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- LOADING STATE -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando órdenes de trabajo...</p>
+  </div>
+
+  <!-- ERROR STATE -->
+  <div *ngIf="error" class="error-container glass-card">
+    <i class="icon-alert-circle error-icon"></i>
+    <p class="error-message">{{error}}</p>
+    <button (click)="loadTechnicianData()" class="btn-retry">
+      <i class="icon-refresh"></i>
+      Reintentar
+    </button>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div *ngIf="!loading && !error" class="main-content">
+
+    <!-- =================== DASHBOARD TAB =================== -->
+    <div *ngIf="activeTab === 'dashboard'" class="dashboard-section">
+      
+      <!-- STATS CARDS -->
+      <div class="stats-grid">
+        <div class="stat-card glass-card available">
+          <div class="stat-icon">
+            <i class="icon-megaphone"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.availableOrders}}</h3>
+            <p>Órdenes Disponibles</p>
+          </div>
+          <div class="stat-trend">
+            <span class="trend-text">Para inscripción</span>
+          </div>
+        </div>
+        
+        <div class="stat-card glass-card pending">
+          <div class="stat-icon">
+            <i class="icon-clock"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.myPendingOrders}}</h3>
+            <p>Mis Pendientes</p>
+          </div>
+          <div class="stat-trend">
+            <span class="trend-text">Listas para ejecutar</span>
+          </div>
+        </div>
+        
+        <div class="stat-card glass-card execution">
+          <div class="stat-icon">
+            <i class="icon-gear"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.inExecution}}</h3>
+            <p>En Ejecución</p>
+          </div>
+          <div class="stat-trend">
+            <span class="trend-text">Trabajando ahora</span>
+          </div>
+        </div>
+        
+        <div class="stat-card glass-card completed">
+          <div class="stat-icon">
+            <i class="icon-award"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.completedThisMonth}}</h3>
+            <p>Este Mes</p>
+          </div>
+          <div class="stat-trend">
+            <span class="trend-text">Completadas</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-actions glass-card">
+        <h3><i class="icon-lightning"></i> Acciones Rápidas</h3>
+        <div class="action-buttons">
+          <button 
+            (click)="setActiveTab('available')" 
+            class="action-btn available" 
+            [disabled]="stats.availableOrders === 0">
+            <i class="icon-hand-paper"></i>
+            <span>Ver Órdenes Disponibles ({{stats.availableOrders}})</span>
+          </button>
+          
+          <button 
+            (click)="setActiveTab('pending')" 
+            class="action-btn pending" 
+            [disabled]="stats.myPendingOrders === 0">
+            <i class="icon-rocket"></i>
+            <span>Iniciar Ejecución ({{stats.myPendingOrders}})</span>
+          </button>
+          
+          <button 
+            (click)="setActiveTab('execution')" 
+            class="action-btn execution" 
+            [disabled]="stats.inExecution === 0">
+            <i class="icon-settings"></i>
+            <span>Continuar Trabajos ({{stats.inExecution}})</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- RESUMEN DE PARTICIPACIÓN -->
+      <div class="participation-summary glass-card">
+        <h3><i class="icon-trending-up"></i> Mi Participación</h3>
+        <div class="participation-stats">
+          <div class="participation-item">
+            <span class="participation-label">Total Participadas:</span>
+            <span class="participation-value">{{stats.totalParticipated}}</span>
+          </div>
+          <div class="participation-item">
+            <span class="participation-label">Completadas este mes:</span>
+            <span class="participation-value success">{{stats.completedThisMonth}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== ÓRDENES DISPONIBLES TAB =================== -->
+    <div *ngIf="activeTab === 'available'" class="available-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-megaphone"></i> Órdenes Disponibles para Inscripción</h2>
+        <p>Únete a las órdenes de trabajo que coincidan con tus habilidades</p>
+      </div>
+
+      <div *ngIf="publishedOrders.length === 0" class="empty-state glass-card">
+        <i class="icon-inbox empty-icon"></i>
+        <h3>No hay órdenes disponibles</h3>
+        <p>Actualmente no hay órdenes de trabajo disponibles para inscripción</p>
+      </div>
+
+      <div class="orders-grid">
+        <div 
+          *ngFor="let order of publishedOrders; trackBy: trackByOrderId" 
+          class="order-card glass-card available-card"
+          [attr.data-order-id]="order.id">
+          
+          <!-- HEADER DE LA ORDEN -->
+          <div class="order-header">
+            <div class="order-title-section">
+              <h3 class="order-title">{{order.title}}</h3>
+              <p class="order-description">{{order.description}}</p>
+            </div>
+            
+            <div class="status-badge published">
+              <i class="icon-megaphone"></i>
+              <span>Disponible</span>
+            </div>
+          </div>
+
+          <!-- INFO DE LA ORDEN -->
+          <div class="order-info">
+            <div class="info-item">
+              <i class="icon-calendar"></i>
+              <span>📅 {{formatDate(order.schedule?.date)}} a las {{formatTime(order.schedule?.startTime)}}</span>
+            </div>
+            
+            <div class="info-item">
+              <i class="icon-users"></i>
+              <span>👥 {{order.technicians.length}}/{{order.maxTechnicians}} técnicos inscritos</span>
+            </div>
+            
+            <div class="info-item" *ngIf="order.requiredSkillIds.length > 0">
+              <i class="icon-tools"></i>
+              <span>🔧 {{getSkillNames(order.requiredSkillIds)}}</span>
+            </div>
+            
+            <div class="info-item">
+              <i class="icon-machine"></i>
+              <span>🏭 Máquina: {{order.machineId}}</span>
+            </div>
+          </div>
+
+          <!-- EQUIPO ACTUAL -->
+          <div class="team-section" *ngIf="order.technicians.length > 0">
+            <h4><i class="icon-users"></i> Equipo Actual</h4>
+            <div class="team-members">
+              <div 
+                *ngFor="let tech of order.technicians" 
+                class="team-member"
+                [class.current-user]="tech.technicianId === currentUserId">
+                <div class="member-avatar">
+                  <span>T{{tech.technicianId}}</span>
+                </div>
+                <span class="member-name">Técnico {{tech.technicianId}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MATERIALES -->
+          <div class="materials-preview" *ngIf="order.materials.length > 0">
+            <h4><i class="icon-package"></i> Materiales ({{order.materials.length}})</h4>
+            <div class="materials-list">
+              <span 
+                *ngFor="let material of order.materials.slice(0, 3)" 
+                class="material-tag">
+                {{material.itemName}}
+              </span>
+              <span *ngIf="order.materials.length > 3" class="more-materials">
+                +{{order.materials.length - 3}} más
+              </span>
+            </div>
+          </div>
+
+          <!-- ACCIONES -->
+          <div class="order-actions">
+            <div class="primary-actions">
+              <button 
+                *ngIf="!isUserJoined(order) && canJoinOrder(order)" 
+                (click)="joinOrder(order.id)" 
+                class="btn-join">
+                <i class="icon-hand-paper"></i>
+                Inscribirse
+              </button>
+              
+              <button 
+                *ngIf="!isUserJoined(order) && !canJoinOrder(order)" 
+                class="btn-join disabled"
+                disabled>
+                <i class="icon-x"></i>
+                No disponible
+              </button>
+              
+              <button 
+                *ngIf="isUserJoined(order)" 
+                (click)="openLeaveModal(order)" 
+                class="btn-leave">
+                <i class="icon-x"></i>
+                Abandonar
+              </button>
+            </div>
+            
+            <div class="secondary-actions">
+              <button 
+                (click)="goToOrderDetail(order.id)" 
+                class="btn-secondary">
+                <i class="icon-eye"></i>
+                Ver Detalles
+              </button>
+              
+              <button 
+                *ngIf="isUserJoined(order)" 
+                (click)="openMaterialsModal(order)" 
+                class="btn-secondary">
+                <i class="icon-package"></i>
+                Materiales
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== MIS ÓRDENES PENDIENTES TAB =================== -->
+    <div *ngIf="activeTab === 'pending'" class="pending-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-clock"></i> Mis Órdenes Listas para Ejecutar</h2>
+        <p>Órdenes aprobadas y programadas que puedes iniciar</p>
+      </div>
+
+      <div *ngIf="myPendingOrders.length === 0" class="empty-state glass-card">
+        <i class="icon-clock empty-icon"></i>
+        <h3>No tienes órdenes pendientes</h3>
+        <p>No hay órdenes listas para ejecutar en este momento</p>
+      </div>
+
+      <div class="orders-grid">
+        <div 
+          *ngFor="let order of myPendingOrders; trackBy: trackByOrderId" 
+          class="order-card glass-card pending-card"
+          [attr.data-order-id]="order.id">
+          
+          <!-- HEADER DE LA ORDEN -->
+          <div class="order-header">
+            <div class="order-title-section">
+              <h3 class="order-title">{{order.title}}</h3>
+              <p class="order-description">{{order.description}}</p>
+            </div>
+            
+            <div class="status-badge pending">
+              <i class="icon-clock"></i>
+              <span>Lista para Ejecutar</span>
+            </div>
+          </div>
+
+          <!-- PROGRAMACIÓN -->
+          <div class="schedule-info">
+            <div class="schedule-main">
+              <i class="icon-calendar-check"></i>
+              <div class="schedule-details">
+                <h4>📅 {{formatDate(order.schedule?.date)}}</h4>
+                <p>🕐 {{formatTime(order.schedule?.startTime)}} - {{formatTime(order.schedule?.endTime)}}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- EQUIPO -->
+          <div class="team-section">
+            <h4><i class="icon-users"></i> Equipo Asignado ({{order.technicians.length}})</h4>
+            <div class="team-members">
+              <div 
+                *ngFor="let tech of order.technicians" 
+                class="team-member"
+                [class.current-user]="tech.technicianId === currentUserId">
+                <div class="member-avatar">
+                  <span>T{{tech.technicianId}}</span>
+                </div>
+                <span class="member-name">Técnico {{tech.technicianId}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MATERIALES PREPARADOS -->
+          <div class="materials-ready" *ngIf="order.materials.length > 0">
+            <h4><i class="icon-package-check"></i> Materiales Preparados</h4>
+            <div class="materials-summary">
+              <span class="materials-count">{{order.materials.length}} materiales listos</span>
+              <button 
+                (click)="openMaterialsModal(order)" 
+                class="btn-materials-detail">
+                Ver Lista Completa
+              </button>
+            </div>
+          </div>
+
+          <!-- ACCIONES -->
+          <div class="order-actions">
+            <button 
+              (click)="openStartExecutionModal(order)" 
+              class="btn-start-execution">
+              <i class="icon-rocket"></i>
+              INICIAR EJECUCIÓN
+            </button>
+            
+            <div class="secondary-actions">
+              <button 
+                (click)="goToOrderDetail(order.id)" 
+                class="btn-secondary">
+                <i class="icon-eye"></i>
+                Ver Detalles
+              </button>
+              
+              <button 
+                (click)="openMaterialsModal(order)" 
+                class="btn-secondary">
+                <i class="icon-package"></i>
+                Revisar Materiales
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== EN EJECUCIÓN TAB =================== -->
+    <div *ngIf="activeTab === 'execution'" class="execution-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-gear"></i> Órdenes en Ejecución</h2>
+        <p>Trabajos que están siendo ejecutados actualmente</p>
+      </div>
+
+      <div *ngIf="inExecutionOrders.length === 0" class="empty-state glass-card">
+        <i class="icon-gear empty-icon"></i>
+        <h3>No hay trabajos en ejecución</h3>
+        <p>No tienes órdenes de trabajo ejecutándose en este momento</p>
+      </div>
+
+      <div class="orders-grid">
+        <div 
+          *ngFor="let order of inExecutionOrders; trackBy: trackByOrderId" 
+          class="order-card glass-card execution-card"
+          [attr.data-order-id]="order.id">
+          
+          <!-- HEADER DE LA ORDEN -->
+          <div class="order-header">
+            <div class="order-title-section">
+              <h3 class="order-title">{{order.title}}</h3>
+              <p class="order-description">{{order.description}}</p>
+            </div>
+            
+            <div class="status-badge execution">
+              <i class="icon-gear spinning"></i>
+              <span>En Ejecución</span>
+            </div>
+          </div>
+
+          <!-- TIEMPO DE EJECUCIÓN -->
+          <div class="execution-time">
+            <div class="time-info">
+              <i class="icon-play-circle"></i>
+              <div class="time-details">
+                <h4>⏱️ Iniciada: {{formatDate(order.executionWindow?.startAt)}} {{formatTime(order.executionWindow?.startAt)}}</h4>
+                <p class="duration">Duración estimada: {{order.schedule?.durationHours}} horas</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- PROGRESO DEL EQUIPO -->
+          <div class="team-progress">
+            <h4><i class="icon-users"></i> Equipo Trabajando</h4>
+            <div class="team-members">
+              <div 
+                *ngFor="let tech of order.technicians" 
+                class="team-member active"
+                [class.current-user]="tech.technicianId === currentUserId">
+                <div class="member-avatar online">
+                  <span>T{{tech.technicianId}}</span>
+                  <div class="online-indicator"></div>
+                </div>
+                <span class="member-name">Técnico {{tech.technicianId}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- COMENTARIOS RECIENTES -->
+          <div class="recent-comments" *ngIf="order.comments.length > 0">
+            <h4><i class="icon-message-circle"></i> Últimos Comentarios</h4>
+            <div class="comments-preview">
+              <div 
+                *ngFor="let comment of order.comments.slice(-2)" 
+                class="comment-item">
+                <span class="comment-author">T{{comment.authorUserId}}:</span>
+                <span class="comment-text">{{comment.text}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ACCIONES -->
+          <div class="order-actions">
+            <button 
+              (click)="goToExecutionDetail(order.id)" 
+              class="btn-continue-execution">
+              <i class="icon-settings"></i>
+              CONTINUAR EJECUCIÓN
+            </button>
+            
+            <div class="secondary-actions">
+              <button 
+                (click)="goToOrderDetail(order.id)" 
+                class="btn-secondary">
+                <i class="icon-eye"></i>
+                Ver Detalles
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== ÓRDENES COMPLETADAS TAB =================== -->
+    <div *ngIf="activeTab === 'completed'" class="completed-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-check-circle"></i> Órdenes Completadas</h2>
+        <p>Historial de trabajos completados donde participaste</p>
+      </div>
+
+      <div *ngIf="completedOrders.length === 0" class="empty-state glass-card">
+        <i class="icon-check-circle empty-icon"></i>
+        <h3>Sin órdenes completadas</h3>
+        <p>Aún no has participado en órdenes de trabajo completadas</p>
+      </div>
+
+      <div class="orders-grid">
+        <div 
+          *ngFor="let order of completedOrders; trackBy: trackByOrderId" 
+          class="order-card glass-card completed-card"
+          [attr.data-order-id]="order.id">
+          
+          <!-- HEADER DE LA ORDEN -->
+          <div class="order-header">
+            <div class="order-title-section">
+              <h3 class="order-title">{{order.title}}</h3>
+              <p class="order-description">{{order.description}}</p>
+            </div>
+            
+            <div class="status-badge completed">
+              <i class="icon-check-circle"></i>
+              <span>Completada</span>
+            </div>
+          </div>
+
+          <!-- INFORMACIÓN DE COMPLETADO -->
+          <div class="completion-info">
+            <div class="completion-main">
+              <i class="icon-check-square"></i>
+              <div class="completion-details">
+                <h4>✅ Completada: {{formatDate(order.executionWindow?.endAt)}}</h4>
+                <p>🕐 Finalizada: {{formatTime(order.executionWindow?.endAt)}}</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- EQUIPO QUE PARTICIPÓ -->
+          <div class="team-section">
+            <h4><i class="icon-users"></i> Equipo Participante</h4>
+            <div class="team-members">
+              <div 
+                *ngFor="let tech of order.technicians" 
+                class="team-member completed"
+                [class.current-user]="tech.technicianId === currentUserId">
+                <div class="member-avatar">
+                  <span>T{{tech.technicianId}}</span>
+                </div>
+                <span class="member-name">Técnico {{tech.technicianId}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CONCLUSIONES -->
+          <div class="conclusions" *ngIf="order.conclusions">
+            <h4><i class="icon-file-text"></i> Conclusiones</h4>
+            <p class="conclusions-text">{{order.conclusions}}</p>
+          </div>
+
+          <!-- ACCIONES -->
+          <div class="order-actions">
+            <button 
+              (click)="goToOrderDetail(order.id)" 
+              class="btn-view-report">
+              <i class="icon-file-text"></i>
+              Ver Reporte Completo
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MODAL ABANDONAR ORDEN =================== -->
+<div *ngIf="showLeaveModal" class="modal-overlay" (click)="closeLeaveModal()">
+  <div class="modal-content leave-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-alert-triangle"></i> Abandonar Orden de Trabajo</h3>
+      <button (click)="closeLeaveModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p>¿Estás seguro de que deseas abandonar la orden <strong>{{selectedOrder?.title}}</strong>?</p>
+      <p class="warning-text">El administrador será notificado de tu salida.</p>
+      
+      <div class="form-field">
+        <label class="form-label">Motivo del abandono (obligatorio):</label>
+        <textarea 
+          [(ngModel)]="leaveReason" 
+          class="form-textarea"
+          placeholder="Explica brevemente por qué abandonas esta orden..."
+          rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button 
+        (click)="closeLeaveModal()" 
+        class="btn-cancel">
+        Cancelar
+      </button>
+      
+      <button 
+        (click)="leaveOrder()" 
+        class="btn-danger"
+        [disabled]="!leaveReason.trim() || loading">
+        <i class="icon-x"></i>
+        <span *ngIf="!loading">Abandonar Orden</span>
+        <span *ngIf="loading">Abandonando...</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MODAL INICIAR EJECUCIÓN =================== -->
+<div *ngIf="showStartExecutionModal" class="modal-overlay" (click)="closeStartExecutionModal()">
+  <div class="modal-content start-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-rocket"></i> Iniciar Ejecución</h3>
+      <button (click)="closeStartExecutionModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="order-summary">
+        <h4>{{selectedOrder?.title}}</h4>
+        <p>{{selectedOrder?.description}}</p>
+      </div>
+      
+      <div class="execution-checklist">
+        <h4>Lista de Verificación:</h4>
+        <div class="checklist-items">
+          <div class="checklist-item">
+            <i class="icon-check-circle checked"></i>
+            <span>Equipo completo asignado</span>
+          </div>
+          <div class="checklist-item">
+            <i class="icon-check-circle checked"></i>
+            <span>Materiales verificados</span>
+          </div>
+          <div class="checklist-item">
+            <i class="icon-check-circle checked"></i>
+            <span>Horario programado</span>
+          </div>
+        </div>
+      </div>
+      
+      <p class="info-text">Al iniciar la ejecución, la orden cambiará a estado "En Ejecución" y se registrará el tiempo de inicio.</p>
+    </div>
+
+    <div class="modal-actions">
+      <button 
+        (click)="closeStartExecutionModal()" 
+        class="btn-cancel">
+        Cancelar
+      </button>
+      
+      <button 
+        (click)="startExecution()" 
+        class="btn-start-execution"
+        [disabled]="loading">
+        <i class="icon-rocket"></i>
+        <span *ngIf="!loading">INICIAR AHORA</span>
+        <span *ngIf="loading">Iniciando...</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MODAL GESTIÓN DE MATERIALES =================== -->
+<div *ngIf="showMaterialsModal" class="modal-overlay" (click)="closeMaterialsModal()">
+  <div class="modal-content materials-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-package"></i> Gestión de Materiales</h3>
+      <button (click)="closeMaterialsModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="order-summary">
+        <h4>{{selectedOrder?.title}}</h4>
+        <p>Gestiona los materiales necesarios para esta orden</p>
+      </div>
+
+      <form [formGroup]="materialsForm" (ngSubmit)="saveMaterials()" class="materials-form">
+        
+        <div class="materials-list" formArrayName="materials">
+          <div 
+            *ngFor="let materialForm of materialsArray.controls; let i = index; trackBy: trackByMaterialIndex" 
+            [formGroupName]="i" 
+            class="material-item">
+            
+            <div class="material-header">
+              <h5>Material {{i + 1}}</h5>
+              <button 
+                type="button" 
+                (click)="removeMaterial(i)" 
+                class="btn-remove-material"
+                *ngIf="materialsArray.length > 1">
+                <i class="icon-trash"></i>
+              </button>
+            </div>
+            
+            <div class="material-fields">
+              <div class="form-field">
+                <label class="form-label">SKU:</label>
+                <input 
+                  type="text" 
+                  formControlName="itemSku" 
+                  class="form-input"
+                  placeholder="Código del material">
+              </div>
+              
+              <div class="form-field">
+                <label class="form-label">Nombre:</label>
+                <input 
+                  type="text" 
+                  formControlName="itemName" 
+                  class="form-input"
+                  placeholder="Nombre del material">
+              </div>
+              
+              <div class="form-field">
+                <label class="form-label">Cantidad Solicitada:</label>
+                <input 
+                  type="number" 
+                  formControlName="requestedQty" 
+                  class="form-input"
+                  min="1">
+              </div>
+              
+              <div class="form-field">
+                <label class="form-label">Cantidad Final:</label>
+                <input 
+                  type="number" 
+                  formControlName="finalQty" 
+                  class="form-input"
+                  min="0"
+                  placeholder="Cantidad realmente utilizada">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <button 
+          type="button" 
+          (click)="addMaterial()" 
+          class="btn-add-material">
+          <i class="icon-plus"></i>
+          Agregar Material
+        </button>
+        
+        <div class="modal-actions">
+          <button 
+            type="button" 
+            (click)="closeMaterialsModal()" 
+            class="btn-cancel">
+            Cancelar
+          </button>
+          
+          <button 
+            type="submit" 
+            class="btn-save-materials"
+            [disabled]="materialsForm.invalid || loading">
+            <i class="icon-save"></i>
+            <span *ngIf="!loading">Guardar Materiales</span>
+            <span *ngIf="loading">Guardando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> 

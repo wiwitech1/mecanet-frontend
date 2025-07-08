@@ -1,193 +1,248 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
+import { Observable, map, catchError, throwError } from 'rxjs';
 import { WorkOrderEntity } from '../models/work-order.entity';
+import { WorkOrderStatus } from '../models/work-order-status.entity';
+import { WorkOrderSchedule } from '../models/work-order-schedule.entity';
+import { WorkOrderMaterial } from '../models/work-order-material.entity';
+import { environment } from '../../../../environments/environment';
+import { UserService } from '../../../core/services/user.service';
 import { WorkOrderAssembler } from './work-order.assembler';
 import { WorkOrderResource } from './work-order.resource';
-import { WorkOrderApiResponse } from './work-order.response';
+import {
+  ScheduleRequest,
+  AdminActionRequest,
+  JoinRequest,
+  LeaveRequest,
+  MaterialsRequest,
+  StartExecutionRequest,
+  CommentRequest,
+  PhotoRequest,
+  FinalQuantitiesRequest,
+  CompleteRequest
+} from './work-order.request';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class WorkOrderService {
-  // Datos mock que simulan la respuesta de la API
-  private mockApiData: WorkOrderResource[] = [
-    {
-      id: 1,
-      code: 'PM-2025-04',
-      date: '2025-03-10',
-      production_line: 'L-01',
-      type: 'Preventivo',
-      status: 'pending',
-      description: 'Mantenimiento preventivo mensual',
-      priority: 'high',
-      assigned_technicians: [
-        {
-          id: 1,
-          name: 'Juan Pérez',
-          email: 'juan.perez@company.com',
-          assigned_machines: ['MT-430', 'MT-450'],
-          assigned_at: '2025-03-01T08:00:00Z'
-        },
-        {
-          id: 2,
-          name: 'María López',
-          email: 'maria.lopez@company.com',
-          assigned_machines: [],
-          assigned_at: '2025-03-01T08:00:00Z'
-        }
-      ],
-      created_at: '2025-03-01T08:00:00Z',
-      updated_at: '2025-03-01T08:00:00Z',
-      created_by: 1,
-      updated_by: 1
-    },
-    {
-      id: 2,
-      code: 'OT-2025-01',
-      date: '2025-03-15',
-      production_line: 'L-01',
-      type: 'Correctivo',
-      status: 'in_progress',
-      description: 'Reparación de falla en motor principal',
-      priority: 'urgent',
-      assigned_technicians: [
-        {
-          id: 3,
-          name: 'Luis Ramírez',
-          email: 'luis.ramirez@company.com',
-          assigned_machines: ['MT-500'],
-          assigned_at: '2025-03-14T10:00:00Z'
-        }
-      ],
-      created_at: '2025-03-14T09:00:00Z',
-      updated_at: '2025-03-14T10:00:00Z',
-      created_by: 1,
-      updated_by: 1
-    }
-  ];
+  private apiUrl = environment.serverBaseUrl + '/workorders';
 
-  constructor() {}
+  constructor(
+    private http: HttpClient,
+    private userService: UserService
+  ) {}
+
+  private getHeaders(): HttpHeaders {
+    const session = this.userService.getSession();
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session?.token}`
+    });
+  }
 
   /**
-   * Obtiene todas las órdenes de trabajo
-   * @returns Promise con la lista de entidades de órdenes de trabajo
+   * Obtiene órdenes de trabajo por estado
    */
-  async getOrders(): Promise<WorkOrderEntity[]> {
-    try {
-      // Simula llamada a la API
-      const resources = [...this.mockApiData];
-      return WorkOrderAssembler.resourcesToEntities(resources);
-    } catch (error) {
-      console.error('Error loading work orders:', error);
-      throw error;
-    }
+  getWorkOrdersByStatus(status: WorkOrderStatus): Observable<WorkOrderEntity[]> {
+    const url = `${this.apiUrl}?status=${status}`;
+    return this.http.get<WorkOrderResource[]>(url, { headers: this.getHeaders() }).pipe(
+      map(resources => WorkOrderAssembler.resourcesToEntities(resources)),
+      catchError(this.handleError)
+    );
   }
 
   /**
    * Obtiene una orden de trabajo por ID
-   * @param id ID de la orden de trabajo
-   * @returns Promise con la entidad de orden de trabajo o undefined
    */
-  async getOrderById(id: number): Promise<WorkOrderEntity | undefined> {
-    try {
-      const resource = this.mockApiData.find(o => o.id === id);
-      return resource ? WorkOrderAssembler.resourceToEntity(resource) : undefined;
-    } catch (error) {
-      console.error('Error loading work order:', error);
-      throw error;
-    }
+  getWorkOrderById(id: number): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}`;
+    return this.http.get<WorkOrderResource>(url, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
   }
 
   /**
-   * Crea una nueva orden de trabajo
-   * @param order Datos parciales de la orden de trabajo
+   * Programa la agenda de una orden de trabajo
    */
-  async createOrder(order: Partial<WorkOrderEntity>): Promise<void> {
-    try {
-      const newEntity: WorkOrderEntity = {
-        ...order,
-        id: this.mockApiData.length + 1,
-        technicians: order.technicians || [],
-        status: order.status || 'pending',
-        priority: order.priority || 'medium',
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        createdBy: 1
-      } as WorkOrderEntity;
-
-      // Convierte a resource para simular envío a API
-      const resource = WorkOrderAssembler.entityToCreateResource(newEntity);
-
-      // Simula respuesta de la API agregando campos de fechas
-      const newResource: WorkOrderResource = {
-        ...resource,
-        id: newEntity.id!,
-        assigned_technicians: resource.assigned_technicians?.map((tech, index) => ({
-          id: index + 100,
-          name: tech.name,
-          email: tech.email,
-          assigned_machines: tech.assigned_machines,
-          assigned_at: new Date().toISOString()
-        })) || [],
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-
-      this.mockApiData.push(newResource);
-    } catch (error) {
-      console.error('Error creating work order:', error);
-      throw error;
-    }
+  scheduleWorkOrder(
+    id: number,
+    schedule: WorkOrderSchedule,
+    maxTechnicians: number
+  ): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/schedule`;
+    const request = WorkOrderAssembler.entityToScheduleRequest(schedule, maxTechnicians);
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
   }
 
   /**
-   * Actualiza una orden de trabajo existente
-   * @param id ID de la orden de trabajo
-   * @param order Datos parciales para actualizar
+   * Publica una orden de trabajo para técnicos
    */
-  async updateOrder(id: number, order: Partial<WorkOrderEntity>): Promise<void> {
-    try {
-      const idx = this.mockApiData.findIndex(o => o.id === id);
-      if (idx > -1) {
-        const existingResource = this.mockApiData[idx];
-        const existingEntity = WorkOrderAssembler.resourceToEntity(existingResource);
-
-        const updatedEntity: WorkOrderEntity = {
-          ...existingEntity,
-          ...order,
-          updatedAt: new Date(),
-          updatedBy: 1
-        };
-
-        const updateResource = WorkOrderAssembler.entityToUpdateResource(updatedEntity);
-
-        // Actualiza el resource manteniendo campos de la API
-        this.mockApiData[idx] = {
-          ...existingResource,
-          ...updateResource,
-          updated_at: new Date().toISOString(),
-          assigned_technicians: updateResource.assigned_technicians?.map((tech, index) => ({
-            id: index + 100,
-            name: tech.name,
-            email: tech.email,
-            assigned_machines: tech.assigned_machines,
-            assigned_at: existingResource.assigned_technicians[index]?.assigned_at || new Date().toISOString()
-          })) || []
-        };
-      }
-    } catch (error) {
-      console.error('Error updating work order:', error);
-      throw error;
-    }
+  publishWorkOrder(id: number, adminUserId: number): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/publish`;
+    const request: AdminActionRequest = { adminUserId };
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
   }
 
   /**
-   * Elimina una orden de trabajo
-   * @param id ID de la orden de trabajo a eliminar
+   * Un técnico se une a una orden de trabajo
    */
-  async deleteOrder(id: number): Promise<void> {
-    try {
-      this.mockApiData = this.mockApiData.filter(o => o.id !== id);
-    } catch (error) {
-      console.error('Error deleting work order:', error);
-      throw error;
-    }
+  joinWorkOrder(id: number, technicianId: number): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/join`;
+    const request: JoinRequest = { technicianId: { value: technicianId } };
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
   }
-}
+
+  /**
+   * Un técnico abandona una orden de trabajo
+   */
+  leaveWorkOrder(id: number, technicianId: number, reason: string): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/leave`;
+    const request: LeaveRequest = { 
+      technicianId: { value: technicianId },
+      reason: reason
+    };
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Actualiza los materiales de una orden de trabajo
+   */
+  updateMaterials(id: number, materials: WorkOrderMaterial[]): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/materials`;
+    const request = WorkOrderAssembler.materialsToRequest(materials);
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Mueve una orden de trabajo a revisión
+   */
+  moveToReview(id: number, adminUserId: number): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/review`;
+    const request: AdminActionRequest = { adminUserId };
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Aprueba una orden de trabajo para ejecución
+   */
+  approveToPending(id: number, adminUserId: number): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/pending-execution`;
+    const request: AdminActionRequest = { adminUserId };
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Inicia la ejecución de una orden de trabajo
+   */
+  startExecution(id: number, technicianId: number, startAt: Date): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/start`;
+    const request: StartExecutionRequest = {
+      technicianId: { value: technicianId },
+      startAt: startAt.toISOString()
+    };
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Agrega un comentario a una orden de trabajo
+   */
+  addComment(id: number, authorUserId: number, text: string): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/comment`;
+    const request: CommentRequest = { authorUserId, text };
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Agrega una foto a una orden de trabajo
+   */
+  addPhoto(id: number, authorUserId: number, url: string): Observable<WorkOrderEntity> {
+    const url_endpoint = `${this.apiUrl}/${id}/photo`;
+    const request: PhotoRequest = { authorUserId, url };
+    
+    return this.http.post<WorkOrderResource>(url_endpoint, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Actualiza las cantidades finales de materiales usados
+   */
+  updateFinalQuantities(id: number, finalQuantities: Record<string, number>): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/final-quantities`;
+    const request: FinalQuantitiesRequest = { finalQuantities };
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Completa una orden de trabajo
+   */
+  completeWorkOrder(
+    id: number,
+    technicianId: number,
+    endAt: Date,
+    conclusions: string
+  ): Observable<WorkOrderEntity> {
+    const url = `${this.apiUrl}/${id}/complete`;
+    const request: CompleteRequest = {
+      technicianId: { value: technicianId },
+      endAt: endAt.toISOString(),
+      conclusions: conclusions
+    };
+    
+    return this.http.post<WorkOrderResource>(url, request, { headers: this.getHeaders() }).pipe(
+      map(resource => WorkOrderAssembler.resourceToEntity(resource)),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Maneja los errores de las llamadas HTTP
+   */
+  private handleError(error: HttpErrorResponse) {
+    console.error('Error en WorkOrderService:', error);
+    return throwError(() => new Error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.'));
+  }
+} 
