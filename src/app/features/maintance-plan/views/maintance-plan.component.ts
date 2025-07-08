@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Router } from '@angular/router';
 import { InformationPanelComponent } from '../../../shared/components/information-panel/information-panel.component';
 import { SearchComponent } from '../../../shared/components/search/search.component';
 import { RecordTableComponent, RecordTableColumn } from '../../../shared/components/record-table/record-table.component';
@@ -11,14 +10,15 @@ import { TitleViewComponent } from '../../../shared/components/title-view/title-
 import { InfoSectionComponent } from '../../../shared/components/information-panel/info-section/info-section.component';
 import { InfoContainerComponent } from '../../../shared/components/information-panel/info-container/info-container.component';
 import { InfoListItemsComponent } from '../../../shared/components/information-panel/info-list-items/info-list-items.component';
-import { MaintenancePlanService } from '../services/maintenance-plan.service';
-import { MaintenanceDynamicPlanService } from '../services/maintenance-dynamic-plan.service';
 import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { MaintenancePlanDetailComponent } from '../components/maintenance-plan-detail/maintenance-plan-detail.component';
+import { MaintenanceDynamicPlan } from '../model/maintenance-dynamic-plan.model';
+import { MaintenancePlanService } from '../services/maintenance-plan.service';
 
 @Component({
   selector: 'app-maintance-plan',
@@ -40,7 +40,8 @@ import { trigger, transition, style, animate } from '@angular/animations';
     TitleViewComponent,
     InfoSectionComponent,
     InfoContainerComponent,
-    InfoListItemsComponent
+    InfoListItemsComponent,
+    MaintenancePlanDetailComponent
   ],
   templateUrl: './maintance-plan.component.html',
   styleUrls: ['./maintance-plan.component.scss'],
@@ -60,9 +61,11 @@ export class MaintancePlanComponent implements OnInit {
   // Columnas para la tabla de planes
   tableColumns: RecordTableColumn[] = [
     { key: 'id', label: 'ID', type: 'texto' },
-    { key: 'productionLineId', label: 'Línea de Producción', type: 'texto' },
+    { key: 'name', label: 'Nombre', type: 'texto' },
     { key: 'startDate', label: 'Fecha Inicio', type: 'texto' },
-    { key: 'durationDays', label: 'Duración (días)', type: 'texto' },
+    { key: 'endDate', label: 'Fecha Fin', type: 'texto' },
+    { key: 'metricDefinitionId', label: 'Métrica', type: 'texto' },
+    { key: 'threshold', label: 'Umbral', type: 'texto' },
     { key: 'actions', label: 'Acciones', type: 'cta', ctaLabel: 'Ver', ctaVariant: 'primary' }
   ];
 
@@ -116,56 +119,48 @@ export class MaintancePlanComponent implements OnInit {
   planInfoData: any[] = [];
   planTasksItems: any[] = [];
 
-  constructor(
-    private router: Router,
-    private maintenancePlanService: MaintenancePlanService,
-    private maintenanceDynamicPlanService: MaintenanceDynamicPlanService
-  ) {}
+  // Nueva propiedad para controlar la visibilidad del modal
+  showCreateModal = false;
+
+  constructor(private maintenancePlanService: MaintenancePlanService) {}
 
   ngOnInit(): void {
     this.loadPlans();
   }
 
   loadPlans(): void {
-    // Cargar planes estáticos
-    this.maintenancePlanService.getAllPlans().subscribe(plans => {
-      this.plansData = plans.map(plan => ({
-        id: plan.planId,
-        productionLineId: plan.productionLineId,
-        startDate: new Date(plan.startDate).toLocaleDateString(),
-        durationDays: plan.durationDays,
-        _originalData: plan // Guardamos los datos originales para el panel de información
-      }));
-      this.filteredPlansData = [...this.plansData];
+    this.maintenancePlanService.getAllDynamicPlans().subscribe({
+      next: (plans: MaintenanceDynamicPlan[]) => {
+        this.plansData = plans.map(plan => ({
+          id: plan.id,
+          name: plan.name,
+          startDate: new Date(plan.startDate).toLocaleDateString(),
+          endDate: new Date(plan.endDate).toLocaleDateString(),
+          metricDefinitionId: plan.metricDefinitionId,
+          threshold: plan.threshold,
+          _originalData: plan
+        }));
+        this.filteredPlansData = [...this.plansData];
+      },
+      error: (err) => console.error('Error al cargar planes dinámicos', err)
     });
   }
 
   onRowClick(event: {row: any, column: RecordTableColumn}): void {
-    const selectedPlan = event.row._originalData;
+    const selectedPlan: MaintenanceDynamicPlan = event.row._originalData;
     this.selectedPlan = selectedPlan;
-    
-    // Preparar datos para el panel de información
+
     this.planInfoData = [
-      { subtitle: 'ID del Plan', info: selectedPlan.planId },
-      { subtitle: 'Línea de Producción', info: selectedPlan.productionLineId },
+      { subtitle: 'ID', info: selectedPlan.id },
+      { subtitle: 'Nombre', info: selectedPlan.name },
       { subtitle: 'Fecha de Inicio', info: new Date(selectedPlan.startDate).toLocaleDateString() },
-      { subtitle: 'Duración', info: `${selectedPlan.durationDays} días` },
-      { subtitle: 'Creado por', info: `ID Usuario: ${selectedPlan.userCreator}` }
+      { subtitle: 'Fecha Fin', info: new Date(selectedPlan.endDate).toLocaleDateString() },
+      { subtitle: 'Métrica', info: selectedPlan.metricDefinitionId },
+      { subtitle: 'Umbral', info: selectedPlan.threshold }
     ];
-    
-    // Preparar lista de tareas
-    this.planTasksItems = [];
-    if (selectedPlan.items && selectedPlan.items.length > 0) {
-      selectedPlan.items.forEach((day: any) => {
-        if (day.tasks && day.tasks.length > 0) {
-          day.tasks.forEach((task: any) => {
-            this.planTasksItems.push({ model: task.taskName });
-          });
-        }
-      });
-    }
-    
-    // Mostrar el panel de detalles
+
+    this.planTasksItems = selectedPlan.tasks?.map((task: any) => ({ model: task.name || task.taskName })) || [];
+
     this.showDetailPanel = true;
   }
 
@@ -175,9 +170,20 @@ export class MaintancePlanComponent implements OnInit {
   }
 
   onNewPlanClick(): void {
-    this.router.navigate(['/plan-mantenimiento/crear']);
+    console.log('Abriendo modal de nuevo plan');
+    this.showCreateModal = true;
   }
-  
+
+  onSavePlan(plan: MaintenanceDynamicPlan): void {
+    this.showCreateModal = false;
+    this.loadPlans(); // Recargar la lista de planes
+  }
+
+  onCancelPlan(): void {
+    console.log('Cancelando creación de plan');
+    this.showCreateModal = false;
+  }
+
   // Método para filtrar por búsqueda global
   onSearch(searchTerm: string): void {
     this.applyFilters(searchTerm, {});

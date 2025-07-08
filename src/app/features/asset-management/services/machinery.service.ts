@@ -71,6 +71,16 @@ export class MachineryService {
     );
   }
 
+
+  getAlllMachineries(): Observable<MachineryEntity[]> {
+    return this.http.get<MachineryEntity[]>(
+      `${this.apiUrl}`,
+      { headers: this.getHeaders() }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   /**
    * Obtiene una maquinaria por su ID
    * @param id ID de la maquinaria
