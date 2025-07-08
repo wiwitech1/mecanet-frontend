@@ -8,7 +8,7 @@ import {
   CreateMachineryResource,
   UpdateMachineryResource
 } from './machinery.resource';
-import { environment } from '../../../../environments/environment';
+import { environment } from '../../../../environments/environment'; 
 
 
 @Injectable({

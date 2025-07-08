@@ -121,9 +121,9 @@ export class SidebarMecanetComponent implements OnInit {
     },
     /*
     {
-      title: 'sidebar.menu.dashboard',
-      icon: 'dashboard',
-      route: '/dashboard',
+      title: 'sidebar.menu.readMetrics',
+      icon: 'readMetrics',
+      route: '/simulation',
     },*/
     {
       title: 'sidebar.menu.staffManagement',

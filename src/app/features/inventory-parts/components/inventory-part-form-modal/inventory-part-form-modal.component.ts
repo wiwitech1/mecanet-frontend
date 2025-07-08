@@ -5,6 +5,10 @@ import { ButtonComponent } from '../../../../shared/components/button/button.com
 import { InventoryPartEntity } from '../../../shared/models/inventory-part.entity';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { calculateStockStatus } from '../../../shared/services/inventory-part.assembler';
+import { MachineryService } from '../../../asset-management/services/machinery.service';
+import { MachineryEntity } from '../../../asset-management/models/machinery.entity';
+import { PlantService } from '../../../asset-management/services/plant.service';
+import { PlantEntity } from '../../../asset-management/models/plant.entity';
 
 @Component({
   selector: 'app-inventory-part-form-modal',
@@ -22,17 +26,29 @@ export class InventoryPartFormModalComponent implements OnInit {
   @Output() delete = new EventEmitter<number>();
   @Output() cancel = new EventEmitter<void>();
 
-  formData: Partial<InventoryPartEntity> = {
-    code: '',
+  formData: any = {
+    sku: '',
     name: '',
     description: '',
-    current_stock: 0,
-    min_stock: 0,
-    unit_price: 0,
+    category: 'REPUESTO',
+    unit: '',
+    unitPrice: 0,
+    minimumStock: 0,
+    location: '',
+    compatibleMachineIds: [],
+    plantId: 1,
+    currentStock: 0,
     stock_status: 'OUT_OF_STOCK'
   };
 
-  constructor(private translate: TranslateService) {}
+  categories = ['REPUESTO', 'HERRAMIENTA', 'CONSUMIBLE', 'EQUIPO', 'SEGURIDAD', 'MATERIAL'];
+  machineries: MachineryEntity[] = [];
+  plants: PlantEntity[] = [];
+
+  constructor(
+      private translate: TranslateService,
+      private machineryService: MachineryService,
+      private plantService: PlantService) {}
 
   ngOnInit() {
     if (this.partData) {
@@ -44,14 +60,26 @@ export class InventoryPartFormModalComponent implements OnInit {
       // Calcular stock_status inicial si no está presente
       this.onStockChange();
     }
+
+    // Cargar maquinarias disponibles
+    this.machineryService.getAllMachines().subscribe({
+      next: (data) => (this.machineries = data),
+      error: (err) => console.error('Error cargando maquinarias', err)
+    });
+
+    // cargar plantas
+    this.plantService.getAll().subscribe({
+      next: (data) => (this.plants = data),
+      error: (err) => console.error('Error cargando plantas', err)
+    });
   }
 
     onStockChange() {
     // Recalcular stock_status cuando cambien los valores de stock
-    if (this.formData.current_stock !== undefined && this.formData.min_stock !== undefined) {
+    if (this.formData.currentStock !== undefined && this.formData.minimumStock !== undefined) {
       this.formData.stock_status = calculateStockStatus(
-        this.formData.current_stock || 0,
-        this.formData.min_stock || 0
+        this.formData.currentStock || 0,
+        this.formData.minimumStock || 0
       );
     }
   }
@@ -59,8 +87,8 @@ export class InventoryPartFormModalComponent implements OnInit {
   handleSubmit() {
     // Calcular el stock_status basado en los valores actuales
     const stockStatus = calculateStockStatus(
-      this.formData.current_stock || 0,
-      this.formData.min_stock || 0
+      this.formData.currentStock || 0,
+      this.formData.minimumStock || 0
     );
 
     const formDataForBackend = {
@@ -80,6 +108,17 @@ export class InventoryPartFormModalComponent implements OnInit {
       if (this.originalData?.id) {
         this.delete.emit(this.originalData.id);
       }
+    }
+  }
+
+  toggleMachine(id: number, checked: boolean) {
+    const list: number[] = this.formData.compatibleMachineIds;
+    if (checked) {
+      if (!list.includes(id)) {
+        list.push(id);
+      }
+    } else {
+      this.formData.compatibleMachineIds = list.filter(mId => mId !== id);
     }
   }
 }

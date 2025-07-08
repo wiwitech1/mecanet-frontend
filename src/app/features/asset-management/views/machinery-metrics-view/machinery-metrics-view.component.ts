@@ -9,6 +9,11 @@ import { TitleViewComponent } from '../../../../shared/components/title-view/tit
 import { SearchComponent } from '../../../../shared/components/search/search.component';
 import { ButtonComponent } from '../../../../shared/components/button/button.component';
 import { NotificationsContainerComponent } from '../../../../shared/components/notifications-container/notifications-container.component';
+import { MetricService } from '../../../metrics/services/metric.service';
+import { Metric } from '../../../metrics/models/metric.entity';
+import { MachineMetricReadingService } from '../../services/machine-metric-reading.service';
+import { NotificationsService } from '../../../../shared/components/notifications-container/notifications.service';
+import { MachineMetricEntity } from '../../models/machine-metric.entity';
 
 interface MeasurementUpdateData {
   machineryId: number;
@@ -43,27 +48,47 @@ export class MachineryMetricsViewComponent implements OnInit {
   // Valores temporales para los inputs de measurements
   measurementValues: { [machineryId: number]: { [measurementId: number]: number } } = {};
 
+  // --- NUEVAS PROPIEDADES ---
+  selectedMachineryId: number | null = null;
+  selectedMachinery: MachineryEntity | null = null;
+
+  metrics: Metric[] = [];
+  selectedMetricId: number | null = null;
+  metricValue: number | null = null;
+
+  // Control de vista posterior al registro
+  machineDetail: MachineryEntity | null = null;
+  showMachineDetail = false;
+  machineMetrics: MachineMetricEntity[] = []; // Actualizado el tipo
+  // --- FIN NUEVAS PROPIEDADES ---
+
   // Función para el botón de recargar
   loadMachineriesFunction = () => {
     this.loadMachineries();
   };
 
-  constructor(private machineryService: MachineryService) {}
+  constructor(
+    private machineryService: MachineryService,
+    private metricService: MetricService,
+    private machineMetricReadingService: MachineMetricReadingService,
+    private notificationsService: NotificationsService
+  ) {}
 
   ngOnInit() {
     this.loadMachineries();
+    this.loadMetrics();
   }
 
   loadMachineries() {
     this.loading = true;
     this.error = null;
-    this.machineryService.getAllMachineriesWithMeasurements().subscribe({
+    this.machineryService.getAlllMachineries().subscribe({
       next: (machineries) => {
         this.machineries = machineries;
         this.filteredMachineries = machineries;
         this.loading = false;
       },
-      error: (error) => {
+      error: (error: any) => {
         this.error = 'Error al cargar las maquinarias';
         this.loading = false;
         console.error('Error loading machineries:', error);
@@ -166,4 +191,86 @@ export class MachineryMetricsViewComponent implements OnInit {
     // Por ahora no implementamos filtros adicionales
     console.log('Filters changed:', filters);
   }
+
+  // ---------------- MÉTODOS NUEVOS ----------------
+  // Carga todas las métricas disponibles
+  loadMetrics() {
+    this.metricService.getAllMetrics().subscribe({
+      next: (metrics: Metric[]) => (this.metrics = metrics),
+      error: (error: any) => console.error('Error al cargar métricas:', error)
+    });
+  }
+
+  // Maneja la selección de una maquinaria
+  onMachinerySelect() {
+    this.selectedMachinery = this.machineries.find(m => m.id === this.selectedMachineryId) || null;
+    this.filteredMachineries = this.selectedMachinery ? [this.selectedMachinery] : [];
+    // Reiniciar selección de métrica y valor
+    this.selectedMetricId = null;
+    this.metricValue = null;
+
+    // Ocultar detalle al cambiar de maquinaria
+    this.showMachineDetail = false;
+    this.machineDetail = null;
+  }
+
+  // Valida si el botón de submit debe estar deshabilitado
+  isSubmitDisabled(): boolean {
+    return !this.selectedMachinery || !this.selectedMetricId || this.metricValue === null || this.metricValue <= 0;
+  }
+
+  // Envía la lectura de la métrica
+  onSubmitReading() {
+    if (this.isSubmitDisabled() || !this.selectedMachinery || !this.selectedMetricId) {
+      return;
+    }
+
+    this.machineMetricReadingService.registerMetricReading(this.selectedMachinery.id, this.selectedMetricId, this.metricValue!)
+      .subscribe({
+        next: () => {
+          this.notificationsService.success('Éxito', 'Lectura registrada correctamente');
+          // Reiniciamos el valor ingresado
+          this.metricValue = null;
+
+          // Obtener métricas recientes de la maquinaria seleccionada
+          this.fetchMachineDetail();
+        },
+        error: (error: any) => {
+          console.error('Error registrando lectura:', error);
+          this.notificationsService.error(
+            'Error',
+            'No se pudo registrar la lectura'
+          );
+        }
+      });
+  }
+
+  /**
+   * Obtiene el detalle de la maquinaria seleccionada junto a sus métricas recientes
+   */
+  private fetchMachineDetail() {
+    if (!this.selectedMachinery) return;
+
+    // Primero obtenemos los detalles de la maquinaria
+    this.machineryService.getMachineryById(this.selectedMachinery.id).subscribe({
+      next: (machine) => {
+        this.machineDetail = machine;
+        this.showMachineDetail = true;
+
+        // Luego obtenemos las métricas específicas de esta maquinaria
+        this.machineryService.getAllMachineriesWithMeasurements(this.selectedMachinery!.id).subscribe({
+          next: (metrics) => {
+            this.machineMetrics = metrics;
+          },
+          error: (error: any) => {
+            console.error('Error obteniendo métricas de la maquinaria:', error);
+          }
+        });
+      },
+      error: (error: any) => {
+        console.error('Error obteniendo detalle de maquinaria:', error);
+      }
+    });
+  }
+  // --------------- FIN MÉTODOS NUEVOS ---------------
 }

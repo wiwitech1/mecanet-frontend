@@ -9,4 +9,5 @@ export interface PersonalEntity {
   roles: PersonalRole[];
 }
 
+
 export type PersonalRole = 'ROLE_TECHNICAL' | 'ROLE_ADMIN';

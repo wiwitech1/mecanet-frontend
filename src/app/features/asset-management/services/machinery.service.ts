@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, catchError, throwError, of } from 'rxjs';
 import { MachineryEntity } from '../models/machinery.entity';
+import { MachineryMeasurementEntity } from '../models/measurement.entity';
 import { environment } from '../../../../environments/environment';
 import { UserService } from '../../../core/services/user.service';
+import { Metric } from '../../metrics/models/metric.entity';
+import { MachineMetricEntity } from '../models/machine-metric.entity';
 
 @Injectable({
   providedIn: 'root'
@@ -71,6 +74,16 @@ export class MachineryService {
     );
   }
 
+
+  getAlllMachineries(): Observable<MachineryEntity[]> {
+    return this.http.get<MachineryEntity[]>(
+      `${this.apiUrl}`,
+      { headers: this.getHeaders() }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
   /**
    * Obtiene una maquinaria por su ID
    * @param id ID de la maquinaria
@@ -118,10 +131,25 @@ export class MachineryService {
   }
 
   /**
+   * Obtiene todas las maquinarias (sin filtrar por línea)
+   */
+  getAllMachines(): Observable<MachineryEntity[]> {
+    return this.http.get<MachineryEntity[]>(
+      `${this.apiUrl}`,
+      { headers: this.getHeaders() }
+    ).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  /**
    * Obtiene todas las maquinarias con sus measurements para las métricas
    */
-  getAllMachineriesWithMeasurements(): Observable<MachineryEntity[]> {
-    return of(this.mockMachineries);
+  getAllMachineriesWithMeasurements(id: number): Observable<MachineMetricEntity[]> {
+    const url = `${this.apiUrl}/${id}/metrics`;  // Construye la URL dinámica usando el id
+    return this.http.get<MachineMetricEntity[]>(url, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError)
+    );
   }
 
   /**

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { InventoryPartEntitysApiService } from '../../services/inventory-parts-api.service';
 import { InventoryPartEntity } from '../../../shared/models/inventory-part.entity';
 import { InventoryPartFormModalComponent } from '../../components/inventory-part-form-modal/inventory-part-form-modal.component';
+import { AddStockModalComponent } from '../../components/add-stock-modal/add-stock-modal.component';
 import { RecordTableComponent } from '../../../../shared/components/record-table/record-table.component';
 import { InformationPanelComponent } from '../../../../shared/components/information-panel/information-panel.component';
 import { InfoSectionComponent } from '../../../../shared/components/information-panel/info-section/info-section.component';
@@ -37,7 +38,8 @@ interface TableColumn {
     ButtonComponent,
     InventoryPartFormModalComponent,
     SearchComponent,
-    TranslateModule
+    TranslateModule,
+    AddStockModalComponent
   ]
 })
 export class InventoryPartsComponent implements OnInit {
@@ -50,6 +52,7 @@ export class InventoryPartsComponent implements OnInit {
   activeFilters: Record<string, string> = {};
   infoData: { subtitle: string; info: any }[] = [];
   stockData: { subtitle: string; info: any }[] = [];
+  showAddStockModal = false;
   // Filtros para el componente de búsqueda
   filters = [
     {
@@ -64,6 +67,7 @@ export class InventoryPartsComponent implements OnInit {
   columns: TableColumn[] = [
     { key: 'code', label: 'inventoryParts.table.code', type: 'texto' },
     { key: 'name', label: 'inventoryParts.table.name', type: 'texto' },
+    { key: 'category', label: 'inventoryParts.table.category', type: 'texto' },
     { key: 'current_stock', label: 'inventoryParts.table.currentStock', type: 'numero' },
     { key: 'stock_status', label: 'inventoryParts.table.stockStatus', type: 'texto', filterable: true },
     { key: 'actions', label: '', type: 'cta', ctaLabel: 'inventoryParts.table.details', ctaVariant: 'primary' }
@@ -212,5 +216,16 @@ export class InventoryPartsComponent implements OnInit {
     this.selectedPart = null;
     this.showCreateModal = true;
 
+  }
+
+  async handleAddStock(dto: {quantity:number; reason:string; unitCost:number; reference:string}) {
+    if (!this.selectedPart) return;
+    try {
+      await this.inventoryPartsService.addStock(this.selectedPart.id, dto);
+      this.showAddStockModal = false;
+      await this.loadInventoryParts();
+    } catch (err) {
+      console.error('Error al agregar stock', err);
+    }
   }
 }

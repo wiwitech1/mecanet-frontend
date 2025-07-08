@@ -10,8 +10,9 @@ import { LoginViewComponent } from './features/security/views/login-view/login-v
 import { ComponentsDemoComponent } from './shared/views/components-demo/components-demo.component';
 import { AccountInfoComponent} from './features/configuration/views/account-info/account-info.component';
 import { BillingComponent} from './features/configuration/views/billing/billing.component';
-import { DeleteAccountComponent} from './features/configuration/views/delete-account/delete-account.component';
+//import { DeleteAccountComponent} from './features/configuration/views/delete-account/delete-account.component';
 import {ConfigurationPanelComponent} from './shared/components/configuration-panel/configuration-panel.component';
+
 //const NewsViewComponent = (): Promise<any> => import('./features/news/views/news-view/news-view.component').then(m => m.NewsViewComponent);
 const PersonalViewComponent = (): Promise<any> => import('./features/personal/views/personal-view/personal-view.component').then(m => m.PersonalViewComponent);
 
@@ -20,9 +21,6 @@ const MachineryAssetViewComponent = (): Promise<any> => import('./features/asset
 
 const MaintancePlanComponent = (): Promise<any> => import('./features/maintance-plan/views/maintance-plan.component').then(m => m.MaintancePlanComponent);
 const MaintenancePlanDetailComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-detail/maintenance-plan-detail.component').then(m => m.MaintenancePlanDetailComponent);
-const MaintenancePlanCreateComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create/maintenance-plan-create.component').then(m => m.MaintenancePlanCreateComponent);
-const MaintenancePlanCreateSelectComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-select/maintenance-plan-create-select.component').then(m => m.MaintenancePlanCreateSelectComponent);
-const MaintenancePlanCreateDynamicComponent = (): Promise<any> => import('./features/maintance-plan/components/maintenance-plan-create-dynamic/maintenance-plan-create-dynamic.component').then(m => m.MaintenancePlanCreateDynamicComponent);
 
 //const PropruebaComponent = (): Promise<any> => import('./features/shared/production-lines/proprueba/proprueba.component').then(m => m.PropruebaComponent);
 const InventoryPartsViewComponent = (): Promise<any> => import('./features/inventory-parts/views/inventory-parts/inventory-parts.component').then(m => m.InventoryPartsComponent);
@@ -35,6 +33,8 @@ const ExecutionViewComponent = (): Promise<any> => import('./features/execution/
 const WorkOrderAdminViewComponent = (): Promise<any> => import('./features/work-order/views/work-order-admin-view/work-order-admin-view.component').then(m => m.WorkOrderAdminViewComponent);
 const WorkOrderTechnicianViewComponent = (): Promise<any> => import('./features/work-order/views/work-order-technician-view/work-order-technician-view.component').then(m => m.WorkOrderTechnicianViewComponent);
 const WorkOrderDetailViewComponent = (): Promise<any> => import('./features/work-order/views/work-order-detail-view/work-order-detail-view.component').then(m => m.WorkOrderDetailViewComponent);
+
+
 
 export const routes: Routes = [
     // Rutas públicas o de autenticación - solo accesibles si NO hay sesión
@@ -54,11 +54,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         children: [
             { path: '', loadComponent: MaintancePlanComponent },
-            { path: 'detalle/:id', loadComponent: MaintenancePlanDetailComponent },
-            { path: 'crear', loadComponent: MaintenancePlanCreateSelectComponent },
-            { path: 'crear-estatico', loadComponent: MaintenancePlanCreateComponent },
-            { path: 'crear-dinamico', loadComponent: MaintenancePlanCreateDynamicComponent },
-            { path: 'editar/:id', loadComponent: MaintenancePlanCreateComponent },
+            { path: 'detalle/:id', loadComponent: MaintenancePlanDetailComponent }
         ]
     },
     //{ path: 'ajustes/cuenta', component: AccountInfoComponent, canActivate: [authGuard] },
@@ -71,7 +67,7 @@ export const routes: Routes = [
       children: [
         { path: 'cuenta', component: AccountInfoComponent },
         { path: 'facturacion', component: BillingComponent },
-        { path: 'eliminar', component: DeleteAccountComponent },
+        //{ path: 'eliminar', component: DeleteAccountComponent },
       ]
     },
     {

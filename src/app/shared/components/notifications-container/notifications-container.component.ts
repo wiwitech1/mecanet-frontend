@@ -1,13 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationComponent } from './notification/notification.component';
-
-export interface Notification {
-  title: string;
-  message: string;
-  type: 'error' | 'notification';
-  icon: string;
-}
+import { NotificationsService, Notification } from './notifications.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-notifications-container',
@@ -16,7 +11,21 @@ export interface Notification {
   templateUrl: './notifications-container.component.html',
   styleUrls: ['./notifications-container.component.scss']
 })
-export class NotificationsContainerComponent {
-  @Input() title: string = 'Notificaciones';
-  @Input() notifications: Notification[] = [];
-} 
+export class NotificationsContainerComponent implements OnInit, OnDestroy {
+  notifications: Notification[] = [];
+  private subscription: Subscription;
+
+  constructor(private notificationsService: NotificationsService) {
+    this.subscription = this.notificationsService.notifications$.subscribe(
+      notifications => this.notifications = notifications
+    );
+  }
+
+  ngOnInit() {}
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
+}
