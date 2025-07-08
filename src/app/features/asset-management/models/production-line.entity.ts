@@ -19,5 +19,6 @@ export interface ProductionLineEntity {
 export enum ProductionLineStatus {
   INACTIVE = 'INACTIVE',
   ACTIVE = 'ACTIVE',
-  MAINTENANCE = 'MAINTENANCE'
+  MAINTENANCE = 'MAINTENANCE',
+  READY = 'READY'
 }

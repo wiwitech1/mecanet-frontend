@@ -1,109 +1,203 @@
-<div class="container">
-  <div class="header">
-    <div class="title-section">
-      <button mat-icon-button [routerLink]="['/plan-mantenimiento']" aria-label="Volver">
-        <mat-icon>arrow_back</mat-icon>
-      </button>
-      <h2>Detalles del Plan de Mantenimiento</h2>
-    </div>
-    <div class="actions" *ngIf="plan">
-      <button mat-raised-button color="primary" [routerLink]="['/plan-mantenimiento/editar', plan.planId]">
-        <mat-icon>edit</mat-icon> Editar
-      </button>
-      <button mat-raised-button color="warn" (click)="deletePlan()">
-        <mat-icon>delete</mat-icon> Eliminar
-      </button>
-    </div>
-  </div>
 
-  <mat-card class="detail-card" *ngIf="isLoading">
-    <mat-card-content>
-      <div class="loading-indicator">
-        <p>Cargando detalles del plan...</p>
-      </div>
-    </mat-card-content>
-  </mat-card>
+<div class="modal-overlay" *ngIf="showModal" (click)="onCancel()">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <div class="plan-form-container">
+      <h2 class="form-title">{{ 'maintenancePlan.forms.dynamic.title' | translate }}</h2>
 
-  <mat-card class="detail-card" *ngIf="errorMessage">
-    <mat-card-content>
-      <div class="error-message">
-        <p>{{ errorMessage }}</p>
-        <button mat-button color="primary" (click)="loadPlanDetails()">Reintentar</button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+      <form [formGroup]="planForm" (ngSubmit)="onSubmit()" class="plan-form">
+        <!-- Plan Information -->
+        <div class="form-section">
+          <div class="form-row">
+            <label for="name">{{ 'maintenancePlan.forms.dynamic.fields.name.label' | translate }} <span class="required">*</span></label>
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              class="form-input"
+              [class.invalid]="isFieldInvalid('name')"
+            >
+            <!--Error message-->
+            <div class="error-message" *ngIf="isFieldInvalid('name')">
+              {{ 'maintenancePlan.forms.dynamic.fields.name.required' | translate }}
+            </div>
+          </div>
 
-  <div *ngIf="!isLoading && !errorMessage && plan">
-    <mat-card class="detail-card">
-      <mat-card-header>
-        <mat-card-title>Información General</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div class="info-grid">
-          <div class="info-item">
-            <strong>ID del Plan:</strong>
-            <span>{{ plan.planId }}</span>
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="startDate">{{ 'maintenancePlan.forms.dynamic.fields.startDate.label' | translate }} <span class="required">*</span></label>
+              <input
+                type="date"
+                id="startDate"
+                formControlName="startDate"
+                class="form-input"
+                [class.invalid]="isFieldInvalid('startDate')"
+              >
+              <div class="error-message" *ngIf="isFieldInvalid('startDate')">
+                {{ 'maintenancePlan.forms.dynamic.fields.startDate.required' | translate }}
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="endDate">{{ 'maintenancePlan.forms.dynamic.fields.endDate.label' | translate }} <span class="required">*</span></label>
+              <input
+                type="date"
+                id="endDate"
+                formControlName="endDate"
+                class="form-input"
+                [class.invalid]="isFieldInvalid('endDate')"
+              >
+              <div class="error-message" *ngIf="isFieldInvalid('endDate')">
+                {{ 'maintenancePlan.forms.dynamic.fields.endDate.required' | translate }}
+              </div>
+            </div>
           </div>
-          <div class="info-item">
-            <strong>Línea de Producción:</strong>
-            <span>{{ plan.productionLineId }}</span>
-          </div>
-          <div class="info-item">
-            <strong>Fecha de Inicio:</strong>
-            <span>{{ plan.startDate | date:'dd/MM/yyyy' }}</span>
-          </div>
-          <div class="info-item">
-            <strong>Duración:</strong>
-            <span>{{ plan.durationDays }} días</span>
-          </div>
-          <div class="info-item">
-            <strong>Creado por:</strong>
-            <span>ID Usuario: {{ plan.userCreator }}</span>
+
+          <div class="form-grid">
+            <div class="form-row">
+              <label for="metricDefinitionId">{{ 'maintenancePlan.forms.dynamic.fields.metricDefinition.label' | translate }} <span class="required">*</span></label>
+              <select
+                id="metricDefinitionId"
+                formControlName="metricDefinitionId"
+                class="form-selector-input"
+                [class.invalid]="isFieldInvalid('metricDefinitionId')"
+              >
+                <option value="">{{ 'maintenancePlan.forms.dynamic.fields.metricDefinition.placeholder' | translate }}</option>
+                <!-- Iteramos sobre las métricas -->
+                <option *ngFor="let metric of metrics" [value]="metric.id">
+                  {{ metric.name }} ({{ metric.unit }})
+                </option>
+              </select>
+              <div class="error-message" *ngIf="isFieldInvalid('metricDefinitionId')">
+                {{ 'maintenancePlan.forms.dynamic.fields.metricDefinition.required' | translate }}
+              </div>
+            </div>
+
+            <div class="form-row">
+              <label for="threshold">{{ 'maintenancePlan.forms.dynamic.fields.threshold.label' | translate }} <span class="required">*</span></label>
+              <input
+                type="number"
+                id="threshold"
+                formControlName="threshold"
+                class="form-input"
+                step="0.1"
+                min="0"
+                [class.invalid]="isFieldInvalid('threshold')"
+              >
+              <div class="error-message" *ngIf="isFieldInvalid('threshold')">
+                {{ 'maintenancePlan.forms.dynamic.fields.threshold.required' | translate }}
+              </div>
+            </div>
           </div>
         </div>
-      </mat-card-content>
-    </mat-card>
 
-    <mat-card class="detail-card tasks-card">
-      <mat-card-header>
-        <mat-card-title>Programación de Tareas</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div *ngIf="sortedItems.length === 0" class="no-data">
-          <p>No hay tareas programadas para este plan.</p>
-        </div>
+        <!-- Tasks Section -->
+        <div class="form-section">
+          <div class="section-header">
+            <h3>{{ 'maintenancePlan.forms.dynamic.sections.tasks' | translate }}</h3>
+            <app-button
+              [variant]="'success'"
+              [iconLeft]="'mat-icon:add'"
+              (clicked)="addTask()"
+            >
+              {{ 'maintenancePlan.forms.dynamic.buttons.addTask' | translate }}
+            </app-button>
+          </div>
 
-        <mat-accordion *ngIf="sortedItems.length > 0">
-          <mat-expansion-panel *ngFor="let item of sortedItems">
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Día {{ item.dayNumber }}
-              </mat-panel-title>
-              <mat-panel-description>
-                {{ item.tasks.length }} tarea(s)
-              </mat-panel-description>
-            </mat-expansion-panel-header>
+          <div formArrayName="tasks">
+            <div *ngFor="let task of tasks.controls; let i=index" [formGroupName]="i" class="task-form">
+              <div class="task-header">
+                <app-button
+                  [variant]="'danger'"
+                  [iconLeft]="'mat-icon:delete'"
+                  (clicked)="removeTask(i)"
+                  class="delete-task-btn"
+                >
+                  {{ 'maintenancePlan.forms.dynamic.buttons.removeTask' | translate }}
+                </app-button>
+              </div>
 
-            <mat-list>
-              <mat-list-item *ngFor="let task of item.tasks">
-                <div class="task-item">
-                  <div class="task-header">
-                    <h3>{{ task.taskName }}</h3>
-                    <span class="task-id">ID: {{ task.taskId }}</span>
-                  </div>
-                  <p class="task-description">{{ task.taskDescription }}</p>
-                  <div class="machines-list">
-                    <strong>Máquinas:</strong>
-                    <mat-chip-set>
-                      <mat-chip *ngFor="let machineId of task.machineIds">{{ machineId }}</mat-chip>
-                    </mat-chip-set>
+              <div class="form-grid">
+                <div class="form-row">
+                  <label [for]="'machineId-' + i">{{ 'maintenancePlan.forms.dynamic.fields.task.machine.label' | translate }} <span class="required">*</span></label>
+                  <select
+                    [id]="'machineId-' + i"
+                    formControlName="machineId"
+                    class="form-selector-input"
+                    [class.invalid]="isTaskFieldInvalid(i, 'machineId')"
+                  >
+                    <option value="">{{ 'maintenancePlan.forms.dynamic.fields.task.machine.placeholder' | translate }}</option>
+                    <option *ngFor="let machinery of machineries" [value]="machinery.id">
+                      {{ machinery.name }} ({{ machinery.serialNumber }})
+                    </option>
+                  </select>
+                  <div class="error-message" *ngIf="isTaskFieldInvalid(i, 'machineId')">
+                    {{ 'maintenancePlan.forms.dynamic.fields.task.machine.required' | translate }}
                   </div>
                 </div>
-              </mat-list-item>
-            </mat-list>
-          </mat-expansion-panel>
-        </mat-accordion>
-      </mat-card-content>
-    </mat-card>
+
+                <div class="form-row">
+                  <label [for]="'taskName-' + i">{{ 'maintenancePlan.forms.dynamic.fields.task.name.label' | translate }} <span class="required">*</span></label>
+                  <input
+                    type="text"
+                    [id]="'taskName-' + i"
+                    formControlName="taskName"
+                    class="form-input"
+                    [class.invalid]="isTaskFieldInvalid(i, 'taskName')"
+                  >
+                  <div class="error-message" *ngIf="isTaskFieldInvalid(i, 'taskName')">
+                    {{ 'maintenancePlan.forms.dynamic.fields.task.name.required' | translate }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label [for]="'description-' + i">{{ 'maintenancePlan.forms.dynamic.fields.task.description.label' | translate }} <span class="required">*</span></label>
+                <textarea
+                  [id]="'description-' + i"
+                  formControlName="description"
+                  class="form-input description-input"
+                  rows="2"
+                  [class.invalid]="isTaskFieldInvalid(i, 'description')"
+                ></textarea>
+                <div class="error-message" *ngIf="isTaskFieldInvalid(i, 'description')">
+                  {{ 'maintenancePlan.forms.dynamic.fields.task.description.required' | translate }}
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label [for]="'skillIds-' + i">{{ 'maintenancePlan.forms.dynamic.fields.task.skills.label' | translate }} <span class="required">*</span></label>
+                <select
+                  [id]="'skillIds-' + i"
+                  formControlName="skillIds"
+                  class="form-selector-input"
+                  multiple
+                  [class.invalid]="isTaskFieldInvalid(i, 'skillIds')"
+                >
+                  <!-- Aquí irán las opciones cuando se implementen -->
+                </select>
+                <div class="error-message" *ngIf="isTaskFieldInvalid(i, 'skillIds')">
+                  {{ 'maintenancePlan.forms.dynamic.fields.task.skills.required' | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <app-button
+            [variant]="'secondary'"
+            (clicked)="onCancel()"
+          >
+            {{ 'maintenancePlan.forms.dynamic.buttons.cancel' | translate }}
+          </app-button>
+          <app-button
+            [variant]="'primary'"
+            [type]="'submit'"
+          >
+            {{ 'maintenancePlan.forms.dynamic.buttons.save' | translate }}
+          </app-button>
+        </div>
+      </form>
+    </div>
   </div>
-</div> 
+</div>

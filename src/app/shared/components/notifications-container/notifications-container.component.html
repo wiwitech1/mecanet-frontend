@@ -1,14 +1,13 @@
 
 <div class="general-container">
-<h2 class="notifications-title">{{ title }}</h2>
-<div class="notifications-container">
+<div class="notifications-container" *ngIf="notifications.length > 0">
   <div class="notifications-list">
-    <app-notification 
+    <app-notification
       *ngFor="let notification of notifications"
       [title]="notification.title"
       [message]="notification.message"
       [type]="notification.type"
-      [icon]="notification.icon">
+      [icon]="notification.icon || 'info'">
     </app-notification>
   </div>
 </div>

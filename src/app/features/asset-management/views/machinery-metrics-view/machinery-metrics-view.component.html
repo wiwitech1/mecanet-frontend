@@ -2,17 +2,95 @@
   <header class="breadcrumb-header">
     <app-title-view [text]="'machineryMetrics.breadcrumb' | translate"/>
   </header>
-  
+
   <div class="main-content">
-    <div class="search-section">
-      <app-search
-        [placeholder]="'machineryMetrics.search.placeholder' | translate"
-        [filters]="[]"
-        [newLabel]="'machineryMetrics.search.refresh' | translate"
-        [actionFunction]="loadMachineriesFunction"
-        (search)="handleSearch($event)"
-        (filterChange)="handleFilterChange($event)"
-      ></app-search>
+    <!-- Selección de maquinaria -->
+    <div class="selection-section">
+      <label class="selection-label">{{ 'machineryMetrics.selectMachinery' | translate }}</label>
+      <select class="machinery-select" [(ngModel)]="selectedMachineryId" (change)="onMachinerySelect()">
+        <option [ngValue]="null">{{ 'machineryMetrics.selectMachinery.placeholder' | translate }}</option>
+        <option *ngFor="let machinery of machineries" [ngValue]="machinery.id">{{ machinery.name }}</option>
+      </select>
+    </div>
+
+    <!-- Registro de nueva lectura de métrica -->
+    <div class="metric-registration" *ngIf="selectedMachinery">
+      <h4>{{ 'machineryMetrics.metricRegistration.title' | translate }}</h4>
+      <div class="metric-form">
+        <select class="metric-select" [(ngModel)]="selectedMetricId">
+          <option [ngValue]="null">{{ 'machineryMetrics.selectMetric.placeholder' | translate }}</option>
+          <option *ngFor="let metric of metrics" [ngValue]="metric.id">{{ metric.name }} ({{ metric.unit }})</option>
+        </select>
+
+        <input type="number"
+               class="metric-input"
+               [(ngModel)]="metricValue"
+               [placeholder]="'machineryMetrics.metricRegistration.placeholder' | translate"
+               min="0"
+               step="0.01">
+
+        <app-button
+          [variant]="'primary'"
+          [size]="'sm'"
+          [iconLeft]="'pi pi-upload'"
+          (click)="onSubmitReading()"
+          [disabled]="isSubmitDisabled()">
+          {{ 'machineryMetrics.metricRegistration.submit' | translate }}
+        </app-button>
+      </div>
+    </div>
+
+    <!-- Separador visual -->
+    <hr class="section-divider" *ngIf="showMachineDetail" />
+
+    <!-- Detalle de maquinaria y métricas recientes (solo lectura) -->
+    <div class="machine-detail-section" *ngIf="showMachineDetail && machineDetail">
+      <div class="machinery-card">
+        <div class="machinery-header">
+          <div class="machinery-info">
+            <h3 class="machinery-name">{{ machineDetail.name }}</h3>
+            <div class="machinery-details">
+              <span class="machinery-model">{{ machineDetail.model }} - {{ machineDetail.manufacturer }}</span>
+              <span class="machinery-serial">{{ 'machineryMetrics.serialNumber' | translate }}: {{ machineDetail.serialNumber }}</span>
+            </div>
+          </div>
+          <div class="machinery-status">
+            <span class="status-badge" [ngClass]="getStatusClass(machineDetail.status.toString())">
+              {{ getStatusText(machineDetail.status.toString()) }}
+            </span>
+          </div>
+        </div>
+
+        <div class="machinery-measurements" *ngIf="machineMetrics && machineMetrics.length > 0">
+          <h4 class="measurements-title">{{ 'machineryMetrics.measurements.title' | translate }}</h4>
+
+          <div class="measurements-list">
+            <div class="measurement-item" *ngFor="let metric of machineMetrics" [attr.data-measurement-id]="metric.metricId">
+              <div class="measurement-info">
+                <div class="measurement-header">
+                  <span class="measurement-name">{{ metric.metricName }}</span>
+                  <span class="measurement-unit">({{ metric.unit }})</span>
+                </div>
+                <div class="measurement-current">
+                  <span class="current-label">{{ 'machineryMetrics.measurements.currentValue' | translate }}:</span>
+                  <span class="current-value">{{ metric.value }}</span>
+                </div>
+                <div class="measurement-updated" *ngIf="metric.measuredAt">
+                  <span class="updated-label">{{ 'machineryMetrics.measurements.lastUpdated' | translate }}:</span>
+                  <span class="updated-value">{{ formatDate(metric.measuredAt) }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="no-measurements" *ngIf="!machineMetrics || machineMetrics.length === 0">
+          <div class="no-measurements-message">
+            <i class="pi pi-info-circle"></i>
+            <span>{{ 'machineryMetrics.measurements.noMeasurements' | translate }}</span>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="loading-section" *ngIf="loading">
@@ -32,77 +110,6 @@
       </div>
     </div>
 
-    <div class="machineries-grid" *ngIf="!loading && !error">
-      <div class="machinery-card" *ngFor="let machinery of filteredMachineries" [attr.data-machinery-id]="machinery.id">
-        <div class="machinery-header">
-          <div class="machinery-info">
-            <h3 class="machinery-name">{{ machinery.name }}</h3>
-            <div class="machinery-details">
-              <span class="machinery-model">{{ machinery.model }} - {{ machinery.manufacturer }}</span>
-              <span class="machinery-serial">{{ 'machineryMetrics.serialNumber' | translate }}: {{ machinery.serialNumber }}</span>
-            </div>
-          </div>
-          <div class="machinery-status">
-            <span class="status-badge" [ngClass]="getStatusClass(machinery.status)">
-              {{ getStatusText(machinery.status) }}
-            </span>
-          </div>
-        </div>
-
-        <div class="machinery-measurements" *ngIf="machinery.measurements && machinery.measurements.length > 0">
-          <h4 class="measurements-title">{{ 'machineryMetrics.measurements.title' | translate }}</h4>
-          
-          <div class="measurements-list">
-            <div class="measurement-item" *ngFor="let measurement of machinery.measurements" [attr.data-measurement-id]="measurement.id">
-              <div class="measurement-info">
-                <div class="measurement-header">
-                  <span class="measurement-name">{{ measurement.name }}</span>
-                  <span class="measurement-unit">({{ measurement.unit }})</span>
-                </div>
-                <div class="measurement-current">
-                  <span class="current-label">{{ 'machineryMetrics.measurements.currentValue' | translate }}:</span>
-                  <span class="current-value">{{ measurement.value }}</span>
-                </div>
-                <div class="measurement-updated" *ngIf="measurement.lastUpdated">
-                  <span class="updated-label">{{ 'machineryMetrics.measurements.lastUpdated' | translate }}:</span>
-                  <span class="updated-value">{{ formatDate(measurement.lastUpdated) }}</span>
-                </div>
-              </div>
-              
-              <div class="measurement-actions">
-                <div class="input-group">
-                  <input 
-                    type="number" 
-                    class="measurement-input"
-                    [placeholder]="'machineryMetrics.measurements.newValue' | translate"
-                    [value]="measurementValues[machinery.id]?.[measurement.id] || ''"
-                    (input)="onMeasurementValueChange(machinery.id, measurement.id, getInputValue($event))"
-                    step="0.01"
-                    min="0"
-                  >
-                  <app-button
-                    [variant]="'primary'"
-                    [size]="'sm'"
-                    [iconLeft]="'pi pi-upload'"
-                    (click)="onUpdateMeasurement(machinery.id, measurement.id)"
-                    [disabled]="isButtonDisabled(machinery.id, measurement.id)"
-                  >
-                    {{ 'machineryMetrics.measurements.update' | translate }}
-                  </app-button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="no-measurements" *ngIf="!machinery.measurements || machinery.measurements.length === 0">
-          <div class="no-measurements-message">
-            <i class="pi pi-info-circle"></i>
-            <span>{{ 'machineryMetrics.measurements.noMeasurements' | translate }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <div class="empty-state" *ngIf="!loading && !error && filteredMachineries.length === 0">
       <div class="empty-state-content">
@@ -112,4 +119,4 @@
       </div>
     </div>
   </div>
-</div> 
+</div>

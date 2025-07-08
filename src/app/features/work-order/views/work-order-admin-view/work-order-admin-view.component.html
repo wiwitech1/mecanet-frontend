@@ -1,0 +1,457 @@
+<!-- CONTAINER PRINCIPAL -->
+<div class="admin-container">
+  
+  <!-- HEADER HERO -->
+  <div class="admin-hero">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">
+        <i class="icon-settings"></i>
+        Panel de Administración
+      </h1>
+      <p class="hero-subtitle">Gestiona las órdenes de trabajo y supervisa el flujo completo</p>
+    </div>
+  </div>
+
+  <!-- NAVEGACIÓN DE TABS -->
+  <div class="tab-navigation">
+    <div class="tab-container">
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'dashboard'"
+        (click)="setActiveTab('dashboard')">
+        <i class="icon-dashboard"></i>
+        <span>Dashboard</span>
+        <div class="tab-indicator"></div>
+      </button>
+      
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'new'"
+        (click)="setActiveTab('new')">
+        <i class="icon-plus-circle"></i>
+        <span>Nuevas</span>
+        <div class="tab-badge" *ngIf="stats.newOrders > 0">{{stats.newOrders}}</div>
+        <div class="tab-indicator"></div>
+      </button>
+      
+      <button 
+        class="tab-btn" 
+        [class.active]="activeTab === 'review'"
+        (click)="setActiveTab('review')">
+        <i class="icon-search"></i>
+        <span>En Revisión</span>
+        <div class="tab-badge" *ngIf="stats.inReview > 0">{{stats.inReview}}</div>
+        <div class="tab-indicator"></div>
+      </button>
+    </div>
+  </div>
+
+  <!-- LOADING STATE -->
+  <div *ngIf="loading" class="loading-container">
+    <div class="loading-spinner"></div>
+    <p>Cargando órdenes de trabajo...</p>
+  </div>
+
+  <!-- ERROR STATE -->
+  <div *ngIf="error" class="error-container glass-card">
+    <i class="icon-alert-circle error-icon"></i>
+    <p class="error-message">{{error}}</p>
+    <button (click)="loadAdminData()" class="btn-retry">
+      <i class="icon-refresh"></i>
+      Reintentar
+    </button>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL -->
+  <div *ngIf="!loading && !error" class="main-content">
+
+    <!-- =================== DASHBOARD TAB =================== -->
+    <div *ngIf="activeTab === 'dashboard'" class="dashboard-section">
+      
+      <!-- STATS CARDS -->
+      <div class="stats-grid">
+        <div class="stat-card glass-card">
+          <div class="stat-icon new">
+            <i class="icon-plus-circle"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.newOrders}}</h3>
+            <p>Nuevas</p>
+          </div>
+        </div>
+        
+        <div class="stat-card glass-card">
+          <div class="stat-icon published">
+            <i class="icon-megaphone"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.published}}</h3>
+            <p>Publicadas</p>
+          </div>
+        </div>
+        
+        <div class="stat-card glass-card">
+          <div class="stat-icon review">
+            <i class="icon-search"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.inReview}}</h3>
+            <p>En Revisión</p>
+          </div>
+        </div>
+        
+        <div class="stat-card glass-card">
+          <div class="stat-icon pending">
+            <i class="icon-clock"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.pending}}</h3>
+            <p>Pendientes</p>
+          </div>
+        </div>
+        
+        <div class="stat-card glass-card">
+          <div class="stat-icon execution">
+            <i class="icon-gear"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.inExecution}}</h3>
+            <p>En Ejecución</p>
+          </div>
+        </div>
+        
+        <div class="stat-card glass-card">
+          <div class="stat-icon completed">
+            <i class="icon-check-circle"></i>
+          </div>
+          <div class="stat-content">
+            <h3>{{stats.completed}}</h3>
+            <p>Completadas</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUICK ACTIONS -->
+      <div class="quick-actions glass-card">
+        <h3><i class="icon-lightning"></i> Acciones Rápidas</h3>
+        <div class="action-buttons">
+          <button (click)="setActiveTab('new')" class="action-btn" [disabled]="stats.newOrders === 0">
+            <i class="icon-calendar-plus"></i>
+            <span>Programar Órdenes ({{stats.newOrders}})</span>
+          </button>
+          
+          <button (click)="setActiveTab('review')" class="action-btn" [disabled]="stats.inReview === 0">
+            <i class="icon-check-square"></i>
+            <span>Revisar Órdenes ({{stats.inReview}})</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== NUEVAS ÓRDENES TAB =================== -->
+    <div *ngIf="activeTab === 'new'" class="new-orders-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-plus-circle"></i> Órdenes Nuevas</h2>
+        <p>Programa la agenda y publica estas órdenes para que los técnicos puedan inscribirse</p>
+      </div>
+
+      <div *ngIf="newOrders.length === 0" class="empty-state glass-card">
+        <i class="icon-check-circle empty-icon"></i>
+        <h3>¡Excelente!</h3>
+        <p>No hay órdenes pendientes de programar</p>
+      </div>
+
+      <div class="orders-grid">
+        <div 
+          *ngFor="let order of newOrders; trackBy: trackByOrderId" 
+          class="order-card glass-card"
+          [attr.data-order-id]="order.id">
+          
+          <!-- HEADER DE LA ORDEN -->
+          <div class="order-header">
+            <div class="order-title-section">
+              <h3 class="order-title">{{order.title}}</h3>
+              <p class="order-description">{{order.description}}</p>
+            </div>
+            
+            <div class="status-badge new">
+              <i class="icon-plus-circle"></i>
+              <span>Nueva</span>
+            </div>
+          </div>
+
+          <!-- INFO DE LA ORDEN -->
+          <div class="order-info">
+            <div class="info-item">
+              <i class="icon-machine"></i>
+              <span>Máquina: {{order.machineId}}</span>
+            </div>
+            
+            <div class="info-item">
+              <i class="icon-calendar"></i>
+              <span>Creada: {{order.createdAt | date:'short'}}</span>
+            </div>
+            
+            <div class="info-item" *ngIf="order.requiredSkillIds.length > 0">
+              <i class="icon-tools"></i>
+              <span>{{order.requiredSkillIds.length}} habilidades requeridas</span>
+            </div>
+          </div>
+
+          <!-- ACCIONES -->
+          <div class="order-actions">
+            <button 
+              (click)="openScheduleModal(order)" 
+              class="btn-primary">
+              <i class="icon-calendar-plus"></i>
+              Programar Agenda
+            </button>
+            
+            <button 
+              (click)="goToOrderDetail(order.id)" 
+              class="btn-secondary">
+              <i class="icon-eye"></i>
+              Ver Detalles
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== EN REVISIÓN TAB =================== -->
+    <div *ngIf="activeTab === 'review'" class="review-orders-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-search"></i> Órdenes en Revisión</h2>
+        <p>Revisa el equipo y materiales antes de aprobar para ejecución</p>
+      </div>
+
+      <div *ngIf="reviewOrders.length === 0" class="empty-state glass-card">
+        <i class="icon-check-circle empty-icon"></i>
+        <h3>¡Todo en orden!</h3>
+        <p>No hay órdenes esperando revisión</p>
+      </div>
+
+      <div class="orders-grid">
+        <div 
+          *ngFor="let order of reviewOrders; trackBy: trackByOrderId" 
+          class="review-card glass-card">
+          
+          <!-- HEADER -->
+          <div class="order-header">
+            <div class="order-title-section">
+              <h3 class="order-title">{{order.title}}</h3>
+              <p class="order-schedule">
+                📅 {{formatDate(order.schedule?.date)}} - 
+                🕐 {{formatTime(order.schedule?.startTime)}} a {{formatTime(order.schedule?.endTime)}}
+              </p>
+            </div>
+            
+            <div class="status-badge review">
+              <i class="icon-search"></i>
+              <span>En Revisión</span>
+            </div>
+          </div>
+
+          <!-- EQUIPO -->
+          <div class="review-section">
+            <h4><i class="icon-users"></i> Equipo Asignado ({{order.technicians.length}}/{{order.maxTechnicians}})</h4>
+            <div class="technicians-review">
+              <div 
+                *ngFor="let tech of order.technicians; trackBy: trackByTechnicianId" 
+                class="technician-review-item">
+                
+                <div class="tech-info">
+                  <div class="tech-avatar">
+                    <span>{{getTechnicianName(tech.technicianId) | slice:0:2}}</span>
+                  </div>
+                  <div class="tech-details">
+                    <strong>{{getTechnicianName(tech.technicianId)}}</strong>
+                    <small>Se unió: {{tech.joinedAt | date:'short'}}</small>
+                  </div>
+                </div>
+                
+                <button 
+                  (click)="openRemoveTechnicianModal(order, tech.technicianId)"
+                  class="btn-remove-tech"
+                  title="Remover técnico">
+                  <i class="icon-x"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- MATERIALES -->
+          <div class="review-section" *ngIf="order.materials.length > 0">
+            <h4><i class="icon-package"></i> Materiales Solicitados ({{order.materials.length}})</h4>
+            <div class="materials-summary">
+              <div 
+                *ngFor="let material of order.materials" 
+                class="material-summary-item">
+                <span class="material-name">{{material.itemName}}</span>
+                <span class="material-qty">{{material.requestedQty}}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ACCIONES DE REVISIÓN -->
+          <div class="review-actions">
+            <button 
+              (click)="approveOrder(order)" 
+              class="btn-approve">
+              <i class="icon-check"></i>
+              Aprobar para Ejecución
+            </button>
+            
+            <button 
+              (click)="goToOrderDetail(order.id)" 
+              class="btn-secondary">
+              <i class="icon-eye"></i>
+              Ver Detalles Completos
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MODAL DE PROGRAMACIÓN =================== -->
+<div *ngIf="showScheduleModal" class="modal-overlay" (click)="closeScheduleModal()">
+  <div class="modal-content schedule-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-calendar-plus"></i> Programar Orden de Trabajo</h3>
+      <button (click)="closeScheduleModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="order-summary">
+        <h4>{{selectedOrder?.title}}</h4>
+        <p>{{selectedOrder?.description}}</p>
+      </div>
+
+      <form [formGroup]="scheduleForm" (ngSubmit)="onScheduleSubmit()" class="schedule-form">
+        
+        <!-- FECHA -->
+        <div class="form-field">
+          <label class="form-label">
+            <i class="icon-calendar"></i>
+            Fecha de Ejecución
+          </label>
+          <input 
+            type="date" 
+            formControlName="date" 
+            class="form-input"
+            [min]="minDate">
+          <div class="field-error" *ngIf="scheduleForm.get('date')?.errors?.['required'] && scheduleForm.get('date')?.touched">
+            La fecha es requerida
+          </div>
+        </div>
+
+        <!-- HORARIOS -->
+        <div class="time-fields">
+          <div class="form-field">
+            <label class="form-label">
+              <i class="icon-clock"></i>
+              Hora de Inicio
+            </label>
+            <input 
+              type="time" 
+              formControlName="startTime" 
+              class="form-input">
+          </div>
+
+          <div class="form-field">
+            <label class="form-label">
+              <i class="icon-clock"></i>
+              Hora de Fin
+            </label>
+            <input 
+              type="time" 
+              formControlName="endTime" 
+              class="form-input">
+          </div>
+        </div>
+
+        <!-- TÉCNICOS -->
+        <div class="form-field">
+          <label class="form-label">
+            <i class="icon-users"></i>
+            Máximo de Técnicos: 
+            <span class="counter-value">{{scheduleForm.get('maxTechnicians')?.value}}</span>
+          </label>
+          <input 
+            type="range" 
+            min="1" 
+            max="10" 
+            formControlName="maxTechnicians" 
+            class="tech-slider">
+          <div class="slider-marks">
+            <span>1</span>
+            <span>5</span>
+            <span>10</span>
+          </div>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="modal-actions">
+          <button 
+            type="button" 
+            (click)="closeScheduleModal()" 
+            class="btn-cancel">
+            Cancelar
+          </button>
+          
+          <button 
+            type="submit" 
+            class="btn-primary" 
+            [disabled]="scheduleForm.invalid || loading">
+            <i class="icon-rocket"></i>
+            <span *ngIf="!loading">Programar y Publicar</span>
+            <span *ngIf="loading">Programando...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MODAL REMOVER TÉCNICO =================== -->
+<div *ngIf="showRemoveTechnicianModal" class="modal-overlay" (click)="closeRemoveTechnicianModal()">
+  <div class="modal-content confirm-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-alert-triangle"></i> Confirmar Acción</h3>
+      <button (click)="closeRemoveTechnicianModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p>¿Estás seguro de que deseas remover a <strong>{{getTechnicianName(selectedTechnicianId!)}}</strong> de la orden <strong>{{selectedOrder?.title}}</strong>?</p>
+      <p class="warning-text">Esta acción no se puede deshacer.</p>
+    </div>
+
+    <div class="modal-actions">
+      <button 
+        (click)="closeRemoveTechnicianModal()" 
+        class="btn-cancel">
+        Cancelar
+      </button>
+      
+      <button 
+        (click)="removeTechnician()" 
+        class="btn-danger"
+        [disabled]="loading">
+        <i class="icon-trash"></i>
+        <span *ngIf="!loading">Remover Técnico</span>
+        <span *ngIf="loading">Removiendo...</span>
+      </button>
+    </div>
+  </div>
+</div> 

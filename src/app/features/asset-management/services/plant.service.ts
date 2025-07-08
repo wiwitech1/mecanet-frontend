@@ -3,11 +3,9 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { Observable, catchError, map, throwError } from 'rxjs';
 
 import { PlantEntity } from '../models/plant.entity';
-import { PlantAssembler } from './plant.assembler';
 import { environment } from '../../../../environments/environment';
 import { UserService } from '../../../core/services/user.service';
-import { MachineMetricResource } from './machine-metric.resource';
-import { PlantResource } from './plant.resource';
+import { NotificationsService } from '../../../shared/components/notifications-container/notifications.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,14 +15,15 @@ export class PlantService {
 
   constructor(
     private http: HttpClient,
-    private assembler: PlantAssembler,
-    private userService: UserService
+    private userService: UserService,
+    private notificationsService: NotificationsService
   ) {}
 
   private getHeaders(): HttpHeaders {
     const session = this.userService.getSession();
     return new HttpHeaders({
-      Authorization: `Bearer ${session?.token}`
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${session?.token}`
     });
   }
 
@@ -37,20 +36,15 @@ export class PlantService {
 
     if (!token) {
       console.error('No hay token disponible');
+      this.notificationsService.error('Error', 'No hay token de autorización disponible');
       return throwError(() => new Error('No autorizado'));
     }
 
-    return this.http.get<PlantResource[]>(
-      `${this.apiUrl}`,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }
+    return this.http.get<PlantEntity[]>(
+      this.apiUrl,
+      { headers: this.getHeaders() }
     ).pipe(
-      map(resources => resources.map(resource => this.assembler.resourceToEntity(resource))),
-      catchError(this.handleError)
+      catchError(this.handleError.bind(this))
     );
   }
 
@@ -61,9 +55,8 @@ export class PlantService {
    */
   getById(id: number): Observable<PlantEntity> {
     const url = `${this.apiUrl}/${id}`;
-    return this.http.get<any>(url, { headers: this.getHeaders() }).pipe(
-      map(resource => this.assembler.resourceToEntity(resource)),
-      catchError(this.handleError)
+    return this.http.get<PlantEntity>(url, { headers: this.getHeaders() }).pipe(
+      catchError(this.handleError.bind(this))
     );
   }
 
@@ -73,10 +66,34 @@ export class PlantService {
    * @returns La planta creada
    */
   create(plant: Partial<PlantEntity>): Observable<PlantEntity> {
-    const resource = this.assembler.createEntityToResource(plant);
-    return this.http.post<any>(this.apiUrl, resource, { headers: this.getHeaders() }).pipe(
-      map(newResource => this.assembler.resourceToEntity(newResource)),
-      catchError(this.handleError)
+    console.log('Datos enviados para crear planta:', plant);
+    return this.http.post<PlantEntity>(this.apiUrl, plant, { headers: this.getHeaders() }).pipe(
+      map(response => {
+        console.log('Planta creada exitosamente:', response);
+        this.notificationsService.success('Éxito', 'Planta creada correctamente');
+        return response;
+      }),
+      catchError((error: HttpErrorResponse) => {
+        console.error('Error al crear la planta:');
+        console.error('- Mensaje:', error.message);
+        console.error('- Status:', error.status);
+        console.error('- Status Text:', error.statusText);
+        if (error.error) {
+          console.error('- Error del servidor:', error.error);
+        }
+
+        let errorMessage = 'Error al crear la planta';
+        if (error.status === 400) {
+          errorMessage = 'Datos inválidos para crear la planta';
+        } else if (error.status === 401) {
+          errorMessage = 'No autorizado para crear plantas';
+        } else if (error.status === 409) {
+          errorMessage = 'Ya existe una planta con estos datos';
+        }
+
+        this.notificationsService.error('Error', errorMessage);
+        return throwError(() => error);
+      })
     );
   }
 
@@ -88,10 +105,12 @@ export class PlantService {
    */
   update(id: number, plant: Partial<PlantEntity>): Observable<PlantEntity> {
     const url = `${this.apiUrl}/${id}`;
-    const resource = this.assembler.updateEntityToResource(plant);
-    return this.http.put<any>(url, resource, { headers: this.getHeaders() }).pipe(
-      map(updatedResource => this.assembler.resourceToEntity(updatedResource)),
-      catchError(this.handleError)
+    return this.http.put<PlantEntity>(url, plant, { headers: this.getHeaders() }).pipe(
+      map(response => {
+        this.notificationsService.success('Éxito', 'Planta actualizada correctamente');
+        return response;
+      }),
+      catchError(this.handleError.bind(this))
     );
   }
 
@@ -103,7 +122,11 @@ export class PlantService {
   delete(id: number): Observable<void> {
     const url = `${this.apiUrl}/${id}`;
     return this.http.delete<void>(url, { headers: this.getHeaders() }).pipe(
-      catchError(this.handleError)
+      map(response => {
+        this.notificationsService.success('Éxito', 'Planta eliminada correctamente');
+        return response;
+      }),
+      catchError(this.handleError.bind(this))
     );
   }
 
@@ -114,6 +137,20 @@ export class PlantService {
    */
   private handleError(error: HttpErrorResponse) {
     console.error('Error en PlantService:', error);
-    return throwError(() => new Error('Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.'));
+
+    let errorMessage = 'Ha ocurrido un error. Por favor, inténtalo de nuevo más tarde.';
+
+    if (error.status === 400) {
+      errorMessage = 'Datos inválidos';
+    } else if (error.status === 401) {
+      errorMessage = 'No autorizado';
+    } else if (error.status === 404) {
+      errorMessage = 'Planta no encontrada';
+    } else if (error.status === 409) {
+      errorMessage = 'Conflicto con los datos existentes';
+    }
+
+    this.notificationsService.error('Error', errorMessage);
+    return throwError(() => new Error(errorMessage));
   }
 }

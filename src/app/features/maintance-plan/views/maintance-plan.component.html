@@ -61,4 +61,11 @@
             </app-information-panel>
         </div>
     </main>
+
+    <!-- Modal de creación de plan -->
+    <app-maintenance-plan-detail
+        [showModal]="showCreateModal"
+        (save)="onSavePlan($event)"
+        (cancel)="onCancelPlan()">
+    </app-maintenance-plan-detail>
 </div>

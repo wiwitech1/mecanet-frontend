@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { PlantEntity, PlantStatus } from '../../models/plant.entity';
-import { ProductionLineEntity } from '../../models/production-line.entity';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -16,19 +15,11 @@ export class InteractPlantComponent implements OnInit {
   @Input() showModal = false;
   @Input() plantToEdit: PlantEntity | null = null;
   @Input() title: string = '';
-  @Input() availableProductionLines: ProductionLineEntity[] = [];
   @Output() save = new EventEmitter<Partial<PlantEntity>>();
   @Output() cancel = new EventEmitter<void>();
 
   plantForm: FormGroup;
   isEditMode = false;
-  selectedProductionLines: number[] = [];
-
-  plantStatuses = [
-    { value: PlantStatus.ACTIVE, label: 'assetManagement.status.active' },
-    { value: PlantStatus.INACTIVE, label: 'assetManagement.status.inactive' },
-    { value: PlantStatus.MAINTENANCE, label: 'assetManagement.status.maintenance' }
-  ];
 
   constructor(
     private fb: FormBuilder,
@@ -62,24 +53,10 @@ export class InteractPlantComponent implements OnInit {
     }
   }
 
-  toggleProductionLineSelection(lineId: number) {
-    const idx = this.selectedProductionLines.indexOf(lineId);
-    if (idx > -1) {
-      this.selectedProductionLines.splice(idx, 1);
-    } else {
-      this.selectedProductionLines.push(lineId);
-    }
-  }
-
-  isProductionLineSelected(lineId: number): boolean {
-    return this.selectedProductionLines.includes(lineId);
-  }
-
   onSubmit(): void {
     if (this.plantForm.valid) {
       const formData = {
-        ...this.plantForm.value,
-        //productionLines: this.selectedProductionLines
+        ...this.plantForm.value
       };
 
       if (this.isEditMode && this.plantToEdit) {

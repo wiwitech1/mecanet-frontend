@@ -253,49 +253,45 @@ export class ProductionLineViewComponent implements OnInit {
     this.loading = true;
 
     if (this.isEditMode && this.selectedLine) {
-      // Obtener maquinarias asignadas por IDs
-      const updatedLine: ProductionLineEntity = {
-        ...this.selectedLine,
-        name: lineData.name,
-        plantId: lineData.plantId,
-        maxUnitsPerHour: lineData.maxUnitsPerHour,
-        unit: lineData.unit,
-        status: lineData.status,
-      };
-
-      this.productionLineService.updateProductionLine(updatedLine)
-        .pipe(finalize(() => {
-          this.loading = false;
-          this.showLineModal = false;
-        }))
-        .subscribe({
-          next: (updated) => {
-            // Actualiza la lista y el panel de detalles
-            const index = this.productionLines.findIndex(l => l.id === updated.id);
-            if (index >= 0) {
-              this.productionLines[index] = updated;
-              this.prepareTableData();
-            }
-            if (this.selectedLineId === updated.id) {
-              this.selectedLine = updated;
-              this.updateInfoPanel(updated);
-            }
-          },
-          error: (err) => {
-            this.error = 'Error al actualizar la línea de producción.';
-            console.error('Error updating production line:', err);
+      // Actualizar línea existente
+      this.productionLineService.updateProductionLine(
+        this.selectedLine.id,
+        {
+          name: lineData.name,
+          code: lineData.code,
+          maxUnitsPerHour: lineData.maxUnitsPerHour,
+          unit: lineData.unit,
+          plantId: lineData.plantId
+        }
+      ).pipe(finalize(() => {
+        this.loading = false;
+        this.showLineModal = false;
+      }))
+      .subscribe({
+        next: (updated) => {
+          const index = this.productionLines.findIndex(l => l.id === updated.id);
+          if (index >= 0) {
+            this.productionLines[index] = updated;
+            this.prepareTableData();
           }
-        });
+          if (this.selectedLineId === updated.id) {
+            this.selectedLine = updated;
+            this.updateInfoPanel(updated);
+          }
+        },
+        error: (err) => {
+          this.error = 'Error al actualizar la línea de producción.';
+          console.error('Error updating production line:', err);
+        }
+      });
     } else {
-      // Lógica para crear una nueva línea de producción
-      const newLine: ProductionLineEntity = {
-        id: 0, // El backend asignará el ID real
+      // Crear nueva línea
+      const newLine: Partial<ProductionLineEntity> = {
         name: lineData.name,
         code: lineData.code,
-        plantId: lineData.plantId, // Corregido de plant_id a plantId
         maxUnitsPerHour: lineData.maxUnitsPerHour,
         unit: lineData.unit,
-        status: 'ACTIVE', // Activa por defecto
+        plantId: lineData.plantId
       };
 
       this.productionLineService.createProductionLine(newLine)

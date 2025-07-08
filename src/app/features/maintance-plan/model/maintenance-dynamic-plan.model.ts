@@ -1,11 +1,16 @@
-import { MaintenanceTask } from './maintenance-plan.model';
+export interface MaintenanceDynamicPlanTask {
+  machineId: number;
+  taskName: string;
+  description: string;
+  skillIds: number[];
+}
 
 export interface MaintenanceDynamicPlan {
-  dynamicPlanId: number;
   id?: number;
-  userCreator: number;
-  parameter: string;
+  name: string;
   startDate: Date;
-  machineIds: number[];
-  tasks: MaintenanceTask[];
+  endDate: Date;
+  metricDefinitionId: number;
+  threshold: number;
+  tasks: MaintenanceDynamicPlanTask[];
 } 

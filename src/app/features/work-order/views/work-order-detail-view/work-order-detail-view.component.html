@@ -1,0 +1,1031 @@
+<!-- CONTAINER PRINCIPAL -->
+<div class="detail-container" *ngIf="workOrder">
+  
+  <!-- HEADER CONTEXTUAL -->
+  <div class="detail-header">
+    <div class="header-background" [style.background]="'linear-gradient(135deg, ' + getStatusColor(workOrder.status) + ' 0%, ' + getStatusColor(workOrder.status) + '80 100%)'"></div>
+    
+    <div class="header-content">
+      <!-- NAVEGACIÓN -->
+      <div class="navigation-section">
+        <button (click)="goBack()" class="btn-back">
+          <i class="icon-arrow-left"></i>
+          <span>Volver</span>
+        </button>
+        
+        <!-- AUTO-REFRESH INDICATOR -->
+        <div *ngIf="autoRefreshEnabled" class="auto-refresh-indicator">
+          <i class="icon-refresh spinning"></i>
+          <span>Actualización automática</span>
+          <small>Última actualización: {{lastUpdateTime | date:'short'}}</small>
+        </div>
+      </div>
+
+      <!-- TÍTULO Y ESTADO -->
+      <div class="title-section">
+        <div class="title-main">
+          <h1>{{workOrder.title}}</h1>
+          <p class="description">{{workOrder.description}}</p>
+        </div>
+        
+        <div class="status-section">
+          <div class="status-badge" [style.background]="getStatusColor(workOrder.status)">
+            <i [class]="getStatusIcon(workOrder.status)"></i>
+            <span>{{workOrder.status}}</span>
+          </div>
+          
+          <!-- PROGRESS BAR -->
+          <div class="progress-container">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+            </div>
+            <span class="progress-text">{{getProgressPercentage()}}% Completado</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACCIONES CONTEXTUALES PRINCIPALES -->
+      <div class="primary-actions" *ngIf="!loading">
+        
+        <!-- ADMIN ACTIONS -->
+        <div *ngIf="context.isAdmin" class="admin-actions">
+          <button 
+            *ngIf="context.permissions.canSchedule" 
+            (click)="openScheduleModal()" 
+            class="btn-primary schedule">
+            <i class="icon-calendar"></i>
+            Programar
+          </button>
+          
+          <button 
+            *ngIf="context.permissions.canPublish" 
+            (click)="publishWorkOrder()" 
+            class="btn-primary publish">
+            <i class="icon-megaphone"></i>
+            Publicar
+          </button>
+          
+          <button 
+            *ngIf="context.permissions.canReview" 
+            (click)="reviewWorkOrder()" 
+            class="btn-primary review">
+            <i class="icon-search"></i>
+            Enviar a Revisión
+          </button>
+          
+          <button 
+            *ngIf="context.permissions.canApprove" 
+            (click)="approveWorkOrder()" 
+            class="btn-primary approve">
+            <i class="icon-check-circle"></i>
+            Aprobar para Ejecución
+          </button>
+        </div>
+
+        <!-- TECHNICIAN ACTIONS -->
+        <div *ngIf="context.isTechnician" class="technician-actions">
+          <button 
+            *ngIf="context.permissions.canJoin" 
+            (click)="joinWorkOrder()" 
+            class="btn-primary join">
+            <i class="icon-hand-paper"></i>
+            Unirse al Equipo
+          </button>
+          
+          <button 
+            *ngIf="context.permissions.canLeave" 
+            (click)="leaveWorkOrder()" 
+            class="btn-danger leave">
+            <i class="icon-x"></i>
+            Abandonar Equipo
+          </button>
+          
+          <button 
+            *ngIf="context.permissions.canStart" 
+            (click)="startExecution()" 
+            class="btn-primary start">
+            <i class="icon-rocket"></i>
+            INICIAR EJECUCIÓN
+          </button>
+          
+          <button 
+            *ngIf="context.permissions.canComplete" 
+            (click)="openCompletionModal()" 
+            class="btn-success complete">
+            <i class="icon-check-square"></i>
+            COMPLETAR ORDEN
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADING STATE -->
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <p>Procesando...</p>
+    </div>
+  </div>
+
+  <!-- ERROR STATE -->
+  <div *ngIf="error" class="error-banner">
+    <i class="icon-alert-circle"></i>
+    <span>{{error}}</span>
+    <button (click)="loadWorkOrderDetail()" class="btn-retry">
+      <i class="icon-refresh"></i>
+      Reintentar
+    </button>
+  </div>
+
+  <!-- NAVEGACIÓN DE SECCIONES -->
+  <div class="section-navigation">
+    <div class="nav-container glass-card">
+      <button 
+        class="nav-btn" 
+        [class.active]="activeSection === 'overview'"
+        (click)="setActiveSection('overview')">
+        <i class="icon-info"></i>
+        <span>Resumen</span>
+      </button>
+      
+      <button 
+        class="nav-btn" 
+        [class.active]="activeSection === 'materials'"
+        (click)="setActiveSection('materials')"
+        *ngIf="workOrder.materials.length > 0 || context.permissions.canEditMaterials">
+        <i class="icon-package"></i>
+        <span>Materiales</span>
+        <div class="nav-badge" *ngIf="workOrder.materials.length > 0">{{workOrder.materials.length}}</div>
+      </button>
+      
+      <button 
+        class="nav-btn" 
+        [class.active]="activeSection === 'team'"
+        (click)="setActiveSection('team')"
+        *ngIf="workOrder.technicians.length > 0">
+        <i class="icon-users"></i>
+        <span>Equipo</span>
+        <div class="nav-badge">{{workOrder.technicians.length}}</div>
+      </button>
+      
+      <button 
+        class="nav-btn" 
+        [class.active]="activeSection === 'schedule'"
+        (click)="setActiveSection('schedule')"
+        *ngIf="workOrder.schedule">
+        <i class="icon-calendar"></i>
+        <span>Programación</span>
+      </button>
+      
+      <button 
+        class="nav-btn" 
+        [class.active]="activeSection === 'activity'"
+        (click)="setActiveSection('activity')"
+        *ngIf="workOrder.comments.length > 0 || context.permissions.canComment">
+        <i class="icon-message-circle"></i>
+        <span>Actividad</span>
+        <div class="nav-badge" *ngIf="workOrder.comments.length > 0">{{workOrder.comments.length}}</div>
+      </button>
+      
+      <button 
+        class="nav-btn" 
+        [class.active]="activeSection === 'photos'"
+        (click)="setActiveSection('photos')"
+        *ngIf="workOrder.photos.length > 0 || context.permissions.canUploadPhotos">
+        <i class="icon-camera"></i>
+        <span>Evidencias</span>
+        <div class="nav-badge" *ngIf="workOrder.photos.length > 0">{{workOrder.photos.length}}</div>
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL POR SECCIONES -->
+  <div class="main-content">
+
+    <!-- =================== SECCIÓN RESUMEN =================== -->
+    <div *ngIf="activeSection === 'overview'" class="overview-section">
+      
+      <!-- INFORMACIÓN BÁSICA -->
+      <div class="info-grid">
+        <div class="info-card glass-card">
+          <h3><i class="icon-info-circle"></i> Información General</h3>
+          <div class="info-list">
+            <div class="info-item">
+              <span class="info-label">ID de Orden:</span>
+              <span class="info-value">#{{workOrder.id}}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Plan de Mantenimiento:</span>
+              <span class="info-value">Plan #{{workOrder.planId}}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Tarea:</span>
+              <span class="info-value">Tarea #{{workOrder.taskId}}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Máquina:</span>
+              <span class="info-value">Máquina #{{workOrder.machineId}}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Técnicos Máximo:</span>
+              <span class="info-value">{{workOrder.maxTechnicians}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ESTADO ACTUAL Y PRÓXIMOS PASOS -->
+        <div class="status-card glass-card">
+          <h3><i class="icon-trending-up"></i> Estado y Próximos Pasos</h3>
+          
+          <!-- CURRENT STATE EXPLANATION -->
+          <div class="current-state">
+            <div class="state-indicator" [style.background]="getStatusColor(workOrder.status)">
+              <i [class]="getStatusIcon(workOrder.status)"></i>
+            </div>
+            <div class="state-info">
+              <h4>{{workOrder.status}}</h4>
+              <p *ngIf="workOrder.status === WorkOrderStatus.NEW">
+                Esta orden está recién creada y necesita ser programada y publicada.
+              </p>
+              <p *ngIf="workOrder.status === WorkOrderStatus.PUBLISHED">
+                Los técnicos pueden unirse a esta orden. Una vez completo el equipo, se enviará a revisión.
+              </p>
+              <p *ngIf="workOrder.status === WorkOrderStatus.REVIEW">
+                Esta orden está siendo revisada por administración antes de su aprobación.
+              </p>
+              <p *ngIf="workOrder.status === WorkOrderStatus.PENDING_EXECUTION">
+                Orden aprobada y lista para ejecutar en la fecha programada.
+              </p>
+              <p *ngIf="workOrder.status === WorkOrderStatus.IN_EXECUTION">
+                El equipo está ejecutando esta orden actualmente.
+              </p>
+              <p *ngIf="workOrder.status === WorkOrderStatus.COMPLETED">
+                Esta orden de trabajo ha sido completada exitosamente.
+              </p>
+            </div>
+          </div>
+
+          <!-- NEXT ACTIONS -->
+          <div class="next-actions">
+            <h5>Próximas Acciones:</h5>
+            <ul class="actions-list">
+              <li *ngIf="context.permissions.canSchedule">
+                <i class="icon-calendar"></i> Programar fecha y hora de ejecución
+              </li>
+              <li *ngIf="context.permissions.canPublish">
+                <i class="icon-megaphone"></i> Publicar para que se unan los técnicos
+              </li>
+              <li *ngIf="context.permissions.canJoin">
+                <i class="icon-hand-paper"></i> Unirse al equipo de trabajo
+              </li>
+              <li *ngIf="context.permissions.canEditMaterials">
+                <i class="icon-package"></i> Revisar y ajustar materiales necesarios
+              </li>
+              <li *ngIf="context.permissions.canStart">
+                <i class="icon-rocket"></i> Iniciar ejecución en la fecha programada
+              </li>
+              <li *ngIf="context.permissions.canComment">
+                <i class="icon-message-circle"></i> Documentar progreso y colaborar
+              </li>
+              <li *ngIf="context.permissions.canComplete">
+                <i class="icon-check-square"></i> Completar y documentar resultados
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- TIMELINE DE EJECUCIÓN -->
+      <div class="timeline-card glass-card" *ngIf="workOrder.executionWindow">
+        <h3><i class="icon-clock"></i> Timeline de Ejecución</h3>
+        <div class="timeline">
+          <div class="timeline-item completed">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <h4>Inicio de Ejecución</h4>
+              <p>{{formatDateTime(workOrder.executionWindow.startAt)}}</p>
+            </div>
+          </div>
+          
+          <div class="timeline-item" [class.completed]="workOrder.status === WorkOrderStatus.COMPLETED">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <h4>Finalización</h4>
+              <p *ngIf="workOrder.executionWindow.endAt">{{formatDateTime(workOrder.executionWindow.endAt)}}</p>
+              <p *ngIf="!workOrder.executionWindow.endAt" class="pending">En progreso...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== SECCIÓN MATERIALES =================== -->
+    <div *ngIf="activeSection === 'materials'" class="materials-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-package"></i> Gestión de Materiales</h2>
+        
+        <!-- COLLABORATION NOTICE -->
+        <div *ngIf="workOrder.status === WorkOrderStatus.PUBLISHED && context.isTechnician && context.isUserJoined" 
+             class="collaboration-notice glass-card">
+          <i class="icon-users"></i>
+          <p>💡 <strong>Edición Colaborativa:</strong> Otros técnicos del equipo también pueden editar estos materiales en tiempo real.</p>
+        </div>
+        
+        <div class="section-actions">
+          <button 
+            *ngIf="context.permissions.canEditMaterials" 
+            (click)="openMaterialsModal()" 
+            class="btn-secondary">
+            <i class="icon-edit"></i>
+            Editar Materiales
+          </button>
+        </div>
+      </div>
+
+      <!-- LISTA DE MATERIALES -->
+      <div class="materials-grid">
+        <div 
+          *ngFor="let material of workOrder.materials; let i = index" 
+          class="material-card glass-card">
+          
+          <div class="material-header">
+            <h4>{{material.itemName}}</h4>
+            <span class="material-sku">SKU: {{material.itemSku}}</span>
+          </div>
+          
+          <div class="material-quantities">
+            <div class="quantity-item">
+              <span class="quantity-label">Solicitado:</span>
+              <span class="quantity-value requested">{{material.requestedQty}}</span>
+            </div>
+            
+            <div 
+              *ngIf="workOrder.status === WorkOrderStatus.IN_EXECUTION && context.permissions.canEditFinalQuantities" 
+              class="quantity-item editable">
+              <span class="quantity-label">Usado Real:</span>
+              <input 
+                type="number" 
+                [(ngModel)]="material.finalQty"
+                (blur)="updateFinalQuantities()"
+                class="quantity-input"
+                min="0">
+            </div>
+            
+            <div 
+              *ngIf="material.finalQty !== null && !(workOrder.status === WorkOrderStatus.IN_EXECUTION && context.permissions.canEditFinalQuantities)" 
+              class="quantity-item">
+              <span class="quantity-label">Usado Real:</span>
+              <span class="quantity-value final">{{material.finalQty}}</span>
+            </div>
+          </div>
+          
+          <!-- MATERIAL STATUS -->
+          <div class="material-status">
+            <div 
+              *ngIf="material.finalQty !== null && material.finalQty !== material.requestedQty" 
+              class="variance-indicator"
+              [class.over]="(material.finalQty || 0) > material.requestedQty"
+              [class.under]="(material.finalQty || 0) < material.requestedQty">
+              <i class="icon-alert-triangle"></i>
+              <span>Variación: {{((material.finalQty || 0) - material.requestedQty)}}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div *ngIf="workOrder.materials.length === 0" class="empty-materials glass-card">
+          <i class="icon-package empty-icon"></i>
+          <h3>Sin Materiales Definidos</h3>
+          <p>Esta orden no tiene materiales especificados aún</p>
+          <button 
+            *ngIf="context.permissions.canEditMaterials" 
+            (click)="openMaterialsModal()" 
+            class="btn-primary">
+            <i class="icon-plus"></i>
+            Agregar Materiales
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== SECCIÓN EQUIPO =================== -->
+    <div *ngIf="activeSection === 'team'" class="team-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-users"></i> Equipo de Trabajo</h2>
+        <div class="team-stats">
+          <span class="stat">{{workOrder.technicians.length}}/{{workOrder.maxTechnicians}} técnicos</span>
+        </div>
+      </div>
+
+      <!-- TEAM GRID -->
+      <div class="team-grid">
+        <div 
+          *ngFor="let technician of workOrder.technicians" 
+          class="team-member-card glass-card"
+          [class.current-user]="technician.technicianId === context.currentUserId">
+          
+          <div class="member-avatar">
+            <span>T{{technician.technicianId}}</span>
+            <div 
+              *ngIf="workOrder.status === WorkOrderStatus.IN_EXECUTION" 
+              class="online-indicator"></div>
+          </div>
+          
+          <div class="member-info">
+            <h4>{{getUserName(technician.technicianId)}}</h4>
+            <p class="member-role">Técnico</p>
+            
+            <div *ngIf="technician.joinedAt" class="member-meta">
+              <small>Se unió: {{formatDateTime(technician.joinedAt)}}</small>
+            </div>
+          </div>
+          
+          <div *ngIf="technician.technicianId === context.currentUserId" class="current-user-badge">
+            <i class="icon-user"></i>
+            <span>Eres tú</span>
+          </div>
+        </div>
+
+        <!-- AVAILABLE SLOTS -->
+        <div 
+          *ngFor="let slot of [].constructor(workOrder.maxTechnicians - workOrder.technicians.length); let i = index" 
+          class="empty-slot glass-card">
+          
+          <div class="slot-content">
+            <i class="icon-plus-circle"></i>
+            <p>Cupo disponible</p>
+            
+            <button 
+              *ngIf="context.permissions.canJoin" 
+              (click)="joinWorkOrder()" 
+              class="btn-join-slot">
+              <i class="icon-hand-paper"></i>
+              Unirse
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== SECCIÓN PROGRAMACIÓN =================== -->
+    <div *ngIf="activeSection === 'schedule'" class="schedule-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-calendar"></i> Programación</h2>
+        <div class="section-actions">
+          <button 
+            *ngIf="context.permissions.canSchedule" 
+            (click)="openScheduleModal()" 
+            class="btn-secondary">
+            <i class="icon-edit"></i>
+            Editar Programación
+          </button>
+        </div>
+      </div>
+
+      <div class="schedule-card glass-card" *ngIf="workOrder.schedule">
+        <div class="schedule-timing">
+          <div class="timing-start">
+            <i class="icon-clock"></i>
+            <div class="time-info">
+              <h4>{{formatTime(workOrder.schedule.startTime)}}</h4>
+              <p>Hora de inicio</p>
+            </div>
+          </div>
+          
+          <div class="timing-end" *ngIf="workOrder.schedule.endTime">
+            <i class="icon-clock"></i>
+            <div class="time-info">
+              <h4>{{formatTime(workOrder.schedule.endTime)}}</h4>
+              <p>Hora de fin</p>
+            </div>
+          </div>
+          
+          <div class="timing-duration">
+            <i class="icon-clock"></i>
+            <div class="duration-info">
+              <h4>{{workOrder.schedule.durationHours}} horas</h4>
+              <p>Duración estimada</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Notas y prioridad removidas porque no existen en WorkOrderSchedule -->
+      </div>
+    </div>
+
+    <!-- =================== SECCIÓN ACTIVIDAD =================== -->
+    <div *ngIf="activeSection === 'activity'" class="activity-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-message-circle"></i> Registro de Actividad</h2>
+        <div class="activity-stats">
+          <span class="stat">{{workOrder.comments.length}} comentarios</span>
+        </div>
+      </div>
+
+      <!-- REAL-TIME COLLABORATION -->
+      <div 
+        *ngIf="workOrder.status === WorkOrderStatus.IN_EXECUTION && context.permissions.canComment" 
+        class="live-collaboration glass-card">
+        <h3><i class="icon-radio"></i> Documentación en Tiempo Real</h3>
+        <p>Registra lo que estás haciendo para mantener al equipo informado</p>
+        
+        <form (ngSubmit)="addComment()" class="comment-form">
+          <div class="comment-input-container">
+            <textarea 
+              [(ngModel)]="newComment" 
+              name="newComment"
+              placeholder="¿Qué estás haciendo? ¿Qué has descubierto? ¿Algún problema?"
+              class="comment-input"
+              rows="3"></textarea>
+            
+            <button 
+              type="submit" 
+              class="btn-send-comment"
+              [disabled]="!newComment.trim() || loading">
+              <i class="icon-send"></i>
+              Registrar
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- ACTIVITY FEED -->
+      <div class="activity-feed">
+        <div 
+          *ngFor="let comment of workOrder.comments; trackBy: trackByCommentId" 
+          class="activity-item glass-card">
+          
+          <div class="activity-header">
+            <div class="author-info">
+              <div class="author-avatar">
+                <span>{{getUserName(comment.authorUserId).charAt(0)}}</span>
+              </div>
+              <div class="author-details">
+                <h4>{{getUserName(comment.authorUserId)}}</h4>
+                <small>{{formatDateTime(comment.createdAt)}}</small>
+              </div>
+            </div>
+            
+            <div class="comment-type comment">
+              <i class="icon-message-circle"></i>
+            </div>
+          </div>
+          
+          <div class="activity-content">
+            <p>{{comment.text}}</p>
+          </div>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div *ngIf="workOrder.comments.length === 0" class="empty-activity glass-card">
+          <i class="icon-message-circle empty-icon"></i>
+          <h3>Sin Actividad Registrada</h3>
+          <p>Aún no hay comentarios o registros de actividad</p>
+          
+          <button 
+            *ngIf="context.permissions.canComment" 
+            (click)="setActiveSection('activity')" 
+            class="btn-primary">
+            <i class="icon-plus"></i>
+            Hacer Primer Registro
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- =================== SECCIÓN EVIDENCIAS FOTOGRÁFICAS =================== -->
+    <div *ngIf="activeSection === 'photos'" class="photos-section">
+      
+      <div class="section-header">
+        <h2><i class="icon-camera"></i> Evidencias Fotográficas</h2>
+        <div class="section-actions">
+          <button 
+            *ngIf="context.permissions.canUploadPhotos" 
+            (click)="openPhotoUploadModal()" 
+            class="btn-secondary">
+            <i class="icon-plus"></i>
+            Subir Evidencia
+          </button>
+        </div>
+      </div>
+
+      <!-- PHOTOS GRID -->
+      <div class="photos-grid">
+        <div 
+          *ngFor="let photo of workOrder.photos; trackBy: trackByPhotoId" 
+          class="photo-card glass-card">
+          
+          <div class="photo-container">
+            <img [src]="photo.url" [alt]="'Evidencia fotográfica'" class="evidence-photo">
+            <div class="photo-overlay">
+              <button class="btn-view-full">
+                <i class="icon-maximize"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="photo-info">
+            <h4>Evidencia Fotográfica</h4>
+            <div class="photo-meta">
+              <span class="photo-author">Por {{getUserName(photo.authorUserId)}}</span>
+              <small class="photo-date">{{formatDateTime(photo.uploadedAt)}}</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- EMPTY STATE -->
+        <div *ngIf="workOrder.photos.length === 0" class="empty-photos glass-card">
+          <i class="icon-camera empty-icon"></i>
+          <h3>Sin Evidencias Fotográficas</h3>
+          <p>Aún no se han subido fotos para esta orden</p>
+          
+          <button 
+            *ngIf="context.permissions.canUploadPhotos" 
+            (click)="openPhotoUploadModal()" 
+            class="btn-primary">
+            <i class="icon-camera"></i>
+            Subir Primera Evidencia
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING STATE -->
+<div *ngIf="loading && !workOrder" class="loading-container">
+  <div class="loading-spinner"></div>
+  <p>Cargando orden de trabajo...</p>
+</div>
+
+<!-- ERROR STATE -->
+<div *ngIf="error && !workOrder" class="error-container glass-card">
+  <i class="icon-alert-circle error-icon"></i>
+  <h3>Error al Cargar</h3>
+  <p class="error-message">{{error}}</p>
+  <button (click)="loadWorkOrderDetail()" class="btn-retry">
+    <i class="icon-refresh"></i>
+    Reintentar
+  </button>
+</div>
+
+<!-- =================== MODAL PROGRAMACIÓN =================== -->
+<div *ngIf="showScheduleModal" class="modal-overlay" (click)="closeScheduleModal()">
+  <div class="modal-content schedule-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-calendar"></i> Programar Orden de Trabajo</h3>
+      <button (click)="closeScheduleModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="scheduleForm" (ngSubmit)="scheduleWorkOrder()" class="schedule-form">
+      
+      <div class="modal-body">
+        <div class="form-grid">
+          <div class="form-field">
+            <label class="form-label">Fecha de Ejecución:</label>
+            <input 
+              type="date" 
+              formControlName="date" 
+              class="form-input"
+              [min]="getMinDate()">
+          </div>
+          
+          <div class="form-field">
+            <label class="form-label">Duración (horas):</label>
+            <input 
+              type="number" 
+              formControlName="durationHours" 
+              class="form-input"
+              min="1"
+              max="24">
+          </div>
+          
+          <div class="form-field">
+            <label class="form-label">Hora de Inicio:</label>
+            <input 
+              type="time" 
+              formControlName="startTime" 
+              class="form-input">
+          </div>
+          
+          <div class="form-field">
+            <label class="form-label">Hora de Fin:</label>
+            <input 
+              type="time" 
+              formControlName="endTime" 
+              class="form-input">
+          </div>
+        </div>
+        
+        <div class="form-field">
+          <label class="form-label">Prioridad:</label>
+          <select formControlName="priority" class="form-select">
+            <option value="low">Baja</option>
+            <option value="normal">Normal</option>
+            <option value="high">Alta</option>
+            <option value="urgent">Urgente</option>
+          </select>
+        </div>
+        
+        <div class="form-field">
+          <label class="form-label">Notas de Programación:</label>
+          <textarea 
+            formControlName="notes" 
+            class="form-textarea"
+            placeholder="Instrucciones especiales, consideraciones, etc."
+            rows="3"></textarea>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button 
+          type="button" 
+          (click)="closeScheduleModal()" 
+          class="btn-cancel">
+          Cancelar
+        </button>
+        
+        <button 
+          type="submit" 
+          class="btn-save"
+          [disabled]="scheduleForm.invalid || loading">
+          <i class="icon-calendar"></i>
+          <span *ngIf="!loading">Programar</span>
+          <span *ngIf="loading">Programando...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- =================== MODAL MATERIALES =================== -->
+<div *ngIf="showMaterialsModal" class="modal-overlay" (click)="closeMaterialsModal()">
+  <div class="modal-content materials-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-package"></i> Gestión de Materiales</h3>
+      <button (click)="closeMaterialsModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <form [formGroup]="materialsForm" (ngSubmit)="saveMaterials()" class="materials-form">
+      
+      <div class="modal-body">
+        <div class="collaboration-warning" *ngIf="context.isTechnician">
+          <i class="icon-users"></i>
+          <p>💡 <strong>Edición Colaborativa:</strong> Los cambios que hagas serán visibles para todo el equipo inmediatamente.</p>
+        </div>
+
+        <div formArrayName="materials" class="materials-list">
+          <div 
+            *ngFor="let materialForm of materialsArray.controls; let i = index; trackBy: trackByMaterialIndex" 
+            [formGroupName]="i" 
+            class="material-item glass-card">
+            
+            <div class="material-header">
+              <h5>Material {{i + 1}}</h5>
+              <button 
+                type="button" 
+                (click)="removeMaterial(i)" 
+                class="btn-remove-material"
+                *ngIf="materialsArray.length > 1">
+                <i class="icon-trash"></i>
+              </button>
+            </div>
+            
+            <div class="material-fields">
+              <div class="form-field">
+                <label class="form-label">SKU:</label>
+                <input 
+                  type="text" 
+                  formControlName="itemSku" 
+                  class="form-input"
+                  placeholder="Código del material">
+              </div>
+              
+              <div class="form-field">
+                <label class="form-label">Nombre:</label>
+                <input 
+                  type="text" 
+                  formControlName="itemName" 
+                  class="form-input"
+                  placeholder="Nombre del material">
+              </div>
+              
+              <div class="form-field">
+                <label class="form-label">Cantidad Solicitada:</label>
+                <input 
+                  type="number" 
+                  formControlName="requestedQty" 
+                  class="form-input"
+                  min="1">
+              </div>
+              
+              <div class="form-field" *ngIf="workOrder?.status === WorkOrderStatus.IN_EXECUTION">
+                <label class="form-label">Cantidad Usada:</label>
+                <input 
+                  type="number" 
+                  formControlName="finalQty" 
+                  class="form-input"
+                  min="0"
+                  placeholder="Cantidad realmente utilizada">
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <button 
+          type="button" 
+          (click)="addMaterial()" 
+          class="btn-add-material">
+          <i class="icon-plus"></i>
+          Agregar Material
+        </button>
+      </div>
+
+      <div class="modal-actions">
+        <button 
+          type="button" 
+          (click)="closeMaterialsModal()" 
+          class="btn-cancel">
+          Cancelar
+        </button>
+        
+        <button 
+          type="submit" 
+          class="btn-save"
+          [disabled]="materialsForm.invalid || loading">
+          <i class="icon-save"></i>
+          <span *ngIf="!loading">Guardar Materiales</span>
+          <span *ngIf="loading">Guardando...</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- =================== MODAL SUBIR FOTO =================== -->
+<div *ngIf="showPhotoUploadModal" class="modal-overlay" (click)="closePhotoUploadModal()">
+  <div class="modal-content photo-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-camera"></i> Subir Evidencia Fotográfica</h3>
+      <button (click)="closePhotoUploadModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="upload-area">
+        <input 
+          type="file" 
+          (change)="onFileSelected($event)" 
+          accept="image/*" 
+          class="file-input" 
+          id="photo-upload">
+        
+        <label for="photo-upload" class="upload-label">
+          <i class="icon-upload"></i>
+          <span *ngIf="!selectedPhotoFile">Seleccionar Foto</span>
+          <span *ngIf="selectedPhotoFile">{{selectedPhotoFile.name}}</span>
+        </label>
+      </div>
+      
+      <div class="form-field">
+        <label class="form-label">Descripción (opcional):</label>
+        <textarea 
+          [(ngModel)]="photoDescription" 
+          class="form-textarea"
+          placeholder="Describe qué muestra esta foto..."
+          rows="3"></textarea>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button 
+        (click)="closePhotoUploadModal()" 
+        class="btn-cancel">
+        Cancelar
+      </button>
+      
+      <button 
+        (click)="uploadPhoto()" 
+        class="btn-upload"
+        [disabled]="!selectedPhotoFile || loading">
+        <i class="icon-upload"></i>
+        <span *ngIf="!loading">Subir Foto</span>
+        <span *ngIf="loading">Subiendo...</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MODAL COMPLETAR ORDEN =================== -->
+<div *ngIf="showCompletionModal" class="modal-overlay" (click)="closeCompletionModal()">
+  <div class="modal-content completion-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-check-square"></i> Completar Orden de Trabajo</h3>
+      <button (click)="closeCompletionModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <div class="completion-summary">
+        <h4>{{workOrder?.title}}</h4>
+        <p>Esta acción marcará la orden como completada y no se podrá deshacer.</p>
+      </div>
+      
+      <div class="form-field">
+        <label class="form-label">Conclusiones del Trabajo (obligatorio):</label>
+        <textarea 
+          [(ngModel)]="conclusions" 
+          class="form-textarea"
+          placeholder="Describe el trabajo realizado, problemas encontrados, recomendaciones para trabajos futuros..."
+          rows="6"
+          required></textarea>
+      </div>
+      
+      <div class="completion-checklist">
+        <h5>Verificación Final:</h5>
+        <div class="checklist-items">
+          <div class="checklist-item">
+            <i class="icon-check-circle checked"></i>
+            <span>Trabajo completado según especificaciones</span>
+          </div>
+          <div class="checklist-item">
+            <i class="icon-check-circle checked"></i>
+            <span>Materiales utilizados registrados</span>
+          </div>
+          <div class="checklist-item">
+            <i class="icon-check-circle checked"></i>
+            <span>Evidencias fotográficas subidas</span>
+          </div>
+          <div class="checklist-item">
+            <i class="icon-check-circle checked"></i>
+            <span>Área de trabajo limpia y segura</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-actions">
+      <button 
+        (click)="closeCompletionModal()" 
+        class="btn-cancel">
+        Cancelar
+      </button>
+      
+      <button 
+        (click)="completeWorkOrder()" 
+        class="btn-complete"
+        [disabled]="!conclusions.trim() || loading">
+        <i class="icon-check-square"></i>
+        <span *ngIf="!loading">COMPLETAR ORDEN</span>
+        <span *ngIf="loading">Completando...</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- =================== MODAL CONFIRMACIÓN =================== -->
+<div *ngIf="showConfirmationModal" class="modal-overlay" (click)="closeConfirmationModal()">
+  <div class="modal-content confirmation-modal" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h3><i class="icon-alert-triangle"></i> Confirmar Acción</h3>
+      <button (click)="closeConfirmationModal()" class="btn-close">
+        <i class="icon-x"></i>
+      </button>
+    </div>
+
+    <div class="modal-body">
+      <p>{{confirmationMessage}}</p>
+    </div>
+
+    <div class="modal-actions">
+      <button 
+        (click)="closeConfirmationModal()" 
+        class="btn-cancel">
+        Cancelar
+      </button>
+      
+      <button 
+        (click)="executeConfirmationAction()" 
+        class="btn-confirm">
+        <i class="icon-check"></i>
+        Confirmar
+      </button>
+    </div>
+  </div>
+</div> 

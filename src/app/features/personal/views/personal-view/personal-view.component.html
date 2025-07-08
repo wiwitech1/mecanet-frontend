@@ -1,0 +1,76 @@
+<div class="container">
+  <!-- Overlay de carga -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <p class="loading-message">{{ loadingMessage }}</p>
+    </div>
+  </div>
+
+  <div class="header-main">
+    <app-title-view [text]="'sidebar.menu.staffManagement' | translate"></app-title-view>
+  </div>
+
+  <div class="main-content">
+    <div class="left-container">
+      <div class="actions-container">
+        <app-search
+          [placeholder]="'personal.search.placeholder' | translate"
+          [newLabel]="'personal.actions.new' | translate"
+          [actionFunction]="handleNewClick"
+          (search)="handleSearch($event)"
+        ></app-search>
+      </div>
+
+      <app-record-table
+        [columns]="columns"
+        [data]="filteredPersonalList"
+        (ctaClick)="handleCtaClick($event)"
+      ></app-record-table>
+
+      <div *ngIf="filteredPersonalList.length === 0" class="no-results">
+        {{ 'recordTable.emptyState' | translate }}
+      </div>
+    </div>
+
+    <div class="right-container" [class.show-panel]="showInfoPanel">
+      <app-information-panel
+        *ngIf="showInfoPanel"
+        [headerText]="'personal.infoPanel.title' | translate"
+        class="info-panel"
+      >
+        <ng-container header>
+          <div class="panel-header">
+            <h2>{{ 'personal.infoPanel.details' | translate }}</h2>
+          </div>
+        </ng-container>
+
+        <app-info-section
+          *ngIf="selectedPerson"
+          [infoType]="1"
+          [title]="'personal.infoPanel.generalInfo' | translate"
+          [data]="selectedPerson.generalInfo"
+        ></app-info-section>
+
+        <div class="panel-actions">
+          <app-button
+            variant="warning"
+            size="sm"
+            iconLeft="pi pi-times"
+            (clicked)="closePanel()"
+          >
+            {{ 'personal.actions.close' | translate }}
+          </app-button>
+        </div>
+      </app-information-panel>
+    </div>
+  </div>
+
+  <app-personal-form
+    *ngIf="showCreateModal"
+    [isEdit]="false"
+    [personalData]="selectedPerson"
+    (submit)="handleCreate($event)"
+    (cancel)="showCreateModal = false; selectedPerson = null"
+  ></app-personal-form>
+</div>

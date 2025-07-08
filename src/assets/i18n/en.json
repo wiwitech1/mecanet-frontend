@@ -122,9 +122,10 @@
                 "machineryMetrics": "Machinery Metrics"
             },
             "workOrder": "Work Order",
+            "technicianWorkOrder": "Technician Panel",
             "maintenancePlan": "Maintenance Plan",
             "execution": "Execution",
-            "dashboard": "Dashboard",
+            "readMetrics": "Read Metrics",
             "staffManagement": "Staff Management",
             "settings": "Settings",
             "demo": "Demo"
@@ -160,9 +161,11 @@
             "name": "Name",
             "currentStock": "Current Stock",
             "stockStatus": "Stock Status",
+            "category": "Category",
             "details": "Details"
         },
         "infoPanel": {
+            "addStock": "Add Stock",
             "partPrefix": "Part: ",
             "edit": "Edit",
             "close": "Close",
@@ -211,6 +214,21 @@
                 },
                 "unitPrice": {
                     "label": "Unit Price"
+                },
+                "category": {
+                    "label": "Category"
+                },
+                "unit": {
+                    "label": "Unit",
+                    "placeholder": "Enter unit"
+                },
+                "location": {
+                    "label": "Location",
+                    "placeholder": "Enter location"
+                },
+                "sku": {
+                    "label": "SKU",
+                    "placeholder": "Enter SKU"
                 }
             },
             "actions": {
@@ -220,6 +238,19 @@
                 "create": "Create"
             },
             "confirmDelete": "Are you sure you want to delete this part?"
+        },
+        "addStock": {
+            "title": "Add Stock",
+            "fields": {
+                "quantity": "Quantity",
+                "reason": "Reason",
+                "unitCost": "Unit Cost",
+                "reference": "Reference"
+            },
+            "actions": {
+                "cancel": "Cancel",
+                "add": "Add"
+            }
         }
     },
     "purchaseOrders": {
@@ -585,157 +616,37 @@
         ]
     },
     "maintenancePlanCreate": {
-        "title": "Create Maintenance Plan",
-        "backButton": "Back",
-        "selector": {
-            "title": "Select the type of plan to create",
-            "staticPlan": {
-                "title": "Static Plan",
-                "subtitle": "Day-based organization",
-                "description": "Create a maintenance plan organized by days, with specific tasks for each one.",
-                "selectButton": "SELECT"
-            },
-            "dynamicPlan": {
-                "title": "Dynamic Plan",
-                "subtitle": "Task-based organization",
-                "description": "Create a more flexible maintenance plan, focused on specific tasks without day structure.",
-                "selectButton": "SELECT"
-            }
-        },
-        "staticPlan": {
-            "title": {
-                "create": "Create Maintenance Plan",
-                "edit": "Edit Maintenance Plan"
-            },
-            "backButton": "Back",
-            "sections": {
-                "generalInfo": {
-                    "title": "General Information",
-                    "productionLine": {
-                        "label": "Production Line*",
-                        "error": "This field is required"
-                    },
-                    "startDate": {
-                        "label": "Start Date*",
-                        "error": "This field is required"
-                    },
-                    "duration": {
-                        "label": "Duration (days)*",
-                        "error": {
-                            "required": "This field is required",
-                            "min": "Minimum is 1 day",
-                            "max": "Maximum is 30 days"
-                        }
-                    }
-                },
-                "taskScheduling": {
-                    "title": "Task Scheduling",
-                    "addDay": "Add Day",
-                    "day": "Day",
-                    "tasks": "task(s)",
-                    "tasksForDay": "Tasks for day",
-                    "addTask": "Add Task",
-                    "noTasksMessage": "No tasks scheduled for this day. Click \"Add Task\" to get started.",
-                    "task": "Task",
-                    "removeTask": "Remove Task",
-                    "removeDay": "Remove Day",
-                    "taskFields": {
-                        "taskName": {
-                            "label": "Task Name*",
-                            "error": "This field is required"
-                        },
-                        "taskDescription": {
-                            "label": "Description"
-                        },
-                        "machineIds": {
-                            "label": "Involved Machines*",
-                            "error": "This field is required"
-                        }
-                    }
-                }
-            },
-            "actions": {
-                "cancel": "Cancel",
-                "save": "Save Plan",
-                "update": "Update Plan",
-                "saving": "Saving..."
-            },
-            "errors": {
-                "createError": "Error creating the plan. Please try again later.",
-                "updateError": "Error updating the plan. Please try again later.",
-                "loadError": "Error loading the plan. Please try again later."
-            }
-        },
-        "dynamicPlan": {
-            "title": "Create Dynamic Maintenance Plan",
-            "backButton": "Back",
-            "sections": {
-                "generalInfo": {
-                    "title": "General Information",
-                    "parameter": {
-                        "label": "Parameter*",
-                        "error": "This field is required"
-                    },
-                    "startDate": {
-                        "label": "Start Date*",
-                        "error": "This field is required"
-                    },
-                    "machineIds": {
-                        "label": "Assigned Machines*",
-                        "error": "Select at least one machine"
-                    }
-                },
-                "tasks": {
-                    "title": "Tasks",
-                    "addTask": "Add Task",
-                    "task": "Task",
-                    "removeTask": "Remove Task",
-                    "emptyState": "No tasks scheduled. Click \"Add Task\" to get started.",
-                    "taskFields": {
-                        "taskName": {
-                            "label": "Task Name*",
-                            "error": "This field is required"
-                        },
-                        "taskDescription": {
-                            "label": "Description"
-                        },
-                        "machineIds": {
-                            "label": "Specific machines (optional)",
-                            "hint": "If not selected, the general plan machines will be used"
-                        }
-                    }
-                }
-            },
-            "actions": {
-                "cancel": "Cancel",
-                "save": "Save Dynamic Plan",
-                "saving": "Saving..."
-            },
-            "errors": {
-                "createError": "Error creating the plan. Please try again later."
-            }
-        }
     },
     "machineryMetrics": {
         "breadcrumb": "Asset Management > Machinery Metrics",
-        "loading": "Loading machineries...",
-        "retry": "Retry",
-        "serialNumber": "Serial No.",
         "search": {
             "placeholder": "Search by name, model or brand...",
             "refresh": "Refresh"
         },
+        "loading": "Loading machinery...",
+        "retry": "Retry",
+        "serialNumber": "Serial Number",
         "measurements": {
             "title": "Measurements",
             "currentValue": "Current Value",
             "lastUpdated": "Last Updated",
             "newValue": "New value",
-            "update": "Upload",
-            "noMeasurements": "No measurements available for this machinery"
+            "update": "Update",
+            "noMeasurements": "No measurements available"
         },
         "emptyState": {
-            "title": "No machineries found",
-            "message": "No machineries available or none match the search criteria"
+            "title": "No machinery found",
+            "message": "Try adjusting your search or refresh the list"
+        },
+        "selectMachinery": "Select Machinery",
+        "selectMachinery.placeholder": "Select a machinery",
+        "metricRegistration": {
+            "title": "New Reading Registration",
+            "placeholder": "Enter value",
+            "submit": "Register Reading"
+        },
+        "selectMetric": {
+            "placeholder": "Select a metric"
         }
     },
     "workOrder": {
@@ -800,6 +711,47 @@
                 }
             }
         },
+        "admin": {
+            "title": "Work Order Management",
+            "subtitle": "Administrative control panel"
+        },
+        "technician": {
+            "title": "Technician Panel",
+            "subtitle": "Work management for technicians"
+        },
+        "detail": {
+            "title": "Work Order Detail",
+            "subtitle": "Smart contextual view",
+            "sections": {
+                "overview": "Overview",
+                "materials": "Materials",
+                "team": "Team",
+                "schedule": "Schedule",
+                "activity": "Activity",
+                "photos": "Evidence",
+                "completion": "Completion"
+            },
+            "actions": {
+                "schedule": "Schedule",
+                "publish": "Publish",
+                "review": "Review",
+                "approve": "Approve",
+                "join": "Join",
+                "leave": "Leave",
+                "start": "Start",
+                "complete": "Complete",
+                "comment": "Comment",
+                "upload_photo": "Upload Photo"
+            },
+            "status": {
+                "new": "New",
+                "published": "Published",
+                "review": "Under Review",
+                "pending_execution": "Pending Execution",
+                "in_execution": "In Execution",
+                "completed": "Completed"
+            }
+        },
         "form": {
             "title": {
                 "edit": "Edit Work Order",
@@ -844,5 +796,118 @@
             },
             "confirmDelete": "Are you sure you want to delete this work order?"
         }
+    },
+    "personal": {
+        "title": "Staff Management",
+        "search": {
+            "placeholder": "Search by name or email..."
+        },
+        "table": {
+            "username": "Username",
+            "name": "Name",
+            "email": "Email",
+            "role": "Role",
+            "details": "View Details"
+        },
+        "infoPanel": {
+            "title": "Staff Details",
+            "details": "Staff Information",
+            "generalInfo": "General Information",
+            "username": "Username",
+            "name": "Name",
+            "email": "Email",
+            "role": "Role"
+        },
+        "roles": {
+            "technical": "Technical",
+            "admin": "Administrator"
+        },
+        "actions": {
+            "close": "Close",
+            "new": "New Staff"
+        },
+        "form": {
+            "title": "New Staff Member",
+            "username": "Username",
+            "usernamePlaceholder": "Enter username",
+            "name": "Name",
+            "namePlaceholder": "Enter name",
+            "email": "Email",
+            "emailPlaceholder": "Enter email",
+            "password": "Password",
+            "passwordPlaceholder": "Enter password",
+            "role": "Role",
+            "selectRole": "Select a role",
+            "cancel": "Cancel",
+            "create": "Create",
+            "firstName": "First Name",
+            "lastName": "Last Name"
+        }
+    },
+    "maintenancePlan": {
+        "forms": {
+            "dynamic": {
+                "title": "New Maintenance Plan",
+                "sections": {
+                    "planInfo": "Plan Information",
+                    "tasks": "Tasks"
+                },
+                "fields": {
+                    "name": {
+                        "label": "Name",
+                        "required": "Name is required"
+                    },
+                    "startDate": {
+                        "label": "Start Date",
+                        "required": "Start date is required"
+                    },
+                    "endDate": {
+                        "label": "End Date",
+                        "required": "End date is required"
+                    },
+                    "metricDefinition": {
+                        "label": "Metric Definition",
+                        "placeholder": "Select a metric",
+                        "required": "Metric definition is required"
+                    },
+                    "threshold": {
+                        "label": "Threshold",
+                        "required": "Threshold is required"
+                    },
+                    "task": {
+                        "title": "Task",
+                        "machine": {
+                            "label": "Machine",
+                            "placeholder": "Select a machine",
+                            "required": "Machine is required"
+                        },
+                        "name": {
+                            "label": "Task Name",
+                            "required": "Task name is required"
+                        },
+                        "description": {
+                            "label": "Description",
+                            "required": "Description is required"
+                        },
+                        "skills": {
+                            "label": "Required Skills",
+                            "required": "At least one skill must be selected"
+                        }
+                    }
+                },
+                "buttons": {
+                    "addTask": "Add Task",
+                    "removeTask": "Remove Task",
+                    "cancel": "Cancel",
+                    "save": "Save"
+                }
+            }
+        },
+    "billing": {
+        "loading": "Loading plans...",
+        "currentPlan": "Current Plan",
+        "changePlan": "Switch to this Plan",
+        "perMonth": "/month",
+        "unlimited": "∞"
     }
-}
+}}

@@ -1,0 +1,816 @@
+// =================== VARIABLES MODERNAS ===================
+
+:root {
+  // Paleta principal moderna y profesional
+  --primary-blue: #2563eb;
+  --primary-blue-dark: #1d4ed8;
+  --primary-blue-light: #3b82f6;
+  
+  --secondary-purple: #8b5cf6;
+  --secondary-purple-dark: #7c3aed;
+  
+  --accent-emerald: #10b981;
+  --accent-emerald-dark: #059669;
+  
+  --warning-amber: #f59e0b;
+  --warning-amber-dark: #d97706;
+  
+  --danger-red: #ef4444;
+  --danger-red-dark: #dc2626;
+  
+  --success-green: #22c55e;
+  --success-green-dark: #16a34a;
+
+  // Estados específicos con colores profesionales
+  --status-new: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+  --status-published: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  --status-review: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+  --status-pending: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  --status-execution: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  --status-completed: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+  
+  // Colores neutros sofisticados
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
+}
+
+// =================== MIXINS AVANZADOS ===================
+
+@mixin glass-morphism-enhanced {
+  background: linear-gradient(135deg, 
+    rgba(255, 255, 255, 0.12) 0%, 
+    rgba(255, 255, 255, 0.06) 100%);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+@mixin button-modern($bg-color, $hover-color) {
+  background: linear-gradient(135deg, $bg-color 0%, $hover-color 100%);
+  border: none;
+  border-radius: 14px;
+  padding: 1rem 2rem;
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.6s;
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 
+      0 16px 32px rgba($bg-color, 0.4),
+      0 8px 16px rgba($bg-color, 0.3);
+    
+    &::before {
+      left: 100%;
+    }
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+@mixin card-modern {
+  @include glass-morphism-enhanced;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 
+      0 24px 48px rgba(0, 0, 0, 0.18),
+      0 12px 24px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+}
+
+// =================== CONTAINER PRINCIPAL REDISEÑADO ===================
+
+.detail-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, 
+    #667eea 0%, 
+    #764ba2 25%, 
+    #f093fb 50%, 
+    #f5576c 75%, 
+    #4facfe 100%);
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+  position: relative;
+  overflow-x: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.4) 0%, transparent 50%),
+      radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.3) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+// =================== HEADER COMPLETAMENTE NUEVO ===================
+
+.detail-header {
+  position: relative;
+  padding: 2.5rem;
+  margin-bottom: 2.5rem;
+  z-index: 10;
+  
+  .header-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 28px;
+    opacity: 0.95;
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: linear-gradient(135deg, 
+      rgba(255, 255, 255, 0.1) 0%, 
+      rgba(255, 255, 255, 0.05) 100%);
+  }
+  
+  .header-content {
+    position: relative;
+    z-index: 2;
+    
+    .navigation-section {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2.5rem;
+      
+      .btn-back {
+        @include button-modern(var(--gray-600), var(--gray-700));
+        padding: 0.875rem 1.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.9rem;
+        border-radius: 18px;
+        
+        i {
+          font-size: 1.1rem;
+        }
+      }
+      
+      .auto-refresh-indicator {
+        @include glass-morphism-enhanced;
+        padding: 0.875rem 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.9);
+        border-radius: 18px;
+        
+        .spinning {
+          animation: spin 2s linear infinite;
+        }
+        
+        i {
+          color: var(--accent-emerald);
+          font-size: 1.1rem;
+        }
+      }
+    }
+    
+    .title-section {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 3rem;
+      align-items: start;
+      margin-bottom: 2.5rem;
+      
+      .title-main {
+        h1 {
+          font-size: 3rem;
+          font-weight: 800;
+          margin: 0 0 1rem 0;
+          background: linear-gradient(135deg, #ffffff 0%, rgba(255,255,255,0.85) 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          text-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+          letter-spacing: -0.025em;
+          line-height: 1.1;
+        }
+        
+        .description {
+          font-size: 1.2rem;
+          color: rgba(255, 255, 255, 0.85);
+          margin: 0;
+          line-height: 1.6;
+          font-weight: 400;
+        }
+      }
+      
+      .status-section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1.75rem;
+        
+        .status-badge {
+          @include glass-morphism-enhanced;
+          padding: 1.25rem 2.5rem;
+          border-radius: 22px;
+          color: white;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+          font-size: 1.1rem;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          
+          i {
+            font-size: 1.4rem;
+          }
+        }
+        
+        .progress-container {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 1rem;
+          
+          .progress-bar {
+            width: 240px;
+            height: 14px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 14px;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            
+            .progress-fill {
+              height: 100%;
+              background: linear-gradient(90deg, 
+                rgba(255,255,255,0.9) 0%, 
+                rgba(255,255,255,1) 50%,
+                rgba(255,255,255,0.9) 100%);
+              transition: all 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+              border-radius: 14px;
+              position: relative;
+              
+              &::after {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+                animation: shimmer 2.5s infinite;
+              }
+            }
+          }
+          
+          .progress-text {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 600;
+          }
+        }
+      }
+    }
+    
+    .primary-actions {
+      display: flex;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      
+      .admin-actions, .technician-actions {
+        display: flex;
+        gap: 1.25rem;
+        flex-wrap: wrap;
+      }
+      
+      button {
+        &.btn-primary {
+          &.schedule { @include button-modern(var(--primary-blue), var(--primary-blue-dark)); }
+          &.publish { @include button-modern(var(--accent-emerald), var(--accent-emerald-dark)); }
+          &.review { @include button-modern(var(--warning-amber), var(--warning-amber-dark)); }
+          &.approve { @include button-modern(var(--success-green), var(--success-green-dark)); }
+          &.join { @include button-modern(var(--secondary-purple), var(--secondary-purple-dark)); }
+          &.start { @include button-modern(var(--danger-red), var(--danger-red-dark)); }
+          
+          box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+          min-width: 160px;
+        }
+        
+        &.btn-danger {
+          @include button-modern(var(--danger-red), var(--danger-red-dark));
+        }
+        
+        &.btn-success {
+          @include button-modern(var(--success-green), var(--success-green-dark));
+        }
+      }
+    }
+  }
+}
+
+// =================== NAVEGACIÓN MODERNA ===================
+
+.section-navigation {
+  padding: 0 2.5rem;
+  margin-bottom: 3rem;
+  
+  .nav-container {
+    @include glass-morphism-enhanced;
+    padding: 1.75rem;
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 28px;
+  }
+  
+  .nav-btn {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 1.125rem 2rem;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(8px);
+    
+    i {
+      font-size: 1.15rem;
+    }
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.95);
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
+    }
+    
+    &.active {
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.25) 0%, 
+        rgba(255, 255, 255, 0.15) 100%);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 
+        0 12px 28px rgba(255, 255, 255, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+    }
+    
+    .nav-badge {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, var(--primary-blue-dark) 100%);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.35rem 0.75rem;
+      border-radius: 14px;
+      min-width: 22px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+    }
+  }
+}
+
+// =================== CONTENIDO PRINCIPAL ===================
+
+.main-content {
+  padding: 0 2.5rem 3.5rem;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  
+  h2 {
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 700;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    
+    i {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 2.25rem;
+    }
+  }
+  
+  .section-actions {
+    display: flex;
+    gap: 1.25rem;
+  }
+}
+
+// =================== CARDS MODERNIZADAS ===================
+
+.glass-card {
+  @include card-modern;
+  padding: 2.5rem;
+  margin-bottom: 2rem;
+  color: white;
+  
+  h3, h4 {
+    color: white;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+  
+  h3 {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    
+    i {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}
+
+// =================== GRIDS MEJORADAS ===================
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 3rem;
+}
+
+.materials-grid, .team-grid, .photos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 2rem;
+}
+
+// =================== MODALES MODERNOS ===================
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(16px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.5rem;
+  animation: fadeIn 0.4s ease;
+}
+
+.modal-content {
+  @include glass-morphism-enhanced;
+  max-width: 800px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  border-radius: 28px;
+  animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    
+    h3 {
+      color: white;
+      margin: 0;
+      font-size: 1.6rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    
+    .btn-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 1.4rem;
+      cursor: pointer;
+      padding: 0.875rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
+        transform: rotate(90deg);
+      }
+    }
+  }
+  
+  .modal-body {
+    padding: 2.5rem;
+    color: white;
+  }
+  
+  .modal-actions {
+    display: flex;
+    gap: 1.25rem;
+    padding: 2rem 2.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    
+    button {
+      padding: 1.125rem 2.25rem;
+      border: none;
+      border-radius: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      
+      &.btn-cancel {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.1);
+        color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        
+        &:hover {
+          background: rgba(255, 255, 255, 0.2);
+          transform: translateY(-2px);
+        }
+      }
+      
+      &.btn-save, &.btn-confirm, &.btn-upload, &.btn-complete {
+        flex: 2;
+        @include button-modern(var(--primary-blue), var(--primary-blue-dark));
+      }
+    }
+  }
+}
+
+// =================== FORMULARIOS ELEGANTES ===================
+
+.form-field {
+  margin-bottom: 2rem;
+  
+  .form-label {
+    display: block;
+    color: white;
+    font-weight: 600;
+    margin-bottom: 0.875rem;
+    font-size: 0.95rem;
+  }
+  
+  .form-input, .form-textarea, .form-select {
+    width: 100%;
+    padding: 1.125rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(12px);
+    
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    &:focus {
+      outline: none;
+      border-color: var(--primary-blue);
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.2);
+    }
+  }
+}
+
+// =================== LOADING Y ERROR ESTADOS ===================
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  
+  .loading-content {
+    @include glass-morphism-enhanced;
+    padding: 3.5rem;
+    text-align: center;
+    color: white;
+    border-radius: 28px;
+    
+    .loading-spinner {
+      width: 70px;
+      height: 70px;
+      border: 5px solid rgba(255, 255, 255, 0.2);
+      border-top: 5px solid var(--primary-blue);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 2rem;
+    }
+    
+    p {
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
+  }
+}
+
+.error-banner {
+  @include glass-morphism-enhanced;
+  padding: 2rem 2.5rem;
+  margin: 1.5rem 2.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  color: white;
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 20px;
+  
+  i {
+    color: var(--danger-red);
+    font-size: 1.4rem;
+  }
+  
+  .btn-retry {
+    @include button-modern(var(--danger-red), var(--danger-red-dark));
+    padding: 0.875rem 1.75rem;
+    margin-left: auto;
+  }
+}
+
+// =================== ANIMACIONES AVANZADAS ===================
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+// =================== RESPONSIVE MEJORADO ===================
+
+@media (max-width: 1024px) {
+  .detail-header {
+    .header-content {
+      .title-section {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        
+        .status-section {
+          align-items: flex-start;
+        }
+      }
+    }
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .detail-container {
+    .detail-header {
+      padding: 2rem;
+      
+      .header-content {
+        .title-section {
+          .title-main h1 {
+            font-size: 2.5rem;
+          }
+        }
+        
+        .primary-actions {
+          justify-content: stretch;
+          
+          button {
+            flex: 1;
+            min-width: 0;
+          }
+        }
+      }
+    }
+    
+    .main-content {
+      padding: 0 1.5rem 2.5rem;
+    }
+  }
+  
+  .section-navigation .nav-container {
+    gap: 0.5rem;
+    padding: 1.25rem;
+    
+    .nav-btn {
+      padding: 0.875rem 1.5rem;
+      font-size: 0.85rem;
+    }
+  }
+  
+  .materials-grid, .team-grid, .photos-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    margin: 1rem;
+    max-height: 95vh;
+    border-radius: 24px;
+  }
+} 

@@ -15,13 +15,12 @@ import { PlantService } from '../../services/plant.service';
 })
 export class InteractProductionLineComponent implements OnInit {
   @Input() title: string = '';
-  @Input() plants: PlantEntity[] = [];
   @Input() productionLine?: ProductionLineEntity;
   @Output() save = new EventEmitter<any>();
   @Output() cancel = new EventEmitter<void>();
 
-  selectedPlantId: number | null = null;
   productionLineForm: FormGroup;
+  plants: PlantEntity[] = [];
   isEditMode = false;
 
   constructor(
@@ -29,11 +28,11 @@ export class InteractProductionLineComponent implements OnInit {
     private plantService: PlantService
   ) {
     this.productionLineForm = this.fb.group({
-      name: ['', Validators.required],
-      code: ['', Validators.required],
+      name: ['', [Validators.required]],
+      code: ['', [Validators.required]],
       maxUnitsPerHour: ['', [Validators.required, Validators.min(1)]],
-      unit: ['', Validators.required],
-      plantId: ['', Validators.required]
+      unit: ['', [Validators.required]],
+      plantId: ['', [Validators.required]]
     });
   }
 
@@ -42,7 +41,6 @@ export class InteractProductionLineComponent implements OnInit {
     this.loadPlants();
 
     if (this.isEditMode && this.productionLine) {
-      this.selectedPlantId = this.productionLine.plantId;
       this.productionLineForm.patchValue({
         name: this.productionLine.name,
         code: this.productionLine.code,
@@ -53,13 +51,14 @@ export class InteractProductionLineComponent implements OnInit {
     }
   }
 
-  onPlantChange(event: any) {
-    console.log('Plant ID seleccionado:', this.productionLineForm.get('plantId')?.value);
-  }
-
   onSubmit(): void {
     if (this.productionLineForm.valid) {
-      this.save.emit(this.productionLineForm.value);
+      const formValue = this.productionLineForm.value;
+      // Asegurarse de que maxUnitsPerHour sea un número
+      formValue.maxUnitsPerHour = Number(formValue.maxUnitsPerHour);
+      // Asegurarse de que plantId sea un número
+      formValue.plantId = Number(formValue.plantId);
+      this.save.emit(formValue);
     } else {
       this.productionLineForm.markAllAsTouched();
     }
@@ -74,7 +73,6 @@ export class InteractProductionLineComponent implements OnInit {
       next: (plants) => {
         this.plants = plants;
         if (plants.length > 0 && !this.productionLine) {
-          this.selectedPlantId = plants[0].id;
           this.productionLineForm.patchValue({ plantId: plants[0].id });
         }
       },

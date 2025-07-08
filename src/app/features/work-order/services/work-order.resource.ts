@@ -3,84 +3,66 @@
  */
 export interface WorkOrderResource {
   id: number;
-  code: string;
-  date: string;
-  production_line: string; // snake_case como viene de la API
-  type: string;
+  planId: number;
+  taskId: number;
+  machineId: number;
+  title: string;
+  description: string;
   status: string;
-  description?: string;
-  priority: string;
-  assigned_technicians: WorkOrderTechnicianResource[]; // snake_case como viene de la API
-  created_at: string; // Fecha en formato string desde la API
-  updated_at: string; // Fecha en formato string desde la API
-  created_by: number; // ID del usuario creador
-  updated_by?: number; // ID del usuario actualizador
+  maxTechnicians: number;
+  requiredSkillIds: number[];
+  schedule: string;
+  executionWindow: any;
+  conclusions: string | null;
+  comments: CommentResource[];
+  photos: PhotoResource[];
+  tenantId: number;
+  createdAt: string;
+  updatedAt: string;
+  technicians: TechnicianResource[];
+  materials: MaterialResource[];
+  executionSummary: any;
 }
 
 /**
- * Representa la estructura de datos de un técnico asignado
+ * Representa un técnico en la respuesta de la API
  */
-export interface WorkOrderTechnicianResource {
-  id: number;
-  name: string;
-  email: string;
-  assigned_machines: string[]; // snake_case como viene de la API
-  assigned_at: string; // Fecha de asignación
-}
-
-/**
- * Estructura para crear una nueva orden de trabajo
- */
-export interface CreateWorkOrderResource {
-  code: string;
-  date: string;
-  production_line: string;
-  type: string;
+export interface TechnicianResource {
+  technicianId: number;
+  fullName: string;
+  role: string;
   status: string;
-  description?: string;
-  priority: string;
-  assigned_technicians?: CreateWorkOrderTechnicianResource[];
-  created_by: number;
+  joinedAt: string;
+  withdrawalReason: string | null;
 }
 
 /**
- * Estructura para actualizar una orden de trabajo existente
+ * Representa un material en la respuesta de la API
  */
-export interface UpdateWorkOrderResource {
-  code?: string;
-  date?: string;
-  production_line?: string;
-  type?: string;
-  status?: string;
-  description?: string;
-  priority?: string;
-  assigned_technicians?: CreateWorkOrderTechnicianResource[];
-  updated_by: number;
+export interface MaterialResource {
+  itemId: number;
+  itemSku: string;
+  itemName: string;
+  requestedQty: number;
+  finalQty: number | null;
 }
 
 /**
- * Estructura para crear/actualizar un técnico asignado
+ * Representa un comentario en la respuesta de la API
  */
-export interface CreateWorkOrderTechnicianResource {
-  name: string;
-  email: string;
-  assigned_machines: string[];
+export interface CommentResource {
+  id?: number;
+  authorUserId: number;
+  text: string;
+  createdAt?: string;
 }
 
 /**
- * Respuesta de la API para listado de órdenes de trabajo
+ * Representa una foto en la respuesta de la API
  */
-export interface WorkOrderListResponse {
-  data: WorkOrderResource[];
-  total: number;
-  page: number;
-  limit: number;
-}
-
-/**
- * Respuesta de la API para una orden de trabajo específica
- */
-export interface WorkOrderResponse {
-  data: WorkOrderResource;
-  message?: string;
-}
+export interface PhotoResource {
+  id?: number;
+  authorUserId: number;
+  url: string;
+  uploadedAt?: string;
+} 

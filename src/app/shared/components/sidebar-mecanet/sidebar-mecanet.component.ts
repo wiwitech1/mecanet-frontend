@@ -92,11 +92,22 @@ export class SidebarMecanetComponent implements OnInit {
     {
       title: 'sidebar.menu.workOrder',
       icon: 'assignment',
-      route: '/ordenes-trabajo',
+      route: '/ordenes-trabajo/admin',
       badge: {
         text: '5',
         color: 'primary'
-      }
+      },
+      roles: ['admin', 'manager']
+    },
+    {
+      title: 'sidebar.menu.technicianWorkOrder',
+      icon: 'construction',
+      route: '/ordenes-trabajo/tecnico',
+      badge: {
+        text: '3',
+        color: 'accent'
+      },
+      roles: ['technician']
     },
     {
       title: 'sidebar.menu.maintenancePlan',
@@ -108,11 +119,12 @@ export class SidebarMecanetComponent implements OnInit {
       icon: 'play_circle',
       route: '/ejecucion',
     },
+    /*
     {
-      title: 'sidebar.menu.dashboard',
-      icon: 'dashboard',
-      route: '/dashboard',
-    },
+      title: 'sidebar.menu.readMetrics',
+      icon: 'readMetrics',
+      route: '/simulation',
+    },*/
     {
       title: 'sidebar.menu.staffManagement',
       icon: 'people',
@@ -194,9 +206,29 @@ export class SidebarMecanetComponent implements OnInit {
       return true;
     }
 
-    // Simulación de verificación de roles (en una app real, verificarías con un servicio de autenticación)
-    // Por ahora, asumimos que el usuario actual tiene rol 'admin'
-    const userRoles = ['admin'];
+    // Obtener roles del usuario desde localStorage
+    try {
+      const userData = localStorage.getItem('userSession');
+      if (userData) {
+        const user = JSON.parse(userData);
+        if (user.roles && Array.isArray(user.roles)) {
+          // Mapear roles del sistema a roles del sidebar
+          const userRoles: string[] = [];
+          if (user.roles.includes('ROLE_ADMIN')) {
+            userRoles.push('admin', 'manager');
+          }
+          if (user.roles.includes('ROLE_TECHNICAL')) {
+            userRoles.push('technician');
+          }
+          
     return item.roles.some(role => userRoles.includes(role));
+        }
+      }
+    } catch (error) {
+      console.error('Error al verificar permisos:', error);
+    }
+    
+    // Por defecto, mostrar solo ítems sin roles específicos
+    return false;
   }
 }
