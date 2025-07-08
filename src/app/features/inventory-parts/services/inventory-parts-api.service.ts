@@ -4,12 +4,13 @@ import { firstValueFrom, map } from 'rxjs';
 import { InventoryPartEntity } from '../../shared/models/inventory-part.entity';
 import { calculateStockStatus } from '../../shared/services/inventory-part.assembler';
 import { InventoryItemEntity } from '../../shared/models/inventory-item.entity';
+import { environment } from '../../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InventoryPartEntitysApiService {
-  private apiUrl = 'http://localhost:8080/api/v1/inventory-items';
+  private apiUrl = environment.serverBaseUrl + '/inventory-items';
   constructor(private http: HttpClient) {}
 
 
