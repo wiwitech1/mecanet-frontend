@@ -3,12 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject, map, takeUntil, forkJoin, of } from 'rxjs';
 
 import { WorkOrderEntity } from '../../models/work-order.entity';
 import { WorkOrderStatus } from '../../models/work-order-status.entity';
 import { WorkOrderSchedule } from '../../models/work-order-schedule.entity';
 import { UserRole } from '../../models/user-role.entity';
+import { WorkOrderService } from '../../services/work-order.service';
+import { UserService } from '../../../../core/services/user.service';
 
 interface AdminDashboardStats {
   newOrders: number;
@@ -18,32 +20,6 @@ interface AdminDashboardStats {
   inExecution: number;
   completed: number;
   total: number;
-}
-
-interface MockTechnician {
-  technicianId: number;
-  joinedAt: Date;
-}
-
-interface MockMaterial {
-  itemName: string;
-  requestedQty: number;
-}
-
-interface MockWorkOrder {
-  id: number;
-  title: string;
-  description: string;
-  machineId: number;
-  createdAt: Date;
-  status: WorkOrderStatus;
-  requiredSkillIds: number[];
-  estimatedDuration: number;
-  priority: string;
-  technicians: MockTechnician[];
-  materials: MockMaterial[];
-  maxTechnicians: number;
-  schedule: WorkOrderSchedule | null;
 }
 
 @Component({
@@ -66,261 +42,10 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
   loading = false;
   error: string | null = null;
   
-  // Datos hardcodeados
-  private mockOrders: MockWorkOrder[] = [
-    // ÓRDENES NUEVAS
-    {
-      id: 1,
-      title: 'Mantenimiento Preventivo Motor Principal',
-      description: 'Revisión completa del motor principal incluyendo cambio de aceite, filtros y revisión de correas',
-      machineId: 1,
-      createdAt: new Date('2024-01-15'),
-      status: WorkOrderStatus.NEW,
-      requiredSkillIds: [1, 2, 3],
-      estimatedDuration: 4,
-      priority: 'HIGH',
-      technicians: [],
-      materials: [],
-      maxTechnicians: 0,
-      schedule: null
-    },
-    {
-      id: 2,
-      title: 'Calibración Sistema de Control',
-      description: 'Calibración y ajuste del sistema de control automático de la línea de producción',
-      machineId: 2,
-      createdAt: new Date('2024-01-16'),
-      status: WorkOrderStatus.NEW,
-      requiredSkillIds: [4, 5],
-      estimatedDuration: 6,
-      priority: 'MEDIUM',
-      technicians: [],
-      materials: [],
-      maxTechnicians: 0,
-      schedule: null
-    },
-    {
-      id: 3,
-      title: 'Reparación Sistema Hidráulico',
-      description: 'Reparación de fuga en sistema hidráulico y reemplazo de sellos dañados',
-      machineId: 3,
-      createdAt: new Date('2024-01-17'),
-      status: WorkOrderStatus.NEW,
-      requiredSkillIds: [1, 6],
-      estimatedDuration: 8,
-      priority: 'HIGH',
-      technicians: [],
-      materials: [],
-      maxTechnicians: 0,
-      schedule: null
-    },
-
-    // ÓRDENES PUBLICADAS
-    {
-      id: 4,
-      title: 'Inspección Eléctrica Rutinaria',
-      description: 'Inspección completa del sistema eléctrico y conexiones',
-      machineId: 4,
-      createdAt: new Date('2024-01-10'),
-      status: WorkOrderStatus.PUBLISHED,
-      requiredSkillIds: [2, 4],
-      estimatedDuration: 3,
-      priority: 'MEDIUM',
-      technicians: [],
-      materials: [],
-      maxTechnicians: 2,
-      schedule: {
-        date: '2024-01-25',
-        startTime: '08:00',
-        endTime: '11:00',
-        durationHours: 3
-      }
-    },
-
-    // ÓRDENES EN REVISIÓN
-    {
-      id: 5,
-      title: 'Actualización Software PLC',
-      description: 'Actualización del software del controlador lógico programable',
-      machineId: 5,
-      createdAt: new Date('2024-01-12'),
-      status: WorkOrderStatus.REVIEW,
-      requiredSkillIds: [4, 5],
-      estimatedDuration: 5,
-      priority: 'HIGH',
-      technicians: [
-        { technicianId: 101, joinedAt: new Date('2024-01-18T09:30:00') },
-        { technicianId: 102, joinedAt: new Date('2024-01-18T10:15:00') }
-      ],
-      materials: [
-        { itemName: 'Cable USB-Serial', requestedQty: 1 },
-        { itemName: 'Software de actualización', requestedQty: 1 }
-      ],
-      maxTechnicians: 3,
-      schedule: {
-        date: '2024-01-26',
-        startTime: '09:00',
-        endTime: '14:00',
-        durationHours: 5
-      }
-    },
-    {
-      id: 6,
-      title: 'Reemplazo Rodamientos Principales',
-      description: 'Cambio de rodamientos principales del eje rotativo',
-      machineId: 6,
-      createdAt: new Date('2024-01-13'),
-      status: WorkOrderStatus.REVIEW,
-      requiredSkillIds: [1, 3],
-      estimatedDuration: 6,
-      priority: 'HIGH',
-      technicians: [
-        { technicianId: 103, joinedAt: new Date('2024-01-18T08:45:00') },
-        { technicianId: 104, joinedAt: new Date('2024-01-18T09:00:00') },
-        { technicianId: 105, joinedAt: new Date('2024-01-18T11:30:00') }
-      ],
-      materials: [
-        { itemName: 'Rodamiento SKF 6308', requestedQty: 2 },
-        { itemName: 'Grasa industrial', requestedQty: 1 },
-        { itemName: 'Extractor de rodamientos', requestedQty: 1 }
-      ],
-      maxTechnicians: 3,
-      schedule: {
-        date: '2024-01-27',
-        startTime: '08:00',
-        endTime: '14:00',
-        durationHours: 6
-      }
-    },
-
-    // ÓRDENES PENDIENTES
-    {
-      id: 7,
-      title: 'Limpieza Profunda Sistema de Ventilación',
-      description: 'Limpieza completa del sistema de ventilación y filtros',
-      machineId: 7,
-      createdAt: new Date('2024-01-08'),
-      status: WorkOrderStatus.PENDING_EXECUTION,
-      requiredSkillIds: [1, 2],
-      estimatedDuration: 4,
-      priority: 'MEDIUM',
-      technicians: [
-        { technicianId: 106, joinedAt: new Date('2024-01-15T10:00:00') },
-        { technicianId: 107, joinedAt: new Date('2024-01-15T10:30:00') }
-      ],
-      materials: [
-        { itemName: 'Filtros HEPA', requestedQty: 4 },
-        { itemName: 'Detergente industrial', requestedQty: 2 }
-      ],
-      maxTechnicians: 2,
-      schedule: {
-        date: '2024-01-24',
-        startTime: '13:00',
-        endTime: '17:00',
-        durationHours: 4
-      }
-    },
-
-    // ÓRDENES EN EJECUCIÓN
-    {
-      id: 8,
-      title: 'Instalación Sensor de Temperatura',
-      description: 'Instalación de nuevos sensores de temperatura en puntos críticos',
-      machineId: 8,
-      createdAt: new Date('2024-01-05'),
-      status: WorkOrderStatus.IN_EXECUTION,
-      requiredSkillIds: [2, 4],
-      estimatedDuration: 3,
-      priority: 'HIGH',
-      technicians: [
-        { technicianId: 108, joinedAt: new Date('2024-01-12T08:00:00') }
-      ],
-      materials: [
-        { itemName: 'Sensor PT100', requestedQty: 3 },
-        { itemName: 'Cable termopar', requestedQty: 10 }
-      ],
-      maxTechnicians: 2,
-      schedule: {
-        date: '2024-01-22',
-        startTime: '08:00',
-        endTime: '11:00',
-        durationHours: 3
-      }
-    },
-
-    // ÓRDENES COMPLETADAS
-    {
-      id: 9,
-      title: 'Verificación Sistema de Seguridad',
-      description: 'Verificación completa de todos los sistemas de seguridad',
-      machineId: 9,
-      createdAt: new Date('2024-01-01'),
-      status: WorkOrderStatus.COMPLETED,
-      requiredSkillIds: [2, 4, 5],
-      estimatedDuration: 2,
-      priority: 'HIGH',
-      technicians: [
-        { technicianId: 109, joinedAt: new Date('2024-01-08T09:00:00') },
-        { technicianId: 110, joinedAt: new Date('2024-01-08T09:15:00') }
-      ],
-      materials: [
-        { itemName: 'Multímetro', requestedQty: 1 },
-        { itemName: 'Tester de aislamiento', requestedQty: 1 }
-      ],
-      maxTechnicians: 2,
-      schedule: {
-        date: '2024-01-20',
-        startTime: '14:00',
-        endTime: '16:00',
-        durationHours: 2
-      }
-    },
-    {
-      id: 10,
-      title: 'Lubricación Puntos de Engrase',
-      description: 'Lubricación de todos los puntos de engrase según programa',
-      machineId: 10,
-      createdAt: new Date('2024-01-02'),
-      status: WorkOrderStatus.COMPLETED,
-      requiredSkillIds: [1, 3],
-      estimatedDuration: 2,
-      priority: 'MEDIUM',
-      technicians: [
-        { technicianId: 111, joinedAt: new Date('2024-01-09T07:30:00') }
-      ],
-      materials: [
-        { itemName: 'Grasa multiuso', requestedQty: 2 },
-        { itemName: 'Pistola engrasadora', requestedQty: 1 }
-      ],
-      maxTechnicians: 1,
-      schedule: {
-        date: '2024-01-21',
-        startTime: '07:30',
-        endTime: '09:30',
-        durationHours: 2
-      }
-    }
-  ];
-
-  // Nombres de técnicos hardcodeados
-  private technicianNames: { [key: number]: string } = {
-    101: 'Carlos Rodríguez',
-    102: 'Ana Martínez',
-    103: 'Luis García',
-    104: 'María López',
-    105: 'Pedro Sánchez',
-    106: 'Sofia Fernández',
-    107: 'Roberto Torres',
-    108: 'Elena Ruiz',
-    109: 'Miguel Herrera',
-    110: 'Carmen Vega',
-    111: 'Javier Morales'
-  };
-
-  // Datos filtrados por vista
-  newOrders: MockWorkOrder[] = [];
-  reviewOrders: MockWorkOrder[] = [];
-  allOrders: MockWorkOrder[] = [];
+  // Datos
+  newOrders: WorkOrderEntity[] = [];
+  reviewOrders: WorkOrderEntity[] = [];
+  allOrders: WorkOrderEntity[] = [];
   stats: AdminDashboardStats = {
     newOrders: 0,
     published: 0,
@@ -333,7 +58,7 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
 
   // UI Estados
   activeTab: 'new' | 'review' | 'dashboard' = 'dashboard';
-  selectedOrder: MockWorkOrder | null = null;
+  selectedOrder: WorkOrderEntity | null = null;
   showScheduleModal = false;
   showRemoveTechnicianModal = false;
   selectedTechnicianId: number | null = null;
@@ -341,9 +66,9 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
   // Formularios
   scheduleForm: FormGroup;
 
-  // Usuario actual (hardcodeado como admin)
-  currentUserId: number = 1;
-  isAdmin = true;
+  // Usuario actual
+  currentUserId: number = 0;
+  isAdmin = false;
 
   // Enums para template
   WorkOrderStatus = WorkOrderStatus;
@@ -352,6 +77,8 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
   minDate = new Date().toISOString().split('T')[0];
 
   constructor(
+    private workOrderService: WorkOrderService,
+    private userService: UserService,
     private fb: FormBuilder,
     private router: Router
   ) {
@@ -359,12 +86,25 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.initializeUser();
     this.loadAdminData();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  private initializeUser(): void {
+    const session = this.userService.getSession();
+    if (session) {
+      this.currentUserId = parseInt(session.userId);
+      this.isAdmin = session.roles.includes(UserRole.ROLE_ADMIN);
+      
+      if (!this.isAdmin) {
+        this.router.navigate(['/work-orders']);
+      }
+    }
   }
 
   private createScheduleForm(): FormGroup {
@@ -382,29 +122,58 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.error = null;
 
-    // Simular delay de carga
-    setTimeout(() => {
-      this.allOrders = [...this.mockOrders];
-      this.filterOrdersByStatus();
-      this.updateStats();
-      this.loading = false;
-    }, 500);
+    const newOrders$ = this.workOrderService.getWorkOrdersByStatus(WorkOrderStatus.NEW);
+    const reviewOrders$ = this.workOrderService.getWorkOrdersByStatus(WorkOrderStatus.REVIEW);
+    const publishedOrders$ = this.workOrderService.getWorkOrdersByStatus(WorkOrderStatus.PUBLISHED);
+    const pendingOrders$ = this.workOrderService.getWorkOrdersByStatus(WorkOrderStatus.PENDING_EXECUTION);
+    const inExecutionOrders$ = this.workOrderService.getWorkOrdersByStatus(WorkOrderStatus.IN_EXECUTION);
+    const completedOrders$ = this.workOrderService.getWorkOrdersByStatus(WorkOrderStatus.COMPLETED);
+
+    forkJoin({
+      newOrders: newOrders$,
+      reviewOrders: reviewOrders$,
+      publishedOrders: publishedOrders$,
+      pendingOrders: pendingOrders$,
+      inExecutionOrders: inExecutionOrders$,
+      completedOrders: completedOrders$
+    }).pipe(
+      takeUntil(this.destroy$)
+    ).subscribe({
+      next: (data) => {
+        this.newOrders = data.newOrders;
+        this.reviewOrders = data.reviewOrders;
+        
+        this.allOrders = [
+          ...data.newOrders,
+          ...data.reviewOrders,
+          ...data.publishedOrders,
+          ...data.pendingOrders,
+          ...data.inExecutionOrders,
+          ...data.completedOrders
+        ];
+        console.log(this.allOrders);
+
+        this.updateStats(data);
+        this.loading = false;
+      },
+      error: (error) => {
+        this.error = 'Error al cargar las órdenes de trabajo';
+        this.loading = false;
+        console.error('Error loading admin data:', error);
+      }
+    });
   }
 
-  private filterOrdersByStatus(): void {
-    this.newOrders = this.mockOrders.filter(order => order.status === WorkOrderStatus.NEW);
-    this.reviewOrders = this.mockOrders.filter(order => order.status === WorkOrderStatus.REVIEW);
-  }
-
-  private updateStats(): void {
+  private updateStats(data: any): void {
     this.stats = {
-      newOrders: this.mockOrders.filter(o => o.status === WorkOrderStatus.NEW).length,
-      published: this.mockOrders.filter(o => o.status === WorkOrderStatus.PUBLISHED).length,
-      inReview: this.mockOrders.filter(o => o.status === WorkOrderStatus.REVIEW).length,
-      pending: this.mockOrders.filter(o => o.status === WorkOrderStatus.PENDING_EXECUTION).length,
-      inExecution: this.mockOrders.filter(o => o.status === WorkOrderStatus.IN_EXECUTION).length,
-      completed: this.mockOrders.filter(o => o.status === WorkOrderStatus.COMPLETED).length,
-      total: this.mockOrders.length
+      newOrders: data.newOrders.length,
+      published: data.publishedOrders.length,
+      inReview: data.reviewOrders.length,
+      pending: data.pendingOrders.length,
+      inExecution: data.inExecutionOrders.length,
+      completed: data.completedOrders.length,
+      total: data.newOrders.length + data.publishedOrders.length + data.reviewOrders.length + 
+             data.pendingOrders.length + data.inExecutionOrders.length + data.completedOrders.length
     };
   }
 
@@ -416,13 +185,12 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
   }
 
   goToOrderDetail(orderId: number): void {
-    console.log(`Navegando a detalle de orden ${orderId}`);
-    // En una app real: this.router.navigate(['/ordenes-trabajo', orderId]);
+    this.router.navigate(['/ordenes-trabajo', orderId]);
   }
 
   // =================== ÓRDENES NUEVAS ===================
 
-  openScheduleModal(order: MockWorkOrder): void {
+  openScheduleModal(order: WorkOrderEntity): void {
     this.selectedOrder = order;
     this.showScheduleModal = true;
     
@@ -440,12 +208,7 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
   closeScheduleModal(): void {
     this.showScheduleModal = false;
     this.selectedOrder = null;
-    this.scheduleForm.reset({
-      date: '',
-      startTime: '08:00',
-      endTime: '17:00',
-      maxTechnicians: 3
-    });
+    this.scheduleForm.reset();
   }
 
   onScheduleSubmit(): void {
@@ -461,18 +224,29 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
 
       this.loading = true;
       
-      // Simular operación asíncrona
-      setTimeout(() => {
-        // Actualizar la orden
-        const orderIndex = this.mockOrders.findIndex(o => o.id === this.selectedOrder!.id);
-        if (orderIndex !== -1) {
-          this.mockOrders[orderIndex].schedule = schedule;
-          this.mockOrders[orderIndex].maxTechnicians = formValue.maxTechnicians;
+      this.workOrderService.scheduleWorkOrder(
+        this.selectedOrder.id,
+        schedule,
+        formValue.maxTechnicians
+      ).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (updatedOrder) => {
+          // Actualizar la orden en la lista
+          const index = this.newOrders.findIndex(o => o.id === updatedOrder.id);
+          if (index !== -1) {
+            this.newOrders[index] = updatedOrder;
+          }
           
           // Auto-publicar después de programar
-          this.publishOrder(this.mockOrders[orderIndex]);
+          this.publishOrder(updatedOrder);
+        },
+        error: (error) => {
+          this.error = 'Error al programar la orden de trabajo';
+          this.loading = false;
+          console.error('Error scheduling order:', error);
         }
-      }, 1000);
+      });
     }
   }
 
@@ -482,42 +256,48 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
     return (end.getTime() - start.getTime()) / (1000 * 60 * 60);
   }
 
-  private publishOrder(order: MockWorkOrder): void {
-    // Cambiar estado a PUBLISHED
-    order.status = WorkOrderStatus.PUBLISHED;
-    
-    // Actualizar listas y estadísticas
-    this.filterOrdersByStatus();
-    this.updateStats();
-    this.closeScheduleModal();
-    this.loading = false;
-    
-    console.log(`Orden ${order.id} programada y publicada exitosamente`);
+  private publishOrder(order: WorkOrderEntity): void {
+    this.workOrderService.publishWorkOrder(order.id, this.currentUserId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (publishedOrder) => {
+          // Remover de nuevas órdenes
+          this.newOrders = this.newOrders.filter(o => o.id !== order.id);
+          this.closeScheduleModal();
+          this.loadAdminData(); // Recargar stats
+          this.loading = false;
+        },
+        error: (error) => {
+          this.error = 'Error al publicar la orden de trabajo';
+          this.loading = false;
+          console.error('Error publishing order:', error);
+        }
+      });
   }
 
   // =================== ÓRDENES EN REVISIÓN ===================
 
-  approveOrder(order: MockWorkOrder): void {
+  approveOrder(order: WorkOrderEntity): void {
     this.loading = true;
     
-    // Simular operación asíncrona
-    setTimeout(() => {
-      // Cambiar estado a PENDING_EXECUTION
-      const orderIndex = this.mockOrders.findIndex(o => o.id === order.id);
-      if (orderIndex !== -1) {
-        this.mockOrders[orderIndex].status = WorkOrderStatus.PENDING_EXECUTION;
-        
-        // Actualizar listas y estadísticas
-        this.filterOrdersByStatus();
-        this.updateStats();
-        this.loading = false;
-        
-        console.log(`Orden ${order.id} aprobada para ejecución`);
-      }
-    }, 800);
+    this.workOrderService.approveToPending(order.id, this.currentUserId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (approvedOrder) => {
+          // Remover de revisión
+          this.reviewOrders = this.reviewOrders.filter(o => o.id !== order.id);
+          this.loadAdminData(); // Recargar stats
+          this.loading = false;
+        },
+        error: (error) => {
+          this.error = 'Error al aprobar la orden de trabajo';
+          this.loading = false;
+          console.error('Error approving order:', error);
+        }
+      });
   }
 
-  openRemoveTechnicianModal(order: MockWorkOrder, technicianId: number): void {
+  openRemoveTechnicianModal(order: WorkOrderEntity, technicianId: number): void {
     this.selectedOrder = order;
     this.selectedTechnicianId = technicianId;
     this.showRemoveTechnicianModal = true;
@@ -533,23 +313,29 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
     if (this.selectedOrder && this.selectedTechnicianId) {
       this.loading = true;
       
-      // Simular operación asíncrona
-      setTimeout(() => {
-        const orderIndex = this.mockOrders.findIndex(o => o.id === this.selectedOrder!.id);
-        if (orderIndex !== -1) {
-          // Remover técnico de la lista
-          this.mockOrders[orderIndex].technicians = this.mockOrders[orderIndex].technicians.filter(
-            tech => tech.technicianId !== this.selectedTechnicianId
-          );
+      this.workOrderService.leaveWorkOrder(
+        this.selectedOrder.id,
+        this.selectedTechnicianId,
+        'Removido por administrador'
+      ).pipe(
+        takeUntil(this.destroy$)
+      ).subscribe({
+        next: (updatedOrder) => {
+          // Actualizar la orden en la lista
+          const index = this.reviewOrders.findIndex(o => o.id === updatedOrder.id);
+          if (index !== -1) {
+            this.reviewOrders[index] = updatedOrder;
+          }
           
-          // Actualizar la lista de revisión
-          this.filterOrdersByStatus();
           this.closeRemoveTechnicianModal();
           this.loading = false;
-          
-          console.log(`Técnico ${this.selectedTechnicianId} removido de la orden ${this.selectedOrder!.id}`);
+        },
+        error: (error) => {
+          this.error = 'Error al remover el técnico';
+          this.loading = false;
+          console.error('Error removing technician:', error);
         }
-      }, 600);
+      });
     }
   }
 
@@ -580,7 +366,8 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
   }
 
   getTechnicianName(technicianId: number): string {
-    return this.technicianNames[technicianId] || `Técnico ${technicianId}`;
+    // En una implementación real, tendrías un servicio de usuarios
+    return `Técnico ${technicianId}`;
   }
 
   formatDate(date: string | Date | undefined): string {
@@ -614,7 +401,7 @@ export class WorkOrderAdminViewComponent implements OnInit, OnDestroy {
     }
   }
 
-  trackByOrderId(index: number, order: MockWorkOrder): number {
+  trackByOrderId(index: number, order: WorkOrderEntity): number {
     return order.id;
   }
 
